@@ -254,6 +254,7 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   <a class="nav-item" href="#view-1-4"><span class="nk">1.4</span>加减法 · 数轴走路</a>
   <a class="nav-item" href="#view-1-5"><span class="nk">1.5</span>乘除法 · 正负颜色</a>
   <a class="nav-item" href="#view-1-6"><span class="nk">1.6</span>乘方 · 叠方块</a>
+  <a class="nav-item" href="#view-1-7"><span class="nk">1.7</span>数轴动点 · 追与遇</a>
   <div class="nav-group">第2章 · 整式的加减</div>
   <a class="nav-item" href="#view-2-1"><span class="nk">2.1</span>字母与单项式</a>
   <a class="nav-item" href="#view-2-2"><span class="nk">2.2</span>同类项合并 · 积木</a>
@@ -453,6 +454,42 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
       <div class="caption"><span class="big">|a| = 到 0 的距离</span><span class="muted" id="mirrorSay2">|3| = 3，|−3| 也是 3</span></div>
     </div>
   </div>
+  <div class="stage" style="margin-top:12px">
+    <div class="stage-tag">拖一拖动点 P</div>
+    <div class="stage-title">距离尺：|x−a| 就是 P 到 a 的格数</div>
+    <div class="stage-sub">把 P 拖到中间的点，三条线加起来最短——这就是 |x+3|+|x−1|+|x−9| 最小值的秘密</div>
+    <div class="svg-wrap">
+      <svg id="distSvg" class="canvas" viewBox="0 0 640 300" role="img" aria-label="绝对值距离尺演示">
+        <rect width="640" height="300" fill="#16202E"/>
+        <line x1="40" y1="190" x2="600" y2="190" stroke="#3A4A61" stroke-width="3"/>
+        <polygon points="600,190 584,182 584,198" fill="#3A4A61"/>
+        <g id="distTicks"></g>
+        <g id="distSegs"></g>
+        <g id="distPts"></g>
+        <text id="distSum" x="320" y="52" text-anchor="middle" fill="#FFE9A8" font-size="34" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="distHint" x="320" y="86" text-anchor="middle" fill="#B7C5D8" font-size="15" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>P =</label>
+      <input type="range" id="distRange" min="-10" max="10" value="1" step="0.5">
+      <output id="distOut">1</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn" data-dp="-3">P = −3</button>
+      <button class="btn" data-dp="0">P = 0</button>
+      <button class="btn primary" data-dp="1">P = 1 · 中间</button>
+      <button class="btn" data-dp="9">P = 9</button>
+    </div>
+    <div class="caption"><span class="big" id="distSay">三线总长 12</span><span class="muted" id="distNote">P 放在中间点 1 时总长最短</span></div>
+  </div>
+  <div class="think" data-think="t13b">
+    <div class="t-head">想一想 · 追问三步（答完再看下一问）</div>
+    <div class="t-q">第 1 问：|x+3| 在数轴上表示什么？（提示：P 到哪个点的距离？）</div>
+    <div class="t-q">第 2 问：把 P 从 −3 拖到 1，哪一段距离在变小？哪一段在变大？</div>
+    <div class="t-q">第 3 问：三个点改成 −5、0、10，P 放在哪总长最短？为什么是"中间的点"？</div>
+    <button class="btn">下一问</button>
+  </div>
   <div class="learned">
     <div class="q-head">这一节学到了</div>
     <ul>
@@ -620,6 +657,65 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
       <p style="margin-top:6px">10² 和 2¹⁰ 哪个大？</p>
       <div class="q-hint">(−2)³ = −8；2¹⁰ = 1024 比 10² = 100 大得多。</div>
     </div>
+  </div>
+</section>
+
+<!-- ===== 视图：1.7 数轴动点：追与遇 ===== -->
+<section class="view" id="view-1-7">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数 · 综合</div>
+    <h2>1.7 数轴动点：追与遇</h2>
+    <p class="lead">两个点在数轴上同时走路：<strong>相向会相遇，同向能追上，撞墙会折返</strong>。先猜猜会在哪个数碰面，再拖时间验证。</p>
+    <div class="rule">位置 = 起点 + 速度 × 时间（向右为正，向左为负）</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">选情景 · 拖时间</div>
+    <div class="stage-title">小球 A 和小球 B 在数轴上走，谁快谁慢，在哪里碰头？</div>
+    <div class="svg-wrap">
+      <svg id="moverSvg" class="canvas" viewBox="0 0 640 300" role="img" aria-label="数轴动点追及相遇演示">
+        <rect width="640" height="300" fill="#16202E"/>
+        <line x1="40" y1="180" x2="600" y2="180" stroke="#3A4A61" stroke-width="3"/>
+        <polygon points="600,180 584,172 584,188" fill="#3A4A61"/>
+        <g id="moverTicks"></g>
+        <line id="moverMeet" x1="0" y1="150" x2="0" y2="210" stroke="#FFC857" stroke-width="3" stroke-dasharray="8 6" opacity="0"/>
+        <g id="moverBalls"></g>
+        <text id="moverTime" x="320" y="50" text-anchor="middle" fill="#FFE9A8" font-size="32" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="moverState" x="320" y="84" text-anchor="middle" fill="#B7C5D8" font-size="15" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="moverA" x="320" y="252" text-anchor="middle" fill="#4CC38A" font-size="16" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="moverB" x="320" y="278" text-anchor="middle" fill="#FF7A6B" font-size="16" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>时间 t（秒）</label>
+      <input type="range" id="moverT" min="0" max="8" value="0" step="0.2">
+      <output id="moverTOut">0</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" data-sc="meet">相遇 · 对向走</button>
+      <button class="btn primary" data-sc="chase">追及 · 同向追</button>
+      <button class="btn primary" data-sc="bounce">折返 · 撞墙回头</button>
+      <button class="btn ghost" id="moverPlay">▶ 自动播放</button>
+    </div>
+    <div class="predict" id="mPredict">
+      <div class="p-title" id="mQ">先猜一猜：它俩会在哪个数碰面？</div>
+      <div class="p-opts" id="mOpts"></div>
+      <div class="p-fb" id="mFb"></div>
+    </div>
+    <div class="caption"><span class="big" id="moverSay">拖时间看两个小球的位置</span><span class="muted" id="moverNote">相遇点会亮起黄色标记</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>动点位置 = 起点 + 速度 × 时间：向右的速度记正，向左记负</li>
+      <li>相向而行：每秒共走近 |vA|+|vB| 格，相遇时间 = 距离 ÷ 速度和</li>
+      <li>同向追及：快的每秒追近 |vA−vB| 格，追上时间 = 距离 ÷ 速度差</li>
+      <li>折返：撞到端点就掉头，速度方向反过来，位置分段看</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>A 从 0 向右每秒 2 格，B 从 12 向左每秒 1 格，几秒后相遇？在哪个数？</p>
+    <div class="q-hint">每秒共接近 2+1=3 格，共 12 格 → 4 秒；A 走了 2×4=8，所以相遇在 8。</div>
   </div>
 </section>
 
@@ -1456,6 +1552,60 @@ $("pauseAll").addEventListener("click",function(){
   render();
 })();
 
+/* ===== 1.3 绝对值距离尺：|x−a| = 到 a 的距离 ===== */
+(function(){
+  var svg=$("distSvg");if(!svg)return;
+  var range=$("distRange"),out=$("distOut");
+  var ticks=$("distTicks"),segs=$("distSegs"),pts=$("distPts");
+  var sumEl=$("distSum"),hint=$("distHint");
+  var say=$("distSay"),note=$("distNote");
+  var L=40,R=600,Y=190,MIN=-10,MAX=10;
+  var fixed=[-3,1,9],cols=["#FF7A6B","#4CC38A","#6FA8FF"];
+  function px(v){return L+(v-MIN)/(MAX-MIN)*(R-L)}
+  function renderTicks(){
+    var h="";
+    for(var i=MIN;i<=MAX;i++){
+      var x=px(i);
+      h+='<line x1="'+x+'" y1="182" x2="'+x+'" y2="198" stroke="#5A6A80" stroke-width="2"/>'+
+         '<text x="'+x+'" y="216" text-anchor="middle" fill="#9FB2C9" font-size="14" font-weight="700">'+i+'</text>';
+    }
+    ticks.innerHTML=h;
+  }
+  function draw(){
+    var p=parseFloat(range.value);
+    out.textContent=p;
+    var pxp=px(p);
+    var segH="",ptH="",total=0;
+    for(var i=0;i<fixed.length;i++){
+      var f=fixed[i],fx=px(f);
+      var d=Math.round(Math.abs(p-f)*10)/10;
+      total+=d;
+      segH+='<line x1="'+pxp+'" y1="'+Y+'" x2="'+fx+'" y2="'+Y+'" stroke="'+cols[i]+'" stroke-width="6" stroke-linecap="round" opacity="0.85"/>';
+      ptH+='<circle cx="'+fx+'" cy="'+Y+'" r="9" fill="'+cols[i]+'" stroke="#FFFFFF" stroke-width="2"/>'+
+           '<text x="'+fx+'" y="'+(Y-14)+'" text-anchor="middle" fill="'+cols[i]+'" font-size="16" font-weight="900" font-family="\'Noto Sans SC\',sans-serif">'+f+'</text>';
+      var mx=(pxp+fx)/2;
+      ptH+='<text x="'+mx+'" y="'+(Y-36)+'" text-anchor="middle" fill="'+cols[i]+'" font-size="14" font-weight="700" font-family="\'Noto Sans SC\',sans-serif">|x−('+f+')|='+d+'</text>';
+    }
+    ptH+='<circle cx="'+pxp+'" cy="'+Y+'" r="12" fill="#FFC857" stroke="#FFFFFF" stroke-width="2.5"/>'+
+         '<text x="'+pxp+'" y="'+(Y+28)+'" text-anchor="middle" fill="#FFC857" font-size="18" font-weight="900" font-family="\'Noto Sans SC\',sans-serif">P='+p+'</text>';
+    segs.innerHTML=segH;pts.innerHTML=ptH;
+    total=Math.round(total*10)/10;
+    sumEl.textContent="总长 = "+total;
+    var atMin=Math.abs(p-1)<0.01;
+    hint.textContent=atMin?"P 在中间点 1：三条线总长最短 = 12":"P 放在中间点 1 时总长最短（12）";
+    say.textContent="P 到三个点的距离之和 = "+total;
+    note.textContent=atMin?"选“中间”的点，总长最短——这就是最值题的图形秘密":"把 P 拖到 1 试试，三条线会聚成最短";
+  }
+  renderTicks();draw();
+  range.addEventListener("input",draw);
+  qsa("[data-dp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var v=parseFloat(b.getAttribute("data-dp"));
+      range.value=v;draw();
+    });
+  });
+})();
+
 /* ===== 1.4 加减法 · 数轴走路 ===== */
 (function(){
   var svg=$("walkSvg");if(!svg)return;
@@ -1665,6 +1815,140 @@ $("pauseAll").addEventListener("click",function(){
   }
   base.addEventListener("input",render);exp.addEventListener("input",render);
   render();
+})();
+
+/* ===== 1.7 数轴动点：追与遇 ===== */
+(function(){
+  var svg=$("moverSvg");if(!svg)return;
+  var tRange=$("moverT"),tOut=$("moverTOut");
+  var ticks=$("moverTicks"),balls=$("moverBalls"),meetLine=$("moverMeet");
+  var tEl=$("moverTime"),stEl=$("moverState"),aEl=$("moverA"),bEl=$("moverB");
+  var say=$("moverSay"),note=$("moverNote");
+  var qEl=$("mQ"),optsEl=$("mOpts"),fb=$("mFb");
+  var L=40,R=600,Y=180;
+  var scenes={
+    meet:{A0:0,vA:2,B0:12,vB:-1,lo:-2,hi:14,keyT:4,
+      q:{t:"先猜一猜：它俩会在哪个数碰面？",opts:["6","8","10"],ans:1}},
+    chase:{A0:0,vA:1,B0:6,vB:3,lo:-2,hi:12,keyT:3,
+      q:{t:"先猜一猜：B 几秒能追上 A？",opts:["2 秒","3 秒","4 秒"],ans:1}},
+    bounce:{A0:0,vA:3,wall:9,B0:6,vB:1,lo:-2,hi:11,keyT:3,
+      q:{t:"先猜一猜：A 几秒撞到右边的墙？",opts:["2 秒","3 秒","5 秒"],ans:1}}
+  };
+  var cur="meet",guess=null,judged=false,playing=false,timer=null;
+  function fmt(x){return Math.round(x*10)/10}
+  function xA(t){
+    if(cur!=="bounce"){return scenes[cur].A0+scenes[cur].vA*t}
+    var s=scenes.bounce;
+    if(t<=s.keyT){return s.A0+s.vA*t}
+    return s.wall-s.vA*(t-s.keyT);
+  }
+  function xB(t){return scenes[cur].B0+scenes[cur].vB*t}
+  function px(v,sc){return L+(v-sc.lo)/(sc.hi-sc.lo)*(R-L)}
+  function renderTicks(sc){
+    var h="";
+    for(var i=Math.ceil(sc.lo);i<=Math.floor(sc.hi);i++){
+      var x=px(i,sc);
+      h+='<line x1="'+x+'" y1="172" x2="'+x+'" y2="188" stroke="#5A6A80" stroke-width="2"/>'+
+         '<text x="'+x+'" y="206" text-anchor="middle" fill="#9FB2C9" font-size="14" font-weight="700">'+i+'</text>';
+    }
+    ticks.innerHTML=h;
+  }
+  function makeOpts(sc){
+    guess=null;judged=false;
+    fb.className="p-fb";fb.textContent="";
+    qEl.textContent=sc.q.t;
+    optsEl.innerHTML=sc.q.opts.map(function(v,i){
+      return '<button class="p-opt" data-p="'+i+'">'+v+'</button>';
+    }).join("");
+    qsa(".p-opt",optsEl).forEach(function(b){
+      b.addEventListener("click",function(){
+        if(guess!==null){return}
+        guess=parseInt(b.getAttribute("data-p"),10);
+        qsa(".p-opt",optsEl).forEach(function(x){x.disabled=true});
+        b.classList.add("pick");
+        fb.className="p-fb";
+        fb.textContent="你猜的是「"+sc.q.opts[guess]+"」。拖时间滑块验证…";
+      });
+    });
+  }
+  function judge(sc){
+    if(judged){return}
+    judged=true;
+    if(guess===null){
+      fb.textContent="直接看验证结果。下次先猜再验证，记得更牢！";
+      return;
+    }
+    if(guess===sc.q.ans){
+      fb.className="p-fb ok";
+      fb.textContent="猜对了！说说你的理由："+(cur==="meet"?"是“速度相加”吗":cur==="chase"?"是“速度相减”吗":"是“距离 ÷ 速度”吗");
+      qsa(".p-opt",optsEl).forEach(function(x){
+        if(parseInt(x.getAttribute("data-p"),10)===sc.q.ans){x.classList.add("right")}
+      });
+    }else{
+      fb.className="p-fb bad";
+      fb.textContent="正确答案是「"+sc.q.opts[sc.q.ans]+"」。拖时间滑块，看到那一刻就明白为什么了";
+      qsa(".p-opt",optsEl).forEach(function(x){
+        var v=parseInt(x.getAttribute("data-p"),10);
+        if(v===sc.q.ans){x.classList.add("right")}
+        if(v===guess){x.classList.add("wrong")}
+      });
+    }
+  }
+  function draw(){
+    var t=parseFloat(tRange.value);
+    tOut.textContent=t;
+    var sc=scenes[cur];
+    var a=xA(t),b=xB(t);
+    var pa=px(a,sc),pb=px(b,sc);
+    tEl.textContent="t = "+t+" 秒";
+    var dist=Math.round(Math.abs(a-b)*10)/10;
+    var met=dist<0.25;
+    meetLine.setAttribute("x1",met?(pa+pb)/2-0:0);
+    meetLine.setAttribute("x2",met?(pa+pb)/2:0);
+    meetLine.setAttribute("opacity",met?1:0);
+    if(met&&!judged&&sc.keyT!==null&&Math.abs(t-sc.keyT)<0.3){judge(sc)}
+    stEl.textContent=met?(cur==="bounce"?"A 撞墙了！":("碰面了！位置 "+fmt((a+b)/2))):"相距 "+dist+" 格";
+    balls.innerHTML=
+      '<circle cx="'+pa+'" cy="'+Y+'" r="12" fill="#4CC38A" stroke="#fff" stroke-width="2.5"/>'+
+      '<text x="'+pa+'" y="'+(Y-20)+'" text-anchor="middle" fill="#4CC38A" font-size="16" font-weight="900" font-family="\'Noto Sans SC\',sans-serif">A</text>'+
+      '<circle cx="'+pb+'" cy="'+Y+'" r="12" fill="#FF7A6B" stroke="#fff" stroke-width="2.5"/>'+
+      '<text x="'+pb+'" y="'+(Y-20)+'" text-anchor="middle" fill="#FF7A6B" font-size="16" font-weight="900" font-family="\'Noto Sans SC\',sans-serif">B</text>';
+    aEl.textContent="A：位置 "+fmt(a)+" · 起点 "+sc.A0+" 速度 "+sc.vA;
+    bEl.textContent="B：位置 "+fmt(b)+" · 起点 "+sc.B0+" 速度 "+sc.vB;
+    say.textContent=cur==="meet"?"相向而行：每秒共走近 "+Math.abs(sc.vA)+"+"+Math.abs(sc.vB)+" = "+(Math.abs(sc.vA)+Math.abs(sc.vB))+" 格":
+      cur==="chase"?"同向追及：B 每秒追近 "+(sc.vB-sc.vA)+" 格":"撞墙后掉头：速度方向反过来";
+    note.textContent=met?(cur==="bounce"?"A 在 "+fmt(a)+" 撞墙折返":"黄色标记处就是碰面的位置"):"拖到关键时间点，看相遇（或撞墙）";
+  }
+  function load(name){
+    cur=name;
+    var sc=scenes[name];
+    tRange.value=0;
+    renderTicks(sc);
+    makeOpts(sc);
+    draw();
+  }
+  tRange.addEventListener("input",draw);
+  qsa("[data-sc]").forEach(function(b){
+    b.addEventListener("click",function(){load(b.getAttribute("data-sc"))});
+  });
+  function stopPlay(){if(timer){clearTimeout(timer);timer=null}playing=false;var b=$("moverPlay");if(b){b.textContent="▶ 自动播放"}}
+  $("moverPlay").addEventListener("click",function(){
+    if(playing){stopPlay();return}
+    playing=true;
+    this.textContent="⏸ 暂停";
+    (function loop(){
+      if(!playing){return}
+      if(animMgr.paused){timer=setTimeout(loop,250);return}
+      var t=parseFloat(tRange.value)+0.2;
+      if(t>parseFloat(tRange.max)){t=0;judged=false;makeOpts(scenes[cur])}
+      tRange.value=t;draw();
+      timer=setTimeout(loop,250);
+    })();
+  });
+  window.__animHub=window.__animHub||function(){};
+  var _orig=window.__animHub;
+  window.__animHub=function(id){if(id!=="1-7"){stopPlay()}if(_orig!==window.__animHub){_orig.call(this,id)}};
+  load("meet");
 })();
 
 /* ===== 2.1 字母盒子 · 单项式 ===== */
