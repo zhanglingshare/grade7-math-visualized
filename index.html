@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>看得见的初一数学 · 交互可视化学习站</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F2A3A'/%3E%3Cpath d='M8 40 L56 40' stroke='%23F2F5F8' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='40' r='7' fill='%234CC38A'/%3E%3Ccircle cx='42' cy='40' r='7' fill='%23FF7A6B'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --paper:#F4F7F5;
+  --ink:#16324F;
+  --ink-soft:#48647E;
+  --accent:#F26B3A;
+  --accent-soft:#FDE7DC;
+  --board:#1F2A3A;
+  --board-line:#3A4A61;
+  --chalk:#F2F5F8;
+  --pos:#4CC38A;
+  --neg:#FF7A6B;
+  --x:#6FA8FF;
+  --num:#FFC857;
+  --ang:#C792EA;
+  --ok:#1B9E7B;
+  --warn:#E4574A;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* ===== 顶栏 ===== */
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:10px;height:56px;padding:0 14px;background:#fff;border-bottom:1px solid #E4EAE7}
+.brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:17px;letter-spacing:.5px;white-space:nowrap}
+.brand svg{flex:none}
+.brand .b-sub{font-size:11px;font-weight:500;color:var(--ink-soft);letter-spacing:2px;margin-top:2px}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;color:var(--ink);flex:none}
+.icon-btn:hover{background:#EEF3F0}
+.topbar .spacer{flex:1}
+.topbar .chip{display:none}
+
+/* ===== 抽屉导航 ===== */
+#drawer{position:fixed;inset:0 auto 0 0;z-index:80;width:280px;max-width:84vw;background:#fff;box-shadow:0 0 40px rgba(22,50,79,.18);transform:translateX(-105%);transition:transform .28s ease;overflow-y:auto;padding:14px 12px 30px}
+#drawer.open{transform:none}
+.scrim{position:fixed;inset:0;z-index:70;background:rgba(15,26,38,.45);opacity:0;pointer-events:none;transition:opacity .28s ease}
+.scrim.show{opacity:1;pointer-events:auto}
+.nav-head{display:flex;align-items:center;gap:8px;padding:8px 8px 14px;font-weight:900;font-size:16px}
+.nav-group{margin:14px 8px 6px;font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:1px;display:flex;align-items:center;gap:6px}
+.nav-group::after{content:"";flex:1;height:1px;background:#E4EAE7}
+.nav-item{display:block;padding:9px 12px;margin:2px 0;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink-soft);border-left:3px solid transparent}
+.nav-item:hover{background:#F1F6F3;color:var(--ink)}
+.nav-item.active{background:var(--accent-soft);color:var(--accent);border-left-color:var(--accent);font-weight:700}
+.nav-item .nk{font-weight:700;margin-right:6px;color:inherit}
+
+/* ===== 主区布局 ===== */
+main{max-width:1040px;margin:0 auto;padding:14px 14px 60px}
+.view{display:none;animation:fadeIn .35s ease}
+.view.is-active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ===== 章节头 ===== */
+.view-head{margin:6px 2px 16px}
+.crumb{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:1px;background:#fff;border:1px solid #E4EAE7;padding:4px 10px;border-radius:999px}
+.view-head h2{font-size:24px;font-weight:900;margin:10px 0 6px;letter-spacing:.5px}
+.view-head .lead{font-size:15px;color:var(--ink-soft);max-width:640px}
+.rule{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--accent);margin:10px 0 0}
+.rule::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:2px}
+
+/* ===== 黑板舞台 ===== */
+.stage{background:var(--board);border-radius:20px;padding:16px 14px 14px;color:var(--chalk);box-shadow:0 10px 24px rgba(31,42,58,.22);margin-bottom:16px;overflow:hidden}
+.stage-tag{font-size:11px;font-weight:700;letter-spacing:2px;color:#9FB2C9;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.stage-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.stage-title{font-size:17px;font-weight:900;margin-bottom:2px}
+.stage-sub{font-size:13px;color:#B7C5D8;margin-bottom:10px}
+.canvas{width:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.svg-wrap{position:relative;width:100%;overflow:hidden;border-radius:14px;background:#16202E}
+svg.canvas text{font-family:'Noto Sans SC',sans-serif}
+
+/* 字幕 */
+.caption{margin-top:12px;font-size:16px;font-weight:700;color:#fff;background:rgba(255,255,255,.08);border-left:4px solid var(--accent);padding:10px 12px;border-radius:8px;min-height:44px;display:flex;align-items:center;gap:6px}
+.caption .big{font-size:20px;font-weight:900}
+.caption .muted{color:#9FB2C9;font-weight:500;font-size:14px}
+
+/* 控制条 */
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.ctrl .btn{min-height:44px;padding:0 16px;border-radius:12px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.16);transition:background .15s}
+.ctrl .btn:hover{background:rgba(255,255,255,.2)}
+.ctrl .btn.primary{background:var(--accent);border-color:var(--accent)}
+.ctrl .btn.primary:hover{background:#E05A28}
+.ctrl .btn.ghost{background:none;border-color:rgba(255,255,255,.28)}
+.ctrl .btn:disabled{opacity:.4;cursor:not-allowed}
+.ctrl .btn svg{flex:none}
+.ctrl .readout{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;background:rgba(0,0,0,.25);font-weight:900;font-size:17px;color:#FFE9A8;border:1px dashed rgba(255,255,255,.25);white-space:nowrap}
+
+/* 滑块 */
+.slider-row{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.slider-row label{font-size:13px;font-weight:700;color:#B7C5D8;white-space:nowrap}
+.slider-row input[type=range]{flex:1;min-width:160px;height:34px;accent-color:var(--accent);cursor:pointer}
+.slider-row output{font-weight:900;font-size:17px;color:#FFE9A8;min-width:44px;text-align:center}
+
+/* 步骤指示 */
+.steps{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.steps .st{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:rgba(255,255,255,.12);color:#9FB2C9}
+.steps .st.on{background:var(--pos);color:#10231B}
+
+/* 积木 */
+.bricks{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-height:52px;padding:10px;background:rgba(0,0,0,.25);border-radius:12px;margin-top:10px}
+.brick{height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.28);animation:drop .4s ease}
+.brick.x{background:var(--x);width:54px}
+.brick.n{background:var(--num);width:34px;color:#3A2A00}
+.brick.minus{background:transparent;width:20px;color:#FF7A6B;font-size:22px;box-shadow:none}
+.brick.plus{background:transparent;width:20px;color:#4CC38A;font-size:22px;box-shadow:none}
+.brick.sm{font-size:11px;height:24px}
+@keyframes drop{from{transform:translateY(-16px);opacity:0}to{transform:none;opacity:1}}
+
+/* 天平 */
+.balance-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 2px}
+.balance-beam{width:min(420px,92%);height:14px;border-radius:8px;background:linear-gradient(90deg,#8A97A8,#C9D3DE,#8A97A8);position:relative;transition:transform .6s cubic-bezier(.34,1.2,.5,1);transform-origin:center}
+.balance-beam .knob{position:absolute;left:50%;top:50%;width:20px;height:20px;border-radius:50%;background:#F2C14E;transform:translate(-50%,-50%);box-shadow:0 2px 4px rgba(0,0,0,.4);z-index:2}
+.balance-pan{position:absolute;top:14px;width:34px;height:10px;border-radius:6px;background:#8A97A8;left:50%;transform:translateX(-50%)}
+.balance-pan::after{content:"";position:absolute;top:-22px;left:50%;width:3px;height:22px;background:#8A97A8;transform:translateX(-50%)}
+.balance-pan.left{left:24%}
+.balance-pan.right{left:76%}
+.balance-strings{width:min(420px,92%);height:120px;position:relative}
+.balance-tray{position:absolute;top:0;width:120px;min-height:88px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;padding:8px;border-radius:12px;border:3px solid #8A97A8;background:rgba(0,0,0,.18)}
+.balance-tray.left{left:calc(24% - 60px)}
+.balance-tray.right{left:calc(76% - 60px)}
+.balance-tray .cub{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff}
+.balance-tray .cub.x{background:var(--x)}
+.balance-tray .cub.n{background:var(--num);color:#3A2A00}
+.balance-holder{width:min(420px,92%);height:46px;background:linear-gradient(#5A6A80,#3A4A61);border-radius:4px 4px 12px 12px;position:relative}
+.balance-holder::before{content:"";position:absolute;top:0;left:50%;width:4px;height:46px;background:#2A3647;transform:translateX(-50%)}
+
+/* 思考题 */
+.quiz{margin-top:18px;background:#fff;border:1px solid #E4EAE7;border-radius:16px;padding:14px 16px}
+.quiz .q-head{display:flex;align-items:center;gap:8px;font-weight:900;font-size:14px;color:var(--accent);margin-bottom:6px}
+.quiz p{font-size:14px;color:var(--ink-soft)}
+.quiz .q-hint{font-size:13px;color:#9AA9B8;margin-top:6px}
+
+/* 知识点小结 */
+.learned{margin-top:18px;background:#E9F4EE;border:1px solid #CDE4D6;border-radius:16px;padding:14px 16px}
+.learned .q-head{display:flex;align-items:center;gap:8px;font-weight:900;font-size:14px;color:var(--ok);margin-bottom:6px}
+.learned ul{margin-left:18px;font-size:14px;color:var(--ink-soft)}
+.learned li{margin:4px 0}
+
+/* 双栏卡片 */
+.grid2{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:768px){.grid2{grid-template-columns:1fr 1fr}}
+
+/* 公式行 */
+.formula{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:22px;font-weight:900;padding:14px;background:rgba(0,0,0,.3);border-radius:12px;margin-top:10px;font-variant-numeric:tabular-nums}
+.formula .f-term{display:inline-flex;align-items:center;gap:6px}
+.formula .f-op{color:#FFE9A8}
+
+/* 几何图 */
+.geo-note{position:absolute;font-size:12px;font-weight:700;color:#B7C5D8;pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+.badge.pos{background:rgba(76,195,138,.18);color:#4CC38A}
+.badge.neg{background:rgba(255,122,107,.18);color:#FF7A6B}
+
+/* 页脚 */
+.footer{margin-top:36px;padding-top:16px;border-top:1px dashed #C9D6D0;text-align:center;font-size:12px;color:#9AA9B8}
+.footer .tips{margin-top:6px;font-size:12px;line-height:1.9}
+
+/* 桌面布局 */
+@media (min-width:900px){
+  .topbar .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink-soft);background:#F1F6F3;padding:6px 12px;border-radius:999px}
+  #drawer{transform:none;box-shadow:none;border-right:1px solid #E4EAE7}
+  .scrim{display:none}
+  main{padding-left:304px;padding-right:24px;max-width:none}
+  .topbar .icon-btn#navToggle{display:none}
+  main{padding-top:24px}
+}
+
+/* 预测-验证 */
+.predict{background:rgba(0,0,0,.3);border:1px dashed rgba(255,255,255,.32);border-radius:12px;padding:12px;margin-top:12px}
+.p-title{font-size:15px;font-weight:900;color:#FFE9A8;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.p-title::before{content:"";width:9px;height:9px;border-radius:50%;background:#FFC857;flex:none}
+.p-opts{display:flex;gap:8px;flex-wrap:wrap}
+.p-opt{min-height:44px;min-width:64px;padding:0 16px;border-radius:12px;font-weight:900;font-size:18px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);transition:background .15s}
+.p-opt:hover{background:rgba(255,255,255,.24)}
+.p-opt:disabled{opacity:.5;cursor:not-allowed}
+.p-opt.pick{background:#F26B3A;border-color:#F26B3A}
+.p-opt.right{background:#4CC38A;border-color:#4CC38A;color:#10231B;opacity:1}
+.p-opt.wrong{background:#FF7A6B;border-color:#FF7A6B;color:#3A140F;opacity:1}
+.p-fb{margin-top:10px;font-size:14px;font-weight:700;color:#fff;min-height:22px;line-height:1.6}
+.p-fb.ok{color:#4CC38A}
+.p-fb.bad{color:#FF9B8C}
+
+/* 追问链 */
+.think{margin-top:12px;background:rgba(46,158,143,.1);border:1px solid rgba(46,158,143,.35);border-radius:12px;padding:12px}
+.think .t-head{font-size:14px;font-weight:900;color:#2E9E8F;margin-bottom:4px}
+.t-q{display:none;padding:8px 12px;border-left:3px solid #2E9E8F;background:rgba(46,158,143,.14);border-radius:8px;margin-top:8px;font-size:14px;font-weight:600;color:#EAF7F2;line-height:1.7}
+.t-q.show{display:block;animation:fadeIn .3s ease}
+.think .btn{min-height:40px;padding:0 14px;margin-top:10px;font-size:13px;background:rgba(46,158,143,.2);border-color:rgba(46,158,143,.5);color:#7FE0C8}
+.think .btn:hover{background:rgba(46,158,143,.32)}
+
+/* 3D 旋转方块 */
+.cb3d-persp{perspective:1000px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;touch-action:none;pointer-events:none}
+.cb3d-persp.active{pointer-events:auto}
+.cb3d-rotor{transform-style:preserve-3d;position:relative;width:0;height:0;transition:transform .1s ease-out;will-change:transform}
+.cb3d{position:absolute;left:-100px;top:-100px;width:120px;height:120px;backface-visibility:hidden;border:2px solid rgba(255,255,255,.5);border-radius:6px;box-shadow:inset 0 0 14px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(16,35,27,.85)}
+.rotor-tip{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:12px;font-weight:700;color:#9FB2C9;pointer-events:none;text-align:center;white-space:nowrap}
+
+/* 打印 */
+@media print{
+  .topbar,#drawer,.ctrl,.slider-row,.quiz{display:none}
+  .view{display:block!important}
+  body{background:#fff}
+  .stage{box-shadow:none;background:#fff;border:1px solid #ddd;color:#222}
+}
+</style>
+</head>
+<body>
+<!-- ===== 顶栏 ===== -->
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-label="打开目录" aria-expanded="false">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+  </button>
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F2A3A"/><path d="M8 40 L56 40" stroke="#F2F5F8" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="40" r="7" fill="#4CC38A"/><circle cx="42" cy="40" r="7" fill="#FF7A6B"/></svg>
+    <div>看得见的初一数学<div class="b-sub">人教版七年级上册 · 原理动画站</div></div>
+  </div>
+  <div class="spacer"></div>
+  <span class="chip" id="chapterChip">第1章 · 有理数</span>
+  <button class="icon-btn" id="pauseAll" aria-label="暂停全部动画" title="暂停/继续动画">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+  </button>
+</header>
+
+<!-- ===== 目录抽屉 ===== -->
+<div class="scrim" id="scrim"></div>
+<aside id="drawer" aria-label="章节目录">
+  <div class="nav-head">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F26B3A" stroke-width="2.4" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    章节目录
+  </div>
+  <div class="nav-group">第1章 · 有理数</div>
+  <a class="nav-item" href="#view-1-1"><span class="nk">1.1</span>正数和负数</a>
+  <a class="nav-item" href="#view-1-2"><span class="nk">1.2</span>数轴 · 有理数排队</a>
+  <a class="nav-item" href="#view-1-3"><span class="nk">1.3</span>相反数 · 绝对值</a>
+  <a class="nav-item" href="#view-1-4"><span class="nk">1.4</span>加减法 · 数轴走路</a>
+  <a class="nav-item" href="#view-1-5"><span class="nk">1.5</span>乘除法 · 正负颜色</a>
+  <a class="nav-item" href="#view-1-6"><span class="nk">1.6</span>乘方 · 叠方块</a>
+  <div class="nav-group">第2章 · 整式的加减</div>
+  <a class="nav-item" href="#view-2-1"><span class="nk">2.1</span>字母与单项式</a>
+  <a class="nav-item" href="#view-2-2"><span class="nk">2.2</span>同类项合并 · 积木</a>
+  <div class="nav-group">第3章 · 一元一次方程</div>
+  <a class="nav-item" href="#view-3-1"><span class="nk">3.1</span>天平与等式性质</a>
+  <a class="nav-item" href="#view-3-2"><span class="nk">3.2</span>解方程 · 天平分步</a>
+  <a class="nav-item" href="#view-3-3"><span class="nk">3.3</span>移项 · 为什么变号</a>
+  <a class="nav-item" href="#view-3-4"><span class="nk">3.4</span>应用题 · 找等量</a>
+  <div class="nav-group">第4章 · 几何图形初步</div>
+  <a class="nav-item" href="#view-4-1"><span class="nk">4.1</span>直线 · 射线 · 线段</a>
+  <a class="nav-item" href="#view-4-2"><span class="nk">4.2</span>角 · 转出来的</a>
+  <a class="nav-item" href="#view-4-3"><span class="nk">4.3</span>余角 · 补角</a>
+  <a class="nav-item" href="#view-4-4"><span class="nk">4.4</span>正方体展开图</a>
+  <a class="nav-item" href="#view-4-5"><span class="nk">4.5</span>三视图 · 立体看平面</a>
+</aside>
+
+<main>
+<!-- ===== 视图：首屏 hero ===== -->
+<section class="view is-active" id="view-hero">
+  <div class="stage" style="padding:0">
+    <div class="svg-wrap" style="border-radius:20px">
+      <svg id="heroSvg" class="canvas" viewBox="0 0 640 420" role="img" aria-label="数轴上小球演示有理数加减法动画">
+        <rect width="640" height="420" fill="#1F2A3A"/>
+        <text x="32" y="66" fill="#F2F5F8" font-size="34" font-weight="900" font-family="'Noto Sans SC',sans-serif">看得见的初一数学</text>
+        <text x="33" y="100" fill="#9FB2C9" font-size="16" font-weight="500" font-family="'Noto Sans SC',sans-serif">不背口诀 · 拖一拖 · 点一点 · 原理自己跳出来</text>
+        <line x1="40" y1="300" x2="600" y2="300" stroke="#3A4A61" stroke-width="3"/>
+        <g id="heroTicks"></g>
+        <path id="heroDist" stroke="#FFC857" stroke-width="5" stroke-dasharray="8 7" opacity="0"/>
+        <g id="heroBalls"></g>
+        <text id="heroExpr" x="320" y="248" text-anchor="middle" fill="#FFE9A8" font-size="40" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="heroSub" x="320" y="380" text-anchor="middle" fill="#B7C5D8" font-size="17" font-weight="500" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div style="padding:16px 18px 18px">
+      <div class="caption"><span class="big">加法 = 向右跳，减法 = 向左跳</span><span class="muted">这就是有理数加减法全部秘密</span></div>
+      <div class="ctrl">
+        <button class="btn primary" id="heroStart">开始探索</button>
+        <button class="btn ghost" id="heroNext">换一道算式</button>
+        <button class="btn" id="heroPause">暂停动画</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <span class="badge pos">正数 · 绿色</span>
+        <span class="badge neg">负数 · 红色</span>
+        <span class="badge" style="background:rgba(255,200,87,.16);color:#FFC857">绝对值 = 到0的距离</span>
+      </div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <a class="nav-card" href="#view-1-1" style="display:block;background:#fff;border:1px solid #E4EAE7;border-radius:16px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:#9AA9B8">第1章</div>
+      <div style="font-size:17px;font-weight:900;margin:2px 0 4px">有理数</div>
+      <div style="font-size:13px;color:#48647E">数轴、绝对值、加减乘除的秘密，从这条线开始 →</div>
+    </a>
+    <a class="nav-card" href="#view-3-1" style="display:block;background:#fff;border:1px solid #E4EAE7;border-radius:16px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:#9AA9B8">第3章 · 重点</div>
+      <div style="font-size:17px;font-weight:900;margin:2px 0 4px">一元一次方程</div>
+      <div style="font-size:13px;color:#48647E">拿天平秤一秤，x 是多少自己就出来了 →</div>
+    </a>
+  </div>
+  <div class="learned">
+    <div class="q-head"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.4-6.3 4.4 2.3-7.2-6-4.6h7.6z"/></svg>给爸爸妈妈的话</div>
+    <p style="font-size:13px;color:#48647E">每一章都用「看得见的模型」讲清原理：数轴走路讲加减法、天平讲等式、积木讲合并同类项、旋转讲角。建议陪孩子每节先玩动画，再一起做末尾的小思考题。所有动画都可以暂停、重播、拖拽参数。</p>
+  </div>
+</section>
+
+<!-- ===== 视图：1.1 正数和负数 ===== -->
+<section class="view" id="view-1-1">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数</div>
+    <h2>1.1 正数和负数</h2>
+    <p class="lead">负数不是"减出来的"，它是专门用来表示<strong>相反意义的量</strong>：零上还是零下、赚钱还是欠钱、海平面以上还是以下。</p>
+    <div class="rule">0 是分界线，比 0 大是正数，比 0 小是负数</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖温度计</div>
+    <div class="stage-title">同一个温度计，一个 0，两边世界</div>
+    <div class="stage-sub">拖动滑块，看温度在「零上 / 零下」之间切换，水银跟着走</div>
+    <div class="svg-wrap">
+      <svg id="thermoSvg" class="canvas" viewBox="0 0 640 310" role="img" aria-label="温度计演示正负数">
+        <rect width="640" height="310" fill="#16202E"/>
+        <text x="40" y="52" fill="#9FB2C9" font-size="15" font-weight="700" font-family="'Noto Sans SC',sans-serif">℃</text>
+        <g id="thermoMarks"></g>
+        <path id="thermoTube" d="M180 40 L180 250" stroke="#5A6A80" stroke-width="16" stroke-linecap="round"/>
+        <rect id="thermoFill" x="172" y="250" width="16" height="0" rx="8" fill="#4CC38A"/>
+        <circle id="thermoBulb" cx="180" cy="258" r="16" fill="#4CC38A"/>
+        <text id="thermoBig" x="290" y="120" font-size="56" font-weight="900" fill="#F2F5F8" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="thermoSignTxt" x="290" y="166" font-size="20" font-weight="700" fill="#B7C5D8" font-family="'Noto Sans SC',sans-serif"></text>
+        <g transform="translate(360,80)">
+          <rect width="240" height="150" rx="14" fill="rgba(0,0,0,.25)"/>
+          <text x="16" y="34" fill="#9FB2C9" font-size="14" font-weight="700" font-family="'Noto Sans SC',sans-serif">生活里的相反意义</text>
+          <text id="thermoScene" x="16" y="72" fill="#F2F5F8" font-size="17" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+          <text id="thermoScene2" x="16" y="104" fill="#B7C5D8" font-size="14" font-family="'Noto Sans SC',sans-serif"></text>
+          <text id="thermoScene3" x="16" y="130" fill="#FFC857" font-size="14" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+        </g>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>温度</label>
+      <input type="range" id="thermoRange" min="-25" max="45" value="20" step="1">
+      <output id="thermoOut">20</output>
+    </div>
+    <div class="caption"><span class="big" id="thermoSay">零上 20 ℃</span><span class="muted" id="thermoNote">正数：可以直接写 20</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>正数：比 0 大，如 3、+8、1/2（可以省掉 + 号）</li>
+      <li>负数：比 0 小，如 −3、−8，前面一定有 − 号</li>
+      <li>0 既不是正数也不是负数，它是分界线</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>如果「收入 50 元」记作 +50，那「支出 20 元」该记作什么？海平面以下 30 米呢？</p>
+    <div class="q-hint">想一想：相反意义的量，符号正好反过来。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：1.2 数轴 ===== -->
+<section class="view" id="view-1-2">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数</div>
+    <h2>1.2 数轴：有理数排队</h2>
+    <p class="lead">把所有的数排成一队，队伍的名字叫<strong>数轴</strong>。0 站在中间，正数在右，负数在左。</p>
+    <div class="rule">数轴上越靠右，数字越大</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">点一点 · 拖一拖</div>
+    <div class="stage-title">在数轴上放一个小球，读出它代表几</div>
+    <div class="stage-sub">点任意位置放球，或用按钮一格一格走</div>
+    <div class="svg-wrap">
+      <svg id="axisSvg" class="canvas" viewBox="0 0 640 240" role="img" aria-label="可点击的数轴">
+        <rect width="640" height="240" fill="#16202E"/>
+        <line x1="40" y1="140" x2="600" y2="140" stroke="#3A4A61" stroke-width="3"/>
+        <polygon points="600,140 584,132 584,148" fill="#3A4A61"/>
+        <g id="axisTicks"></g>
+        <g id="axisBall"></g>
+        <text id="axisRead" x="320" y="64" text-anchor="middle" fill="#FFE9A8" font-size="40" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="axisHint" x="320" y="206" text-anchor="middle" fill="#B7C5D8" font-size="15" font-weight="500" font-family="'Noto Sans SC',sans-serif">点一下数轴，把小球放上去</text>
+      </svg>
+    </div>
+    <div class="ctrl">
+      <button class="btn" id="axisLeft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>向左 −1</button>
+      <button class="btn" id="axisRight">向右 +1<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="btn ghost" id="axisReset">回原点 0</button>
+      <div class="readout">小球在 <span id="axisVal">0</span></div>
+    </div>
+    <div class="caption"><span class="big">从左到右 = 从小到大</span><span class="muted">−5 在 −3 的左边，所以 −5 &lt; −3</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>数轴三要素：原点 0、正方向（向右）、单位长度</li>
+      <li>任何一个有理数，都能在数轴上找到它的位置</li>
+      <li>比较大小：右边的数永远大于左边的数</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>−3 和 −1 哪个大？用数轴上的位置解释一下为什么。</p>
+    <div class="q-hint">离 0 越近的负数，反而越大。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：1.3 相反数与绝对值 ===== -->
+<section class="view" id="view-1-3">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数</div>
+    <h2>1.3 相反数 · 绝对值</h2>
+    <p class="lead">相反数是<strong>关于 0 照镜子</strong>；绝对值是<strong>到 0 的距离</strong>——距离怎么可能为负？</p>
+    <div class="rule">|a| 永远 ≥ 0</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖 a</div>
+    <div class="stage-title">看 a 和 −a 在 0 两边照镜子，量一量到 0 的距离</div>
+    <div class="svg-wrap">
+      <svg id="mirrorSvg" class="canvas" viewBox="0 0 640 280" role="img" aria-label="相反数与绝对值演示">
+        <rect width="640" height="280" fill="#16202E"/>
+        <line x1="40" y1="170" x2="600" y2="170" stroke="#3A4A61" stroke-width="3"/>
+        <polygon points="600,170 584,162 584,178" fill="#3A4A61"/>
+        <g id="mirrorTicks"></g>
+        <line id="mirrorDl" stroke="#FFC857" stroke-width="4" stroke-dasharray="7 6" opacity="0"/>
+        <line id="mirrorDr" stroke="#FFC857" stroke-width="4" stroke-dasharray="7 6" opacity="0"/>
+        <g id="mirrorPoints"></g>
+        <text id="mirrorA" x="100" y="120" fill="#FFC857" font-size="22" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="mirrorB" x="400" y="120" fill="#6FA8FF" font-size="22" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="mirrorAbs" x="320" y="246" text-anchor="middle" fill="#FFE9A8" font-size="18" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>a =</label>
+      <input type="range" id="mirrorRange" min="-6" max="6" value="3" step="1">
+      <output id="mirrorOut">3</output>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="caption"><span class="big" id="mirrorSay1">a = 3，−a = −3</span><span class="muted">关于 0 对称，方向相反</span></div>
+      <div class="caption"><span class="big">|a| = 到 0 的距离</span><span class="muted" id="mirrorSay2">|3| = 3，|−3| 也是 3</span></div>
+    </div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>a 的相反数是 −a，它们到 0 的距离相等，方向相反；0 的相反数是 0</li>
+      <li>|a| 是 a 到 0 的距离：正数不变，负数变正数，0 还是 0</li>
+      <li>所以绝对值永远不可能是负数</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>|−7| 等于几？|x| = 5，x 可能是几？（提示：有两个答案）</p>
+    <div class="q-hint">距离 0 有 5 个格子，左边一个，右边一个。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：1.4 有理数加减法 ===== -->
+<section class="view" id="view-1-4">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数</div>
+    <h2>1.4 加减法：数轴上走路</h2>
+    <p class="lead">加减法不用背口诀，记住两句话：<strong>加 = 向右跳，减 = 向左跳</strong>。跳到哪，答案就是哪。</p>
+    <div class="rule">减去一个数 = 加上它的相反数</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">选算式 · 一步步看</div>
+    <div class="stage-title">小球在数轴上跳格子，每一步都看得见</div>
+    <div class="svg-wrap">
+      <svg id="walkSvg" class="canvas" viewBox="0 0 640 250" role="img" aria-label="数轴走路演示加减法">
+        <rect width="640" height="250" fill="#16202E"/>
+        <line x1="40" y1="150" x2="600" y2="150" stroke="#3A4A61" stroke-width="3"/>
+        <polygon points="600,150 584,142 584,158" fill="#3A4A61"/>
+        <g id="walkTicks"></g>
+        <g id="walkBall"></g>
+        <text id="walkStepTag" x="320" y="60" text-anchor="middle" fill="#B7C5D8" font-size="16" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="walkResult" x="320" y="216" text-anchor="middle" fill="#FFE9A8" font-size="20" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div class="ctrl">
+      <button class="btn" id="walkPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>上一步</button>
+      <button class="btn primary" id="walkPlay"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"/></svg>播放</button>
+      <button class="btn" id="walkNext">下一步<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button class="btn ghost" id="walkReset">重置</button>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary ex" data-expr="(-2)+5">(−2)+5</button>
+      <button class="btn primary ex" data-expr="3-7">3−7</button>
+      <button class="btn primary ex" data-expr="(-4)+3">(−4)+3</button>
+      <button class="btn primary ex" data-expr="5-(-2)">5−(−2)</button>
+    </div>
+    <div class="predict" id="walkPredict">
+      <div class="p-title">先猜一猜：这道题的答案是多少？</div>
+      <div class="p-opts" id="walkOpts"></div>
+      <div class="p-fb" id="walkFb"></div>
+    </div>
+    <div class="caption"><span class="big" id="walkExpr">(−2)+5</span><span class="muted" id="walkSay">站在 −2，向右跳 5 格</span></div>
+  </div>
+  <div class="think" data-think="t14">
+    <div class="t-head">想一想 · 追问三步（答完再看下一问）</div>
+    <div class="t-q">第 1 问：小球向右跳，是在加还是在减？向左跳呢？</div>
+    <div class="t-q">第 2 问：5 − (−2) 为什么等于 5 + 2？在数轴上想想：减负就是掉头向右。</div>
+    <div class="t-q">第 3 问：换个数试试：(−3) + 4 = ？先在心里猜，再去数轴上验证。</div>
+    <button class="btn">下一问</button>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>加法：向右跳；减法：向左跳</li>
+      <li>减去一个数 = 加上它的相反数：5 − (−2) = 5 + 2 = 7</li>
+      <li>同号相加取同号，异号相加看"谁离 0 更远"——数轴上跳一跳全明白</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>用"跳格子"的方法算一算：(−6) + 10 和 (−3) − 4，答案是几？</p>
+    <div class="q-hint">(−6)+10：从 −6 向右跳 10 格；(−3)−4：从 −3 向左跳 4 格。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：1.5 乘除法的正负号 ===== -->
+<section class="view" id="view-1-5">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数</div>
+    <h2>1.5 乘除法：正负颜色</h2>
+    <p class="lead">符号规则一句话：<strong>同色得正、异色得负</strong>。先看颜色定符号，再算数字大小。</p>
+    <div class="rule">(−) × (−) = (+)，(−) × (+) = (−)</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖两个数</div>
+    <div class="stage-title">绿色是正数、红色是负数，看颜色怎么决定结果</div>
+    <div class="svg-wrap">
+      <svg id="signSvg" class="canvas" viewBox="0 0 640 250" role="img" aria-label="乘除法符号演示">
+        <rect width="640" height="250" fill="#16202E"/>
+        <text id="signA" x="130" y="118" text-anchor="middle" font-size="52" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <circle id="signAc" cx="130" cy="150" r="30" fill="none" stroke-width="3"/>
+        <text x="220" y="150" text-anchor="middle" fill="#B7C5D8" font-size="34" font-weight="900" font-family="'Noto Sans SC',sans-serif">×</text>
+        <text id="signB" x="320" y="118" text-anchor="middle" font-size="52" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <circle id="signBc" cx="320" cy="150" r="30" fill="none" stroke-width="3"/>
+        <text x="420" y="150" text-anchor="middle" fill="#B7C5D8" font-size="34" font-weight="900" font-family="'Noto Sans SC',sans-serif">=</text>
+        <circle id="signRc" cx="520" cy="150" r="40" fill="#4CC38A"/>
+        <text id="signR" x="520" y="162" text-anchor="middle" fill="#10231B" font-size="44" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="signRule" x="320" y="226" text-anchor="middle" fill="#FFE9A8" font-size="18" font-weight="900" font-family="'Noto Sans SC',sans-serif">同色 → 正 · 异色 → 负</text>
+      </svg>
+    </div>
+    <div class="grid2">
+      <div class="slider-row"><label>第一个数 a</label><input type="range" id="signRangeA" min="-5" max="5" value="3" step="1"><output id="signOutA">3</output></div>
+      <div class="slider-row"><label>第二个数 b</label><input type="range" id="signRangeB" min="-5" max="5" value="-2" step="1"><output id="signOutB">−2</output></div>
+    </div>
+    <div class="formula" id="signFormula">3 × (−2) = <span style="color:#FF7A6B">−6</span>&nbsp;&nbsp;·&nbsp;&nbsp;3 ÷ (−2) = <span style="color:#FF7A6B">−1.5</span></div>
+    <div class="caption"><span class="big">奇负偶正</span><span class="muted">几个负数相乘：数一数负号的个数，奇数个是负，偶数个是正</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>正 × 正 = 正；负 × 负 = 正；正 × 负 = 负</li>
+      <li>除法也一样：同号得正、异号得负，再把绝对值相除</li>
+      <li>0 不能做除数</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>(−2) × 3 × (−4) 的符号是正是负？数一数一共几个负号。</p>
+    <div class="q-hint">两个负号 = 偶数个 = 正。结果等于 +24。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：1.6 乘方 ===== -->
+<section class="view" id="view-1-6">
+  <div class="view-head">
+    <div class="crumb">第1章 · 有理数</div>
+    <h2>1.6 乘方：叠方块</h2>
+    <p class="lead">aⁿ 是 <strong>n 个 a 相乘</strong>，不是 a×n！指数是指挥官：它说"一共乘几次"。</p>
+    <div class="rule">2³ = 2×2×2 = 8，不是 2×3</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖 · 数一数</div>
+    <div class="stage-title">每个方块都是一次相乘，数一数一共多少个</div>
+    <div class="svg-wrap" style="position:relative">
+      <svg id="powerSvg" class="canvas" viewBox="0 0 640 300" role="img" aria-label="乘方的方块堆叠演示">
+        <rect width="640" height="300" fill="#16202E"/>
+        <text id="powerGrid" x="490" y="92" text-anchor="middle" fill="#9FB2C9" font-size="15" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="powerSum" x="490" y="172" text-anchor="middle" fill="#FFE9A8" font-size="44" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text x="160" y="292" text-anchor="middle" fill="#9FB2C9" font-size="13" font-family="'Noto Sans SC',sans-serif">拖动方块堆 · 从侧面数层数</text>
+      </svg>
+      <div class="cb3d-persp active" id="powerWrap" style="left:0;right:auto;width:340px;height:280px">
+        <div class="cb3d-rotor" id="powerRotor"></div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="slider-row"><label>底数 a</label><input type="range" id="powerBase" min="2" max="4" value="2" step="1"><output id="powerBaseOut">2</output></div>
+      <div class="slider-row"><label>指数 n</label><input type="range" id="powerExp" min="1" max="4" value="3" step="1"><output id="powerExpOut">3</output></div>
+    </div>
+    <div class="formula" id="powerFormula">2³ = 2 × 2 × 2 = <span style="color:#FFC857">8</span></div>
+    <div class="caption"><span class="big">注意！2³ ≠ 2×3</span><span class="muted">2³ 是三个 2 相乘，2×3 才是两个 2 相加再乘</span></div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="quiz" style="margin:0">
+      <div class="q-head">易错 · −3² 和 (−3)²</div>
+      <p><span style="font-weight:900">−3²</span> = −(3×3) = <span style="font-weight:900;color:#E4574A">−9</span>（先算乘方，负号留在外面）</p>
+      <p style="margin-top:6px"><span style="font-weight:900">(−3)²</span> = (−3)×(−3) = <span style="font-weight:900;color:#1B9E7B">+9</span>（括号让负号也一起乘了）</p>
+      <div class="q-hint">同一个数字，括号在不在，结果差一倍方向！</div>
+    </div>
+    <div class="quiz" style="margin:0">
+      <div class="q-head">小思考</div>
+      <p>(−2)³ 等于几？（提示：3 个 −2 相乘，奇数个负号）</p>
+      <p style="margin-top:6px">10² 和 2¹⁰ 哪个大？</p>
+      <div class="q-hint">(−2)³ = −8；2¹⁰ = 1024 比 10² = 100 大得多。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 视图：2.1 字母与单项式 ===== -->
+<section class="view" id="view-2-1">
+  <div class="view-head">
+    <div class="crumb">第2章 · 整式的加减</div>
+    <h2>2.1 字母与单项式：神秘的盒子</h2>
+    <p class="lead">字母 x 不是一个怪物，它只是一个<strong>盒子</strong>——里面装着我们还不知道的数。装几次，就是几次方。</p>
+    <div class="rule">单项式 = 数字（系数） × 字母（字母的几次方）</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">选一选 · 拆一拆</div>
+    <div class="stage-title">把单项式拆成「系数 × 字母盒子」</div>
+    <div class="svg-wrap">
+      <svg id="letterSvg" class="canvas" viewBox="0 0 640 280" role="img" aria-label="单项式盒子模型">
+        <rect width="640" height="280" fill="#16202E"/>
+        <g id="letterBox"></g>
+        <text id="letterCap" x="320" y="262" text-anchor="middle" fill="#FFE9A8" font-size="17" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" data-m="3x">3x</button>
+      <button class="btn primary" data-m="-2x">−2x</button>
+      <button class="btn primary" data-m="5x2">5x²</button>
+      <button class="btn primary" data-m="x4">x + 4（多项式）</button>
+    </div>
+    <div class="caption"><span class="big" id="letterSay">x 是盒子，装着还不知道的数</span><span class="muted" id="letterNote">3x = 3 × x，前面的 3 叫系数</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>用字母表示数：a+b、S=ab、周长 C=2(a+b)</li>
+      <li>单项式：数与字母的乘积，如 3x、−2x²、xy；数字部分叫系数</li>
+      <li>多项式：几个单项式的和，如 x+4、2x²−3x+1；每个单项式叫一项</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>3x 的系数是几？次数是几？5x² 的次数呢？（提示：次数是字母乘了几次）</p>
+    <div class="q-hint">3x：系数 3，次数 1；5x²：系数 5，次数 2。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：2.2 同类项合并 ===== -->
+<section class="view" id="view-2-2">
+  <div class="view-head">
+    <div class="crumb">第2章 · 整式的加减</div>
+    <h2>2.2 同类项合并：积木归类</h2>
+    <p class="lead">合并同类项就像收拾玩具：<strong>只有一模一样的积木才能叠在一起</strong>。x 的积木和数字积木，永远不能加在一起。</p>
+    <div class="rule">同类项 = 字母相同、字母次数也相同</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">一步步看</div>
+    <div class="stage-title">3x + 2 − 5x + 4 是怎么变成 −2x + 6 的</div>
+    <div class="bricks" id="brickArea" aria-live="polite"></div>
+    <div class="ctrl">
+      <button class="btn" id="brickPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>上一步</button>
+      <button class="btn primary" id="brickNext">下一步<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button class="btn ghost" id="brickReset">重置</button>
+      <button class="btn primary ex2" data-e="a">3x+2−5x+4</button>
+      <button class="btn primary ex2" data-e="b">2x−3+x+5</button>
+    </div>
+    <div class="caption"><span class="big" id="brickSay">把玩具摆开</span><span class="muted" id="brickNote">先看清楚有哪些积木</span></div>
+    <div class="formula" id="brickFormula">3x + 2 − 5x + 4 = −2x + 6</div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>同类项：字母一样、次数也一样（比如 3x 和 −5x）</li>
+      <li>合并：系数相加减，字母和次数原样不动</li>
+      <li>去括号：括号前是 − 号，里面每一项都要变号</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>4a − 7 + a + 2 等于什么？先找同类项（4a 和 a），再合并数字。</p>
+    <div class="q-hint">4a + a = 5a，−7 + 2 = −5，答案是 5a − 5。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：3.1 天平与等式性质 ===== -->
+<section class="view" id="view-3-1">
+  <div class="view-head">
+    <div class="crumb">第3章 · 一元一次方程</div>
+    <h2>3.1 天平与等式性质</h2>
+    <p class="lead">方程就是一个天平：<strong>左右一样重，等式才成立</strong>。解方程的每一步，都只是"两边做同样的事"。</p>
+    <div class="rule">等式性质：两边同加、同减、同乘、同除（0 除外），等式仍然成立</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">点一点 · 看天平</div>
+    <div class="stage-title">2x = 4：左边两个 x 方块，右边四个数字方块，刚好平衡</div>
+    <div class="svg-wrap" style="padding:16px 8px 10px">
+      <div class="balance-wrap">
+        <div class="balance-beam" id="pBeam">
+          <div class="knob"></div>
+          <div class="balance-pan left"></div>
+          <div class="balance-pan right"></div>
+        </div>
+        <div class="balance-strings">
+          <div class="balance-tray left" id="pTrayL"></div>
+          <div class="balance-tray right" id="pTrayR"></div>
+        </div>
+        <div class="balance-holder"></div>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button class="btn" id="propAdd2">两边同时 +2</button>
+      <button class="btn" id="propMul2">两边同时 ×2</button>
+      <button class="btn" id="propBreak">只给右边 +2</button>
+      <button class="btn ghost" id="propReset">重置</button>
+    </div>
+    <div class="caption"><span class="big" id="propSay">天平水平 · 等式成立</span><span class="muted" id="propNote">左边 2x + 0，右边 4 + 0</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>等式 = 天平平衡：两边一样重，用等号连起来</li>
+      <li>性质 1：两边同时加或减同一个数，等式仍成立</li>
+      <li>性质 2：两边同时乘或除以同一个数（不能除以 0），等式仍成立</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>如果 x + 3 = 8，你准备两边同时做什么，才能让 x 单独站在左边？</p>
+    <div class="q-hint">两边同时减去 3：x + 3 − 3 = 8 − 3，得到 x = 5。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：3.2 解方程分步 ===== -->
+<section class="view" id="view-3-2">
+  <div class="view-head">
+    <div class="crumb">第3章 · 一元一次方程</div>
+    <h2>3.2 解方程：天平分步</h2>
+    <p class="lead">解 2x + 3 = 7，就是一步步"让 x 单独站出来"：<strong>先去数字，再平分</strong>。</p>
+    <div class="rule">目标：让 x 孤零零站在天平的一边</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">一步一步 · 播放</div>
+    <div class="stage-title">2x + 3 = 7 的完整天平求解</div>
+    <div class="svg-wrap" style="padding:16px 8px 10px">
+      <div class="balance-wrap">
+        <div class="balance-beam" id="sBeam">
+          <div class="knob"></div>
+          <div class="balance-pan left"></div>
+          <div class="balance-pan right"></div>
+        </div>
+        <div class="balance-strings">
+          <div class="balance-tray left" id="sTrayL"></div>
+          <div class="balance-tray right" id="sTrayR"></div>
+        </div>
+        <div class="balance-holder"></div>
+      </div>
+    </div>
+    <div class="steps" id="sSteps"></div>
+    <div class="ctrl">
+      <button class="btn" id="sPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>上一步</button>
+      <button class="btn primary" id="sPlay">播放</button>
+      <button class="btn" id="sNext">下一步<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button class="btn ghost" id="sReset">重置</button>
+    </div>
+    <div class="predict" id="sPredict">
+      <div class="p-title">先猜一猜：x 是多少？</div>
+      <div class="p-opts" id="sOpts"></div>
+      <div class="p-fb" id="sFb"></div>
+    </div>
+    <div class="caption"><span class="big" id="sSay">摆好天平</span><span class="muted" id="sNote">左盘：2 个 x + 3 个数字；右盘：7 个数字</span></div>
+    <div class="formula" id="sFormula">2x + 3 = 7</div>
+  </div>
+  <div class="think" data-think="t32">
+    <div class="t-head">想一想 · 追问三步（答完再看下一问）</div>
+    <div class="t-q">第 1 问：第一步，天平两边同时做了什么？（提示：拿掉了什么）</div>
+    <div class="t-q">第 2 问：为什么两边同时 −3 之后，天平还是平的？</div>
+    <div class="t-q">第 3 问：换一道：3x + 1 = 10，先猜 x，再按天平思路解一解。</div>
+    <button class="btn">下一问</button>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>第 1 步：两边同时 −3，去掉多出来的数字 → 2x = 4</li>
+      <li>第 2 步：两边同时 ÷2，让 x 单独站一边 → x = 2</li>
+      <li>检验：把 x = 2 代回去：2×2 + 3 = 7 </li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>用天平思路算：3x + 1 = 10。第一步做什么？第二步做什么？</p>
+    <div class="q-hint">先两边 −1 → 3x = 9；再两边 ÷3 → x = 3。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：3.3 移项 ===== -->
+<section class="view" id="view-3-3">
+  <div class="view-head">
+    <div class="crumb">第3章 · 一元一次方程</div>
+    <h2>3.3 移项：为什么变号</h2>
+    <p class="lead">课本说"移项要变号"，那是一条硬规定吗？不是。<strong>它只是"两边同时减去同一项"的结果</strong>——看一遍动画就永远忘不了。</p>
+    <div class="rule">移项 = 两边同时减掉它 → 变号是自然结果</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">一步步看</div>
+    <div class="stage-title">3x + 4 = 2x + 6：右边的 2x 是怎么跑到左边的</div>
+    <div class="svg-wrap" style="padding:30px 12px">
+      <div id="moveLine" style="text-align:center;font-size:26px;font-weight:900;color:#F2F5F8;min-height:60px;line-height:1.6;font-variant-numeric:tabular-nums"></div>
+      <div style="display:flex;gap:8px;justify-content:center;align-items:center;margin-top:8px;flex-wrap:wrap">
+        <span class="badge" style="background:rgba(111,168,255,.2);color:#6FA8FF" id="mvX">x 项</span>
+        <span class="badge" style="background:rgba(255,200,87,.16);color:#FFC857">数字项</span>
+        <span class="badge" style="background:rgba(76,195,138,.18);color:#4CC38A" id="mvDo">正在做的事</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button class="btn" id="mvPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>上一步</button>
+      <button class="btn primary" id="mvNext">下一步<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button class="btn ghost" id="mvReset">重置</button>
+    </div>
+    <div class="caption"><span class="big" id="mvSay">先看题目</span><span class="muted" id="mvNote">两边都有 x，先想办法让 x 只出现在一边</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>3x + 4 = 2x + 6，两边同时 −2x：右边 2x 消失，左边多出 −2x</li>
+      <li>"移到另一边" = "两边同时减掉它"，所以符号会变：+2x 变 −2x</li>
+      <li>不是规定，是"两边做同样的事"推出来的结果</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>5x − 2 = 3x + 8：要把右边的 3x 移过来，两边应该同时做什么？移过来后左边变成什么？</p>
+    <div class="q-hint">两边同时 −3x：左边 5x − 3x = 2x，等式变成 2x − 2 = 8。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：3.4 应用题 ===== -->
+<section class="view" id="view-3-4">
+  <div class="view-head">
+    <div class="crumb">第3章 · 一元一次方程</div>
+    <h2>3.4 应用题：先找等量</h2>
+    <p class="lead">应用题不怕字多，秘诀只有一步：<strong>把题目的"相等关系"翻译成等式</strong>。天平就是题目本身。</p>
+    <div class="rule">设未知数 → 找等量关系 → 列方程 → 解方程</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">选一道题 · 分步解</div>
+    <div class="stage-title" id="appTitle">买笔问题</div>
+    <div class="stage-sub" id="appSub">小明买 3 支笔和 1 个 2 元的本子，一共 11 元。每支笔多少钱？</div>
+    <div class="svg-wrap" style="padding:16px 8px 10px">
+      <div class="balance-wrap">
+        <div class="balance-beam" id="aBeam">
+          <div class="knob"></div>
+          <div class="balance-pan left"></div>
+          <div class="balance-pan right"></div>
+        </div>
+        <div class="balance-strings">
+          <div class="balance-tray left" id="aTrayL"></div>
+          <div class="balance-tray right" id="aTrayR"></div>
+        </div>
+        <div class="balance-holder"></div>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" id="appPen">买笔问题</button>
+      <button class="btn primary" id="appMeet">相遇问题</button>
+    </div>
+    <div class="steps" id="aSteps"></div>
+    <div class="ctrl">
+      <button class="btn" id="aPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>上一步</button>
+      <button class="btn primary" id="aPlay">播放</button>
+      <button class="btn" id="aNext">下一步<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button class="btn ghost" id="aReset">重置</button>
+    </div>
+    <div class="caption"><span class="big" id="aSay">等量关系：3 支笔的钱 + 本子的钱 = 总钱数</span><span class="muted" id="aNote">设每支笔 x 元</span></div>
+    <div class="formula" id="aFormula">3x + 2 = 11</div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>设未知数：把要求的量用 x 表示（每支笔 x 元）</li>
+      <li>找等量：3 支笔 + 1 个本子 = 一共花的钱 → 3x + 2 = 11</li>
+      <li>解出来 x = 3，再回题目检查一遍，答：每支笔 3 元</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>爸爸今年 x 岁，小明今年 12 岁，爸爸的年龄 = 小明年龄的 3 倍。列方程算一算爸爸多大。</p>
+    <div class="q-hint">等量：x = 3 × 12，所以爸爸 36 岁。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：4.1 直线射线线段 ===== -->
+<section class="view" id="view-4-1">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.1 直线 · 射线 · 线段</h2>
+    <p class="lead">区别只有两个字：<strong>端点</strong>。线段两个端点、射线一个端点、直线没有端点。</p>
+    <div class="rule">线段能度量，直线射线都不能</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">点一点 · 切换</div>
+    <div class="stage-title">看三种线，端点在哪里</div>
+    <div class="svg-wrap">
+      <svg id="lineSvg" class="canvas" viewBox="0 0 640 300" role="img" aria-label="直线射线线段对比">
+        <rect width="640" height="300" fill="#16202E"/>
+        <g id="lineGroup">
+          <line x1="70" y1="150" x2="570" y2="150" stroke="#4CC38A" stroke-width="5"/>
+          <polygon points="570,150 556,141 556,159" fill="#4CC38A"/>
+          <polygon points="70,150 84,141 84,159" fill="#4CC38A"/>
+          <text x="320" y="120" text-anchor="middle" fill="#4CC38A" font-size="20" font-weight="900" font-family="'Noto Sans SC',sans-serif">直线 AB</text>
+          <text x="320" y="185" text-anchor="middle" fill="#B7C5D8" font-size="15" font-family="'Noto Sans SC',sans-serif">没有端点 · 向两边无限延伸</text>
+        </g>
+        <g id="rayGroup" style="display:none">
+          <circle cx="100" cy="150" r="7" fill="#FFC857"/>
+          <line x1="100" y1="150" x2="570" y2="150" stroke="#FFC857" stroke-width="5"/>
+          <polygon points="570,150 556,141 556,159" fill="#FFC857"/>
+          <text x="320" y="120" text-anchor="middle" fill="#FFC857" font-size="20" font-weight="900" font-family="'Noto Sans SC',sans-serif">射线 AB</text>
+          <text x="320" y="185" text-anchor="middle" fill="#B7C5D8" font-size="15" font-family="'Noto Sans SC',sans-serif">1 个端点 A · 向 B 的方向无限延伸</text>
+        </g>
+        <g id="segGroup" style="display:none">
+          <circle cx="110" cy="150" r="8" fill="#6FA8FF"/>
+          <circle cx="530" cy="150" r="8" fill="#6FA8FF"/>
+          <line x1="110" y1="150" x2="530" y2="150" stroke="#6FA8FF" stroke-width="6"/>
+          <line x1="110" y1="140" x2="530" y2="140" stroke="#FFC857" stroke-width="3" stroke-dasharray="6 6"/>
+          <text x="320" y="118" text-anchor="middle" fill="#6FA8FF" font-size="20" font-weight="900" font-family="'Noto Sans SC',sans-serif">线段 AB</text>
+          <text x="320" y="176" text-anchor="middle" fill="#FFC857" font-size="17" font-weight="700" font-family="'Noto Sans SC',sans-serif">AB = 6 cm（可以度量）</text>
+          <text x="320" y="206" text-anchor="middle" fill="#B7C5D8" font-size="15" font-family="'Noto Sans SC',sans-serif">2 个端点 · 长度固定</text>
+        </g>
+      </svg>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" id="lLine">直线</button>
+      <button class="btn primary" id="lRay">射线</button>
+      <button class="btn primary" id="lSeg">线段</button>
+    </div>
+    <div class="caption"><span class="big">端点数量：0 · 1 · 2</span><span class="muted">记不住？数端点就行</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>直线：无端点，无限延伸，记作直线 AB</li>
+      <li>射线：1 个端点，向一端无限延伸，记作射线 AB（A 是端点）</li>
+      <li>线段：2 个端点，长度固定可度量，记作线段 AB</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>手电筒发出的光，像直线、射线还是线段？为什么？（提示：光源是端点吗）</p>
+    <div class="q-hint">像射线：从手电筒出发向远处无限延伸，只有一个端点。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：4.2 角 ===== -->
+<section class="view" id="view-4-2">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.2 角：转出来的</h2>
+    <p class="lead">角不是"画"出来的，是<strong>一条射线绕着端点旋转</strong>出来的。转得多大，角就多大。</p>
+    <div class="rule">∠AOB = 旋转的角度</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖 · 转一转</div>
+    <div class="stage-title">抓住紫色边，绕 O 点转，看角怎么变大变小</div>
+    <div class="svg-wrap">
+      <svg id="angleSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="可旋转的角">
+        <rect width="640" height="320" fill="#16202E"/>
+        <line x1="120" y1="260" x2="540" y2="260" stroke="#B7C5D8" stroke-width="5"/>
+        <path id="angArc" fill="rgba(199,146,234,.35)"/>
+        <line id="angRot" x1="120" y1="260" x2="420" y2="260" stroke="#C792EA" stroke-width="6" stroke-linecap="round"/>
+        <line id="angBis" x1="120" y1="260" x2="300" y2="260" stroke="#4CC38A" stroke-width="4" stroke-dasharray="7 6" opacity="0"/>
+        <circle cx="120" cy="260" r="6" fill="#fff"/>
+        <text x="112" y="286" fill="#9FB2C9" font-size="16" font-weight="700" font-family="'Noto Sans SC',sans-serif">O</text>
+        <text id="angVal" x="330" y="100" text-anchor="middle" fill="#FFE9A8" font-size="40" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="angType" x="330" y="134" text-anchor="middle" fill="#B7C5D8" font-size="17" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="angBisT" x="400" y="200" fill="#4CC38A" font-size="15" font-weight="700" font-family="'Noto Sans SC',sans-serif" opacity="0">角平分线</text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>角度</label>
+      <input type="range" id="angRange" min="5" max="175" value="60" step="1">
+      <output id="angOut">60</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn" id="angBisBtn">显示角平分线</button>
+    </div>
+    <div class="caption"><span class="big" id="angSay">锐角 · 小于 90°</span><span class="muted">转得越多，角越大</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>角：一条射线绕端点旋转而成，记作 ∠AOB</li>
+      <li>锐角 &lt; 90° · 直角 = 90° · 钝角 90°~180° · 平角 = 180°</li>
+      <li>角平分线：把一个角分成两个相等的角</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>一个角 80°，它的角平分线把它分成两个几度的角？</p>
+    <div class="q-hint">80 ÷ 2 = 40°，两个角都是 40°。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：4.3 余角与补角 ===== -->
+<section class="view" id="view-4-3">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.3 余角 · 补角</h2>
+    <p class="lead">两个角<strong>拼在一起 = 90°</strong>，叫互余；<strong>拼在一起 = 180°</strong>，叫互补。像拼图一样。</p>
+    <div class="rule">同角的余角相等 · 同角的补角相等</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖 · 拼一拼</div>
+    <div class="stage-title">把两个角拼起来，看它们凑成多少度</div>
+    <div class="svg-wrap">
+      <svg id="supSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="余角补角拼接">
+        <rect width="640" height="320" fill="#16202E"/>
+        <line id="supBase" x1="40" y1="260" x2="540" y2="260" stroke="#B7C5D8" stroke-width="4"/>
+        <path id="supArc1" fill="rgba(199,146,234,.4)"/>
+        <path id="supArc2" fill="rgba(76,195,138,.4)"/>
+        <text id="supA1" x="0" y="0" fill="#C792EA" font-size="17" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="supA2" x="0" y="0" fill="#4CC38A" font-size="17" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="supVal" x="330" y="100" text-anchor="middle" fill="#FFE9A8" font-size="34" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text id="supType" x="330" y="134" text-anchor="middle" fill="#B7C5D8" font-size="17" font-weight="700" font-family="'Noto Sans SC',sans-serif"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>主角 α</label>
+      <input type="range" id="supRange" min="10" max="80" value="35" step="1">
+      <output id="supOut">35</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" id="supModeC">余角（拼成 90°）</button>
+      <button class="btn primary" id="supModeS">补角（拼成 180°）</button>
+    </div>
+    <div class="caption"><span class="big" id="supSay">35° + 55° = 90°</span><span class="muted" id="supNote">它们互余</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>互余：两个角加起来 = 90°，α 的余角 = 90° − α</li>
+      <li>互补：两个角加起来 = 180°，α 的补角 = 180° − α</li>
+      <li>同角（或等角）的余角相等、补角相等</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>70° 的余角是几度？补角是几度？</p>
+    <div class="q-hint">余角 90−70 = 20°；补角 180−70 = 110°。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：4.4 正方体展开图 ===== -->
+<section class="view" id="view-4-4">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.4 正方体展开图</h2>
+    <p class="lead">正方体被"展开铺平"就是展开图。展开图一共有 <strong>11 种</strong>，记住关键：<strong>6 个面、排列要能围起来</strong>。</p>
+    <div class="rule">找对面：展开图上相隔一块的两面，折起来正好相对</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">选一个 · 试试折</div>
+    <div class="stage-title">这些图形能不能折成正方体？动手试试</div>
+    <div class="svg-wrap" style="position:relative">
+      <svg id="netSvg" class="canvas" viewBox="0 0 640 300" role="img" aria-label="正方体展开图">
+        <rect width="640" height="300" fill="#16202E"/>
+        <g id="netCells"></g>
+      </svg>
+      <div class="cb3d-persp" id="net3dWrap">
+        <div class="cb3d-rotor" id="net3d"></div>
+        <div class="rotor-tip">拖动正方体 · 转一转看对面</div>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" data-net="n1">十字形</button>
+      <button class="btn primary" data-net="n2">T 字形</button>
+      <button class="btn primary" data-net="n3">五个面（陷阱）</button>
+      <button class="btn primary" id="netFold">折起来试试</button>
+    </div>
+    <div class="caption"><span class="big" id="netSay">选择一张展开图</span><span class="muted" id="netNote">同色的两个面，折起来后正好相对</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>正方体有 6 个面，展开图必须有 6 个相连的正方形</li>
+      <li>常见 11 种展开图：一四一、二三一、二二二、三三 等</li>
+      <li>判断能不能折成正方体：6 块、相连、没有"田字形"堵死</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>展开图里，标相同颜色的两个面折起来会怎样？（提示：相对）</p>
+    <div class="q-hint">相隔一块的两个面，折起来正好面对面。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：4.5 三视图 ===== -->
+<section class="view" id="view-4-5">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.5 三视图：立体看平面</h2>
+    <p class="lead">同一个立体，从<strong>正面、左面、上面</strong>看，看到的"影子"可能完全不同。考试常考：给你立体，画三视图。</p>
+    <div class="rule">正面看 → 主视图 · 左面看 → 左视图 · 上面看 → 俯视图</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">换一个方向看</div>
+    <div class="stage-title">这个 L 形立体，三个方向看到的格子各不同</div>
+    <div class="svg-wrap" style="position:relative">
+      <svg id="viewSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="三视图演示">
+        <rect width="640" height="320" fill="#16202E"/>
+        <g id="viewGrid" transform="translate(330,60)"></g>
+        <text id="viewTag" x="480" y="40" text-anchor="middle" fill="#FFE9A8" font-size="18" font-weight="900" font-family="'Noto Sans SC',sans-serif"></text>
+        <text x="160" y="302" text-anchor="middle" fill="#9FB2C9" font-size="13" font-family="'Noto Sans SC',sans-serif">拖动立体 · 换个方向看</text>
+      </svg>
+      <div class="cb3d-persp active" id="solidWrap" style="left:0;right:auto;width:52%;height:250px">
+        <div class="cb3d-rotor" id="solid3dRotor"></div>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" data-v="front">正面看</button>
+      <button class="btn primary" data-v="left">左面看</button>
+      <button class="btn primary" data-v="top">上面看</button>
+    </div>
+    <div class="caption"><span class="big" id="viewSay">正面看：像一截楼梯</span><span class="muted" id="viewNote">只画你"看得见"的小方格</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>主视图：从正前方看；左视图：从正左方看；俯视图：从正上方看</li>
+      <li>画三视图时，被挡住的方块不画</li>
+      <li>同一立体，三个视图经常长得不一样</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>一个正方体，它的主视图、左视图、俯视图分别是什么形状？</p>
+    <div class="q-hint">三个方向看都是正方形——所以正方体才叫"正"方体。</div>
+  </div>
+</section>
+
+<!-- VIEWS -->
+
+</main>
+
+<footer class="footer">
+  <div class="tips">人教版七年级上册 · 教学原理模拟站 · 动画用于直观理解，不替代严谨数学证明<br>建议搭配课本使用，先玩动画 → 再做课后题</div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+/* 全局工具与路由，其余模块在下方按段追加 */
+function $(id){return document.getElementById(id)}
+function qs(sel,root){return (root||document).querySelector(sel)}
+function qsa(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel))}
+
+/* ===== 导航 ===== */
+var drawer=$("drawer"),scrim=$("scrim"),navToggle=$("navToggle");
+function openNav(open){
+  drawer.classList.toggle("open",open);
+  scrim.classList.toggle("show",open);
+  navToggle.setAttribute("aria-expanded",open?"true":"false");
+}
+navToggle.addEventListener("click",function(){openNav(!drawer.classList.contains("open"))});
+scrim.addEventListener("click",function(){openNav(false)});
+var views=qsa(".view");
+var navItems=qsa(".nav-item");
+var chapterNames={};
+qsa(".nav-group",drawer).forEach(function(g){});
+function goTo(hash){
+  var id=hash.replace("#","");
+  var target=document.getElementById(id);
+  if(!target){target=document.getElementById("view-hero")}
+  views.forEach(function(v){v.classList.remove("is-active")});
+  target.classList.add("is-active");
+  navItems.forEach(function(n){
+    n.classList.toggle("active",n.getAttribute("href")===hash);
+  });
+  openNav(false);
+  window.scrollTo(0,0);
+  updateChip(id);
+  if(window.__animHub){window.__animHub(id)}
+}
+var chipMap={1:"第1章 · 有理数",2:"第2章 · 整式的加减",3:"第3章 · 一元一次方程",4:"第4章 · 几何图形初步"};
+function updateChip(id){
+  var k=id.replace("view-","").split("-")[0];
+  var el=$("chapterChip");
+  if(el){el.textContent=chipMap[k]||""}
+}
+function currentHash(){return (location.hash||"#view-hero").slice(1)}
+window.addEventListener("hashchange",function(){goTo(location.hash)});
+
+/* 追问三步卡：逐问展开 */
+qsa(".think").forEach(function(card){
+  var qsEl=qsa(".t-q",card);
+  var btn=qs("button",card);
+  var i=0;
+  if(qsEl.length){qsEl[0].classList.add("show")}
+  if(btn&&qsEl.length>1){
+    btn.addEventListener("click",function(){
+      i++;
+      if(i<qsEl.length){
+        qsEl[i].classList.add("show");
+        if(i===qsEl.length-1){btn.textContent="想完啦，去动手试试"}
+      }else{
+        btn.textContent="已全部展开";
+        btn.disabled=true;
+      }
+    });
+  }
+});
+
+/* 3D 转子：拖动旋转，限位防穿模 */
+function initRotor(id){
+  var el=document.getElementById(id);if(!el||el.__rotor)return;
+  el.__rotor=true;
+  var rx=-24,ry=-30,drag=null;
+  function apply(){el.style.transform="rotateX("+rx+"deg) rotateY("+ry+"deg)"}
+  apply();
+  el.addEventListener("pointerdown",function(e){
+    drag={x:e.clientX,y:e.clientY,rx:rx,ry:ry};
+    try{el.setPointerCapture(e.pointerId)}catch(err){}
+  });
+  el.addEventListener("pointermove",function(e){
+    if(!drag)return;
+    ry=drag.ry+(e.clientX-drag.x)*0.5;
+    rx=Math.max(-70,Math.min(70,drag.rx-(e.clientY-drag.y)*0.35));
+    apply();
+  });
+  function up(){drag=null}
+  el.addEventListener("pointerup",up);
+  el.addEventListener("pointercancel",up);
+}
+
+/* 动画暂停总开关 */
+var animMgr={paused:false,callbacks:[]};
+$("pauseAll").addEventListener("click",function(){
+  animMgr.paused=!animMgr.paused;
+  animMgr.callbacks.forEach(function(fn){fn(animMgr.paused)});
+  var ic=qs("svg",this);
+  this.innerHTML=animMgr.paused?
+    '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l12 7-12 7z"/></svg>':
+    '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>';
+});
+
+/* hero 首屏动画：数轴小球循环演示 */
+(function(){
+  var svg=$("heroSvg");if(!svg)return;
+  var ticks=$("heroTicks"),balls=$("heroBalls"),dist=$("heroDist");
+  var expr=$("heroExpr"),sub=$("heroSub");
+  var L=40,R=600,y=300,scale=(R-L)/10,min=-5,max=5;
+  var pausable={};
+  function renderTicks(){
+    var h="";
+    for(var i=min;i<=max;i++){
+      var x=L+(i-min)*scale;
+      h+='<line x1="'+x+'" y1="292" x2="'+x+'" y2="308" stroke="#5A6A80" stroke-width="2"/>';
+      h+='<text x="'+x+'" y="332" text-anchor="middle" fill="#9FB2C9" font-size="15" font-weight="700">'+i+'</text>';
+    }
+    ticks.innerHTML=h;
+  }
+  renderTicks();
+  var series=[
+    {expr:"(−2) + 5",a:-2,b:5,sub:"站在 −2，向右跳 5 格，落到 3 —— 加法就是向右走"},
+    {expr:"3 − 7",a:3,b:-7,sub:"站在 3，向左跳 7 格，落到 −4 —— 减法就是向左走"},
+    {expr:"(−4) + 3",a:-4,b:3,sub:"从 −4 向右跳 3 格，落到 −1"},
+    {expr:"|−4| = 4",a:0,b:0,abs:true,sub:"绝对值是到 0 的距离：从 −4 到 0 一共 4 格"},
+    {expr:"(−3) + (−2)",a:-3,b:-2,sub:"从 −3 向左跳 2 格，落到 −5 —— 负数加负数，越走越左"}
+  ];
+  var idx=0,state={pos:0},timer=null,running=false;
+  function drawBall(x,fill,r){
+    balls.innerHTML='<circle cx="'+x+'" cy="'+y+'" r="'+(r||13)+'" fill="'+(fill||"#FFE9A8")+'" stroke="#fff" stroke-width="2"/>';
+  }
+  function px(v){return L+(v-min)*scale}
+  function showExpr(){
+    expr.textContent=series[idx].expr;
+    sub.textContent=series[idx].sub;
+  }
+  function runSeries(){
+    var s=series[idx];
+    showExpr();
+    dist.setAttribute("opacity",0);
+    var steps=[];var cur=s.a;
+    if(s.abs){steps.push({to:0,color:"#FFC857",label:"|−4|"});}
+    else{
+      var total=Math.abs(s.b);var dir=s.b>0?1:-1;
+      for(var k=0;k<total;k++){
+        var nv=cur+dir;
+        steps.push({to:nv,color:dir>0?"#4CC38A":"#FF7A6B",label:dir>0?"+1":"−1"});
+        cur=nv;
+      }
+    }
+    var i=0;
+    function stepOne(){
+      if(animMgr.paused){setTimeout(stepOne,250);return}
+      var st=steps[i];
+      if(!st){scheduleNext();return}
+      drawBall(px(st.to),st.color);
+      if(s.abs){
+        dist.setAttribute("opacity",1);
+        dist.setAttribute("x1",px(-4));dist.setAttribute("x2",px(0));dist.setAttribute("y1",252);dist.setAttribute("y2",252);
+      }
+      i++;
+      timer=setTimeout(stepOne,650);
+    }
+    if(steps.length===0){timer=setTimeout(scheduleNext,1400);return}
+    drawBall(px(s.a),"#FFE9A8");
+    timer=setTimeout(stepOne,600);
+  }
+  function scheduleNext(){
+    idx=(idx+1)%series.length;
+    timer=setTimeout(runSeries,900);
+  }
+  function start(){if(running)return;running=true;runSeries()}
+  function stop(){running=false;if(timer){clearTimeout(timer)}}
+  $("heroNext").addEventListener("click",function(){stop();idx=(idx+1)%series.length;runSeries()});
+  $("heroPause").addEventListener("click",function(){
+    if(running){stop();this.textContent="继续动画"}
+    else{start();this.textContent="暂停动画"}
+  });
+  $("heroStart").addEventListener("click",function(){location.hash="#view-1-1"});
+  animMgr.callbacks.push(function(paused){if(paused){stop()}else{start()}});
+  start();
+})();
+/* ===== 1.1 温度计 · 正负数 ===== */
+(function(){
+  var svg=$("thermoSvg");if(!svg)return;
+  var range=$("thermoRange"),out=$("thermoOut");
+  var fill=$("thermoFill"),bulb=$("thermoBulb"),big=$("thermoBig");
+  var signTxt=$("thermoSignTxt"),say=$("thermoSay"),note=$("thermoNote");
+  var scene=$("thermoScene"),scene2=$("thermoScene2"),scene3=$("thermoScene3");
+  var marks=$("thermoMarks");
+  var VMIN=-25,VMAX=45,YTOP=60,YBOT=250;
+  marks.innerHTML=[-20,0,20,40].map(function(v){
+    var y=YBOT-(v-VMIN)/(VMAX-VMIN)*(YBOT-YTOP);
+    return '<line x1="164" y1="'+y+'" x2="196" y2="'+y+'" stroke="#5A6A80" stroke-width="2"/>'+
+           '<text x="150" y="'+(y+5)+'" text-anchor="end" fill="#9FB2C9" font-size="14" font-weight="700">'+v+'</text>';
+  }).join("");
+  function render(){
+    var v=parseInt(range.value,10);
+    out.textContent=v;
+    var h=(v-VMIN)/(VMAX-VMIN)*(YBOT-YTOP);
+    var c=v<0?"#FF7A6B":"#4CC38A";
+    fill.setAttribute("y",YBOT-h);
+    fill.setAttribute("height",h);
+    fill.setAttribute("fill",c);
+    bulb.setAttribute("fill",c);
+    big.textContent=(v>0?"+":"")+v+" ℃";
+    big.setAttribute("fill",c);
+    if(v>0){signTxt.textContent="比 0 大 → 正数";say.textContent="零上 "+v+" ℃";note.textContent="正数：+ 号可以省略，直接写 "+v}
+    else if(v<0){signTxt.textContent="比 0 小 → 负数";say.textContent="零下 "+(-v)+" ℃";note.textContent="负数：必须带 − 号：−"+(-v)}
+    else{signTxt.textContent="不多不少，正好是 0";say.textContent="0 ℃";note.textContent="0 不是正数也不是负数，它是分界线"}
+    var feel = v>=35?"热得冒汗":v>=25?"有点热":v>=10?"舒服":v>=0?"凉凉的":v>=-10?"冷，穿外套":"冻手冻脚";
+    scene.textContent="今天气温 "+(v>0?"+":"")+v+" ℃";
+    scene2.textContent="水银柱 "+(v>0?"往上爬":"往下缩")+"，数字 "+(v>0?"变大":"变小")+"";
+    scene3.textContent=feel+" —— 0 就是那个分界点";
+  }
+  range.addEventListener("input",render);
+  render();
+})();
+
+/* ===== 1.2 数轴点击 ===== */
+(function(){
+  var svg=$("axisSvg");if(!svg)return;
+  var ticks=$("axisTicks"),ball=$("axisBall");
+  var read=$("axisRead"),val=$("axisVal"),hint=$("axisHint");
+  var MIN=-6,MAX=6,X0=40,X1=600;
+  function px(v){return X0+(v-MIN)/(MAX-MIN)*(X1-X0)}
+  ticks.innerHTML="";
+  for(var i=MIN;i<=MAX;i++){
+    var x=px(i);
+    ticks.innerHTML+='<line x1="'+x+'" y1="132" x2="'+x+'" y2="148" stroke="#5A6A80" stroke-width="2"/>'+
+      '<text x="'+x+'" y="168" text-anchor="middle" fill="#9FB2C9" font-size="15" font-weight="700">'+i+'</text>';
+  }
+  var v=0;
+  function draw(){
+    ball.innerHTML='<circle cx="'+px(v)+'" cy="140" r="14" fill="#FFC857" stroke="#fff" stroke-width="2.5"/>'+
+      '<circle cx="'+px(v)+'" cy="140" r="4" fill="#16324F"/>';
+    read.textContent=v;
+    val.textContent=v;
+    hint.textContent=v===0?"0 站在正中间，左边是负数，右边是正数":(v>0?("+").concat(v)+" 在 0 的右边，是正数":"−"+(-v)+" 在 0 的左边，是负数");
+  }
+  svg.addEventListener("pointerdown",function(e){
+    var rect=svg.getBoundingClientRect();
+    var nx=(e.clientX-rect.left)/rect.width*640;
+    var nv=Math.round((nx-X0)/(X1-X0)*(MAX-MIN)+MIN);
+    nv=Math.max(MIN,Math.min(MAX,nv));
+    v=nv;draw();
+  });
+  $("axisLeft").addEventListener("click",function(){v=Math.max(MIN,v-1);draw()});
+  $("axisRight").addEventListener("click",function(){v=Math.min(MAX,v+1);draw()});
+  $("axisReset").addEventListener("click",function(){v=0;draw()});
+  draw();
+})();
+
+/* ===== 1.3 相反数与绝对值 ===== */
+(function(){
+  var svg=$("mirrorSvg");if(!svg)return;
+  var range=$("mirrorRange"),out=$("mirrorOut");
+  var dl=$("mirrorDl"),dr=$("mirrorDr"),pts=$("mirrorPoints");
+  var ta=$("mirrorA"),tb=$("mirrorB"),abs=$("mirrorAbs");
+  var s1=$("mirrorSay1"),s2=$("mirrorSay2");
+  var MIN=-6,MAX=6,X0=40,X1=600,Y=170;
+  function px(v){return X0+(v-MIN)/(MAX-MIN)*(X1-X0)}
+  var ticks=$("mirrorTicks");
+  ticks.innerHTML="";
+  for(var i=MIN;i<=MAX;i++){
+    var x=px(i);
+    ticks.innerHTML+='<line x1="'+x+'" y1="162" x2="'+x+'" y2="178" stroke="#5A6A80" stroke-width="2"/>'+
+      '<text x="'+x+'" y="198" text-anchor="middle" fill="#9FB2C9" font-size="15" font-weight="700">'+i+'</text>';
+  }
+  function render(){
+    var a=parseInt(range.value,10);
+    out.textContent=a;
+    var pa=px(a),po=px(0),pb=px(-a);
+    dl.setAttribute("x1",Math.min(pa,po));dl.setAttribute("x2",Math.max(pa,po));
+    dl.setAttribute("y1",150);dl.setAttribute("y2",150);
+    dl.setAttribute("opacity",1);
+    dr.setAttribute("x1",Math.min(pb,po));dr.setAttribute("x2",Math.max(pb,po));
+    dr.setAttribute("y1",190);dr.setAttribute("y2",190);
+    dr.setAttribute("opacity",1);
+    var dotA='<circle cx="'+pa+'" cy="170" r="13" fill="#FFC857" stroke="#fff" stroke-width="2.5"/>';
+    var dotB='<circle cx="'+pb+'" cy="170" r="13" fill="#6FA8FF" stroke="#fff" stroke-width="2.5"/>';
+    pts.innerHTML=dotA+dotB;
+    ta.textContent="a = "+a;
+    tb.textContent="−a = "+(-a);
+    var absv=Math.abs(a);
+    abs.textContent="|"+a+"| = "+absv+"（到 0 的距离）";
+    s1.textContent=a===0?"0 的相反数是 0":"a = "+a+"，−a = "+(-a);
+    s2.textContent="|"+a+"| = "+absv+"，|−"+absv+"| 也是 "+absv;
+    ta.setAttribute("x",Math.max(70,Math.min(300,pa)));
+    tb.setAttribute("x",Math.max(300,Math.min(560,pb)));
+  }
+  range.addEventListener("input",render);
+  render();
+})();
+
+/* ===== 1.4 加减法 · 数轴走路 ===== */
+(function(){
+  var svg=$("walkSvg");if(!svg)return;
+  var ticks=$("walkTicks"),ball=$("walkBall");
+  var tag=$("walkStepTag"),result=$("walkResult");
+  var exprEl=$("walkExpr"),say=$("walkSay");
+  var MIN=-8,MAX=8,X0=40,X1=600,Y=150;
+  function px(v){return X0+(v-MIN)/(MAX-MIN)*(X1-X0)}
+  ticks.innerHTML="";
+  for(var i=MIN;i<=MAX;i++){
+    var x=px(i);
+    ticks.innerHTML+='<line x1="'+x+'" y1="142" x2="'+x+'" y2="158" stroke="#5A6A80" stroke-width="2"/>'+
+      '<text x="'+x+'" y="184" text-anchor="middle" fill="#9FB2C9" font-size="14" font-weight="700">'+i+'</text>';
+  }
+  var presets=[["(-2)+5",-2,5],["3-7",3,-7],["(-4)+3",-4,3],["5-(-2)",5,-2]];
+  var steps=[],idx=0,timer=null,ans=0,startA=0;
+  function drawPos(v,c){
+    ball.innerHTML='<circle cx="'+px(v)+'" cy="150" r="14" fill="'+(c||"#FFC857")+'" stroke="#fff" stroke-width="2.5"/>'+
+      '<circle cx="'+px(v)+'" cy="150" r="4" fill="#16324F"/>';
+  }
+  function clearTimer(){if(timer){clearTimeout(timer);timer=null}}
+  function build(a,b){
+    steps=[];startA=a;ans=a+b;
+    if(b===0)return;
+    var dir=b>0?1:-1;
+    for(var k=1;k<=Math.abs(b);k++){steps.push(a+dir*k)}
+  }
+  function load(a,b,label){
+    clearTimer();build(a,b);idx=0;
+    exprEl.textContent=label;
+    drawPos(a);
+    tag.textContent="第 0 步：站在起点 "+a;
+    result.textContent=b===0?"0 步，原地不动 → 答案 = "+a:"总步数 |"+b+"| = "+Math.abs(b)+" 格";
+    say.textContent=b>0?"加 "+b+" → 向右跳 "+b+" 格":"减 "+(-b)+" → 向左跳 "+(-b)+" 格";
+    makeOpts();
+  }
+  var optsEl=$("walkOpts"),fb=$("walkFb"),guess=null;
+  function makeOpts(){
+    guess=null;
+    var cands=[ans,ans+1,ans-1];
+    var uniq=[];
+    cands.forEach(function(c){if(uniq.indexOf(c)===-1){uniq.push(c)}});
+    while(uniq.length<3){uniq.push(ans+uniq.length)}
+    for(var i=uniq.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=uniq[i];uniq[i]=uniq[j];uniq[j]=t;
+    }
+    optsEl.innerHTML=uniq.map(function(v){
+      return '<button class="p-opt" data-p="'+v+'">'+v+'</button>';
+    }).join("");
+    qsa(".p-opt",optsEl).forEach(function(b){
+      b.addEventListener("click",function(){
+        if(guess!==null){return}
+        guess=parseInt(b.getAttribute("data-p"),10);
+        qsa(".p-opt",optsEl).forEach(function(x){x.disabled=true});
+        b.classList.add("pick");
+        fb.className="p-fb";
+        fb.textContent="你猜的是 "+guess+"。看小球怎么走…";
+        play();
+      });
+    });
+    fb.className="p-fb";fb.textContent="";
+  }
+  function judge(){
+    if(guess===null){
+      fb.textContent="这次直接看了结果。下次先猜再验证，记得更牢！";
+      return;
+    }
+    if(guess===ans){
+      fb.className="p-fb ok";
+      fb.textContent="猜对了！答案是 "+ans+"。说说你的理由——你为什么会猜这个数？";
+      qsa(".p-opt",optsEl).forEach(function(x){
+        if(parseInt(x.getAttribute("data-p"),10)===ans){x.classList.add("right")}
+      });
+    }else{
+      fb.className="p-fb bad";
+      fb.textContent="你猜的是 "+guess+"，正确答案是 "+ans+"。看看小球：加=向右跳，减=向左跳，你差在哪一步？";
+      qsa(".p-opt",optsEl).forEach(function(x){
+        var v=parseInt(x.getAttribute("data-p"),10);
+        if(v===ans){x.classList.add("right")}
+        if(v===guess){x.classList.add("wrong")}
+      });
+    }
+  }
+  function stepNext(){
+    if(idx>=steps.length){say.textContent="到达 "+ans+"，答案就是 "+ans+" ！";return false}
+    var nv=steps[idx];
+    drawPos(nv);
+    tag.textContent="第 "+(idx+1)+" 步："+($("walkExpr").textContent.indexOf("-")>-1&&false?"":"")+"跳到 "+nv;
+    if(idx+1===steps.length){
+      say.textContent="到达 "+ans+" —— 答案 = "+ans;
+      result.textContent="答案 = "+ans;
+      judge();
+    }else{
+      var dir=nv>steps[idx-1]?"右":"左";
+      say.textContent="第 "+(idx+1)+" 步：往"+dir+"跳 1 格 → 到 "+nv;
+    }
+    idx++;
+    return idx<steps.length;
+  }
+  function play(){
+    clearTimer();
+    var t=function(){
+      if(animMgr.paused){timer=setTimeout(t,200);return}
+      var more=stepNext();
+      if(more){timer=setTimeout(t,750)}
+    };
+    t();
+  }
+  $("walkPlay").addEventListener("click",play);
+  $("walkNext").addEventListener("click",function(){clearTimer();stepNext()});
+  $("walkPrev").addEventListener("click",function(){
+    clearTimer();
+    if(idx===0)return;
+    idx--;
+    if(idx===0){drawPos(startA);tag.textContent="第 0 步：回到起点 "+startA}
+    else{drawPos(steps[idx-1]);tag.textContent="回到第 "+idx+" 步："+steps[idx-1]}
+  });
+  $("walkReset").addEventListener("click",function(){clearTimer();load(presets[0][1],presets[0][2],presets[0][0])});
+  qsa(".ex").forEach(function(b){
+    b.addEventListener("click",function(){
+      var key=b.getAttribute("data-expr");
+      var p=presets.filter(function(x){return x[0]===key})[0];
+      if(p){load(p[1],p[2],p[0]);clearTimer()}
+    });
+  });
+  window.__animHub=window.__animHub||function(){};
+  var _orig=window.__animHub;
+  window.__animHub=function(id){if(id!=="1-4")clearTimer();if(_orig!==window.__animHub)_orig.call(this,id)};
+  load(presets[0][1],presets[0][2],presets[0][0]);
+})();
+
+/* ===== 1.5 乘除符号 ===== */
+(function(){
+  var svg=$("signSvg");if(!svg)return;
+  var ra=$("signRangeA"),rb=$("signRangeB"),oa=$("signOutA"),ob=$("signOutB");
+  var elA=$("signA"),elB=$("signB"),elR=$("signR"),cA=$("signAc"),cB=$("signBc"),cR=$("signRc");
+  var rule=$("signRule"),formula=$("signFormula");
+  function col(v){return v>0?"#4CC38A":v<0?"#FF7A6B":"#9FB2C9"}
+  function fmt(x){return Number.isInteger(x)?String(x):String(Math.round(x*100)/100)}
+  function render(){
+    var a=parseInt(ra.value,10),b=parseInt(rb.value,10);
+    oa.textContent=a;ob.textContent=b;
+    var ca=col(a),cb=col(b);
+    elA.textContent=a;elA.setAttribute("fill",ca);cA.setAttribute("stroke",ca);
+    elB.textContent=b;elB.setAttribute("fill",cb);cB.setAttribute("stroke",cb);
+    var r=a*b;var rc=col(r);
+    elR.textContent=fmt(r);cR.setAttribute("fill",rc);
+    var same=(a>0&&b>0)||(a<0&&b<0);
+    var rdiv=b===0?"不能除以 0":fmt(Math.round(a/b*100)/100);
+    if(a===0||b===0){rule.textContent="0 乘任何数 = 0 · 0 除以任何非零数 = 0"}
+    else if(same){rule.textContent="同色 → 正（绿色）："+a+" × "+b+" = +"+fmt(Math.abs(r))}
+    else{rule.textContent="异色 → 负（红色）："+a+" × "+b+" = −"+fmt(Math.abs(r))}
+    formula.innerHTML=a+" × "+b+" = <span style='color:"+rc+"'>"+fmt(r)+"</span>&nbsp;&nbsp;·&nbsp;&nbsp;"+a+" ÷ "+b+" = <span style='color:"+col(Math.round(a/b*100)/100)+"'>"+rdiv+"</span>";
+  }
+  ra.addEventListener("input",render);rb.addEventListener("input",render);
+  render();
+})();
+
+/* ===== 1.6 乘方 ===== */
+(function(){
+  var svg=$("powerSvg");if(!svg)return;
+  var base=$("powerBase"),exp=$("powerExp"),bo=$("powerBaseOut"),eo=$("powerExpOut");
+  var rotor=$("powerRotor"),sum=$("powerSum"),grid=$("powerGrid"),formula=$("powerFormula");
+  var maxExpMap={2:4,3:3,4:2};
+  function block3(tx,ty,tz,S,baseC){
+    var hs=S/2;
+    var faces=[
+      ["rotateY(0deg) translateZ("+hs+"px)",1],
+      ["rotateY(180deg) translateZ("+hs+"px)",.5],
+      ["rotateY(90deg) translateZ("+hs+"px)",.78],
+      ["rotateY(-90deg) translateZ("+hs+"px)",.62],
+      ["rotateX(90deg) translateZ("+hs+"px)",1.22],
+      ["rotateX(-90deg) translateZ("+hs+"px)",.45]
+    ];
+    var h="";
+    faces.forEach(function(f){
+      h+='<div class="cb3d" style="width:'+S+'px;height:'+S+'px;transform:translate3d('+tx+'px,'+ty+'px,'+tz+'px) '+f[0]+';background:'+baseC+';filter:brightness('+f[1]+')"></div>';
+    });
+    return h;
+  }
+  function render(){
+    var a=parseInt(base.value,10),n=parseInt(exp.value,10);
+    var maxE=maxExpMap[a];
+    if(n>maxE){n=maxE;exp.value=n}
+    bo.textContent=a;eo.textContent=n;
+    var total=Math.pow(a,n);
+    var S=Math.max(20,Math.min(44,Math.floor(150/a)));
+    var layers=n>=2?Math.pow(a,n-2):1;
+    var R=n===1?1:a,C=n===1?a:a;
+    var html="";
+    for(var layer=0;layer<layers;layer++){
+      var shade=100-Math.round(layer/((layers-1)||1)*26);
+      for(var r=0;r<R;r++){
+        for(var c=0;c<C;c++){
+          html+=block3((c-(C-1)/2)*S, -(layer)*(S+7), (r-(R-1)/2)*S, S, "hsl(215,80%,"+shade+"%)");
+        }
+      }
+    }
+    rotor.innerHTML=html;
+    initRotor("powerRotor");
+    sum.textContent="= "+total;
+    grid.textContent=a+" 的 "+n+" 次方 · 一共 "+total+" 个小方块";
+    var terms=[];
+    for(var k=0;k<n;k++){terms.push(a)}
+    formula.innerHTML=a+"<sup>"+n+"</sup> = "+terms.join(" × ")+" = <span style='color:#FFC857'>"+total+"</span>";
+  }
+  base.addEventListener("input",render);exp.addEventListener("input",render);
+  render();
+})();
+
+/* ===== 2.1 字母盒子 · 单项式 ===== */
+(function(){
+  var svg=$("letterSvg");if(!svg)return;
+  var box=$("letterBox"),cap=$("letterCap");
+  var say=$("letterSay"),note=$("letterNote");
+  function boxHtml(x,y,txt,sup){
+    var supTxt=sup?'<text x="'+(x+66)+'" y="'+(y+16)+'" text-anchor="middle" fill="#FFC857" font-size="20" font-weight="900">'+sup+'</text>':'';
+    return '<g transform="translate('+x+','+y+')">'+
+      '<rect width="92" height="72" rx="12" fill="#6FA8FF"/>'+
+      '<rect width="92" height="16" y="26" fill="rgba(0,0,0,.16)"/>'+
+      '<path d="M0 26 h92" stroke="rgba(255,255,255,.35)" stroke-width="2"/>'+
+      '<text x="46" y="52" text-anchor="middle" fill="#fff" font-size="36" font-weight="900">'+txt+'</text>'+supTxt+'</g>';
+  }
+  function constBox(x,y,n){
+    return '<g transform="translate('+x+','+y+')">'+
+      '<rect width="54" height="54" rx="10" fill="#FFC857"/>'+
+      '<text x="27" y="38" text-anchor="middle" fill="#3A2A00" font-size="30" font-weight="900">'+n+'</text></g>';
+  }
+  var modes={
+    "3x":{html:boxHtml(150,110,"x")+"<text x='240' y='150' fill='#B7C5D8' font-size='40' font-weight='900'>×</text>"+boxHtml(270,110,"3"),say:"3x = 3 个盒子叠在一起？不——是 3 × x",note:"前面的 3 叫系数，表示 x 乘了 3 次",cap:"3x：系数 3 · 次数 1"},
+    "-2x":{html:boxHtml(150,110,"x")+"<text x='240' y='150' fill='#B7C5D8' font-size='40' font-weight='900'>×</text>"+boxHtml(270,110,"−2"),say:"−2x = −2 × x，系数可以是负数",note:"负系数：−2 就是 −1 × 2 × x",cap:"−2x：系数 −2 · 次数 1"},
+    "5x2":{html:boxHtml(150,110,"x","2")+"<text x='268' y='150' fill='#B7C5D8' font-size='40' font-weight='900'>×</text>"+boxHtml(298,110,"5"),say:"x² 是 x 这个盒子被乘了两次",note:"5x² = 5 × x × x，次数是 2",cap:"5x²：系数 5 · 次数 2"},
+    "x4":{html:boxHtml(140,110,"x")+"<text x='242' y='150' fill='#B7C5D8' font-size='40' font-weight='900'>+</text>"+constBox(270,118,"4"),say:"x + 4：一个 x 盒子，加一个数字方块",note:"x 盒子和数字方块不能合并——它们不是同类项",cap:"x + 4：多项式 · 两项"}
+  };
+  qsa("[data-m]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var m=b.getAttribute("data-m");
+      var d=modes[m];if(!d)return;
+      box.innerHTML=d.html;
+      say.textContent=d.say;
+      note.textContent=d.note;
+      cap.textContent=d.cap;
+      qsa("[data-m]").forEach(function(x){x.style.outline="none"});
+      b.style.outline="2px solid #fff";
+    });
+  });
+  box.innerHTML=modes["3x"].html;
+  say.textContent=modes["3x"].say;
+  note.textContent=modes["3x"].note;
+  cap.textContent=modes["3x"].cap;
+})();
+
+/* ===== 2.2 积木合并同类项 ===== */
+(function(){
+  var area=$("brickArea"),say=$("brickSay"),note=$("brickNote"),formula=$("brickFormula");
+  var prev=$("brickPrev"),next=$("brickNext"),reset=$("brickReset");
+  var exprs={
+    a:{terms:[{t:"x",k:3,s:"+"},{t:"n",k:2,s:"+"},{t:"x",k:-5,s:"−"},{t:"n",k:4,s:"+"}],res:"−2x + 6",show:"3x + 2 − 5x + 4 = −2x + 6"},
+    b:{terms:[{t:"x",k:2,s:"+"},{t:"n",k:-3,s:"−"},{t:"x",k:1,s:"+"},{t:"n",k:5,s:"+"}],res:"3x + 2",show:"2x − 3 + x + 5 = 3x + 2"}
+  };
+  var cur=exprs.a,stage=0;
+  function brick(kind,k){
+    if(kind==="x"){return '<span class="brick x">'+(k>0?"":"−")+Math.abs(k)+'x</span>'}
+    return '<span class="brick n">'+(k>0?"":"−")+Math.abs(k)+'</span>';
+  }
+  function sign(s){return '<span class="brick '+(s==="+"?"plus":"minus")+'">'+s+'</span>'}
+  function rawBricks(){
+    var h="";
+    cur.terms.forEach(function(t,i){
+      if(i>0){h+=sign(t.s)}
+      h+=brick(t.t,t.k);
+    });
+    return h;
+  }
+  function stageSay(){
+    var texts={
+      0:["把玩具全部摆开","先看清楚有哪些积木"],
+      1:["同类积木，站到一起","字母和次数一样的才是同类：3x 和 −5x 是一伙"],
+      2:["同类内部，系数相加","3 − 5 = −2 → −2x；2 + 4 = 6"],
+      3:["收工！",cur.res+" —— 这就是合并同类项"]
+    };
+    say.textContent=texts[stage][0];
+    note.textContent=texts[stage][1];
+  }
+  function render(){
+    stageSay();
+    var xSum=0,nSum=0;
+    cur.terms.forEach(function(t){if(t.t==="x"){xSum+=t.k}else{nSum+=t.k}});
+    if(stage===0){
+      area.innerHTML=rawBricks();
+      formula.textContent=cur.show;
+    }else if(stage===1){
+      area.innerHTML='<div style="width:100%;display:flex;gap:10px;flex-wrap:wrap">'+
+        '<div style="flex:1;min-width:200px"><div style="font-size:12px;font-weight:700;color:#6FA8FF;margin-bottom:6px">x 积木（同类）</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+brick("x",cur.terms[0].k)+brick("x",cur.terms[2].k)+'</div></div>'+
+        '<div style="flex:1;min-width:200px"><div style="font-size:12px;font-weight:700;color:#FFC857;margin-bottom:6px">数字积木（同类）</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+brick("n",cur.terms[1].k)+brick("n",cur.terms[3].k)+'</div></div>'+
+        '</div>';
+      formula.textContent=cur.show;
+    }else if(stage===2){
+      area.innerHTML='<div style="width:100%;display:flex;gap:10px;flex-wrap:wrap">'+
+        '<div style="flex:1;min-width:200px"><div style="font-size:12px;font-weight:700;color:#6FA8FF;margin-bottom:6px">'+brick("x",cur.terms[0].k)+' 和 '+brick("x",cur.terms[2].k)+' 合并</div><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="brick x">'+(xSum>0?"":"−")+Math.abs(xSum)+'x</span><span style="color:#9FB2C9;font-size:13px">← '+(cur.terms[0].k>0?"":"(")+cur.terms[0].k+(cur.terms[0].k>0?"":" ) ")+(cur.terms[2].k>0?"+":"−")+Math.abs(cur.terms[2].k)+' = '+xSum+'</span></div></div>'+
+        '<div style="flex:1;min-width:200px"><div style="font-size:12px;font-weight:700;color:#FFC857;margin-bottom:6px">'+brick("n",cur.terms[1].k)+' 和 '+brick("n",cur.terms[3].k)+' 合并</div><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="brick n">'+nSum+'</span><span style="color:#9FB2C9;font-size:13px">← '+cur.terms[1].k+(cur.terms[3].k>0?" + ":" − ")+Math.abs(cur.terms[3].k)+' = '+nSum+'</span></div></div>'+
+        '</div>';
+      formula.innerHTML=cur.show.replace("=",'<span style="color:#4CC38A">=</span>');
+    }else{
+      area.innerHTML='<div style="width:100%;text-align:center;padding:10px 0">'+brick("x",xSum)+'<span class="brick plus">+</span>'+brick("n",nSum)+'</div>';
+      formula.innerHTML='<span style="color:#4CC38A">'+cur.res+'</span>';
+    }
+  }
+  next.addEventListener("click",function(){stage=Math.min(3,stage+1);render()});
+  prev.addEventListener("click",function(){stage=Math.max(0,stage-1);render()});
+  reset.addEventListener("click",function(){stage=0;render()});
+  qsa(".ex2").forEach(function(b){
+    b.addEventListener("click",function(){
+      cur=exprs[b.getAttribute("data-e")];stage=0;render();
+    });
+  });
+  render();
+})();
+
+/* ===== 天平通用渲染 ===== */
+function renderBalance(beam,trayL,trayR,xArrL,nArrL,nArrR){
+  var hL="",hR="";
+  xArrL.forEach(function(){hL+='<span class="cub x">x</span>'});
+  nArrL.forEach(function(v){hL+='<span class="cub n">'+v+'</span>'});
+  nArrR.forEach(function(v){hR+='<span class="cub n">'+v+'</span>'});
+  trayL.innerHTML=hL;trayR.innerHTML=hR;
+  var wL=xArrL.length*2+nArrL.reduce(function(a,b){return a+b},0);
+  var wR=nArrR.reduce(function(a,b){return a+b},0);
+  var tilt=Math.max(-14,Math.min(14,(wL-wR)*2.5));
+  if(beam){beam.style.transform="rotate("+tilt+"deg)"}
+}
+
+/* ===== 3.1 天平与等式性质 ===== */
+(function(){
+  var beam=$("pBeam"),trayL=$("pTrayL"),trayR=$("pTrayR");
+  var say=$("propSay"),note=$("propNote");
+  function show(xL,nL,nR,s,n){
+    renderBalance(beam,trayL,trayR,xL,nL,nR);
+    say.textContent=s;note.textContent=n;
+  }
+  $("propAdd2").addEventListener("click",function(){show(["x","x","x","x"],[2],[4,2],"天平水平 · 等式成立","两边同时 +2：2x + 2 = 4 + 2 = 6，还是平的")});
+  $("propMul2").addEventListener("click",function(){show(["x","x","x","x"],[],[8],"天平水平 · 等式成立","两边同时 ×2：4x = 8，还是平的")});
+  $("propBreak").addEventListener("click",function(){show(["x","x"],[],[4,2],"天平歪了！等式被破坏","只动右边：2x ≠ 6，这不是等式的性质")});
+  $("propReset").addEventListener("click",function(){show(["x","x"],[],[4],"天平水平 · 等式成立","左边 2x，右边 4，一样重")});
+  show(["x","x"],[],[4],"天平水平 · 等式成立","左边 2x，右边 4，一样重");
+})();
+
+/* ===== 3.2 解方程分步 ===== */
+(function(){
+  var beam=$("sBeam"),trayL=$("sTrayL"),trayR=$("sTrayR");
+  var say=$("sSay"),note=$("sNote"),formula=$("sFormula"),stepsEl=$("sSteps");
+  var stages=[
+    {L:["x","x",3],R:[7],f:"2x + 3 = 7",say:"摆好天平",note:"左盘：2 个 x + 3；右盘：7"},
+    {L:["x","x"],R:[4],f:"2x = 4",say:"两边同时 − 3",note:"去掉本子钱 3：天平依然水平"},
+    {L:["x"],R:[2],f:"x = 2",say:"两边同时 ÷ 2",note:"2 个 x 分两份，4 也分两份：x = 2"},
+    {L:["x"],R:[2],f:"x = 2 ",say:"解完了！",note:"检验：2×2 + 3 = 7，对了"}
+  ];
+  var idx=0,timer=null;
+  var sOpts=$("sOpts"),sFb=$("sFb"),guess=null;
+  function makeOpts(){
+    guess=null;
+    var cands=[2,5,4];
+    for(var i=cands.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=cands[i];cands[i]=cands[j];cands[j]=t;
+    }
+    sOpts.innerHTML=cands.map(function(v){
+      return '<button class="p-opt" data-p="'+v+'">'+v+'</button>';
+    }).join("");
+    qsa(".p-opt",sOpts).forEach(function(b){
+      b.addEventListener("click",function(){
+        if(guess!==null){return}
+        guess=parseInt(b.getAttribute("data-p"),10);
+        qsa(".p-opt",sOpts).forEach(function(x){x.disabled=true});
+        b.classList.add("pick");
+        sFb.className="p-fb";
+        sFb.textContent="你猜 x = "+guess+"。看天平一步步解开…";
+        play();
+      });
+    });
+    sFb.className="p-fb";sFb.textContent="";
+  }
+  function judgeSolve(){
+    if(guess===null){
+      sFb.textContent="这次直接看了答案。下次先猜：x 大概是多少？";
+      return;
+    }
+    if(guess===2){
+      sFb.className="p-fb ok";
+      sFb.textContent="猜对了！x = 2。你是用什么方法想到的？说说看。";
+      qsa(".p-opt",sOpts).forEach(function(x){
+        if(parseInt(x.getAttribute("data-p"),10)===2){x.classList.add("right")}
+      });
+    }else{
+      sFb.className="p-fb bad";
+      sFb.textContent="你猜 x = "+guess+"，正确答案是 2。回看天平：两边同时 −3，再同时 ÷2，x 就露出来了。";
+      qsa(".p-opt",sOpts).forEach(function(x){
+        var v=parseInt(x.getAttribute("data-p"),10);
+        if(v===2){x.classList.add("right")}
+        if(v===guess){x.classList.add("wrong")}
+      });
+    }
+  }
+  function stepsUI(){
+    var h="";
+    for(var i=0;i<stages.length;i++){
+      h+='<span class="st '+(i<=idx?"on":"")+'">'+(i+1)+'</span>';
+    }
+    stepsEl.innerHTML=h;
+  }
+  function render(){
+    var s=stages[idx];
+    stepsUI();
+    renderBalance(beam,trayL,trayR,s.L.filter(function(v){return v==="x"}),s.L.filter(function(v){return v!=="x"}),s.R);
+    say.textContent=s.say;note.textContent=s.note;
+    formula.innerHTML=s.f;
+  }
+  function next(){if(idx<stages.length-1){idx++;render();if(idx===stages.length-1){judgeSolve()}}}
+  function prev(){if(idx>0){idx--;render()}}
+  function play(){
+    if(timer){clearTimeout(timer)}
+    var t=function(){
+      if(animMgr.paused){timer=setTimeout(t,200);return}
+      if(idx<stages.length-1){idx++;render();timer=setTimeout(t,1100)}
+      else{judgeSolve()}
+    };
+    t();
+  }
+  $("sNext").addEventListener("click",function(){if(timer){clearTimeout(timer)}next()});
+  $("sPrev").addEventListener("click",function(){if(timer){clearTimeout(timer)}prev()});
+  $("sPlay").addEventListener("click",play);
+  $("sReset").addEventListener("click",function(){if(timer){clearTimeout(timer)}idx=0;render();makeOpts()});
+  var _o=window.__animHub;window.__animHub=function(id){if(id!=="3-2"&&timer){clearTimeout(timer)}if(_o)_o.call(this,id)};
+  render();
+  makeOpts();
+})();
+
+/* ===== 3.3 移项 ===== */
+(function(){
+  var line=$("moveLine"),say=$("mvSay"),note=$("mvNote");
+  var steps=[
+    {f:"3x + 4 = 2x + 6",say:"先看题目",note:"两边都有 x，先让 x 只待在一边"},
+    {f:'3x + 4 <span style="color:#FF7A6B;text-decoration:line-through">− 2x</span> = 2x + 6 <span style="color:#FF7A6B;text-decoration:line-through">− 2x</span>',say:"两边同时 − 2x",note:"天平两边做同样的事，等式仍然成立"},
+    {f:'3x − 2x + 4 = 6',say:"2x 从右边消失了，左边多出 −2x",note:"这就是「移项变号」：+2x 移到左边，变成 −2x"},
+    {f:"x + 4 = 6",say:"3x − 2x = x",note:"合并同类项：x 系数相减"},
+    {f:'x + 4 <span style="color:#FF7A6B;text-decoration:line-through">− 4</span> = 6 <span style="color:#FF7A6B;text-decoration:line-through">− 4</span>',say:"两边同时 − 4",note:"数字 4 移到右边，变 −4"},
+    {f:"x = 2",say:"答案：x = 2",note:"检验：3×2+4=10，2×2+6=10，两边相等 "}
+  ];
+  var idx=0;
+  function render(){
+    line.innerHTML=steps[idx].f;
+    say.textContent=steps[idx].say;
+    note.textContent=steps[idx].note;
+  }
+  $("mvNext").addEventListener("click",function(){idx=Math.min(steps.length-1,idx+1);render()});
+  $("mvPrev").addEventListener("click",function(){idx=Math.max(0,idx-1);render()});
+  $("mvReset").addEventListener("click",function(){idx=0;render()});
+  render();
+})();
+
+/* ===== 3.4 应用题 ===== */
+(function(){
+  var beam=$("aBeam"),trayL=$("aTrayL"),trayR=$("aTrayR");
+  var say=$("aSay"),note=$("aNote"),formula=$("aFormula"),stepsEl=$("aSteps");
+  var title=$("appTitle"),sub=$("appSub");
+  var quizzes={
+    pen:{title:"买笔问题",sub:"小明买 3 支笔和 1 个 2 元的本子，一共 11 元。每支笔多少钱？",
+      stages:[
+        {L:["x","x","x",2],R:[11],f:"3x + 2 = 11",say:"等量：3 支笔的钱 + 本子钱 = 总钱数",note:"设每支笔 x 元：3x + 2 = 11"},
+        {L:["x","x","x"],R:[9],f:"3x = 9",say:"两边同时 − 2",note:"本子的 2 元先拿掉"},
+        {L:["x"],R:[3],f:"x = 3",say:"两边同时 ÷ 3",note:"3 支笔分三份，9 也分三份：每支笔 3 元"}
+      ]},
+    meet:{title:"相遇问题",sub:"两地相距 24 千米，两人相向而行，速度和 8 千米/时。几小时相遇？",
+      stages:[
+        {L:["x","x","x","x","x","x","x","x"],R:[24],f:"8x = 24",say:"等量：速度 × 时间 = 路程",note:"设 x 小时后相遇：8x = 24"},
+        {L:["x"],R:[3],f:"x = 3",say:"两边同时 ÷ 8",note:"8x ÷ 8 = 24 ÷ 8，x = 3：3 小时后相遇"}
+      ]}
+  };
+  var cur=quizzes.pen,idx=0,timer=null;
+  function stepsUI(){
+    var h="";
+    for(var i=0;i<cur.stages.length;i++){
+      h+='<span class="st '+(i<=idx?"on":"")+'">'+(i+1)+'</span>';
+    }
+    stepsEl.innerHTML=h;
+  }
+  function render(){
+    var s=cur.stages[idx];
+    stepsUI();
+    renderBalance(beam,trayL,trayR,s.L.filter(function(v){return v==="x"}),s.L.filter(function(v){return v!=="x"}),s.R);
+    say.textContent=s.say;note.textContent=s.note;
+    formula.innerHTML=s.f;
+  }
+  function load(q){
+    cur=q;idx=0;title.textContent=q.title;sub.textContent=q.sub;render();
+  }
+  function next(){if(idx<cur.stages.length-1){idx++;render()}}
+  function play(){
+    if(timer){clearTimeout(timer)}
+    var t=function(){
+      if(animMgr.paused){timer=setTimeout(t,200);return}
+      if(idx<cur.stages.length-1){idx++;render();timer=setTimeout(t,1200)}
+    };
+    t();
+  }
+  $("aNext").addEventListener("click",function(){if(timer){clearTimeout(timer)}next()});
+  $("aPrev").addEventListener("click",function(){if(timer){clearTimeout(timer)}if(idx>0){idx--;render()}});
+  $("aPlay").addEventListener("click",play);
+  $("aReset").addEventListener("click",function(){if(timer){clearTimeout(timer)}idx=0;render()});
+  $("appPen").addEventListener("click",function(){if(timer){clearTimeout(timer)}load(quizzes.pen)});
+  $("appMeet").addEventListener("click",function(){if(timer){clearTimeout(timer)}load(quizzes.meet)});
+  var _o=window.__animHub;window.__animHub=function(id){if(id!=="3-4"&&timer){clearTimeout(timer)}if(_o)_o.call(this,id)};
+  load(quizzes.pen);
+})();
+
+/* ===== 4.1 直线射线线段 ===== */
+(function(){
+  var groups={l:$("lineGroup"),r:$("rayGroup"),s:$("segGroup")};
+  function show(k){
+    for(var key in groups){groups[key].style.display=(key===k?"":"none")}
+  }
+  $("lLine").addEventListener("click",function(){show("l")});
+  $("lRay").addEventListener("click",function(){show("r")});
+  $("lSeg").addEventListener("click",function(){show("s")});
+  show("l");
+})();
+
+/* ===== 4.2 角 ===== */
+(function(){
+  var svg=$("angleSvg");if(!svg)return;
+  var rot=$("angRot"),arc=$("angArc"),bis=$("angBis"),bisT=$("angBisT");
+  var val=$("angVal"),type=$("angType"),say=$("angSay");
+  var range=$("angRange"),out=$("angOut");
+  var OX=120,OY=260,R1=320,R2=72;
+  function arcPath(deg){
+    var a=deg*Math.PI/180;
+    var x0=OX+R2,y0=OY;
+    var x1=OX+R2*Math.cos(a),y1=OY-R2*Math.sin(a);
+    return "M"+OX+" "+OY+" L"+x0.toFixed(1)+" "+y0.toFixed(1)+" A"+R2+" "+R2+" 0 0 1 "+x1.toFixed(1)+" "+y1.toFixed(1)+" Z";
+  }
+  function render(){
+    var d=parseInt(range.value,10);
+    out.textContent=d;
+    var a=d*Math.PI/180;
+    rot.setAttribute("x2",(OX+R1*Math.cos(a)).toFixed(1));
+    rot.setAttribute("y2",(OY-R1*Math.sin(a)).toFixed(1));
+    arc.setAttribute("d",arcPath(d));
+    val.textContent=d+"°";
+    var tn=d<90?"锐角 · 小于 90°":d===90?"直角 · 正好 90°":"钝角 · 90°~180°";
+    type.textContent=tn;say.textContent=tn;
+    var b=d/2;
+    bis.setAttribute("x2",(OX+260*Math.cos(b*Math.PI/180)).toFixed(1));
+    bis.setAttribute("y2",(OY-260*Math.sin(b*Math.PI/180)).toFixed(1));
+    if(bis.getAttribute("opacity")==="1"){
+      bisT.textContent="角平分线："+b+"° + "+b+"° = "+d+"°";
+    }
+  }
+  var bisOn=false;
+  $("angBisBtn").addEventListener("click",function(){
+    bisOn=!bisOn;
+    bis.setAttribute("opacity",bisOn?"1":"0");
+    bisT.setAttribute("opacity",bisOn?"1":"0");
+    this.textContent=bisOn?"隐藏角平分线":"显示角平分线";
+    render();
+  });
+  svg.addEventListener("pointerdown",function(e){
+    var rect=svg.getBoundingClientRect();
+    var px=(e.clientX-rect.left)/rect.width*640,py=(e.clientY-rect.top)/rect.height*320;
+    var dx=px-OX,dy=OY-py;
+    var d=Math.round(Math.atan2(dy,dx)*180/Math.PI);
+    d=Math.max(5,Math.min(175,d));
+    range.value=d;render();
+  });
+  range.addEventListener("input",render);
+  render();
+})();
+
+/* ===== 4.3 余角与补角 ===== */
+(function(){
+  var svg=$("supSvg");if(!svg)return;
+  var arc1=$("supArc1"),arc2=$("supArc2"),a1=$("supA1"),a2=$("supA2");
+  var val=$("supVal"),typ=$("supType"),say=$("supSay"),note=$("supNote");
+  var range=$("supRange"),out=$("supOut");
+  var OX=120,OY=260,R=78,mode="y";
+  function arcPath(a0,a1){
+    var x0=OX+R*Math.cos(a0*Math.PI/180),y0=OY-R*Math.sin(a0*Math.PI/180);
+    var x1=OX+R*Math.cos(a1*Math.PI/180),y1=OY-R*Math.sin(a1*Math.PI/180);
+    var large=(a1-a0)>180?1:0;
+    return "M"+OX+" "+OY+" L"+x0.toFixed(1)+" "+y0.toFixed(1)+" A"+R+" "+R+" 0 "+large+" 1 "+x1.toFixed(1)+" "+y1.toFixed(1)+" Z";
+  }
+  function render(){
+    var a=parseInt(range.value,10);
+    out.textContent=a;
+    var b=mode==="y"?90-a:180-a;
+    arc1.setAttribute("d",arcPath(0,a));
+    arc2.setAttribute("d",arcPath(a,a+b));
+    a1.setAttribute("x",(OX+R*Math.cos(a/2*Math.PI/180)*0.6).toFixed(1));
+    a1.setAttribute("y",(OY-R*Math.sin(a/2*Math.PI/180)*0.6+6).toFixed(1));
+    a1.textContent=a+"°";
+    var mid2=a+b/2;
+    a2.setAttribute("x",(OX+R*Math.cos(mid2*Math.PI/180)*0.6).toFixed(1));
+    a2.setAttribute("y",(OY-R*Math.sin(mid2*Math.PI/180)*0.6+6).toFixed(1));
+    a2.textContent=b+"°";
+    val.textContent=a+"° + "+b+"° = "+(a+b)+"°";
+    typ.textContent=mode==="y"?"互余 · 拼成直角":"互补 · 拼成平角";
+    say.textContent=a+"° 的"+(mode==="y"?"余角":"补角")+"是 "+b+"°";
+    note.textContent=mode==="y"?"两个角加起来 = 90°":"两个角加起来 = 180°";
+  }
+  $("supModeC").addEventListener("click",function(){mode="y";range.min=10;range.max=80;range.value=35;render()});
+  $("supModeS").addEventListener("click",function(){mode="b";range.min=10;range.max=170;range.value=35;render()});
+  range.addEventListener("input",render);
+  render();
+})();
+
+/* ===== 4.4 正方体展开图 ===== */
+(function(){
+  var cells=$("netCells"),net3dWrap=$("net3dWrap"),net3d=$("net3d");
+  var say=$("netSay"),note=$("netNote"),fold=$("netFold");
+  var S=52,OX=210,OY=60,cur="n1",folded=false;
+  var nets={
+    n1:{cells:[[1,0],[0,1],[1,1],[2,1],[3,1],[1,2]],colors:{0:0,1:1,2:2,3:1,4:2,5:0},ok:true},
+    n2:{cells:[[0,0],[1,0],[1,1],[2,1],[3,1],[2,2]],colors:{0:1,1:0,2:2,3:1,4:2,5:0},ok:true},
+    n3:{cells:[[1,0],[0,1],[1,1],[2,1],[3,1]],colors:{},ok:false}
+  };
+  var colorHex=["#FF7A6B","#6FA8FF","#FFC857"];
+  function renderNet(){
+    var n=nets[cur];
+    var h="";
+    n.cells.forEach(function(c,i){
+      var x=OX+c[0]*S,y=OY+c[1]*S;
+      h+='<rect x="'+x+'" y="'+y+'" width="'+S+'" height="'+S+'" rx="8" fill="#33415A" stroke="#5A6A80" stroke-width="2"/>';
+      if(n.ok){
+        var ci=colorHex[n.colors[i]];
+        h+='<rect x="'+(x+8)+'" y="'+(y+8)+'" width="'+(S-16)+'" height="'+(S-16)+'" rx="5" fill="'+ci+'" opacity=".85"/>';
+        h+='<text x="'+(x+S/2)+'" y="'+(y+S/2+7)+'" text-anchor="middle" fill="#10231B" font-size="20" font-weight="900">'+(i+1)+'</text>';
+      }else{
+        h+='<text x="'+(x+S/2)+'" y="'+(y+S/2+7)+'" text-anchor="middle" fill="#9FB2C9" font-size="18" font-weight="900">'+(i+1)+'</text>';
+      }
+    });
+    if(!n.ok){
+      h+='<text x="'+(OX+2.5*S)+'" y="'+(OY+3*S+30)+'" text-anchor="middle" fill="#FF7A6B" font-size="18" font-weight="900">只有 5 个面，缺了一块</text>';
+    }
+    cells.innerHTML=h;
+    net3dWrap.style.display="none";
+    net3dWrap.classList.remove("active");
+    cells.style.opacity="1";
+    folded=false;
+    fold.textContent="折起来试试";
+    say.textContent=n.ok?"这张展开图 · 同色面折起来相对":"陷阱！5 个面折不成正方体";
+    note.textContent=n.ok?"数一数：6 个面 · 面面相连":"正方体必须有 6 个面";
+  }
+  function renderCube(){
+    var S=112,hs=S/2;
+    function F(t,c,l){
+      return '<div class="cb3d" style="width:'+S+'px;height:'+S+'px;transform:'+t+';background:'+c+';font-size:26px">'+l+'</div>';
+    }
+    net3d.innerHTML=
+      F("rotateY(0deg) translateZ("+hs+"px)","#FF7A6B","1")+
+      F("rotateY(180deg) translateZ("+hs+"px)","#C2544A","6")+
+      F("rotateY(90deg) translateZ("+hs+"px)","#FFC857","3")+
+      F("rotateY(-90deg) translateZ("+hs+"px)","#C89B3A","5")+
+      F("rotateX(90deg) translateZ("+hs+"px)","#6FA8FF","2")+
+      F("rotateX(-90deg) translateZ("+hs+"px)","#4F78B8","4");
+    net3dWrap.style.display="flex";
+    net3dWrap.classList.add("active");
+    cells.style.opacity="0.12";
+    initRotor("net3d");
+  }
+  fold.addEventListener("click",function(){
+    if(folded){net3dWrap.style.display="none";net3dWrap.classList.remove("active");cells.style.opacity="1";folded=false;fold.textContent="折起来试试";say.textContent="摊平了——注意同色的面相对";return}
+    if(!nets[cur].ok){
+      say.textContent="缺一个面，怎么折都缺个洞！";
+      note.textContent="展开图必须是 6 个面，而且排列要能围起来";
+      return;
+    }
+    folded=true;renderCube();
+    say.textContent="折起来了！6 个面围成一个正方体，拖动它转一转，看看哪两面相对";
+    note.textContent="同色的两个面，正好面对面（相对）：1↔6 · 2↔4 · 3↔5";
+    fold.textContent="摊平回去";
+  });
+  qsa("[data-net]").forEach(function(b){
+    b.addEventListener("click",function(){cur=b.getAttribute("data-net");renderNet()});
+  });
+  renderNet();
+})();
+
+/* ===== 4.5 三视图 ===== */
+(function(){
+  var solid=$("solid3dRotor"),grid=$("viewGrid"),tag=$("viewTag");
+  var say=$("viewSay"),note=$("viewNote");
+  function block(tx,ty,tz){
+    var S=52,hs=S/2;
+    var faces=[
+      ["rotateY(0deg) translateZ("+hs+"px)","#6FA8FF"],
+      ["rotateY(180deg) translateZ("+hs+"px)","#3F6FA8"],
+      ["rotateY(90deg) translateZ("+hs+"px)","#5A8FD9"],
+      ["rotateY(-90deg) translateZ("+hs+"px)","#4A7FC4"],
+      ["rotateX(90deg) translateZ("+hs+"px)","#8FC0FF"],
+      ["rotateX(-90deg) translateZ("+hs+"px)","#2E5585"]
+    ];
+    var h="";
+    faces.forEach(function(f){
+      h+='<div class="cb3d" style="width:'+S+'px;height:'+S+'px;transform:translate3d('+tx+'px,'+ty+'px,'+tz+'px) '+f[0]+';background:'+f[1]+'"></div>';
+    });
+    return h;
+  }
+  solid.innerHTML=block(-140,0,0)+block(-84,0,0)+block(-84,-56,0);
+  initRotor("solid3dRotor");
+  var views={
+    front:{cols:2,rows:2,fill:[[1,0],[0,1],[1,1]],tag:"主视图 · 正面看",say:"正面看：像一截小楼梯",note:"后排的方块被挡住，不画"},
+    left:{cols:1,rows:1,fill:[[0,0]],tag:"左视图 · 左面看",say:"左面看：只有 1 个格子",note:"另外两个方块在右侧，被挡住"},
+    top:{cols:2,rows:2,fill:[[0,0],[1,0],[1,1]],tag:"俯视图 · 上面看",say:"上面看：L 形",note:"从正上方俯视，露出 3 个顶面"}
+  };
+  var GX=330,GY=90,CS=46,GAP=3;
+  function renderGrid(k){
+    var v=views[k];
+    var h="";
+    for(var r=0;r<v.rows;r++){
+      for(var c=0;c<v.cols;c++){
+        var x=GX+c*(CS+GAP),y=GY+r*(CS+GAP);
+        var on=v.fill.some(function(f){return f[0]===c&&f[1]===r});
+        h+='<rect x="'+x+'" y="'+y+'" width="'+CS+'" height="'+CS+'" rx="6" fill="'+(on?"#4CC38A":"#243042")+'" stroke="#5A6A80" stroke-width="2"/>';
+      }
+    }
+    grid.innerHTML=h;
+    tag.textContent=v.tag;
+    say.textContent=v.say;
+    note.textContent=v.note;
+  }
+  qsa("[data-v]",document.getElementById("view-4-5")).forEach(function(b){
+    b.addEventListener("click",function(){renderGrid(b.getAttribute("data-v"))});
+  });
+  renderGrid("front");
+})();
+})();
+</script>
+</body>
+</html>
