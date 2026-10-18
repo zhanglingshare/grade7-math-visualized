@@ -303,6 +303,12 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   <a class="nav-item" href="#view-4-3"><span class="nk">4.3</span>余角 · 补角</a>
   <a class="nav-item" href="#view-4-4"><span class="nk">4.4</span>正方体展开图</a>
   <a class="nav-item" href="#view-4-5"><span class="nk">4.5</span>三视图 · 立体看平面</a>
+  <a class="nav-item" href="#view-4-6"><span class="nk">4.6</span>线段双中点 · 动中不变</a>
+  <a class="nav-item" href="#view-4-7"><span class="nk">4.7</span>角的双角平分线</a>
+  <div class="nav-group">七下预习 · 平行线与变换</div>
+  <a class="nav-item" href="#view-5-1"><span class="nk">5.1</span>平行线拐点 · 猪蹄铅笔头</a>
+  <a class="nav-item" href="#view-5-2"><span class="nk">5.2</span>纸条折叠 · 翻折求角</a>
+  <a class="nav-item" href="#view-5-3"><span class="nk">5.3</span>平行线 + 角平分线</a>
 </aside>
 
 <main>
@@ -353,6 +359,18 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
       <div style="font-size:18px;font-weight:900;margin:3px 0 4px">一元一次方程</div>
       <div style="font-size:13px;color:var(--ink-soft);line-height:1.6">拿天平秤一秤，x 是多少自己就出来了</div>
       <div style="font-size:13px;font-weight:800;color:var(--ok);margin-top:8px">去看看 →</div>
+    </a>
+    <a class="nav-card" href="#view-4-6">
+      <div style="font-size:12px;font-weight:800;color:#9F59C9;letter-spacing:1px">第4章 · 新模型</div>
+      <div style="font-size:18px;font-weight:900;margin:3px 0 4px">双中点 · 双角平分线</div>
+      <div style="font-size:13px;color:var(--ink-soft);line-height:1.6">拖动点 C、转动射线，发现"动中不变"的规律</div>
+      <div style="font-size:13px;font-weight:800;color:#9F59C9;margin-top:8px">去看看 →</div>
+    </a>
+    <a class="nav-card" href="#view-5-1">
+      <div style="font-size:12px;font-weight:800;color:var(--accent);letter-spacing:1px">七下预习 · 新章</div>
+      <div style="font-size:18px;font-weight:900;margin:3px 0 4px">平行线 · 折叠变换</div>
+      <div style="font-size:13px;color:var(--ink-soft);line-height:1.6">猪蹄铅笔头、纸条折叠、角平分线垂直，拐点题一作辅助线就懂</div>
+      <div style="font-size:13px;font-weight:800;color:var(--accent);margin-top:8px">去看看 →</div>
     </a>
   </div>
   <div class="learned">
@@ -1298,6 +1316,293 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
 
 <!-- VIEWS -->
 
+<!-- ===== 视图：4.6 线段双中点 ===== -->
+<section class="view" id="view-4-6">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.6 线段双中点：动中不变</h2>
+    <p class="lead">线段 AB 上有个点 C，M 是 AC 的中点，N 是 BC 的中点。<strong>把 C 拖来拖去，MN 始终是 AB 的一半</strong>——这就是"动中不变"。</p>
+    <div class="rule">MN = ½AC + ½BC = ½(AC+BC) = ½AB</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖 · 找不变</div>
+    <div class="stage-title">拖动紫色点 C，盯着黄色线段 MN 看，它变不变？</div>
+    <div class="svg-wrap">
+      <svg id="segSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="线段双中点拖动演示">
+        <rect width="640" height="320" fill="#16202E"/>
+        <line id="segBase" x1="110" y1="200" x2="530" y2="200" stroke="#3A485C" stroke-width="8" stroke-linecap="round"/>
+        <line id="segMN" x1="0" y1="200" x2="0" y2="200" stroke="#FFC857" stroke-width="10" stroke-linecap="round" opacity="0.95"/>
+        <line id="segAM" x1="110" y1="200" x2="0" y2="200" stroke="#4CC38A" stroke-width="5" stroke-linecap="round"/>
+        <line id="segMC" x1="0" y1="200" x2="0" y2="200" stroke="#4CC38A" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+        <line id="segCN" x1="0" y1="200" x2="0" y2="200" stroke="#FF7A6B" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+        <line id="segNB" x1="0" y1="200" x2="530" y2="200" stroke="#FF7A6B" stroke-width="5" stroke-linecap="round"/>
+        <circle id="ptM" cx="0" cy="200" r="7" fill="#4CC38A" stroke="#0F1A26" stroke-width="3"/>
+        <circle id="ptN" cx="0" cy="200" r="7" fill="#FF7A6B" stroke="#0F1A26" stroke-width="3"/>
+        <circle id="ptC" cx="0" cy="200" r="11" fill="#C792EA" stroke="#fff" stroke-width="3" style="cursor:grab"/>
+        <text id="lbA" x="110" y="240" text-anchor="middle" fill="#9FB2C9" font-size="18" font-weight="900">A</text>
+        <text id="lbB" x="530" y="240" text-anchor="middle" fill="#9FB2C9" font-size="18" font-weight="900">B</text>
+        <text id="lbC" x="0" y="170" text-anchor="middle" fill="#C792EA" font-size="18" font-weight="900">C</text>
+        <text id="lbM" x="0" y="240" text-anchor="middle" fill="#4CC38A" font-size="17" font-weight="900">M</text>
+        <text id="lbN" x="0" y="240" text-anchor="middle" fill="#FF7A6B" font-size="17" font-weight="900">N</text>
+        <text id="segACt" x="0" y="130" text-anchor="middle" fill="#4CC38A" font-size="17" font-weight="900"></text>
+        <text id="segCBt" x="0" y="130" text-anchor="middle" fill="#FF7A6B" font-size="17" font-weight="900"></text>
+        <text id="segMNt" x="0" y="90" text-anchor="middle" fill="#FFC857" font-size="20" font-weight="900"></text>
+        <text x="320" y="288" text-anchor="middle" fill="#9FB2C9" font-size="15" font-weight="700">设定 AB = 20 个单位（拖动 C 或滑下方滑块）</text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>点 C 的位置</label>
+      <input type="range" id="segRange" min="10" max="90" value="40" step="1">
+      <output id="segOut">40%</output>
+    </div>
+    <div class="ctrl">
+      <span class="btn" style="pointer-events:none;background:none;border-style:dashed;color:#B7C5D8">先猜一猜：拖动 C 时 MN 会怎样？</span>
+    </div>
+    <div class="ctrl">
+      <button class="btn" data-guess="long">变长</button>
+      <button class="btn" data-guess="short">变短</button>
+      <button class="btn primary" data-guess="same">不变</button>
+    </div>
+    <div class="caption"><span class="big" id="segSay">拖一拖点 C，看看 MN 怎么变</span><span class="muted" id="segNote">M 平分 AC · N 平分 BC</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>M 是 AC 中点 → AM = MC = ½AC；N 是 BC 中点 → CN = NB = ½BC</li>
+      <li>MN = MC + CN = ½AC + ½BC = ½(AC + BC)，而 AC + BC = AB</li>
+      <li>所以无论 C 在哪里，<strong>MN 永远等于 AB 的一半</strong>，与 C 的位置无关</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>线段 AB 长 24，C 是 AB 上一点，M、N 分别是 AC、BC 的中点，MN 长多少？</p>
+    <div class="q-hint">MN = ½AB = 24 ÷ 2 = 12，不用知道 C 在哪。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：4.7 角的双角平分线 ===== -->
+<section class="view" id="view-4-7">
+  <div class="view-head">
+    <div class="crumb">第4章 · 几何图形初步</div>
+    <h2>4.7 角的双角平分线：和线段一模一样</h2>
+    <p class="lead">∠AOB 里有一条射线 OC，OM 平分 ∠AOC，ON 平分 ∠COB。<strong>把 OC 转来转去，∠MON 始终是 ∠AOB 的一半</strong>——和线段双中点是同一个道理。</p>
+    <div class="rule">∠MON = ½∠AOC + ½∠COB = ½∠AOB</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">转一转 · 找不变</div>
+    <div class="stage-title">拖动射线 OC，盯着绿色与橙色平分线的夹角</div>
+    <div class="svg-wrap">
+      <svg id="bisSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="角的双角平分线演示">
+        <rect width="640" height="320" fill="#16202E"/>
+        <path id="bisArcA" fill="rgba(76,195,138,.22)"/>
+        <path id="bisArcB" fill="rgba(255,122,107,.22)"/>
+        <line id="rayOA" x1="0" y1="0" x2="0" y2="0" stroke="#B7C5D8" stroke-width="6" stroke-linecap="round"/>
+        <line id="rayOB" x1="0" y1="0" x2="0" y2="0" stroke="#B7C5D8" stroke-width="6" stroke-linecap="round"/>
+        <line id="rayOC" x1="0" y1="0" x2="0" y2="0" stroke="#C792EA" stroke-width="6" stroke-linecap="round" style="cursor:grab"/>
+        <line id="rayOM" x1="0" y1="0" x2="0" y2="0" stroke="#4CC38A" stroke-width="4" stroke-dasharray="8 6"/>
+        <line id="rayON" x1="0" y1="0" x2="0" y2="0" stroke="#FF7A6B" stroke-width="4" stroke-dasharray="8 6"/>
+        <circle cx="0" cy="0" r="0" fill="transparent"/>
+        <text id="bisAOBt" x="320" y="48" text-anchor="middle" fill="#FFE9A8" font-size="24" font-weight="900"></text>
+        <text id="bisMONt" x="320" y="82" text-anchor="middle" fill="#FFC857" font-size="18" font-weight="900"></text>
+        <text id="bisAOCt" x="0" y="0" fill="#4CC38A" font-size="16" font-weight="900"></text>
+        <text id="bisCOBt" x="0" y="0" fill="#FF7A6B" font-size="16" font-weight="900"></text>
+        <text id="lbO" x="0" y="0" fill="#9FB2C9" font-size="18" font-weight="900"></text>
+        <text x="320" y="300" text-anchor="middle" fill="#9FB2C9" font-size="15" font-weight="700">拖动紫色射线 OC · 或滑下方滑块</text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>OC 的位置</label>
+      <input type="range" id="bisRange" min="12" max="88" value="45" step="1">
+      <output id="bisOut">45%</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn" data-big="90">大角 90°</button>
+      <button class="btn primary" data-big="120">大角 120°</button>
+      <button class="btn" data-big="150">大角 150°</button>
+    </div>
+    <div class="caption"><span class="big" id="bisSay">转一转 OC，看看 ∠MON 怎么变</span><span class="muted" id="bisNote">OM 平分 ∠AOC · ON 平分 ∠COB</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>OM 平分 ∠AOC → ∠MOC = ½∠AOC；ON 平分 ∠COB → ∠CON = ½∠COB</li>
+      <li>∠MON = ∠MOC + ∠CON = ½∠AOC + ½∠COB = ½∠AOB</li>
+      <li>无论 OC 转到哪里，<strong>∠MON 永远是大角的一半</strong></li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>∠AOB = 100°，OC 在它内部，OM、ON 分别平分 ∠AOC、∠COB，∠MON 是多少度？</p>
+    <div class="q-hint">∠MON = ½∠AOB = 100 ÷ 2 = 50°，不用知道 OC 的位置。</div>
+  </div>
+</section>
+
+<!-- VIEWS2 -->
+
+<!-- ===== 视图：5.1 平行线拐点 ===== -->
+<section class="view" id="view-5-1">
+  <div class="view-head">
+    <div class="crumb">七下预习 · 平行线与变换</div>
+    <h2>5.1 平行线拐点：猪蹄与铅笔头</h2>
+    <p class="lead">两条平行线之间有一条"折了一下"的线，折点 P 在中间。<strong>过 P 作一条辅助平行线，答案立刻出现</strong>——秘诀就是这一条辅助线。</p>
+    <div class="rule">猪蹄：∠P = ∠A + ∠B · 铅笔头：∠A + ∠B + ∠P = 360°</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">拖一拖 · 作辅助线</div>
+    <div class="stage-title">拖动折点 P，看三个角怎么变；再点亮辅助线看为什么</div>
+    <div class="svg-wrap">
+      <svg id="turnSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="平行线拐点模型">
+        <rect width="640" height="320" fill="#16202E"/>
+        <line x1="60" y1="70" x2="580" y2="70" stroke="#B7C5D8" stroke-width="5"/>
+        <line x1="60" y1="250" x2="580" y2="250" stroke="#B7C5D8" stroke-width="5"/>
+        <text x="60" y="58" fill="#9FB2C9" font-size="16" font-weight="800">l₁</text>
+        <text x="60" y="274" fill="#9FB2C9" font-size="16" font-weight="800">l₂</text>
+        <line id="auxLine" x1="120" y1="0" x2="520" y2="0" stroke="#FFC857" stroke-width="3" stroke-dasharray="9 7" opacity="0"/>
+        <path id="turnPath" fill="none" stroke="#4CC38A" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+        <g id="turnArcs"></g>
+        <circle id="ptTurn" cx="0" cy="0" r="12" fill="#C792EA" stroke="#fff" stroke-width="3" style="cursor:grab"/>
+        <text id="turnA" x="0" y="0" fill="#4CC38A" font-size="17" font-weight="900"></text>
+        <text id="turnB" x="0" y="0" fill="#6FA8FF" font-size="17" font-weight="900"></text>
+        <text id="turnP" x="0" y="0" fill="#FFC857" font-size="19" font-weight="900"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>折点 P 上下</label>
+      <input type="range" id="turnRange" min="95" max="225" value="160" step="1">
+      <output id="turnOut">中间</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" data-turn="hoof">猪蹄模型（M 型）</button>
+      <button class="btn" data-turn="pencil">铅笔头模型</button>
+      <button class="btn" id="auxBtn">点亮辅助线</button>
+    </div>
+    <div class="caption"><span class="big" id="turnSay">猪蹄：∠P = ∠A + ∠B</span><span class="muted" id="turnNote">过 P 作 l₁ 的平行线，内错角相等</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>猪蹄模型：P 向一侧凸出，∠P = ∠A + ∠B（过 P 作平行线，内错角相等）</li>
+      <li>铅笔头模型：P 向另一侧凸出，∠A + ∠B + ∠P = 360°（两组同旁内角互补）</li>
+      <li>拐点题的万能钥匙：<strong>过折点作一条平行线</strong></li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>猪蹄模型中，∠A = 35°，∠B = 40°，折点 P 的角是多少度？</p>
+    <div class="q-hint">∠P = 35° + 40° = 75°。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：5.2 纸条折叠 ===== -->
+<section class="view" id="view-5-2">
+  <div class="view-head">
+    <div class="crumb">七下预习 · 平行线与变换</div>
+    <h2>5.2 纸条折叠：折痕就是角平分线</h2>
+    <p class="lead">把长方形纸条沿折痕 EF 折过去，<strong>折前折后的角完全相等</strong>，所以折痕 EF 是角平分线：它和原边夹角 γ，和折后边夹角也 γ，于是新角 = 2γ。</p>
+    <div class="rule">折叠前后图形全等 · 折痕平分折前后两边的夹角</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">折一折 · 看角度</div>
+    <div class="stage-title">改变折痕角度，折叠后形成的角始终是它的两倍</div>
+    <div class="svg-wrap">
+      <svg id="foldSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="长方形纸条折叠">
+        <rect width="640" height="320" fill="#16202E"/>
+        <polygon id="foldOrig" fill="rgba(91,141,239,.12)" stroke="#5A6A80" stroke-width="3" stroke-dasharray="4 0"/>
+        <polygon id="foldFolded" fill="rgba(255,200,87,.30)" stroke="#FFC857" stroke-width="4"/>
+        <line id="foldCrease" x1="0" y1="0" x2="0" y2="0" stroke="#F26B3A" stroke-width="4" stroke-dasharray="10 7"/>
+        <line id="foldLeftEdge" x1="0" y1="0" x2="0" y2="0" stroke="#B7C5D8" stroke-width="3"/>
+        <g id="foldArcs"></g>
+        <text id="foldE" x="0" y="0" fill="#F26B3A" font-size="17" font-weight="900">E</text>
+        <text id="foldF" x="0" y="0" fill="#F26B3A" font-size="17" font-weight="900">F</text>
+        <text id="foldG1" x="0" y="0" fill="#4CC38A" font-size="18" font-weight="900"></text>
+        <text id="foldG2" x="0" y="0" fill="#FFC857" font-size="18" font-weight="900"></text>
+        <text id="foldTotal" x="0" y="0" fill="#FFE9A8" font-size="22" font-weight="900"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>折痕与底边夹角 γ</label>
+      <input type="range" id="foldRange" min="52" max="82" value="65" step="1">
+      <output id="foldOut">65°</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" id="foldBtn">折一下 / 展开</button>
+    </div>
+    <div class="caption"><span class="big" id="foldSay">γ = 65°，折后新角 = 2γ = 130°</span><span class="muted" id="foldNote">折叠后 γ 与 γ 拼在一起</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>折叠（翻折）前后的图形全等，对应角相等、对应边相等</li>
+      <li>折痕是折前边与折后边夹角的角平分线</li>
+      <li>折痕与原边夹角 γ，折后新边与原边夹角就是 2γ</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>长方形纸条折叠后，折痕与原边夹角是 55°，折后新边与原边的夹角是多少度？</p>
+    <div class="q-hint">2 × 55° = 110°。</div>
+  </div>
+</section>
+
+<!-- ===== 视图：5.3 平行线与角平分线 ===== -->
+<section class="view" id="view-5-3">
+  <div class="view-head">
+    <div class="crumb">七下预习 · 平行线与变换</div>
+    <h2>5.3 平行线遇上角平分线</h2>
+    <p class="lead">平行线本身就有"同位角相等、同旁内角互补"；再加上角平分线，会出现一个神奇结论：<strong>同旁内角的两条平分线，永远互相垂直</strong>。</p>
+    <div class="rule">½θ + ½(180°−θ) = 90° · 两条平分线垂直</div>
+  </div>
+  <div class="stage">
+    <div class="stage-tag">变一变 · 验一验</div>
+    <div class="stage-title">转动截线，两个半角在变，平分线的夹角却永远是 90°</div>
+    <div class="svg-wrap">
+      <svg id="plBisSvg" class="canvas" viewBox="0 0 640 320" role="img" aria-label="平行线角平分线垂直">
+        <rect width="640" height="320" fill="#16202E"/>
+        <line x1="60" y1="80" x2="580" y2="80" stroke="#B7C5D8" stroke-width="5"/>
+        <line x1="60" y1="240" x2="580" y2="240" stroke="#B7C5D8" stroke-width="5"/>
+        <text x="60" y="68" fill="#9FB2C9" font-size="16" font-weight="800">l₁</text>
+        <text x="60" y="264" fill="#9FB2C9" font-size="16" font-weight="800">l₂</text>
+        <line id="plTrans" x1="0" y1="0" x2="0" y2="0" stroke="#B7C5D8" stroke-width="5"/>
+        <path id="plArc1" fill="rgba(76,195,138,.25)"/>
+        <path id="plArc2" fill="rgba(111,168,255,.25)"/>
+        <line id="plBis1" x1="0" y1="0" x2="0" y2="0" stroke="#4CC38A" stroke-width="4" stroke-dasharray="8 6"/>
+        <line id="plBis2" x1="0" y1="0" x2="0" y2="0" stroke="#6FA8FF" stroke-width="4" stroke-dasharray="8 6"/>
+        <g id="plRightMark"></g>
+        <text id="plE" x="0" y="0" fill="#9FB2C9" font-size="17" font-weight="900">E</text>
+        <text id="plF" x="0" y="0" fill="#9FB2C9" font-size="17" font-weight="900">F</text>
+        <text id="plG" x="0" y="0" fill="#FFC857" font-size="17" font-weight="900">G</text>
+        <text id="plHalf1" x="0" y="0" fill="#4CC38A" font-size="16" font-weight="900"></text>
+        <text id="plHalf2" x="0" y="0" fill="#6FA8FF" font-size="16" font-weight="900"></text>
+        <text id="plAng" x="460" y="60" text-anchor="middle" fill="#FFE9A8" font-size="20" font-weight="900"></text>
+      </svg>
+    </div>
+    <div class="slider-row">
+      <label>截线倾斜</label>
+      <input type="range" id="plRange" min="25" max="70" value="45" step="1">
+      <output id="plOut">45°</output>
+    </div>
+    <div class="ctrl">
+      <button class="btn primary" id="plProof">为什么恒为 90°？</button>
+    </div>
+    <div class="caption"><span class="big" id="plSay">两个半角相加恒等于 90°</span><span class="muted" id="plNote">同旁内角互补，平分后各取一半</span></div>
+  </div>
+  <div class="learned">
+    <div class="q-head">这一节学到了</div>
+    <ul>
+      <li>两直线平行，同旁内角互补：θ + (180°−θ) = 180°</li>
+      <li>各取一半：½θ + ½(180°−θ) = ½ × 180° = 90°</li>
+      <li>所以同旁内角的两条角平分线互相垂直，与截线倾斜无关</li>
+    </ul>
+  </div>
+  <div class="quiz">
+    <div class="q-head">小思考</div>
+    <p>两条平行线被第三条直线所截，一组同旁内角的角平分线交于 G，∠EGF 是多少度？</p>
+    <div class="q-hint">恒为 90°，所以两平分线垂直——不用给具体角度也能算。</div>
+  </div>
+</section>
+
+<!-- VIEWS3 -->
+
 </main>
 
 <footer class="footer">
@@ -1339,7 +1644,7 @@ function goTo(hash){
   updateChip(id);
   if(window.__animHub){window.__animHub(id)}
 }
-var chipMap={1:"第1章 · 有理数",2:"第2章 · 整式的加减",3:"第3章 · 一元一次方程",4:"第4章 · 几何图形初步"};
+var chipMap={1:"第1章 · 有理数",2:"第2章 · 整式的加减",3:"第3章 · 一元一次方程",4:"第4章 · 几何图形初步",5:"七下预习 · 平行线与变换"};
 function updateChip(id){
   var k=id.replace("view-","").split("-")[0];
   var el=$("chapterChip");
@@ -2517,6 +2822,315 @@ function renderBalance(beam,trayL,trayR,xArrL,nArrL,nArrR){
   });
   renderGrid("front");
 })();
+
+/* ===== 4.6 线段双中点 ===== */
+(function(){
+  var svg=$("segSvg");if(!svg)return;
+  var AX=110,BX=530,Y=200,LEN=20;
+  var lineMN=$("segMN"),lineAM=$("segAM"),lineMC=$("segMC"),lineCN=$("segCN"),lineNB=$("segNB");
+  var ptM=$("ptM"),ptN=$("ptN"),ptC=$("ptC");
+  var lbC=$("lbC"),lbM=$("lbM"),lbN=$("lbN"),tAC=$("segACt"),tCB=$("segCBt"),tMN=$("segMNt");
+  var range=$("segRange"),out=$("segOut"),say=$("segSay"),note=$("segNote");
+  var guessed=false;
+  function fmt(x){var v=Math.round(x*10)/10;return Number.isInteger(v)?String(v):String(v)}
+  function setT(t){
+    t=Math.max(.15,Math.min(.85,t));
+    var Cx=AX+(BX-AX)*t;
+    var Mx=(AX+Cx)/2,Nx=(Cx+BX)/2;
+    ptC.setAttribute("cx",Cx);ptM.setAttribute("cx",Mx);ptN.setAttribute("cx",Nx);
+    lbC.setAttribute("x",Cx);lbM.setAttribute("x",Mx);lbN.setAttribute("x",Nx);
+    lineAM.setAttribute("x1",AX);lineAM.setAttribute("x2",Mx);
+    lineNB.setAttribute("x1",Nx);lineNB.setAttribute("x2",BX);
+    lineMC.setAttribute("x1",Mx);lineMC.setAttribute("x2",Mx);
+    lineCN.setAttribute("x1",Nx);lineCN.setAttribute("x2",Nx);
+    lineMN.setAttribute("x1",Mx);lineMN.setAttribute("x2",Nx);
+    var ac=LEN*t,cb=LEN-ac,am=ac/2,cn=cb/2,mn=am+cn;
+    tAC.setAttribute("x",(AX+Cx)/2);tAC.textContent="AC = "+fmt(ac)+"（AM=MC="+fmt(am)+"）";
+    tCB.setAttribute("x",(Cx+BX)/2);tCB.textContent="CB = "+fmt(cb)+"（CN=NB="+fmt(cn)+"）";
+    tMN.setAttribute("x",(Mx+Nx)/2);tMN.textContent="MN = "+fmt(mn)+"（恒定）";
+    lbM.setAttribute("opacity",Mx-AX<24?"0":"1");
+    lbN.setAttribute("opacity",BX-Nx<24?"0":"1");
+    range.value=Math.round(t*100);
+    out.textContent=Math.round(t*100)+"%";
+    if(guessed){
+      say.textContent="看到了吗？MN 始终 = "+fmt(mn)+"，正好是 AB（20）的一半";
+    }else{
+      say.textContent="MN = "+fmt(mn)+"，继续拖动 C，盯住它";
+    }
+    note.textContent="MN = MC + CN = "+fmt(am)+" + "+fmt(cn)+" = ½AC + ½CB = ½AB";
+  }
+  function eventT(e){
+    var rect=svg.getBoundingClientRect();
+    var x=(e.clientX-rect.left)/rect.width*640;
+    return (x-AX)/(BX-AX);
+  }
+  var drag=false;
+  svg.addEventListener("pointerdown",function(e){drag=true;try{svg.setPointerCapture(e.pointerId)}catch(err){}setT(eventT(e))});
+  svg.addEventListener("pointermove",function(e){if(drag)setT(eventT(e))});
+  function up(){drag=false}
+  svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
+  range.addEventListener("input",function(){setT(parseInt(range.value,10)/100)});
+  qsa("[data-guess]",document.getElementById("view-4-6")).forEach(function(b){
+    b.addEventListener("click",function(){
+      guessed=true;
+      var k=b.getAttribute("data-guess");
+      if(k==="same"){
+        say.textContent="答对了！MN 恒等于 ½AB，C 怎么动都不变";
+        note.textContent="这就是“动中不变”：结论不依赖 C 的位置";
+      }else{
+        say.textContent="再拖拖看——MN 其实一直没变，始终是 AB 的一半";
+        note.textContent="变长/变短只是错觉，MN = ½AC + ½CB = ½AB";
+      }
+    });
+  });
+  setT(.4);
+})();
+
+/* ===== 4.7 角的双角平分线 ===== */
+(function(){
+  var svg=$("bisSvg");if(!svg)return;
+  var OX=320,OY=250,RR=210;
+  var rOA=$("rayOA"),rOB=$("rayOB"),rOC=$("rayOC"),rOM=$("rayOM"),rON=$("rayON");
+  var arcA=$("bisArcA"),arcB=$("bisArcB");
+  var tAOB=$("bisAOBt"),tMON=$("bisMONt"),tAOC=$("bisAOCt"),tCOB=$("bisCOBt"),lbO=$("lbO");
+  var range=$("bisRange"),out=$("bisOut"),say=$("bisSay"),note=$("bisNote");
+  var big=120,p=.45;
+  function pt(r,deg){var a=deg*Math.PI/180;return [OX+r*Math.cos(a),OY+r*Math.sin(a)]}
+  function arcD(r,d0,d1){
+    var p0=pt(r,d0),p1=pt(r,d1);
+    var large=Math.abs(d1-d0)>180?1:0,sweep=d1>d0?1:0;
+    return "M"+OX+" "+OY+" L"+p0[0].toFixed(1)+" "+p0[1].toFixed(1)+" A"+r+" "+r+" 0 "+large+" "+sweep+" "+p1[0].toFixed(1)+" "+p1[1].toFixed(1)+" Z";
+  }
+  function render(){
+    var thA=180,thB=180+big,thC=180+big*p;
+    var thM=(thA+thC)/2,thN=(thC+thB)/2;
+    function setRay(line,deg,r){var q=pt(r,deg);line.setAttribute("x2",q[0].toFixed(1));line.setAttribute("y2",q[1].toFixed(1))}
+    rOA.setAttribute("x1",OX);rOA.setAttribute("y1",OY);rOB.setAttribute("x1",OX);rOB.setAttribute("y1",OY);
+    rOC.setAttribute("x1",OX);rOC.setAttribute("y1",OY);rOM.setAttribute("x1",OX);rOM.setAttribute("y1",OY);rON.setAttribute("x1",OX);rON.setAttribute("y1",OY);
+    setRay(rOA,thA,RR);setRay(rOB,thB,RR);setRay(rOC,thC,RR);setRay(rOM,thM,RR-14);setRay(rON,thN,RR-14);
+    arcA.setAttribute("d",arcD(74,thA,thC));
+    arcB.setAttribute("d",arcD(74,thC,thB));
+    var aoc=Math.round(big*p),cob=Math.round(big-aoc),mon=big/2;
+    var q1=pt(66,thM),q2=pt(66,thN);
+    tAOC.setAttribute("x",q1[0].toFixed(1));tAOC.setAttribute("y",q1[1].toFixed(1));tAOC.textContent=aoc+"°";
+    tCOB.setAttribute("x",q2[0].toFixed(1));tCOB.setAttribute("y",q2[1].toFixed(1));tCOB.textContent=cob+"°";
+    tAOB.textContent="∠AOB = "+big+"°";
+    tMON.textContent="∠MON = "+mon+"°（恒定）";
+    lbO.setAttribute("x",OX-22);lbO.setAttribute("y",OY+30);lbO.textContent="O";
+    range.value=Math.round(p*100);out.textContent=Math.round(p*100)+"%";
+    say.textContent="∠MON = "+aoc+"°÷2 + "+cob+"°÷2 = "+mon+"°";
+    note.textContent="∠AOC + ∠COB = "+big+"°，各取一半再相加 = "+mon+"°";
+  }
+  function eventP(e){
+    var rect=svg.getBoundingClientRect();
+    var x=(e.clientX-rect.left)/rect.width*640,y=(e.clientY-rect.top)/rect.height*320;
+    var d=Math.atan2(y-OY,x-OX)*180/Math.PI;if(d<0)d+=360;
+    return (d-180)/big;
+  }
+  var drag=false;
+  svg.addEventListener("pointerdown",function(e){drag=true;try{svg.setPointerCapture(e.pointerId)}catch(err){}var np=eventP(e);if(np>.05&&np<.95){p=Math.max(.12,Math.min(.88,np));render()}});
+  svg.addEventListener("pointermove",function(e){if(drag){var np=eventP(e);p=Math.max(.12,Math.min(.88,np));render()}});
+  function up(){drag=false}
+  svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
+  range.addEventListener("input",function(){p=parseInt(range.value,10)/100;render()});
+  qsa("[data-big]",document.getElementById("view-4-7")).forEach(function(b){
+    b.addEventListener("click",function(){
+      big=parseInt(b.getAttribute("data-big"),10);
+      qsa("[data-big]",document.getElementById("view-4-7")).forEach(function(x){x.classList.remove("primary")});
+      b.classList.add("primary");
+      render();
+    });
+  });
+  render();
+})();
+
+/* ===== 5.1 平行线拐点 ===== */
+(function(){
+  var svg=$("turnSvg");if(!svg)return;
+  var path=$("turnPath"),aux=$("auxLine"),arcs=$("turnArcs"),ptP=$("ptTurn");
+  var tA=$("turnA"),tB=$("turnB"),tP=$("turnP");
+  var range=$("turnRange"),out=$("turnOut"),say=$("turnSay"),note=$("turnNote");
+  var mode="hoof",py=160,auxOn=false;
+  var Y1=70,Y2=250;
+  function pt(cx,cy,r,deg){var a=deg*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
+  function arcD(cx,cy,r,d0,d1){
+    var p0=pt(cx,cy,r,d0),p1=pt(cx,cy,r,d1);
+    var large=Math.abs(d1-d0)>180?1:0,sweep=d1>d0?1:0;
+    return "M"+cx+" "+cy+" L"+p0[0].toFixed(1)+" "+p0[1].toFixed(1)+" A"+r+" "+r+" 0 "+large+" "+sweep+" "+p1[0].toFixed(1)+" "+p1[1].toFixed(1)+" Z";
+  }
+  function render(){
+    var A,B,P,axX=140,bxX=140,pxX=440;
+    if(mode==="hoof"){A={x:140,y:Y1};B={x:140,y:Y2};P={x:440,y:py}}
+    else{A={x:500,y:Y1};B={x:500,y:Y2};P={x:200,y:py}}
+    path.setAttribute("d","M"+A.x+" "+A.y+" L"+P.x+" "+P.y+" L"+B.x+" "+B.y);
+    ptP.setAttribute("cx",P.x);ptP.setAttribute("cy",P.y);
+    aux.setAttribute("x1",120);aux.setAttribute("x2",520);aux.setAttribute("y1",py);aux.setAttribute("y2",py);
+    aux.setAttribute("opacity",auxOn?"1":"0");
+    var h="";
+    var a1=Math.atan2(py-Y1,Math.abs(P.x-A.x))*180/Math.PI;
+    var a2=Math.atan2(Y2-py,Math.abs(P.x-B.x))*180/Math.PI;
+    a1=Math.round(a1*10)/10;a2=Math.round(a2*10)/10;
+    if(mode==="hoof"){
+      var ap=Math.round((a1+a2)*10)/10;
+      h+='<path d="'+arcD(A.x,A.y,34,0,a1)+'" fill="rgba(76,195,138,.35)"/>';
+      h+='<path d="'+arcD(B.x,B.y,34,-a2,0)+'" fill="rgba(111,168,255,.35)"/>';
+      h+='<path d="'+arcD(P.x,P.y,36,180-a2,180+a1)+'" fill="rgba(255,200,87,.4)"/>';
+      var qA=pt(A.x,A.y,50,a1/2),qB=pt(B.x,B.y,50,-a2/2);
+      tA.setAttribute("x",qA[0].toFixed(1));tA.setAttribute("y",qA[1].toFixed(1));tA.textContent="∠A "+a1+"°";
+      tB.setAttribute("x",qB[0].toFixed(1));tB.setAttribute("y",qB[1].toFixed(1));tB.textContent="∠B "+a2+"°";
+      tP.setAttribute("text-anchor","end");tP.setAttribute("x",P.x-32);tP.setAttribute("y",P.y-18);tP.textContent="∠P "+ap+"°";
+      say.textContent="∠P = "+a1+"° + "+a2+"° = "+ap+"°";
+      note.textContent=auxOn?"辅助线把 ∠P 分成两个角，分别与 ∠A、∠B 是内错角（相等）":"过 P 作一条平行于 l₁ 的辅助线，答案就出来了";
+    }else{
+      var iA=Math.round((180-a1)*10)/10,iB=Math.round((180-a2)*10)/10,iP=Math.round((a1+a2)*10)/10;
+      h+='<path d="'+arcD(A.x,A.y,36,0,180-a1)+'" fill="rgba(76,195,138,.3)"/>';
+      h+='<path d="'+arcD(B.x,B.y,36,-(180-a2),0)+'" fill="rgba(111,168,255,.3)"/>';
+      h+='<path d="'+arcD(P.x,P.y,36,-a1,a2)+'" fill="rgba(255,200,87,.4)"/>';
+      var qA2=pt(A.x,A.y,52,(180-a1)/2),qB2=pt(B.x,B.y,52,-(180-a2)/2);
+      tA.setAttribute("x",qA2[0].toFixed(1));tA.setAttribute("y",qA2[1].toFixed(1));tA.textContent="∠A "+iA+"°";
+      tB.setAttribute("x",qB2[0].toFixed(1));tB.setAttribute("y",qB2[1].toFixed(1));tB.textContent="∠B "+iB+"°";
+      tP.setAttribute("text-anchor","start");tP.setAttribute("x",P.x+32);tP.setAttribute("y",P.y-18);tP.textContent="∠P "+iP+"°";
+      say.textContent=iA+"° + "+iB+"° + "+iP+"° = 360°";
+      note.textContent=auxOn?"辅助线上下各有一组同旁内角，分别互补，合起来 360°":"过 P 作平行线，两组同旁内角互补";
+    }
+    arcs.innerHTML=h;
+    range.value=Math.round(py);
+    out.textContent=(py===160)?"中间":(py<160?"偏上":"偏下");
+  }
+  function eventY(e){
+    var rect=svg.getBoundingClientRect();
+    var y=(e.clientY-rect.top)/rect.height*320;
+    return Math.max(95,Math.min(225,y));
+  }
+  var drag=false;
+  svg.addEventListener("pointerdown",function(e){drag=true;try{svg.setPointerCapture(e.pointerId)}catch(err){}py=eventY(e);render()});
+  svg.addEventListener("pointermove",function(e){if(drag){py=eventY(e);render()}});
+  function up(){drag=false}
+  svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
+  range.addEventListener("input",function(){py=parseInt(range.value,10);render()});
+  qsa("[data-turn]",document.getElementById("view-5-1")).forEach(function(b){
+    b.addEventListener("click",function(){
+      mode=b.getAttribute("data-turn");
+      qsa("[data-turn]",document.getElementById("view-5-1")).forEach(function(x){x.classList.remove("primary")});
+      b.classList.add("primary");
+      render();
+    });
+  });
+  $("auxBtn").addEventListener("click",function(){auxOn=!auxOn;this.textContent=auxOn?"隐藏辅助线":"点亮辅助线";render()});
+  render();
+})();
+
+/* ===== 5.2 纸条折叠 ===== */
+(function(){
+  var svg=$("foldSvg");if(!svg)return;
+  var orig=$("foldOrig"),folded=$("foldFolded"),crease=$("foldCrease"),arcs=$("foldArcs");
+  var lbE=$("foldE"),lbF=$("foldF"),g1=$("foldG1"),g2=$("foldG2"),tot=$("foldTotal");
+  var range=$("foldRange"),out=$("foldOut"),say=$("foldSay"),note=$("foldNote");
+  var fx=260,fy=196,g=65,isFolded=false;
+  var L=80,R=410,T=116,B=196;
+  function pt(cx,cy,r,deg){var a=deg*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]}
+  function arcD(cx,cy,r,d0,d1){
+    var p0=pt(cx,cy,r,d0),p1=pt(cx,cy,r,d1);
+    var large=Math.abs(d1-d0)>180?1:0,sweep=d1>d0?1:0;
+    return "M"+cx+" "+cy+" L"+p0[0].toFixed(1)+" "+p0[1].toFixed(1)+" A"+r+" "+r+" 0 "+large+" "+sweep+" "+p1[0].toFixed(1)+" "+p1[1].toFixed(1)+" Z";
+  }
+  function poly(points){return points.map(function(q){return q.x.toFixed(1)+","+q.y.toFixed(1)}).join(" ")}
+  function render(){
+    var rad=g*Math.PI/180,dx=80/Math.tan(rad);
+    var E={x:fx+dx,y:T},F={x:fx,y:fy};
+    var ux=Math.cos(rad),uy=-Math.sin(rad);
+    function reflect(P){
+      var vx=P.x-fx,vy=P.y-fy,t=vx*ux+vy*uy;
+      var hx=fx+t*ux,hy=fy+t*uy;
+      return {x:2*hx-P.x,y:2*hy-P.y};
+    }
+    var C={x:R,y:T},D={x:R,y:B};
+    var Cp=reflect(C),Dp=reflect(D);
+    orig.setAttribute("points",poly([{x:L,y:T},{x:L,y:B},{x:R,y:B},{x:R,y:T}]));
+    folded.setAttribute("points",poly([E,Cp,Dp,F]));
+    folded.setAttribute("opacity",isFolded?"1":"0");
+    crease.setAttribute("x1",F.x);crease.setAttribute("y1",F.y);
+    crease.setAttribute("x2",E.x);crease.setAttribute("y2",E.y);
+    lbE.setAttribute("x",E.x+6);lbE.setAttribute("y",T-6);
+    lbF.setAttribute("x",F.x-18);lbF.setAttribute("y",B+24);
+    var h="";
+    h+='<path d="'+arcD(F.x,F.y,28,0,-g)+'" fill="rgba(76,195,138,.35)"/>';
+    if(isFolded){
+      h+='<path d="'+arcD(F.x,F.y,28,-g,-2*g)+'" fill="rgba(255,200,87,.4)"/>';
+      h+='<path d="'+arcD(F.x,F.y,52,0,-2*g)+'" fill="none" stroke="#FFE9A8" stroke-width="2.5"/>';
+    }
+    arcs.innerHTML=h;
+    var q1=pt(F.x,F.y,20,-g/2),q2=pt(F.x,F.y,20,-1.5*g);
+    g1.setAttribute("x",q1[0].toFixed(1));g1.setAttribute("y",q1[1].toFixed(1));g1.textContent="γ";
+    g2.setAttribute("x",q2[0].toFixed(1));g2.setAttribute("y",q2[1].toFixed(1));g2.textContent=isFolded?"γ":"";
+    var qt=pt(F.x,F.y,104,-g);
+    tot.setAttribute("x",qt[0].toFixed(1));tot.setAttribute("y",qt[1].toFixed(1));
+    tot.setAttribute("style","paint-order:stroke;stroke:#16202E;stroke-width:5px;stroke-linejoin:round");
+    tot.textContent=isFolded?("2γ = "+(2*g)+"°"):"";
+    out.textContent=g+"°";range.value=g;
+    if(isFolded){
+      say.textContent="γ = "+g+"°，折后新角 = 2γ = "+(2*g)+"°";
+      note.textContent="折叠后两个 γ 完全相等，拼在一起就是 2γ";
+    }else{
+      say.textContent="折痕与底边夹角 γ = "+g+"°，点“折一下”看结果";
+      note.textContent="折叠前后角相等，折痕是角平分线";
+    }
+  }
+  range.addEventListener("input",function(){g=parseInt(range.value,10);render()});
+  $("foldBtn").addEventListener("click",function(){isFolded=!isFolded;this.textContent=isFolded?"展开纸条":"折一下 / 展开";render()});
+  render();
+})();
+
+/* ===== 5.3 平行线 + 角平分线 ===== */
+(function(){
+  var svg=$("plBisSvg");if(!svg)return;
+  var rTrans=$("plTrans"),rB1=$("plBis1"),rB2=$("plBis2"),arc1=$("plArc1"),arc2=$("plArc2");
+  var rm=$("plRightMark"),lbE=$("plE"),lbF=$("plF"),lbG=$("plG"),h1=$("plHalf1"),h2=$("plHalf2"),tAng=$("plAng");
+  var range=$("plRange"),out=$("plOut"),say=$("plSay"),note=$("plNote");
+  var Y1=80,Y2=240,CX=320,a=45,proof=false;
+  function pt(cx,cy,r,deg){var d=deg*Math.PI/180;return [cx+r*Math.cos(d),cy+r*Math.sin(d)]}
+  function arcD(cx,cy,r,d0,d1){
+    var p0=pt(cx,cy,r,d0),p1=pt(cx,cy,r,d1);
+    var large=Math.abs(d1-d0)>180?1:0,sweep=d1>d0?1:0;
+    return "M"+cx+" "+cy+" L"+p0[0].toFixed(1)+" "+p0[1].toFixed(1)+" A"+r+" "+r+" 0 "+large+" "+sweep+" "+p1[0].toFixed(1)+" "+p1[1].toFixed(1)+" Z";
+  }
+  function render(){
+    var rad=a*Math.PI/180,dx=80/Math.tan(rad);
+    var E={x:CX+dx,y:Y1},F={x:CX-dx,y:Y2};
+    var dUp={x:Math.cos(rad),y:-Math.sin(rad)};
+    var top={x:E.x+dUp.x*44,y:E.y+dUp.y*44},bot={x:F.x-dUp.x*44,y:F.y-dUp.y*44};
+    rTrans.setAttribute("x1",bot.x);rTrans.setAttribute("y1",bot.y);
+    rTrans.setAttribute("x2",top.x);rTrans.setAttribute("y2",top.y);
+    var d1=(180-a)/2,d2=-a/2;
+    var u1=pt(0,0,1,d1),u2=pt(0,0,1,d2);
+    var ex=F.x-E.x,ey=F.y-E.y;
+    var det=u1[0]*(-u2[1])-(-u2[0])*u1[1];
+    var t=((ex*(-u2[1])-(-u2[0])*ey)/det);
+    var G={x:E.x+t*u1[0],y:E.y+t*u1[1]};
+    rB1.setAttribute("x1",E.x);rB1.setAttribute("y1",E.y);rB1.setAttribute("x2",G.x);rB1.setAttribute("y2",G.y);
+    rB2.setAttribute("x1",F.x);rB2.setAttribute("y1",F.y);rB2.setAttribute("x2",G.x);rB2.setAttribute("y2",G.y);
+    arc1.setAttribute("d",arcD(E.x,E.y,32,0,d1));
+    arc2.setAttribute("d",arcD(F.x,F.y,32,d2,0));
+    var w1x=(E.x-G.x)/t,w1y=(E.y-G.y)/t,w2x=(F.x-G.x)/t,w2y=(F.y-G.y)/t;
+    var p1={x:G.x+17*w1x,y:G.y+17*w1y},p2={x:G.x+17*w2x,y:G.y+17*w2y},pk={x:p1.x+17*w2x,y:p1.y+17*w2y};
+    rm.innerHTML='<path d="M'+p1.x.toFixed(1)+' '+p1.y.toFixed(1)+' L'+pk.x.toFixed(1)+' '+pk.y.toFixed(1)+' L'+p2.x.toFixed(1)+' '+p2.y.toFixed(1)+'" fill="none" stroke="#FFE9A8" stroke-width="2.5"/>';
+    lbE.setAttribute("x",E.x-6);lbE.setAttribute("y",Y1-10);
+    lbF.setAttribute("x",F.x-6);lbF.setAttribute("y",Y2+26);
+    lbG.setAttribute("x",G.x+8);lbG.setAttribute("y",G.y-8);
+    var q1=pt(E.x,E.y,52,d1/2),q2=pt(F.x,F.y,52,d2/2);
+    var half1=Math.round(d1*10)/10,half2=Math.round((a/2)*10)/10;
+    h1.setAttribute("x",q1[0].toFixed(1));h1.setAttribute("y",q1[1].toFixed(1));h1.textContent=half1+"°";
+    h2.setAttribute("x",q2[0].toFixed(1));h2.setAttribute("y",q2[1].toFixed(1));h2.textContent=half2+"°";
+    tAng.textContent="θ = "+a+"° · 同旁内角 = "+(180-a)+"°";
+    out.textContent=a+"°";range.value=a;
+    say.textContent=half1+"° + "+half2+"° = 90°，平分线垂直";
+    note.textContent=proof?("½θ + ½(180°−θ) = ½ × 180° = 90°，与截线角度无关"):"点绿色按钮看推导";
+  }
+  range.addEventListener("input",function(){a=parseInt(range.value,10);render()});
+  $("plProof").addEventListener("click",function(){proof=!proof;render()});
+  render();
+})();
+
 })();
 </script>
 </body>
