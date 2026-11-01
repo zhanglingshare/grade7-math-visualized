@@ -10,5 +10,6 @@
   "experiments": 19,
   "choice_questions": 57,
   "paper_questions": 38,
-  "sessions": 10
+  "sessions": 10,
+  "ui_revision": "impact-1"
 }

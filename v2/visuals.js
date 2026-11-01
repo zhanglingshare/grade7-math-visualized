@@ -1,7 +1,7 @@
 (function(global){
   'use strict';
   var M=global.MathLab;
-  var C={ink:'#172d37',muted:'#60727b',teal:'#087e82',blue:'#3969cf',orange:'#dc6a3f',line:'#c5d8d3',soft:'#e1eee9',light:'#edf2fc',paper:'#ffffff',yellow:'#f5d775'};
+  var C={ink:'#15213a',muted:'#596780',teal:'#2b54ff',blue:'#7252d7',orange:'#f56e3d',line:'#b9c9df',soft:'#e0e8ff',light:'#ece6ff',paper:'#ffffff',yellow:'#ffe363'};
   var defaults={
     baseline:{mode:'height',height:3,zero:0,actual:2490,tolerance:30},
     classify:{sample:'-3/4',group:'sign'},axis:{a:-2.5,unit:'1'},mirror:{a:-3},
@@ -108,7 +108,7 @@
           line(s,35,baseY,w-35,baseY,C.blue,1.5,'5 5');
           txt(s,w-35,baseY-10,'把这里当作0','minor','end');
           var iy=itemY;
-          box(s,w*.43,iy-15,43,30,C.teal,7);txt(s,w*.43+21.5,iy+5,'物体','','middle').setAttribute('style','fill:#fff');
+          el(s,'polygon',{points:(w*.43)+','+(iy-18)+' '+(w*.43+8)+','+(iy-24)+' '+(w*.43+62)+','+(iy-24)+' '+(w*.43+54)+','+(iy-18),fill:'#8da3ff'});el(s,'polygon',{points:(w*.43+54)+','+(iy-18)+' '+(w*.43+62)+','+(iy-24)+' '+(w*.43+62)+','+(iy+12)+' '+(w*.43+54)+','+(iy+18),fill:'#1936ab'});box(s,w*.43,iy-18,54,36,C.teal,5);txt(s,w*.43+27,iy+5,'物体','','middle').setAttribute('style','fill:#fff');
           if(revealed){var endY=baseY+(itemY-baseY)*p;line(s,w*.72,baseY,w*.72,endY,C.orange,3);point(s,w*.72,baseY,C.orange,4);point(s,w*.72,endY,C.orange,4);txt(s,w*.72+12,(baseY+itemY)/2+4,M.signed(v.height-v.zero),'strong');}
           txt(s,25,27,'位置不动，基准改变，表示也改变','minor');
           setFormula('相对位置 = '+datum(v.height)+' − '+M.par(v.zero)+' = '+(revealed?M.signed(v.height-v.zero):'？'));
