@@ -1,0 +1,14 @@
+{
+  "name": "七年级数学",
+  "version": "V.2",
+  "released": "2026-11-01",
+  "chapters": [
+    1,
+    2,
+    3
+  ],
+  "experiments": 19,
+  "choice_questions": 57,
+  "paper_questions": 38,
+  "sessions": 10
+}
