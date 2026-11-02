@@ -23,3 +23,8 @@ V.2位于独立v2/目录，原版仍位于仓库根目录。无需安装依赖�
     node check-math.cjs
 
 教材页码及内容对应见TEXTBOOK-COVERAGE.md，家长完整课表见parent-guide.md，验证记录见VALIDATION.md。原教材PDF未包含在项目中。
+
+# 第一章新入口（2026-11-03）
+
+打开 `index.html#chapter/1`：六节逐步探索、24步概念核对、12道纸笔题与12题全章检验。包含允许偏差、负数史、猜数活动和关系复习；原14种第一章实验保留。详细教材映射见 [CHAPTER-ONE.md](CHAPTER-ONE.md)。
+
