@@ -57,6 +57,17 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 .think-answer .btn{margin-left:7px}
 @media(max-width:480px){.think-sequence>div{font-size:11px;padding:8px 2px}.think-answer .btn{margin-left:0;margin-top:8px}}
 
+
+.lab-folder{margin-top:18px;border:1px solid #e3d7c9;background:#fffdf9;border-radius:18px;padding:10px 13px}
+.lab-folder>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:57px;padding:8px 10px;font-size:16px;font-weight:900;color:#364858}
+.lab-folder>summary::-webkit-details-marker{display:none}
+.lab-folder>summary span{color:#b5562e;flex:none;font-size:12px;background:#fff0e7;padding:6px 8px;border-radius:9px}
+.lab-folder>summary::before{content:"+";color:#d66734;font-size:21px;margin-right:2px}
+.lab-folder[open]>summary::before{content:"−"}
+.lab-folder .lab{margin-top:12px}
+.lab-folder .extras-title{margin-top:12px}
+@media(max-width:510px){.lab-folder{padding:7px}.lab-folder>summary{font-size:13px}.lab-folder>summary span{font-size:11px}}
+
 </style>
 <link rel="stylesheet" href="./digital-notebook.css?v=2">
 <link rel="stylesheet" href="./learning-nav.css?v=1">
@@ -76,7 +87,7 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 <p class="lead">六页试卷全部23题逐题复盘；保留原5个专项实验，新增10个互动训练。先猜 → 动手 → 观察 → 说出为什么。</p>
 <div style="margin-top:14px;font-size:13px;font-weight:800;color:#5C6B7A">原有5个专题实验探索进度 <span id="progressText">0 / 5</span><div class="meter"><div id="progressFill"></div></div></div>
 <nav class="strip" aria-label="实验导航"><a href="#thinking-gate" style="border-color:#F26B3A;color:#C94E25">先想再写 · 思考闸门</a>
-<a href="#sign">01 负号身份</a><a href="#order">02 运算顺序</a><a href="#truck">03 货车数轴</a><a href="#science">04 数量级</a><a href="#fraction">05 裂项规律</a>
+<a href="#sign">01 负号身份</a><a href="#order">02 运算顺序</a><a href="#truck">03 货车数轴</a><a href="#science">04 数量级</a><a href="#fraction">05 裂项规律</a><a href="./practice-bank.html" style="border-color:#F26B3A;color:#C94E25">新增156道变式题</a>
 </nav>
 </section>
 
@@ -118,13 +129,8 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
   <div class="audit-grid" id="auditGrid"></div>
   <div class="audit-note"><strong>核对规则：</strong>同一题有正确小问和错误小问，标“部分失分”；没有看到明确教师给分细则，不能从照片推算每小题的最终分数。这里不公布姓名或卷面分数。</div>
 </section>
-<div class="extras-title">补充10个互动实验</div>
-<p class="lead">原来的5个专项实验保留在前面。下面只补此前漏掉的考点，所有控制都能在手机上操作。</p>
-<div class="mini-nav" aria-label="新增实验目录">
-<a href="#reciprocal">06 倒数</a><a href="#negative-count">07 负数个数</a><a href="#frog">08 跳蛙</a><a href="#pairs">09 对称相消</a><a href="#round">10 四舍五入</a><a href="#branch">11 条件分支</a><a href="#conditions">12 条件推理</a><a href="#sorting">13 六卡排序</a><a href="#sign-proof">14 符号代数</a><a href="#binary">15 二进制</a>
-</div>
-<div class="diag-chip" style="margin-top:10px">新增10项实验已探索 <strong id="extraProgress">0 / 10</strong></div>
-
+<details class="lab-folder" id="core-folder">
+<summary>基础5个实验 · 负号、运算顺序、路程、数量级、裂项 <span>点击展开</span></summary>
 <section id="sign" class="lab">
 <div class="labhead"><span class="num">实验 01</span><h2>一个“−”，四种工作</h2><span class="tag">试卷第9、16题</span></div>
 <div class="stage">
@@ -202,6 +208,17 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 </div>
 <div class="notice">关键发现：这一串共有505项。展开后，中间的同类分数正负相消，只剩下 <strong>¼ × (1 − 1/2021) = 505/2021</strong>。</div>
 </section>
+
+</details>
+<details class="lab-folder" id="more-folder">
+<summary>补充10个实验 · 倒数、流程、符号、二进制等 <span>点击展开</span></summary>
+<div class="extras-title">补充10个互动实验</div>
+<p class="lead">原来的5个专项实验保留在前面。下面只补此前漏掉的考点，所有控制都能在手机上操作。</p>
+<div class="mini-nav" aria-label="新增实验目录">
+<a href="#reciprocal">06 倒数</a><a href="#negative-count">07 负数个数</a><a href="#frog">08 跳蛙</a><a href="#pairs">09 对称相消</a><a href="#round">10 四舍五入</a><a href="#branch">11 条件分支</a><a href="#conditions">12 条件推理</a><a href="#sorting">13 六卡排序</a><a href="#sign-proof">14 符号代数</a><a href="#binary">15 二进制</a>
+</div>
+<div class="diag-chip" style="margin-top:10px">新增10项实验已探索 <strong id="extraProgress">0 / 10</strong></div>
+
 
 <section id="reciprocal" class="lab">
 <div class="labhead"><span class="num">实验 06</span><h2>倒数镜：乘起来是1吗？</h2><span class="tag">试卷第6题</span></div>
@@ -305,6 +322,7 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 <div class="notice">23的二进制是<strong>(10111)₂</strong>；(111)₂=1+2+4=<strong>7</strong>。不要把除2时的余数按从上到下读取。</div>
 </section>
 
+</details>
 <p class="foot">本页仅增加专项训练，不覆盖原版23个章节视图及独立V.2。难点与题号根据上传的第二章试卷整理；实验里的数字可以改变，原题结论不变。<a href="./#view-1-1" style="font-weight:900;color:#C85830">返回原实验 →</a></p>
 </main>
 <script>
@@ -521,5 +539,17 @@ draw();
 })();
 </script>
 
+
+<script>
+(function(){
+ function reveal(){
+  var id=decodeURIComponent(location.hash.replace(/^#/,"")),target=id&&document.getElementById(id);
+  if(!target)return;
+  var p=target.closest(".lab-folder");if(p){p.open=true;requestAnimationFrame(function(){target.scrollIntoView({block:"start"})});}
+ }
+ window.addEventListener("hashchange",reveal);
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",reveal);else reveal();
+})();
+</script>
 <script defer src="./digital-notebook.js?v=2"></script>
 </body></html>
