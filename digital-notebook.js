@@ -20,19 +20,23 @@ function build(root,key,compact,reference){
  if(old)old.remove();
  var state=safeParse(key),color=state.color==="#b64e3a"?"#b64e3a":"#284f8a";
  var wrap=el("section","dn-root"+(compact?" dn-compact":""));wrap.dataset.dnKey=key;wrap.setAttribute("aria-label","可以手写或键入答案的电子草稿本");
- var head=el("div","dn-head"),label=el("strong","", "电子草稿本 · 直接在屏幕上写"),stat=el("span","dn-state",state.status==="done"?"已自行核对":state.strokes.length||state.answer?"已保存草稿":"待开始");
+ var head=el("div","dn-head"),label=el("strong","", "电子草稿本 · 直接在屏幕上写"),stat=el("span","dn-state",state.status==="correct"?"自评已掌握":state.status==="retry"?"标记需再练":state.status==="done"?"已写完":state.strokes.length||state.answer?"已保存草稿":"待开始");
  head.appendChild(label);head.appendChild(stat);wrap.appendChild(head);
- var tools=el("div","dn-tools"),blue=button("蓝笔"),red=button("红笔"),undo=button("撤销一笔"),clear=button("清空草稿");
- tools.appendChild(blue);tools.appendChild(red);tools.appendChild(undo);tools.appendChild(clear);wrap.appendChild(tools);
+ var tools=el("div","dn-tools"),blue=button("蓝笔"),red=button("红笔"),grow=button("扩大书写区"),undo=button("撤销一笔"),clear=button("清空草稿");
+ tools.appendChild(blue);tools.appendChild(red);tools.appendChild(grow);tools.appendChild(undo);tools.appendChild(clear);wrap.appendChild(tools);
  var canvas=el("canvas","dn-inkpad");canvas.setAttribute("aria-label","手写草稿区域，手指或触控笔在此书写");canvas.setAttribute("role","img");wrap.appendChild(canvas);
  var guide=el("p","dn-help","用手指或触控笔在上方书写。也可在下方用屏幕键盘输入。手写笔迹不会自动识别成答案。");wrap.appendChild(guide);
  var row=el("div","dn-answer-row"),input=el("input","dn-answer"),done=button("完成后核对");
  input.type="text";input.inputMode="text";input.autocomplete="off";input.spellcheck=false;input.setAttribute("aria-label","用屏幕键盘输入计算过程或答案");input.placeholder="键盘输入算式／结果（可选）";input.value=state.answer||"";done.classList.add("dn-complete");row.appendChild(input);row.appendChild(done);wrap.appendChild(row);
  var fb=el("p","dn-feedback","输入和笔迹保存在当前设备的浏览器中，不上传到服务器。");fb.setAttribute("aria-live","polite");wrap.appendChild(fb);
+ var rating=el("div","dn-rating"),rateLabel=el("span","dn-rate-label","看过参考或核对结果后："),passed=button("这题做对了"),retry=button("这题要再练");
+ rating.appendChild(rateLabel);rating.appendChild(passed);rating.appendChild(retry);wrap.appendChild(rating);
+ function rate(value){state.status=value;persist();passed.classList.toggle("active",value==="correct");retry.classList.toggle("active",value==="retry");fb.textContent=value==="correct"?"已记录：这题做对了。下一次请试试变式题。":"已记录：这题需要再练。下次先回看条件和解题步骤。";}
+ passed.addEventListener("click",function(){rate("correct")});retry.addEventListener("click",function(){rate("retry")});
  if(reference&&reference.parentNode===root)root.insertBefore(wrap,reference);else root.appendChild(wrap);
  var ctx=canvas.getContext("2d"),ratio=window.devicePixelRatio||1,scaleW=1,scaleH=1,stroke=null,activePointer=null,readOnly=false;
- function selected(){blue.classList.toggle("active",color==="#284f8a");red.classList.toggle("active",color==="#b64e3a");undo.disabled=!state.strokes.length;clear.disabled=!state.strokes.length}
- function persist(){state.color=color;if(!save(key,state))fb.textContent="当前浏览器未能保存（可能是无痕模式或储存空间不足）；本页仍可以继续书写。";else{stat.textContent=state.status==="done"?"已自行核对":"草稿已保存";}}
+ function selected(){blue.classList.toggle("active",color==="#284f8a");red.classList.toggle("active",color==="#b64e3a");passed.classList.toggle("active",state.status==="correct");retry.classList.toggle("active",state.status==="retry");undo.disabled=!state.strokes.length;clear.disabled=!state.strokes.length}
+ function persist(){state.color=color;if(!save(key,state))fb.textContent="当前浏览器未能保存（可能是无痕模式或储存空间不足）；本页仍可以继续书写。";else{stat.textContent=state.status==="correct"?"自评已掌握":state.status==="retry"?"标记需再练":state.status==="done"?"已写完":"草稿已保存";}}
  function render(){
   if(!ctx)return;var w=canvas.clientWidth||420,h=canvas.clientHeight||200;ctx.clearRect(0,0,w,h);
   ctx.lineJoin="round";ctx.lineCap="round";
@@ -52,7 +56,7 @@ function build(root,key,compact,reference){
  function move(ev){if(ev.pointerId!==activePointer||!stroke)return;ev.preventDefault();var points=stroke.points,pos=point(ev),last=points[points.length-1];if(Math.abs(pos[0]-last[0])+Math.abs(pos[1]-last[1])>.0015&&points.length<450)points.push(pos);render()}
  function up(ev){if(ev.pointerId!==activePointer)return;ev.preventDefault();if(stroke){state.strokes.push(stroke);stroke=null;state.status="draft";persist()}activePointer=null;render()}
  canvas.addEventListener("pointerdown",down);canvas.addEventListener("pointermove",move);canvas.addEventListener("pointerup",up);canvas.addEventListener("pointercancel",up);canvas.addEventListener("lostpointercapture",function(){if(activePointer!==null&&stroke){state.strokes.push(stroke);stroke=null;activePointer=null;persist();render()}});
- blue.addEventListener("click",function(){color="#284f8a";selected()});red.addEventListener("click",function(){color="#b64e3a";selected()});
+ blue.addEventListener("click",function(){color="#284f8a";selected()});red.addEventListener("click",function(){color="#b64e3a";selected()});grow.addEventListener("click",function(){var large=wrap.classList.toggle("dn-large");grow.textContent=large?"恢复正常大小":"扩大书写区";resize()});
  undo.addEventListener("click",function(){if(state.strokes.length){state.strokes.pop();state.status="draft";persist();render()}});
  clear.addEventListener("click",function(){if(!state.strokes.length)return;if(window.confirm("只清空这一题的手写草稿？键盘答案会保留。")){state.strokes=[];state.status="draft";persist();render()}});
  input.addEventListener("input",function(){state.answer=input.value.slice(0,1500);state.status="draft";persist()});
