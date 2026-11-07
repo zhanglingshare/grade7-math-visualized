@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
 <link rel="stylesheet" href="./chapter1-upgrades.css">
 <link rel="stylesheet" href="./digital-notebook.css?v=2">
+<link rel="stylesheet" href="./learning-nav.css?v=1">
 <style>
 :root{
   --paper:#F5F2EA;
@@ -259,7 +260,7 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
 }
 </style>
 </head>
-<body>
+<body class="math-root">
 <!-- ===== 顶栏 ===== -->
 <header class="topbar">
   <button class="icon-btn" id="navToggle" aria-label="打开目录" aria-expanded="false">
@@ -275,6 +276,12 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
   </button>
 </header>
+<nav class="math-nav" aria-label="四个学习入口">
+<a href="./v2/#chapter/1">学课程</a>
+<a href="./#view-1-1" aria-current="page">看原理</a>
+<a href="./practice-bank.html">专项刷题</a>
+<a href="./exam-labs.html#overview">原卷复盘</a>
+</nav>
 
 <!-- ===== 目录抽屉 ===== -->
 <div class="scrim" id="scrim"></div>
@@ -283,7 +290,8 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F26B3A" stroke-width="2.4" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
     章节目录
   </div>
-  <div class="nav-group">第1章 · 有理数</div>
+  <details class="drawer-group" open><summary>第一章 · 原理实验（7节）</summary>
+
   <a class="nav-item" href="#view-1-1"><span class="nk">1.1</span>正数和负数</a>
   <a class="nav-item" href="#view-1-2"><span class="nk">1.2</span>数轴 · 有理数排队</a>
   <a class="nav-item" href="#view-1-3"><span class="nk">1.3</span>相反数 · 绝对值</a>
@@ -291,17 +299,25 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   <a class="nav-item" href="#view-1-5"><span class="nk">1.5</span>乘除法 · 正负颜色</a>
   <a class="nav-item" href="#view-1-6"><span class="nk">1.6</span>乘方 · 叠方块</a>
   <a class="nav-item" href="#view-1-7"><span class="nk">1.7</span>数轴动点 · 追与遇</a>
-  <div class="nav-group">试卷专项 · 原实验保留</div>
+  </details>
+<details class="drawer-group"><summary>错题训练 · 原卷专题</summary>
+
   <a class="nav-item" href="./exam-labs.html"><span class="nk">★</span>错题实验室 · 全卷复盘 + 先想再写</a>
-  <div class="nav-group">第2章 · 整式的加减</div>
+  </details>
+<details class="drawer-group"><summary>第二章 · 整式与代数</summary>
+
   <a class="nav-item" href="#view-2-1"><span class="nk">2.1</span>字母与单项式</a>
   <a class="nav-item" href="#view-2-2"><span class="nk">2.2</span>同类项合并 · 积木</a>
-  <div class="nav-group">第3章 · 一元一次方程</div>
+  </details>
+<details class="drawer-group"><summary>第三章 · 方程</summary>
+
   <a class="nav-item" href="#view-3-1"><span class="nk">3.1</span>天平与等式性质</a>
   <a class="nav-item" href="#view-3-2"><span class="nk">3.2</span>解方程 · 天平分步</a>
   <a class="nav-item" href="#view-3-3"><span class="nk">3.3</span>移项 · 为什么变号</a>
   <a class="nav-item" href="#view-3-4"><span class="nk">3.4</span>应用题 · 找等量</a>
-  <div class="nav-group">第4章 · 几何图形初步</div>
+  </details>
+<details class="drawer-group"><summary>第四章 · 几何</summary>
+
   <a class="nav-item" href="#view-4-1"><span class="nk">4.1</span>直线 · 射线 · 线段</a>
   <a class="nav-item" href="#view-4-2"><span class="nk">4.2</span>角 · 转出来的</a>
   <a class="nav-item" href="#view-4-3"><span class="nk">4.3</span>余角 · 补角</a>
@@ -309,10 +325,13 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   <a class="nav-item" href="#view-4-5"><span class="nk">4.5</span>三视图 · 立体看平面</a>
   <a class="nav-item" href="#view-4-6"><span class="nk">4.6</span>线段双中点 · 动中不变</a>
   <a class="nav-item" href="#view-4-7"><span class="nk">4.7</span>角的双角平分线</a>
-  <div class="nav-group">七下预习 · 平行线与变换</div>
+  </details>
+<details class="drawer-group"><summary>拓展预习 · 平行线</summary>
+
   <a class="nav-item" href="#view-5-1"><span class="nk">5.1</span>平行线拐点 · 猪蹄铅笔头</a>
   <a class="nav-item" href="#view-5-2"><span class="nk">5.2</span>纸条折叠 · 翻折求角</a>
   <a class="nav-item" href="#view-5-3"><span class="nk">5.3</span>平行线 + 角平分线</a>
+</details>
 </aside>
 
 <main>
@@ -1642,7 +1661,9 @@ function goTo(hash){
   views.forEach(function(v){v.classList.remove("is-active")});
   target.classList.add("is-active");
   navItems.forEach(function(n){
-    n.classList.toggle("active",n.getAttribute("href")===hash);
+    var selected=n.getAttribute("href")===hash;
+    n.classList.toggle("active",selected);
+    if(selected){var group=n.closest(".drawer-group");if(group)group.open=true;}
   });
   openNav(false);
   window.scrollTo(0,0);
