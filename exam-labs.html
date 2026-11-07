@@ -31,6 +31,32 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 .lab .stage .soft{font-size:13px;color:#b5cadb}
 #binaryLines{min-height:76px;font-size:14px;line-height:1.9;font-variant-numeric:tabular-nums}
 
+
+/* 思考闸门：只增不减；逐层辨认题意、条件、路线 */
+.prethink{border:2px solid #f3c6ae;background:linear-gradient(180deg,#fffdf8,#fff7ef)}
+.prethink .labhead .num{background:#F26B3A;color:#fff}
+.prethink-headline{font-weight:900;font-size:clamp(21px,4.7vw,28px);line-height:1.35;margin:4px 0 8px}
+.think-sequence{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+.think-sequence>div{border:1px solid #ffffff30;color:#C5D2DF;padding:8px 4px;text-align:center;border-radius:10px;font-weight:800;font-size:12px;line-height:1.5}
+.think-sequence>div.done{background:#236545;color:#fff;border-color:#5ebb8b}
+.think-sequence>div.now{background:#F26B3A;color:#fff;border-color:#FFBA8A}
+.think-question{margin:10px 0;font-weight:900;font-size:clamp(17px,4vw,20px)}
+.think-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0}
+.think-choice{min-height:52px;padding:10px 12px;background:#ffffff18;border:1px solid #ffffff43;border-radius:12px;color:#fff;font-weight:750;text-align:left;cursor:pointer}
+.think-choice:hover,.think-choice:focus-visible{background:#ffffff31}
+.think-choice.correct{background:#226848;border-color:#6cdda6}
+.think-choice.incorrect{background:#883b34;border-color:#f09085}
+.think-choice:disabled{opacity:.75;cursor:default}
+.think-feedback{min-height:50px;padding:11px 12px;background:#ffffff0f;border-left:4px solid #F2B73F;border-radius:9px;font-size:14px;color:#E5EDF5}
+.think-gate-select{min-height:45px;border-radius:12px;border:1px solid #ffffff50;background:#ffffff19;color:#fff;padding:9px 12px;font-weight:800;max-width:100%}
+.think-gate-select option{color:#24323F}
+.think-answer{display:none;margin-top:14px;padding:13px;background:#173225;border:1px solid #347554;border-radius:12px}
+.think-answer.visible{display:block}
+.think-answer label{font-weight:800;font-size:14px;color:#d8eee3;display:block;margin-bottom:8px}
+.think-answer input{min-height:48px;border-radius:12px;border:2px solid #96baa5;padding:8px 12px;font-size:18px;font-weight:900;width:150px;max-width:100%;background:#fff;color:#20392c}
+.think-answer .btn{margin-left:7px}
+@media(max-width:480px){.think-sequence>div{font-size:11px;padding:8px 2px}.think-answer .btn{margin-left:0;margin-top:8px}}
+
 </style>
 </head>
 <body>
@@ -41,11 +67,40 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 <h1>错题不是终点，<br>是下一次发现的起点。</h1>
 <p class="lead">六页试卷全部23题逐题复盘；保留原5个专项实验，新增10个互动训练。先猜 → 动手 → 观察 → 说出为什么。</p>
 <div style="margin-top:14px;font-size:13px;font-weight:800;color:#5C6B7A">已探索 <span id="progressText">0 / 5</span> 个实验<div class="meter"><div id="progressFill"></div></div></div>
-<nav class="strip" aria-label="实验导航">
+<nav class="strip" aria-label="实验导航"><a href="#thinking-gate" style="border-color:#F26B3A;color:#C94E25">先想再写 · 思考闸门</a>
 <a href="#sign">01 负号身份</a><a href="#order">02 运算顺序</a><a href="#truck">03 货车数轴</a><a href="#science">04 数量级</a><a href="#fraction">05 裂项规律</a>
 </nav>
 </section>
 
+
+
+<section id="thinking-gate" class="lab prethink">
+<div class="labhead"><span class="num">先想再写</span><h2>动笔之前，先过三道思考关</h2><span class="tag">独立新增 · 原实验不变</span></div>
+<p class="lead">不是让你等30秒，而是训练“读懂题目、找出条件、决定方法”。每一道关口都要自己作出判断，答对之后才会出现计算输入框。</p>
+<div class="stage" style="margin-top:14px">
+<div class="small">先选一道题。建议先口头说，再点击答案。</div>
+<div class="choices" style="margin:8px 0 12px"><label for="thinkQSelect" class="sr">选择训练题</label>
+<select class="think-gate-select" id="thinkQSelect"><option value="0">第16题 · 运算顺序</option><option value="1">第17题 · 氢气质量</option><option value="2">第23题 · 货车路程</option><option value="3">第20题 · 条件推理</option><option value="4">第12题 · 整数求和</option></select>
+</div>
+<div class="big" id="thinkTaskTitle">第16题 · 混合运算</div>
+<div class="display" id="thinkTaskText">−1⁶ + 8 + (−2)² − |−4|，求整个式子的值。</div>
+<div class="think-sequence" id="thinkSequence" aria-label="思考进度">
+<div class="now">① 问什么</div><div>② 有什么</div><div>③ 怎么做</div><div>④ 动笔</div>
+</div>
+<div class="small" id="thinkStepLabel">第一关 · 先说出题目究竟问什么</div>
+<div class="think-question" id="thinkPrompt">这道题想让我们求出什么？</div>
+<div class="think-choices" id="thinkChoices"></div>
+<div class="think-feedback" id="thinkFeedback" aria-live="polite">先想一想，再选。即使选错也能继续尝试。</div>
+<div class="think-answer" id="thinkAnswerPanel">
+<label id="thinkAnswerLabel" for="thinkAnswerInput">现在才可以写答案（只填数值）</label>
+<input type="text" inputmode="decimal" id="thinkAnswerInput" placeholder="填写数值" autocomplete="off">
+<button type="button" class="btn primary" id="thinkAnswerCheck">核对答案</button>
+<div class="display" id="thinkAnswerResult" aria-live="polite">写完以后再检查一次：正负号和数量级是否合理？</div>
+</div>
+<div class="choices"><button type="button" class="btn" id="thinkReset">换一种思路 · 从头想</button><button type="button" class="btn" id="thinkNextQuestion">换下一道题</button></div>
+</div>
+<div class="notice"><strong>家长陪练方式：</strong>别急着告诉答案，只追问三句话：“这题到底让你求什么？”“最关键的条件是什么？”“你准备先算哪一步？”当孩子能先说清楚，再让他动笔。重点记录是否形成习惯，不以点击速度评分。</div>
+</section>
 
 <section id="overview" class="lab">
   <div class="labhead"><span class="num">全卷核对</span><h2>23题 · 一题不落</h2><span class="tag">六页试卷的可辨认批改</span></div>
@@ -360,6 +415,101 @@ function binaryDraw(){text("binaryLines",brows.length?brows.map(function(r){retu
 $("binaryNext").addEventListener("click",function(){if(!bnum)return;var q=Math.floor(bnum/2),rem=bnum%2;brows.push({n:bnum,q:q,rem:rem});bnum=q;binaryDraw()});
 $("binaryReset").addEventListener("click",function(){brows=[];bnum=23;binaryDraw()});
 each("#binaryAnswers button",function(b){b.addEventListener("click",function(){var isGood=b.getAttribute("data-a")==="7";each("#binaryAnswers button",function(c){c.classList.remove("correct","wrong")});b.classList.add(isGood?"correct":"wrong");text("binaryExplain",isGood?"答对了：(111)₂=1×4+1×2+1×1=7。":"再试一次：从右往左分别乘1、2、4，不是把111当成十进制。");if(isGood)complete("binary")})});
+})();
+</script>
+
+
+<script>
+(function(){
+"use strict";
+function elem(k){return document.getElementById(k)}
+var cases=[
+{title:"第16题 · 混合运算",task:"−1⁶ + 8 + (−2)² − |−4|，求整个式子的值。",
+steps:[
+{ask:"这道题想让我们求出什么？",opts:["整个式子的最终值","−1的倒数","数轴上两点的距离"],yes:0,why:"题目是计算整个式子的值，不能只算其中的一项。"},
+{ask:"观察式子：哪一种运算要先处理？",opts:["从左到右见到加号就先加","先处理乘方和绝对值，再做加减","先把全部负号去掉"],yes:1,why:"乘方和绝对值先算，尤其要区分 −1⁶ 与 (−1)⁶。"},
+{ask:"暂时不写详细计算：最后结果的正负应当是？",opts:["负数","等于0","正数"],yes:2,why:"−1 + 8 + 4 − 4 的符号应为正。现在可以落笔计算。"}],
+answer:7,unit:"",result:"−1⁶ = −1，(−2)² = 4，|−4| = 4；−1+8+4−4=7。"},
+{title:"第17题 · 氢气质量",task:"每立方厘米氢气质量约0.00009克，气球体积8,000,000立方厘米。求质量（克），并写成科学记数法。",
+steps:[
+{ask:"题目让你求什么？",opts:["氢气体积","氢气总质量","氢气球的直径"],yes:1,why:"求的是总质量，不是体积；单位应为克。"},
+{ask:"哪个关系式才正确？",opts:["总质量 = 体积 × 每立方厘米质量","总质量 = 体积 + 单位体积质量","总质量 = 体积 ÷ 单位体积质量"],yes:0,why:"已知每立方厘米对应多少克，所以总质量是乘法。"},
+{ask:"没做精确计算前，答案应当在什么数量级？",opts:["几十万克","几百克","不到1克"],yes:1,why:"8×10⁶ × 9×10⁻⁵ ≈ 7.2×10²，即几百克。"}],
+answer:720,unit:"克",result:"8,000,000×0.00009=720克，按题目要求写成7.2×10²克。"},
+{title:"第23题 · 货车路程",task:"超市出发：向东3千米，再向东2.5千米，向西10千米，最后回到超市。求一共走了多少千米。",
+steps:[
+{ask:"这一问真正要求的是哪一个量？",opts:["货车最后的坐标","东西方向的位移","货车累计走过的路程"],yes:2,why:"问的是路程，不是位移；回到原点也不是没走路。"},
+{ask:"求总路程时，向西的10千米应该怎么处理？",opts:["负数抵消总路程","只看起点和终点","每一段长度都作为正数累加"],yes:2,why:"走了多远与方向不同。每一段路程都按非负的长度相加。"},
+{ask:"还没精确算完，总路程应当？",opts:["等于0","大于10千米","小于5千米"],yes:1,why:"单单向西就走过10千米，还有其他路段，因此总路程更长。"}],
+answer:20,unit:"千米",result:"各段长度是3、2.5、10、4.5千米。总路程=20千米。"},
+{title:"第20题 · 条件推理",task:"数轴上b<0<a，且|a|=|b|。不指定a、b的具体数值，求a+b。",
+steps:[
+{ask:"题目真正问什么？",opts:["a+b的值","a具体等于几","c的整数部分"],yes:0,why:"只要求a+b，不需要知道a和b各自具体是多少。"},
+{ask:"由b<0<a及|a|=|b|，可推出什么？",opts:["a与b互为相反数","a和b都是正数","可以直接确定a=1"],yes:0,why:"a与b符号相反、绝对值相等，所以a=−b。"},
+{ask:"根据上面的关系，a+b一定是？",opts:["正数","负数","0"],yes:2,why:"a+(-a)=0，对所有满足条件的a都成立，而不只是某个例子。"}],
+answer:0,unit:"",result:"a=−b，所以a+b=0。这里不需要把a假定为1。"},
+{title:"第12题 · 整数求和",task:"把绝对值小于3的所有整数相加，求和。",
+steps:[
+{ask:"题目问的是整数的什么？",opts:["一共有多少个数","所有符合条件的整数之和","最大整数是多少"],yes:1,why:"“个数”和“总和”不同，不能把数的个数当成求和结果。"},
+{ask:"绝对值小于3的整数有哪些？",opts:["−3到3的所有整数","只有0、1、2","−2、−1、0、1、2"],yes:2,why:"|x|<3，不包含±3。共有五个整数。"},
+{ask:"不用逐个相加，利用对称性，结果是？",opts:["0","5","−5"],yes:0,why:"−2和2相消，−1和1相消，再加0，结果是0。"}],
+answer:0,unit:"",result:"(−2+2)+(−1+1)+0=0。"}];
+var active=0,step=0,tried=0,correct=0;
+function draw(){
+var item=cases[active];elem("thinkQSelect").value=String(active);
+elem("thinkTaskTitle").textContent=item.title;elem("thinkTaskText").textContent=item.task;
+var marks=elem("thinkSequence").children;
+for(var i=0;i<marks.length;i++)marks[i].className=i<step?"done":i===step?"now":"";
+var answer=elem("thinkAnswerPanel"),options=elem("thinkChoices");options.replaceChildren();
+if(step===3){
+ elem("thinkStepLabel").textContent="第四关 · 现在动笔";
+ elem("thinkPrompt").textContent="前面三关已经想清楚，现在把数值写出来。";
+ elem("thinkFeedback").textContent="算完后检查：这个数和刚才的估计、正负方向是否一致？";
+ answer.classList.add("visible");elem("thinkAnswerInput").value="";
+ elem("thinkAnswerResult").textContent="写完以后再检查一次：正负号和数量级是否合理？";
+ elem("thinkAnswerLabel").textContent="现在才可以写答案（只填数值，单位"+(item.unit?"是"+item.unit:"不必填写")+"）";
+ return;
+}
+answer.classList.remove("visible");
+var itemStep=item.steps[step];
+elem("thinkStepLabel").textContent=["第一关 · 先看懂题目问什么","第二关 · 找出最关键条件与规则","第三关 · 在动笔前作一个判断"][step];
+elem("thinkPrompt").textContent=itemStep.ask;
+elem("thinkFeedback").textContent="先口头说一句理由，再选择。即使选错也能继续尝试。";
+itemStep.opts.forEach(function(choice,idx){
+var b=document.createElement("button");b.type="button";b.className="think-choice";b.textContent=choice;
+b.addEventListener("click",function(){
+tried++;
+if(idx!==itemStep.yes){
+ b.classList.add("incorrect");
+ elem("thinkFeedback").textContent="这个选择还不符合题意。回到题目再读一遍，看看它要求的是什么。";
+ return;
+}
+correct++;b.classList.add("correct");
+Array.prototype.forEach.call(options.children,function(btn){btn.disabled=true});
+elem("thinkFeedback").textContent="这一关通过："+itemStep.why;
+var go=document.createElement("button");go.type="button";go.className="btn primary";go.textContent="进入下一步 →";go.style.marginTop="12px";
+go.addEventListener("click",function(){step++;draw()});
+elem("thinkFeedback").appendChild(document.createTextNode(" "));
+options.appendChild(go);
+});
+options.appendChild(b);
+});
+}
+function reset(q){active=q;step=0;tried=0;correct=0;draw()}
+elem("thinkQSelect").addEventListener("change",function(){reset(Number(this.value))});
+elem("thinkReset").addEventListener("click",function(){reset(active)});
+elem("thinkNextQuestion").addEventListener("click",function(){reset((active+1)%cases.length)});
+function normalize(s){var v=s.trim().replace(/，/g,"").replace(/,/g,"").replace(/−/g,"-").replace(/\s*(?:克|千米|km|g)\s*$/i,"");return v;}
+elem("thinkAnswerCheck").addEventListener("click",function(){
+var item=cases[active],raw=normalize(elem("thinkAnswerInput").value),n=Number(raw);
+if(!raw||!Number.isFinite(n)){elem("thinkAnswerResult").textContent="请输入一个有效数值；如果要求科学记数法，先填计算得到的数值，再核对标准写法。";return}
+if(Math.abs(n-item.answer)<1e-9){
+ elem("thinkAnswerResult").textContent="答对了！"+item.result+" 三关思考都已完成。做下一题时，继续先想再写。";
+}else{
+ elem("thinkAnswerResult").textContent="还没有算对。先比较一下你刚才对正负号、数量级的预测，回头检查运算顺序或条件。";
+}
+});
+draw();
 })();
 </script>
 
