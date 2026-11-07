@@ -11,6 +11,26 @@ a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:poi
 main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-block;background:#FDEADF;color:#C94E25;border:1px solid #F4C2AE;border-radius:50px;padding:5px 12px;font-size:12px;font-weight:900}.hero h1{font-size:clamp(26px,5vw,42px);line-height:1.2;margin:13px 0 8px}.lead{margin:0;color:var(--muted);font-size:15px;max-width:750px}.strip{display:flex;gap:7px;overflow-x:auto;padding:16px 0 8px}.strip a{white-space:nowrap;padding:9px 13px;border-radius:12px;background:white;border:1px solid var(--line);font-size:13px;font-weight:800}.strip a:hover{border-color:var(--orange)}
 .lab{margin-top:23px;background:white;border:1px solid var(--line);border-radius:21px;padding:18px;box-shadow:0 8px 26px -22px #15243755;scroll-margin-top:82px}.labhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px}.num{border-radius:12px;background:#FDEADF;color:#DB542B;font-weight:900;font-size:13px;padding:6px 10px}.lab h2{font-size:21px;line-height:1.3;margin:0}.tag{font-size:12px;color:var(--muted);margin-left:auto}.stage{background:linear-gradient(180deg,#223141,#16202E);border-radius:18px;color:#F4F7FA;padding:17px;overflow:hidden;box-shadow:0 15px 34px -22px #09111E}.stage p{margin:4px 0 12px;color:#C5D2DF;font-size:13px}.big{font-weight:900;font-size:clamp(23px,5vw,32px);letter-spacing:.5px;line-height:1.4}.small{color:#AFC1D3;font-size:13px}.display{padding:11px 13px;background:#0004;border:1px solid #ffffff22;border-radius:12px;margin-top:13px;min-height:56px;font-size:15px;font-weight:700}.choices{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.btn{border:1px solid #ffffff40;border-radius:12px;background:#ffffff1b;color:#fff;min-height:44px;padding:9px 14px;font-size:14px;font-weight:800}.btn:hover{background:#ffffff35}.btn:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}.btn.primary{background:linear-gradient(135deg,#F26B3A,#FF8A50);border-color:#ffab7e}.btn.active{background:#F26B3A}.btn.done{border-color:#34B879;background:#206647}.btn:disabled{opacity:.55;cursor:default}.notice{background:#F1F9F3;border:1px solid #CDE7D4;border-radius:13px;padding:11px 13px;margin-top:13px;font-size:13px;color:#32654D}.notice strong{color:#166D4B}.pill{display:inline-block;border-radius:50px;background:#ffffff17;border:1px solid #ffffff30;padding:4px 10px;font-size:12px}.svg{width:100%;height:auto;display:block;margin-top:9px}.foot{margin-top:12px;color:#687989;font-size:13px}.steps{display:flex;gap:7px;flex-wrap:wrap}.step{background:#ffffff15;padding:6px 10px;border-radius:9px;font-size:13px}.step.on{background:#2B7855}.meter{width:100%;height:9px;background:#e0e7dd;border-radius:10px;overflow:hidden;margin-top:9px}.meter>div{width:0;height:100%;background:var(--green);transition:width .3s}.scale{width:100%;accent-color:#F26B3A;margin:15px 0 4px;height:28px}.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{padding:8px 12px;background:#ffffff14;border-radius:10px}.stat b{font-size:18px;color:#FFE2A4}.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:8px;margin-top:12px}.tile{border:1px solid #ffffff26;background:#ffffff11;color:white;padding:10px;border-radius:11px;text-align:left;min-height:52px;font-weight:800}.tile:hover,.tile:focus{background:#ffffff28}.tile.on{border-color:#34B879;background:#27634c}.rule{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:10px;background:#ffffff13;font-size:15px;font-weight:800;margin-top:8px}.muted{color:#AFC1D3;font-size:12px}.cap{color:#F9C67C;font-weight:900}.sr{position:absolute;left:-9999px}
 @media(min-width:800px){.lab{padding:23px}.stage{padding:23px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* 全卷逐题复盘与补充实验：独立样式，不覆盖现有实验 */
+#overview{margin-top:22px}.diag-top{display:flex;gap:10px;flex-wrap:wrap}.diag-chip{background:#fff;border:1px solid var(--line);padding:7px 11px;border-radius:50px;font-size:12px;font-weight:800;color:#556674}.diag-chip strong{font-size:16px;color:#24323f}
+.filterbar{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.filterbar button{border:1px solid var(--line);background:#fff;padding:8px 11px;border-radius:11px;font-size:12px;font-weight:800;color:#526678;min-height:42px}.filterbar button.selected{background:var(--stage);color:#fff}
+.audit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;margin-top:14px}.audit-card{background:white;border:1px solid var(--line);padding:11px 12px;border-radius:13px;display:flex;gap:8px;flex-direction:column;min-height:126px}.audit-card small{color:var(--muted);line-height:1.5}.audit-card strong{font-size:14px}.audit-card a{font-size:12px;color:#C9542C;font-weight:900;margin-top:auto}.audit-card .status{font-size:11px;font-weight:900;border-radius:99px;padding:3px 7px}.status.wrong{background:#FFF0E8;color:#B7472C}.status.partial{background:#FFF7D8;color:#916409}.status.ok{background:#E9F8EE;color:#267951}.status.check{background:#EDF3FA;color:#4D6C92}
+.mini-nav{display:flex;gap:8px;overflow-x:auto;padding:10px 0}.mini-nav a{flex:none;font-size:12px;border:1px solid #E4DED1;background:#fff;border-radius:12px;padding:9px 12px;font-weight:800}
+.extras-title{margin:28px 0 8px;font-weight:900;font-size:22px}
+.chiptext{display:inline-block;background:#ffffff17;color:#E4EBF5;border:1px solid #ffffff25;border-radius:9px;padding:5px 10px;font-size:13px}
+.lab .stage .mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.mono{font-variant-numeric:tabular-nums}
+.audit-note{background:#fff8ed;border:1px solid #f1dfc2;padding:12px 14px;border-radius:13px;margin:12px 0;color:#775a2e;font-size:13px}
+.lab .stage .opt{padding:10px 13px;min-height:45px;color:white;background:#ffffff1b;border:1px solid #ffffff39;border-radius:12px;font-weight:800}
+.lab .stage .opt.selected{background:var(--orange);border-color:#FFB288}
+.lab .stage .opt.correct{background:#257c58;border-color:#79d8ab}
+.lab .stage .opt.wrong{background:#974f48;border-color:#e59991}
+#sortCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}
+#sortCards .sort-card{color:#fff;background:#ffffff16;border:1px solid #ffffff33;min-height:64px;border-radius:12px;padding:9px 10px;font-weight:800;cursor:pointer}
+#sortCards .sort-card.selected{background:#F26B3A;border-color:#ffccaa}
+.lab .stage .soft{font-size:13px;color:#b5cadb}
+#binaryLines{min-height:76px;font-size:14px;line-height:1.9;font-variant-numeric:tabular-nums}
+
 </style>
 </head>
 <body>
@@ -19,12 +39,28 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 <section class="hero">
 <span class="eyebrow">专项补充 · 不替代任何原实验</span>
 <h1>错题不是终点，<br>是下一次发现的起点。</h1>
-<p class="lead">以第二章试卷中的典型题为原型。每个实验：先猜 → 动手 → 观察 → 说出为什么。不追求刷题速度，重点发现一个规则。</p>
+<p class="lead">六页试卷全部23题逐题复盘；保留原5个专项实验，新增10个互动训练。先猜 → 动手 → 观察 → 说出为什么。</p>
 <div style="margin-top:14px;font-size:13px;font-weight:800;color:#5C6B7A">已探索 <span id="progressText">0 / 5</span> 个实验<div class="meter"><div id="progressFill"></div></div></div>
 <nav class="strip" aria-label="实验导航">
 <a href="#sign">01 负号身份</a><a href="#order">02 运算顺序</a><a href="#truck">03 货车数轴</a><a href="#science">04 数量级</a><a href="#fraction">05 裂项规律</a>
 </nav>
 </section>
+
+
+<section id="overview" class="lab">
+  <div class="labhead"><span class="num">全卷核对</span><h2>23题 · 一题不落</h2><span class="tag">六页试卷的可辨认批改</span></div>
+  <p class="lead">下面不是一张分数榜。逐题标注需要巩固的能力，已答对的题目也保留对应原实验。涂改无法确认的题目单独标记，不会武断判错。</p>
+  <div class="diag-top" style="margin-top:14px"><div class="diag-chip">明显失分 <strong id="wrongCount">—</strong></div><div class="diag-chip">部分失分 <strong id="partialCount">—</strong></div><div class="diag-chip">卷面正确 <strong id="okCount">—</strong></div><div class="diag-chip">待核实 <strong id="checkCount">—</strong></div></div>
+  <div class="filterbar" id="auditFilters" aria-label="筛选题目"><button type="button" class="selected" data-audit="all">全部23题</button><button type="button" data-audit="needs">重点补练</button><button type="button" data-audit="partial">部分失分</button><button type="button" data-audit="ok">已答对</button><button type="button" data-audit="check">待核实</button></div>
+  <div class="audit-grid" id="auditGrid"></div>
+  <div class="audit-note"><strong>核对规则：</strong>同一题有正确小问和错误小问，标“部分失分”；没有看到明确教师给分细则，不能从照片推算每小题的最终分数。这里不公布姓名或卷面分数。</div>
+</section>
+<div class="extras-title">补充10个互动实验</div>
+<p class="lead">原来的5个专项实验保留在前面。下面只补此前漏掉的考点，所有控制都能在手机上操作。</p>
+<div class="mini-nav" aria-label="新增实验目录">
+<a href="#reciprocal">06 倒数</a><a href="#negative-count">07 负数个数</a><a href="#frog">08 跳蛙</a><a href="#pairs">09 对称相消</a><a href="#round">10 四舍五入</a><a href="#branch">11 条件分支</a><a href="#conditions">12 条件推理</a><a href="#sorting">13 六卡排序</a><a href="#sign-proof">14 符号代数</a><a href="#binary">15 二进制</a>
+</div>
+<div class="diag-chip" style="margin-top:10px">新增10项实验已探索 <strong id="extraProgress">0 / 10</strong></div>
 
 <section id="sign" class="lab">
 <div class="labhead"><span class="num">实验 01</span><h2>一个“−”，四种工作</h2><span class="tag">试卷第9、16题</span></div>
@@ -103,6 +139,109 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 </div>
 <div class="notice">关键发现：这一串共有505项。展开后，中间的同类分数正负相消，只剩下 <strong>¼ × (1 − 1/2021) = 505/2021</strong>。</div>
 </section>
+
+<section id="reciprocal" class="lab">
+<div class="labhead"><span class="num">实验 06</span><h2>倒数镜：乘起来是1吗？</h2><span class="tag">试卷第6题</span></div>
+<div class="stage"><div class="small">选择一个数，观察倒数与它的乘积</div><div class="big" id="reciprocalValue">−1 × (−1) = 1</div>
+<div class="choices" id="reciprocalButtons"><button class="btn" data-v="-3">−3</button><button class="btn active" data-v="-1">−1</button><button class="btn" data-v="0">0</button><button class="btn" data-v="1">1</button><button class="btn" data-v="2">2</button></div>
+<div class="display" id="reciprocalExplain" aria-live="polite">−1的倒数仍是−1。倒数的条件是两数相乘等于1。</div></div>
+<div class="notice">不是所有有理数都有倒数：<strong>0没有倒数。</strong> 特别记住：−1的倒数是−1。</div>
+</section>
+
+<section id="negative-count" class="lab">
+<div class="labhead"><span class="num">实验 07</span><h2>到底有几个负数？</h2><span class="tag">试卷第9题</span></div>
+<div class="stage"><p>先自己判断，点击“揭开结果”后再核对负数个数。</p>
+<div class="mini-grid" id="negativeCards">
+<div class="rule">|−2| <span class="soft">?</span></div><div class="rule">−(−2)² <span class="soft">?</span></div><div class="rule">−(−2) <span class="soft">?</span></div><div class="rule">(−2)³ <span class="soft">?</span></div>
+</div>
+<div class="choices" id="negativeChoices"><button class="btn" data-c="1">1个</button><button class="btn" data-c="2">2个</button><button class="btn" data-c="3">3个</button><button class="btn" data-c="4">4个</button></div>
+<div class="display" id="negativeExplain" aria-live="polite">你猜有几个？先选择答案。</div></div>
+<div class="notice"><strong>数出来的答案是2个。</strong> |−2|=2、−(−2)²=−4、−(−2)=2、(−2)³=−8。</div>
+</section>
+
+<section id="frog" class="lab">
+<div class="labhead"><span class="num">实验 08</span><h2>跳蛙：第99跳落在哪里？</h2><span class="tag">试卷第10题</span></div>
+<div class="stage"><div class="small">奇数跳向右，偶数跳向左；每次跳相应的单位数</div>
+<svg viewBox="0 0 640 125" class="svg" role="img" aria-label="跳蛙位置的动态数轴"><path d="M35 65H605" stroke="#c7d6df" stroke-width="2"/><path d="M595 59l10 6-10 6" stroke="#c7d6df" fill="none" stroke-width="2"/>
+<g id="frogTicks"></g><circle id="frogDot" cx="320" cy="65" r="13" fill="#34B879" stroke="#fff" stroke-width="3" style="transition:cx .24s ease"/><text id="frogDotLabel" x="320" y="37" fill="#fff" font-size="14" font-weight="800" text-anchor="middle">0</text></svg>
+<label for="frogSlider" class="small">已经跳了 <strong id="frogStep">0</strong> 次</label><input class="scale" type="range" id="frogSlider" min="0" max="99" value="0" step="1" style="width:100%;accent-color:#F26B3A"/>
+<div class="display" id="frogOut" aria-live="polite">起点是0，试着拖动到第98跳与第99跳。</div>
+<div class="choices"><button class="btn" id="frogNext">再跳一次</button><button class="btn primary" id="frogLast">看第99跳</button><button class="btn" id="frogReset">回到0跳</button></div></div>
+<div class="notice">每两次跳跃总位移为−1，但第99次还会向右跳99格；<strong>第99跳落在50处，离0的距离是50。</strong></div>
+</section>
+
+<section id="pairs" class="lab">
+<div class="labhead"><span class="num">实验 09</span><h2>五个整数，为什么和是0？</h2><span class="tag">试卷第12题</span></div>
+<div class="stage"><div class="small">条件：|x| &lt; 3。先看范围，再看对称配对。</div>
+<div class="big" id="pairsValues">−2　−1　0　1　2</div>
+<div class="choices"><button class="btn primary" id="pairsShow">把正负数配成对</button><button class="btn" id="pairsReset">重新看</button></div>
+<div class="display" id="pairsOut" aria-live="polite">一共有5个整数，但题目问的是它们的“和”，不是“个数”。</div></div>
+<div class="notice"><strong>−2+2=0，−1+1=0，0仍是0。</strong> 所以“绝对值小于3的所有整数之和”是0。</div>
+</section>
+
+<section id="round" class="lab">
+<div class="labhead"><span class="num">实验 10</span><h2>四舍五入，先看哪一位？</h2><span class="tag">试卷第14题 · 卷面待复核</span></div>
+<div class="stage"><div class="small">目标数字：3.25136</div><div class="big">3.25136</div>
+<p>选保留的位置，观察紧邻下一位是否达到5。</p>
+<div class="choices" id="roundButtons"><button class="btn active" data-p="1">十分位</button><button class="btn" data-p="2">百分位</button><button class="btn" data-p="3">千分位</button></div>
+<div class="display" id="roundOut" aria-live="polite">精确到十分位：看百分位的5，3.25136≈3.3。</div></div>
+<div class="notice">原卷要求“精确到十分位”，<strong>正确答案是3.3</strong>，不是3.25。因为纸面涂改较多，此题标为待核实，不计入明确失分。</div>
+</section>
+
+<section id="branch" class="lab">
+<div class="labhead"><span class="num">实验 11</span><h2>数字机器：条件分支不能跳过</h2><span class="tag">试卷第15题</span></div>
+<div class="stage"><div class="small">输入 → 平方 → 判断是否大于8 → “是”减10，“否”加6</div>
+<svg viewBox="0 0 630 125" class="svg" role="img" aria-label="平方和判断分支的流程图">
+<g fill="#ffffff16" stroke="#9ab1c7" stroke-width="1.5"><rect x="5" y="45" width="100" height="43" rx="9"/><rect x="142" y="45" width="100" height="43" rx="9"/><path d="M331 44L396 66L331 89L266 66Z"/><rect x="434" y="4" width="100" height="39" rx="9" id="branchTop"/><rect x="434" y="88" width="100" height="34" rx="9" id="branchBottom"/></g>
+<path d="M105 66H142M242 66H266M396 66H420V22H434M420 66V105H434" stroke="#F2B73F" fill="none" stroke-width="2"/>
+<g fill="#fff" font-size="15" text-anchor="middle"><text x="55" y="71" id="branchInput">−3</text><text x="192" y="71" id="branchSquare">平方=9</text><text x="331" y="71">＞8?</text><text x="484" y="28">−10</text><text x="484" y="110">＋6</text></g><text x="413" y="39" fill="#aaccdd" font-size="12">是</text><text x="413" y="91" fill="#aaccdd" font-size="12">否</text></svg>
+<label for="branchSlider" class="small">拖动输入值 <b id="branchNumber">−3</b></label><input class="scale" type="range" id="branchSlider" min="-5" max="5" value="-3" step="1" style="width:100%;accent-color:#F26B3A"/>
+<div class="display" id="branchOut" aria-live="polite">输入−3 → 平方得到9 → 9大于8 → 9−10=−1。</div></div>
+<div class="notice">第15题正确输出是<strong>−1</strong>。不是直接对−3做加减，而是必须先平方，再判断条件。</div>
+</section>
+
+<section id="conditions" class="lab">
+<div class="labhead"><span class="num">实验 12</span><h2>未知数，不要随便只取一个值</h2><span class="tag">试卷第18题</span></div>
+<div class="stage"><div class="small">a、b互为相反数；c、d互为倒数；|m|=2</div>
+<div class="rule"><span>a+b</span><span class="cap">0</span></div><div class="rule"><span>cd</span><span class="cap">1</span></div>
+<p>选两个允许的m值，比较m+cd+a+b。</p>
+<div class="choices" id="mChoices"><button class="btn" data-m="2">m=+2</button><button class="btn" data-m="-2">m=−2</button></div>
+<div class="display" id="conditionsOut" aria-live="polite">|m|=2意味着m可以是+2，也可以是−2。两种情况都要考虑。</div></div>
+<div class="notice"><strong>m+cd+a+b=m+1，结果为3或−1。</strong> 不要把“可以取一个例子”误当作“证明所有情况”。</div>
+</section>
+
+<section id="sorting" class="lab">
+<div class="labhead"><span class="num">实验 13</span><h2>六张神秘数字卡，排对才能登台</h2><span class="tag">试卷第19题</span></div>
+<div class="stage"><p>从小到大排。<strong>点击两张卡，交换它们的位置</strong>；排好后点“验证”。</p>
+<div id="sortCards" aria-label="六张可交换的数字卡"></div>
+<div class="choices"><button class="btn primary" id="sortCheck">验证排序</button><button class="btn" id="sortReveal">查看每张卡对应的数字</button><button class="btn" id="sortReset">打乱重来</button></div>
+<div class="display" id="sortOut" aria-live="polite">先不要凭正负号猜大小，先算每张卡代表的数。</div></div>
+<div class="notice">对应数值：−5、3、−2.5、−1、0、1.5。正确顺序：<strong>−5 &lt; −2.5 &lt; −1 &lt; 0 &lt; 1.5 &lt; 3</strong>。</div>
+</section>
+
+<section id="sign-proof" class="lab">
+<div class="labhead"><span class="num">实验 14</span><h2>不代入具体数，能算出结果吗？</h2><span class="tag">试卷第20题</span></div>
+<div class="stage"><div class="small">从数轴看出 c＜b＜0＜a，而且 |a|=|b|</div>
+<p>逐个揭开五个数学结论，看看为什么答案不依赖具体数字。</p>
+<div class="mini-grid" id="proofCards">
+<button class="opt" data-idx="0">① a+b = ?</button><button class="opt" data-idx="1">② a/b = ?</button><button class="opt" data-idx="2">③ |a|/a = ?</button><button class="opt" data-idx="3">④ −|b|/b = ?</button><button class="opt" data-idx="4">⑤ 3|bc|/(bc) = ?</button>
+</div>
+<div class="display" id="proofOut" aria-live="polite">不用选a=1、b=−1，只看符号也能判断。逐张揭开。</div></div>
+<div class="notice">因为a＞0，b＜0，c＜0，所以bc＞0。第(1)问<strong>0、−1</strong>；第(2)问<strong>1+1+3=5</strong>。</div>
+</section>
+
+<section id="binary" class="lab">
+<div class="labhead"><span class="num">实验 15</span><h2>二进制翻译机：余数倒着读</h2><span class="tag">试卷第21题</span></div>
+<div class="stage"><div class="small">任务1：把十进制23变为二进制。按“÷2取余”逐步执行。</div>
+<div class="big">23<sub style="font-size:15px">10</sub> → <span id="binaryResult">?</span><sub style="font-size:15px">2</sub></div>
+<div class="display mono" id="binaryLines" aria-live="polite">每按一次，会做一步除2。</div>
+<div class="choices"><button class="btn primary" id="binaryNext">下一次÷2</button><button class="btn" id="binaryReset">重置</button></div>
+<div class="rule" style="margin-top:16px"><span>任务2：(111)₂ = ?（十进制）</span></div>
+<div class="choices" id="binaryAnswers"><button class="btn" data-a="6">6</button><button class="btn" data-a="7">7</button><button class="btn" data-a="3">3</button></div>
+<div class="display" id="binaryExplain" aria-live="polite">从右向左数位权：1×2⁰ + 1×2¹ + 1×2²。</div></div>
+<div class="notice">23的二进制是<strong>(10111)₂</strong>；(111)₂=1+2+4=<strong>7</strong>。不要把除2时的余数按从上到下读取。</div>
+</section>
+
 <p class="foot">本页仅增加专项训练，不覆盖原版23个章节视图及独立V.2。难点与题号根据上传的第二章试卷整理；实验里的数字可以改变，原题结论不变。<a href="./#view-1-1" style="font-weight:900;color:#C85830">返回原实验 →</a></p>
 </main>
 <script>
@@ -154,4 +293,74 @@ el("fractionReset").addEventListener("click",function(){reveal=0;renderFraction(
 renderFraction();
 })();
 </script>
+
+<script>
+(function(){
+"use strict";
+function $(id){return document.getElementById(id)}
+function text(id,value){var n=$(id);if(n)n.textContent=String(value)}
+function each(sel,fn){Array.prototype.forEach.call(document.querySelectorAll(sel),fn)}
+var audited=[
+[1,"ok","正负数相加","./#view-1-4","已完成"],
+[2,"ok","温度差与有理数减法","./#view-1-4","已完成"],
+[3,"ok","带括号的平方","./#view-1-6","已完成"],
+[4,"ok","去括号与化简","./#view-1-4","已完成"],
+[5,"ok","有理数乘除","./#view-1-5","已完成"],
+[6,"wrong","倒数、0与−1","#reciprocal","−1的倒数仍是−1；0没有倒数"],
+[7,"ok","数轴上乘除的符号判断","./#view-1-2","已完成"],
+[8,"ok","亿与科学记数法","#science","已完成"],
+[9,"wrong","负数个数：乘方与负号","#negative-count","应数出2个负数"],
+[10,"wrong","正负交替的数轴运动","#frog","第99跳落在50"],
+[11,"ok","互为倒数的乘积","#reciprocal","2ab−5=−3"],
+[12,"wrong","对称整数的求和","#pairs","−2−1+0+1+2=0"],
+[13,"ok","非负数之和为0","./#view-1-3","x+y=−1"],
+[14,"check","精确到十分位","#round","正确为3.3；卷面涂改待确认"],
+[15,"wrong","平方后再判断分支","#branch","(−3)²=9＞8，输出−1"],
+[16,"partial","运算顺序、乘方与分数","#order","第(1)问错误；第(2)问−26正确"],
+[17,"wrong","数量级与科学记数法","#science","第(1)问72应为720；第(2)问需写5×10⁵"],
+[18,"partial","相反数、倒数与双解","#conditions","m=±2；结果3或−1"],
+[19,"wrong","六个数的数值转换与排序","#sorting","先求六个数，再按数轴大小排序"],
+[20,"partial","符号条件与代数化简","#sign-proof","第(1)问0和−1；第(2)问5"],
+[21,"partial","十进制与二进制互转","#binary","23→(10111)₂；(111)₂=7"],
+[22,"partial","裂项拆分与规律求和","#fraction","第(1)问大体正确；第(2)问505/2021"],
+[23,"wrong","位置、距离、路程、耗油","#truck","依次3、5.5、−4.5；总路程20、耗油4"]
+];
+var totals={ok:0,wrong:0,partial:0,check:0};audited.forEach(function(q){totals[q[1]]++});
+text("wrongCount",totals.wrong);text("partialCount",totals.partial);text("okCount",totals.ok);text("checkCount",totals.check);
+var statusName={ok:"卷面正确",wrong:"明显失分",partial:"部分失分",check:"待核实"};
+function drawAudit(mode){var root=$("auditGrid");root.replaceChildren();audited.filter(function(q){return mode==="all"||q[1]===mode||(mode==="needs"&&(q[1]==="wrong"||q[1]==="partial"))}).forEach(function(q){var card=document.createElement("article");card.className="audit-card";var hdr=document.createElement("div");hdr.style.display="flex";hdr.style.alignItems="center";hdr.style.justifyContent="space-between";hdr.innerHTML="<strong>第"+q[0]+"题</strong>";var badge=document.createElement("span");badge.className="status "+q[1];badge.textContent=statusName[q[1]];hdr.appendChild(badge);card.appendChild(hdr);var title=document.createElement("strong");title.textContent=q[2];card.appendChild(title);var note=document.createElement("small");note.textContent=q[4];card.appendChild(note);var a=document.createElement("a");a.href=q[3];a.textContent=q[1]==="ok"?"回看相关实验":"进入对应实验";card.appendChild(a);root.appendChild(card)})}
+drawAudit("all");
+each("#auditFilters button",function(btn){btn.addEventListener("click",function(){each("#auditFilters button",function(b){b.classList.toggle("selected",b===btn)});drawAudit(btn.getAttribute("data-audit"))})});
+var finished={};function complete(id){if(finished[id])return;finished[id]=1;text("extraProgress",Object.keys(finished).length+" / 10")}
+each("#reciprocalButtons button",function(b){b.addEventListener("click",function(){var v=Number(b.getAttribute("data-v"));each("#reciprocalButtons button",function(c){c.classList.toggle("active",c===b)});text("reciprocalValue",v===0?"0 × ? = 1（不可能）":v+" × ("+(1/v)+") = 1");text("reciprocalExplain",v===0?"0乘任何数都是0，所以0没有倒数。":v===-1?"−1乘以−1等于1，所以−1的倒数是−1。":"倒数不是变号，而是取1÷这个数。"+v+"的倒数是"+(1/v)+"。");complete("reciprocal")})});
+var negValues=[2,-4,2,-8];
+each("#negativeChoices button",function(b){b.addEventListener("click",function(){var n=Number(b.getAttribute("data-c"));each("#negativeChoices button",function(c){c.classList.remove("correct","wrong");if(c===b)c.classList.add(n===2?"correct":"wrong")});text("negativeExplain",(n===2?"答对了。":"还要检查括号和乘方的先后。")+"四个数分别是 "+negValues.join("、")+"；负数只有−4和−8，共2个。");var boxes=$("negativeCards").children;for(var i=0;i<boxes.length;i++){boxes[i].lastElementChild.textContent=String(negValues[i]);boxes[i].style.borderColor=negValues[i]<0?"#F2604F":"#34B879"};if(n===2)complete("negative-count")})});
+var fg=$("frogTicks");[-50,-25,0,25,50].forEach(function(n){var e=document.createElementNS("http://www.w3.org/2000/svg","text");e.setAttribute("x",320+n*5.3);e.setAttribute("y","94");e.setAttribute("fill",n===0?"#F2B73F":"#CBD6E0");e.setAttribute("font-size","13");e.setAttribute("text-anchor","middle");e.textContent=n;fg.appendChild(e)});
+function frogDraw(){var n=+$("frogSlider").value,p=n%2?(n+1)/2:-n/2,x=320+p*5.3;text("frogStep",n);$("frogDot").setAttribute("cx",x);$("frogDotLabel").setAttribute("x",x);text("frogDotLabel",p);text("frogOut",n===0?"从0出发。":n===99?"第99跳落在50，距原点50。第98跳其实在−49。":"跳了"+n+"次，落点坐标为"+p+"，离0的距离是"+Math.abs(p)+"。");if(n===99)complete("frog")}
+$("frogSlider").addEventListener("input",frogDraw);
+$("frogNext").addEventListener("click",function(){$("frogSlider").value=Math.min(99,Number($("frogSlider").value)+1);frogDraw()});
+$("frogLast").addEventListener("click",function(){$("frogSlider").value=99;frogDraw()});
+$("frogReset").addEventListener("click",function(){$("frogSlider").value=0;frogDraw()});
+$("pairsShow").addEventListener("click",function(){text("pairsValues","(−2 + 2)　+　(−1 + 1)　+　0");text("pairsOut","两组相反数相加都等于0，所以总和是0；“有5个整数”不等于“和是5”。");complete("pairs")});
+$("pairsReset").addEventListener("click",function(){text("pairsValues","−2　−1　0　1　2");text("pairsOut","一共有5个整数，但题目问的是它们的“和”，不是“个数”。")});
+var roundCases={1:"精确到十分位：看百分位的5，所以3.25136≈3.3。",2:"精确到百分位：看千分位的1，所以3.25136≈3.25。",3:"精确到千分位：看万分位的3，所以3.25136≈3.251。"};
+each("#roundButtons button",function(b){b.addEventListener("click",function(){each("#roundButtons button",function(c){c.classList.toggle("active",c===b)});text("roundOut",roundCases[+b.getAttribute("data-p")]);complete("round")})});
+function branchDraw(){var v=Number($("branchSlider").value),s=v*v,yes=s>8,answer=s+(yes?-10:6);text("branchNumber",v);text("branchInput",v);text("branchSquare","平方="+s);text("branchOut","输入"+v+" → 平方得到"+s+" → "+s+(yes?"＞":"≤")+"8 → "+s+(yes?"−10":"＋6")+" = "+answer+"。");$("branchTop").setAttribute("fill",yes?"#257c58":"#ffffff16");$("branchBottom").setAttribute("fill",yes?"#ffffff16":"#257c58");complete("branch")}
+$("branchSlider").addEventListener("input",branchDraw);
+var seenM={};each("#mChoices button",function(b){b.addEventListener("click",function(){var m=Number(b.getAttribute("data-m"));seenM[m]=true;each("#mChoices button",function(c){c.classList.toggle("active",c===b)});text("conditionsOut","当m="+m+"，m+cd+a+b = "+m+"+1+0 = "+(m+1)+"。"+(Object.keys(seenM).length===2?"两种可能都找齐了。":"再试试另一种m。"));if(Object.keys(seenM).length===2)complete("conditions")})});
+var sortItems=[{s:"−|−5|",v:-5},{s:"−(−3)",v:3},{s:"−0.4的倒数",v:-2.5},{s:"(−1)⁵",v:-1},{s:"0的相反数",v:0},{s:"比−2大7/2的数",v:1.5}],initial=[1,4,0,5,3,2],order=initial.slice(),picked=-1,reveal=false;
+function drawSort(){var root=$("sortCards");root.replaceChildren();order.forEach(function(id,i){var d=sortItems[id],b=document.createElement("button");b.className="sort-card"+(picked===i?" selected":"");b.textContent=(i+1)+". "+d.s+(reveal?" = "+d.v:"");b.addEventListener("click",function(){if(picked===-1){picked=i}else if(picked===i){picked=-1}else{var tmp=order[picked];order[picked]=order[i];order[i]=tmp;picked=-1}drawSort()});root.appendChild(b)})}
+$("sortCheck").addEventListener("click",function(){var valid=order.every(function(id,i){return i===0||sortItems[order[i-1]].v<sortItems[id].v});text("sortOut",valid?"排序成功：−5 < −2.5 < −1 < 0 < 1.5 < 3。":"还没排对。可以先点“查看每张卡对应的数字”，再交换两张卡。");if(valid)complete("sorting")});
+$("sortReveal").addEventListener("click",function(){reveal=true;drawSort();text("sortOut","把每张卡先算成一个数，再排大小。小于0的数中，离0越远越小。")});
+$("sortReset").addEventListener("click",function(){order=initial.slice();picked=-1;reveal=false;drawSort();text("sortOut","先不要凭正负号猜大小，先算每张卡代表的数。")});drawSort();
+var proofVals=["a和b互为相反数，所以a+b=0。","因为|a|=|b|且a>0>b，所以a/b=−1。","a>0，所以|a|/a=1。","b<0，所以|b|/b=−1；带上前面的减号得到+1。","b<0且c<0，所以bc>0；3|bc|/(bc)=+3。"],proofDone={};
+each("#proofCards button",function(b){b.addEventListener("click",function(){var i=Number(b.getAttribute("data-idx"));b.classList.add("correct");proofDone[i]=true;text("proofOut",proofVals[i]+(Object.keys(proofDone).length===5?" 全部揭开！第二问的结果：1+1+3=5。":""));if(Object.keys(proofDone).length===5)complete("sign-proof")})});
+var bstart=23,brows=[],bnum=23;
+function binaryDraw(){text("binaryLines",brows.length?brows.map(function(r){return r.n+" ÷ 2 = "+r.q+" …… "+r.rem}).join("　|　"):"每按一次，会做一步除2。");if(bnum===0){text("binaryResult",brows.map(function(r){return r.rem}).reverse().join(""));$("binaryNext").disabled=true;complete("binary")}else{text("binaryResult","?");$("binaryNext").disabled=false}}
+$("binaryNext").addEventListener("click",function(){if(!bnum)return;var q=Math.floor(bnum/2),rem=bnum%2;brows.push({n:bnum,q:q,rem:rem});bnum=q;binaryDraw()});
+$("binaryReset").addEventListener("click",function(){brows=[];bnum=23;binaryDraw()});
+each("#binaryAnswers button",function(b){b.addEventListener("click",function(){var isGood=b.getAttribute("data-a")==="7";each("#binaryAnswers button",function(c){c.classList.remove("correct","wrong")});b.classList.add(isGood?"correct":"wrong");text("binaryExplain",isGood?"答对了：(111)₂=1×4+1×2+1×1=7。":"再试一次：从右往左分别乘1、2、4，不是把111当成十进制。");if(isGood)complete("binary")})});
+})();
+</script>
+
 </body></html>
