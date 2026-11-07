@@ -29,7 +29,7 @@ function build(root,key,compact,reference){
  var row=el("div","dn-answer-row"),input=el("input","dn-answer"),done=button("完成后核对");
  input.type="text";input.inputMode="text";input.autocomplete="off";input.spellcheck=false;input.setAttribute("aria-label","用屏幕键盘输入计算过程或答案");input.placeholder="键盘输入算式／结果（可选）";input.value=state.answer||"";done.classList.add("dn-complete");row.appendChild(input);row.appendChild(done);wrap.appendChild(row);
  var fb=el("p","dn-feedback","输入和笔迹保存在当前设备的浏览器中，不上传到服务器。");fb.setAttribute("aria-live","polite");wrap.appendChild(fb);
- root.appendChild(wrap);
+ if(reference&&reference.parentNode===root)root.insertBefore(wrap,reference);else root.appendChild(wrap);
  var ctx=canvas.getContext("2d"),ratio=window.devicePixelRatio||1,scaleW=1,scaleH=1,stroke=null,activePointer=null,readOnly=false;
  function selected(){blue.classList.toggle("active",color==="#284f8a");red.classList.toggle("active",color==="#b64e3a");undo.disabled=!state.strokes.length;clear.disabled=!state.strokes.length}
  function persist(){state.color=color;if(!save(key,state))fb.textContent="当前浏览器未能保存（可能是无痕模式或储存空间不足）；本页仍可以继续书写。";else{stat.textContent=state.status==="done"?"已自行核对":"草稿已保存";}}
