@@ -20,3 +20,10 @@
 .think-answer .dn-root{color:#243847}
 @media(max-width:480px){.dn-root{padding:9px;border-radius:13px}.dn-inkpad{height:230px}.dn-root.dn-compact .dn-inkpad{height:195px}.dn-tool{min-height:44px}.dn-answer{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){.dn-root *{transition:none!important;animation:none!important}}
+
+/* Legacy questions keep their original text; tap to expand the handwriting panel. */
+.dn-optional{margin-top:13px}
+.dn-optional>summary{list-style:revert;cursor:pointer;border:1px solid #d2deea;background:#eff5fa;color:#2b5471;border-radius:11px;padding:11px 12px;font-size:13px;font-weight:800;min-height:45px;touch-action:manipulation}
+.dn-optional[open]>summary{border-color:#d8a778;background:#fff2e4;color:#a24e23;margin-bottom:10px}
+.stage .dn-optional>summary{background:#ffffff1e;border-color:#ffffff35;color:#fff}
+.stage .dn-optional[open]>summary{background:#F26B3A;color:#fff}
