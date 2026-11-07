@@ -59,15 +59,22 @@ main{max-width:970px;padding:22px 15px 60px;margin:auto}.eyebrow{display:inline-
 
 </style>
 <link rel="stylesheet" href="./digital-notebook.css?v=2">
+<link rel="stylesheet" href="./learning-nav.css?v=1">
 </head>
-<body>
-<header><div class="brand">看得见的初一数学 <span style="color:#F26B3A">/ 错题实验室</span></div><a class="back" href="./#view-1-1">返回全部原实验</a></header>
+<body class="math-exam">
+<header><div class="brand">看得见的初一数学 <span style="color:#F26B3A">/ 原卷复盘</span></div></header>
+<nav class="math-nav" aria-label="四个学习入口">
+<a href="./v2/#chapter/1">学课程</a>
+<a href="./#view-1-1">看原理</a>
+<a href="./practice-bank.html">专项刷题</a>
+<a href="./exam-labs.html#overview" aria-current="page">原卷复盘</a>
+</nav>
 <main>
 <section class="hero">
 <span class="eyebrow">专项补充 · 不替代任何原实验</span>
 <h1>错题不是终点，<br>是下一次发现的起点。</h1>
 <p class="lead">六页试卷全部23题逐题复盘；保留原5个专项实验，新增10个互动训练。先猜 → 动手 → 观察 → 说出为什么。</p>
-<div style="margin-top:14px;font-size:13px;font-weight:800;color:#5C6B7A">已探索 <span id="progressText">0 / 5</span> 个实验<div class="meter"><div id="progressFill"></div></div></div>
+<div style="margin-top:14px;font-size:13px;font-weight:800;color:#5C6B7A">原有5个专题实验探索进度 <span id="progressText">0 / 5</span><div class="meter"><div id="progressFill"></div></div></div>
 <nav class="strip" aria-label="实验导航"><a href="#thinking-gate" style="border-color:#F26B3A;color:#C94E25">先想再写 · 思考闸门</a>
 <a href="#sign">01 负号身份</a><a href="#order">02 运算顺序</a><a href="#truck">03 货车数轴</a><a href="#science">04 数量级</a><a href="#fraction">05 裂项规律</a>
 </nav>
