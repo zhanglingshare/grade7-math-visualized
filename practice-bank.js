@@ -106,11 +106,11 @@ function topicItems(){var t=topics[topicIndex],all=bank.filter(function(q){retur
 function card(topic){var answered=bank.filter(function(q){return q.topic===topic.id&&records[q.id]&&records[q.id].lastCorrect}).length;return answered}
 function progress(){var good=0,wrong=0;bank.forEach(function(q){var rec=records[q.id];if(rec){if(rec.lastCorrect)good++;else if(rec.attempts>0)wrong++}});
  byId("masteredCount").textContent=good;byId("wrongCount").textContent=wrong;
- var list=byId("topicList");list.replaceChildren();topics.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.className="topic-btn"+(i===topicIndex?" active":"");b.setAttribute("aria-pressed",String(i===topicIndex));
+ var list=byId("topicList"),scrollPos=list.scrollLeft;list.replaceChildren();topics.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.className="topic-btn"+(i===topicIndex?" active":"");b.setAttribute("aria-pressed",String(i===topicIndex));
  var no=document.createElement("span");no.className="topic-no";no.textContent=t.number;
  var name=document.createElement("span");name.className="topic-desc";var strong=document.createElement("strong");strong.textContent=t.title;var small=document.createElement("small");small.textContent=t.why;name.appendChild(strong);name.appendChild(small);
  var done=document.createElement("span");done.className="topic-amount";done.textContent=card(t)+"/12";b.appendChild(no);b.appendChild(name);b.appendChild(done);
- b.addEventListener("click",function(){topicIndex=i;questionIndex=0;stage=0;picked=-1;draw()});list.appendChild(b)})
+ b.addEventListener("click",function(){topicIndex=i;questionIndex=0;stage=0;picked=-1;draw()});list.appendChild(b)});list.scrollLeft=scrollPos;
 }
 function choiceButton(text,index,act,feedbackClass,disabled){var b=document.createElement("button");b.type="button";b.className="answer"+(feedbackClass?" "+feedbackClass:"");b.disabled=!!disabled;
  var no=document.createElement("b");no.textContent=String.fromCharCode(65+index);var content=document.createElement("span");content.textContent=text;b.appendChild(no);b.appendChild(content);b.addEventListener("click",act);return b}
