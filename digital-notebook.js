@@ -77,6 +77,16 @@ function install(){
  });
  document.querySelectorAll(".c1-lab .c1-foot").forEach(function(slot){build(slot,taskKey("c1",0,slot),true,null)});
  var think=document.querySelector(".think-answer.visible");if(think)build(think,taskKey("think",0,think),true,null);
+
+ /* Original V1 open-ended "小思考": optional on-screen handwriting without deleting original prompts. */
+ document.querySelectorAll(".view .quiz").forEach(function(quiz,i){
+  if(quiz.querySelector(".dn-optional"))return;
+  var detail=el("details","dn-optional"),summary=el("summary","","在屏幕上写这道小思考（不用纸笔）"),slot=el("div","dn-slot");
+  detail.appendChild(summary);detail.appendChild(slot);quiz.appendChild(detail);
+  var view=quiz.closest(".view"),viewId=view?view.id:"unknown",localIndex=0;
+  if(view){var all=view.querySelectorAll(".quiz");Array.prototype.forEach.call(all,function(q,j){if(q===quiz)localIndex=j})}
+  detail.addEventListener("toggle",function(){if(detail.open)build(slot,"v1:original:"+viewId+":quiz:"+localIndex,true,null)});
+ });
  document.querySelectorAll("main .lab[id]:not(#overview):not(#thinking-gate) > .stage").forEach(function(stage){
   if(stage.querySelector(".dn-optional"))return;
   var details=el("details","dn-optional"),summary=el("summary","","需要演算？打开屏幕草稿（选用）"),space=el("div","dn-slot");details.appendChild(summary);details.appendChild(space);stage.appendChild(details);
