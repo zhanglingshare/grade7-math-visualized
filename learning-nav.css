@@ -1,0 +1,21 @@
+/* Shared learning navigation across V1, V2, exam review and practice bank.
+   Existing route IDs are not changed. */
+.math-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:1110px;width:calc(100% - 24px);margin:0 auto;padding:6px;gap:5px;background:#fffcf8f5;border:1px solid #e7ded3;border-radius:0 0 15px 15px;box-shadow:0 5px 19px -18px #24334382;z-index:54;position:sticky;top:0}
+.math-nav>a{border-radius:10px;text-align:center;white-space:nowrap;min-width:0;min-height:43px;display:flex;align-items:center;justify-content:center;padding:7px 4px;color:#526475;text-decoration:none;font-size:14px;font-weight:800;line-height:1.3}
+.math-nav>a:hover{background:#f2e9df;color:#b04e2f}
+.math-nav>a[aria-current="page"]{background:#f26b3a;color:#fff}
+.math-nav>a:focus-visible{outline:3px solid #eeba6c;outline-offset:2px}
+body.math-root .math-nav{top:58px}
+body.math-exam .math-nav{top:52px}
+body.math-practice .math-nav{top:0}
+body.math-v2 .math-nav{top:0}
+.drawer-group{margin:8px 0;border:1px solid #eee4da;border-radius:12px;overflow:hidden;background:#fdfcf8}
+.drawer-group>summary{list-style:none;cursor:pointer;min-height:47px;display:flex;align-items:center;padding:10px 12px;font-weight:900;color:#35495b;font-size:13px;gap:6px}
+.drawer-group>summary::-webkit-details-marker{display:none}
+.drawer-group>summary::after{content:"+";margin-left:auto;font-size:19px;color:#bd5c36}
+.drawer-group[open]>summary::after{content:"−"}
+.drawer-group[open]>summary{background:#fff1e7;color:#a44928}
+.drawer-group .nav-item{margin:2px 7px;font-size:13px}
+.drawer-group .nav-item:last-child{margin-bottom:8px}
+@media(max-width:500px){.math-nav{width:calc(100% - 12px);gap:3px;padding:5px;border-radius:0 0 11px 11px}.math-nav>a{font-size:12px;min-height:43px;padding:8px 1px}.drawer-group>summary{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.math-nav *, .drawer-group *{transition:none!important}}
