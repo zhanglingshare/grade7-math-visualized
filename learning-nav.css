@@ -7,7 +7,7 @@
 .math-nav>a:focus-visible{outline:3px solid #eeba6c;outline-offset:2px}
 body.math-root .math-nav{top:58px}
 body.math-exam .math-nav{top:52px}
-body.math-practice .math-nav{top:0}
+body.math-practice .math-nav{top:56px}
 body.math-v2 .math-nav{top:0}
 .drawer-group{margin:8px 0;border:1px solid #eee4da;border-radius:12px;overflow:hidden;background:#fdfcf8}
 .drawer-group>summary{list-style:none;cursor:pointer;min-height:47px;display:flex;align-items:center;padding:10px 12px;font-weight:900;color:#35495b;font-size:13px;gap:6px}
@@ -19,3 +19,6 @@ body.math-v2 .math-nav{top:0}
 .drawer-group .nav-item:last-child{margin-bottom:8px}
 @media(max-width:500px){.math-nav{width:calc(100% - 12px);gap:3px;padding:5px;border-radius:0 0 11px 11px}.math-nav>a{font-size:12px;min-height:43px;padding:8px 1px}.drawer-group>summary{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.math-nav *, .drawer-group *{transition:none!important}}
+
+.math-v2 .nav-context{font-size:12px;font-weight:800;color:#67818b;white-space:nowrap;margin-left:auto}
+@media(max-width:600px){.math-v2 .nav-context{display:none}.math-v2 .header-progress{font-size:11px}}
