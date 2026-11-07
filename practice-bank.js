@@ -118,7 +118,7 @@ function draw(){progress();var set=topicItems(),topic=topics[topicIndex],i=Math.
  byId("topicBadge").textContent="原卷第"+topic.number+"题相关 · "+topic.title;
  byId("questionIndex").textContent=set.length?"第"+(i+1)+"题 / "+set.length+"题 · 原题变式":"当前没有待重练题";
  byId("progressBar").style.width=(card(topic)/12*100)+"%";
- byId("prevQuestion").disabled=i===0||!set.length;byId("nextQuestion").disabled=!set.length||i>=set.length-1;
+ byId("prevQuestion").disabled=i===0||!set.length;byId("nextQuestion").disabled=!set.length||i>=set.length-1;byId("nextQuestion").textContent=i>=set.length-1?"下一组考点 →":"下一题 →";if(set.length&&i>=set.length-1&&topicIndex<topics.length-1)byId("nextQuestion").disabled=false;
  var area=byId("answerChoices");area.replaceChildren();
  if(!set.length){byId("questionText").textContent="这一组目前没有待重练题。";byId("questionPrompt").textContent="可以切回“全部12道”，继续练新题。";byId("feedback").textContent="只有曾经答错、且尚未重练答对的题才进入这里。";byId("stepThink").className="";byId("stepAnswer").className="";byId("practicePaper").dataset.paperId="";return}
  var q=set[i];byId("questionText").textContent=q.question;
@@ -142,7 +142,11 @@ function draw(){progress();var set=topicItems(),topic=topics[topicIndex],i=Math.
     if(picked>=0)return;
     picked=j;var right=q.correct===q.options[j],entry=records[q.id]||{attempts:0,everWrong:false,lastCorrect:false};
     entry.attempts++;if(!right)entry.everWrong=true;entry.lastCorrect=right;entry.lastAnswer=q.options[j];records[q.id]=entry;persist();
-    draw();
+    if(byId("practiceMode").value==="wrong"&&right){
+     area.querySelectorAll(".answer").forEach(function(btn,k){btn.disabled=true;btn.classList.toggle("correct",q.options[k]===q.correct);btn.classList.toggle("incorrect",k===j&&!right)});
+     byId("feedback").textContent="这题重练答对了，已从待重练列表移除。"+q.why;
+     progress();byId("nextQuestion").disabled=false;byId("nextQuestion").textContent="继续练下一题 →";
+    }else draw();
    },answerState,picked>=0))
   })
  }
@@ -150,7 +154,12 @@ function draw(){progress();var set=topicItems(),topic=topics[topicIndex],i=Math.
 function startQuestion(idx){questionIndex=idx;stage=0;picked=-1;draw()}
 byId("practiceMode").addEventListener("change",function(){startQuestion(0)});
 byId("prevQuestion").addEventListener("click",function(){startQuestion(Math.max(0,questionIndex-1))});
-byId("nextQuestion").addEventListener("click",function(){startQuestion(questionIndex+1)});
+byId("nextQuestion").addEventListener("click",function(){
+ var pool=topicItems();
+ if(byId("practiceMode").value==="wrong"&&picked>=0){startQuestion(Math.min(questionIndex,Math.max(0,pool.length-1)));return;}
+ if(questionIndex>=pool.length-1){if(topicIndex<topics.length-1){topicIndex++;byId("practiceMode").value="all";startQuestion(0)}return;}
+ startQuestion(questionIndex+1);
+});
 byId("resetTopic").addEventListener("click",function(){if(!window.confirm("重新练这一组12题？只清除该组的作答进度，不删除其他组。"))return;var name=topics[topicIndex].id;bank.filter(function(q){return q.topic===name}).forEach(function(q){delete records[q.id]});persist();byId("practiceMode").value="all";startQuestion(0)});
 var hand=byId("practiceHandwriting");
 hand.addEventListener("toggle",function(){if(hand.open){var n=byId("practicePaper");n.setAttribute("data-paper-id",n.dataset.paperId||"")}}); 
