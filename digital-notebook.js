@@ -69,11 +69,11 @@ function build(root,key,compact,reference){
 function install(){
  document.querySelectorAll(".s1-paper-task").forEach(function(item,i){
   var sp=item.querySelector(".s1-paper-space"),ref=item.querySelector("details");
-  if(sp){sp.style.display="none";build(item,taskKey("studio",i,item),false,ref)}
+  if(sp){if(sp.style.display!=="none")sp.style.display="none";build(item,taskKey("studio",i,item),false,ref)}
  });
  document.querySelectorAll(".paper-task").forEach(function(item,i){
   var sp=item.querySelector(".paper-space"),ref=item.querySelector("details");
-  if(sp){sp.style.display="none";build(item,taskKey("v2",i,item),false,ref)}
+  if(sp){if(sp.style.display!=="none")sp.style.display="none";build(item,taskKey("v2",i,item),false,ref)}
  });
  document.querySelectorAll(".c1-lab .c1-foot").forEach(function(slot){build(slot,taskKey("c1",0,slot),true,null)});
  var think=document.querySelector(".think-answer.visible");if(think)build(think,taskKey("think",0,think),true,null);
