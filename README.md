@@ -1,17 +1,17 @@
-# 七年级数学
+# 七年级数学 · 统一学习导航
 
-## 版本入口
+> 四个入口已统一到同一套导航：**学课程 → 看原理 → 专项刷题 → 原卷复盘**。所有原实验、原题和旧版深链接保留，不重命名原路由。
 
-| 版本 | 在线体验 | 内容 |
+| 入口 | 访问地址 | 用途 |
 | --- | --- | --- |
-| **V.2 新版** | [打开七年级数学 V.2](https://zhanglingshare.github.io/grade7-math-visualized/v2/) | 按本次上传教材重建前三章，19个实验、57道选择题、38道纸笔题、10次周六课表 |
-| V1 原版 | [打开原版](https://zhanglingshare.github.io/grade7-math-visualized/) | 原有21节互动课 |
+| **学课程（主学习入口）** | [V.2完整课程](https://zhanglingshare.github.io/grade7-math-visualized/v2/#chapter/1) | 从第一章顺序学习；原19个实验、选择题、屏幕书写题继续保留 |
+| **看原理** | [原版可视化实验](https://zhanglingshare.github.io/grade7-math-visualized/#view-1-1) | 24个视图（包含首页），原有数学动画与首章28道先想再写题保留；目录按章节折叠 |
+| **专项刷题** | [156道变式题](https://zhanglingshare.github.io/grade7-math-visualized/practice-bank.html) | 13组失分考点各12道，先判断再作答、即时反馈、只重练曾经做错的题 |
+| **原卷复盘** | [23题逐题复盘与15个实验](https://zhanglingshare.github.io/grade7-math-visualized/exam-labs.html#overview) | 13个失分题号、其余题号及一题多问的复盘；原实验不删除 |
 
-V.2位于独立的 [v2/](v2/) 目录，版本分支为 `V.2`。新版动画支持播放、暂停和继续；家长提问、解释记录与纸笔练习按每节课配套。
+**重要区分：** 13个题号来自已上传试卷的失分或部分失分标记；156道是为训练新编的**变式题**，并不是孩子真实做错的156题。卷面第14题涂改判分仍需复核。
 
-- [V.2 内容与运行说明](v2/README.md)
-- [V.2 家长课表与参考答案](v2/parent-guide.md)
-- [V.2 教材对应范围](v2/TEXTBOOK-COVERAGE.md)
+平板/手机上可直接点选、输入或打开电子草稿本，支持手指/触控笔书写、撤销、清空和扩大。手写不进行自动数学识别。各题记录仅存当前浏览器，换设备不会自动同步。
 
 ---
 
