@@ -6,6 +6,7 @@
 <title>看得见的初一数学 · 交互可视化学习站</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F2A3A'/%3E%3Cpath d='M8 40 L56 40' stroke='%23F2F5F8' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='40' r='7' fill='%234CC38A'/%3E%3Ccircle cx='42' cy='40' r='7' fill='%23FF7A6B'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="./chapter1-upgrades.css">
 <style>
 :root{
   --paper:#F5F2EA;
@@ -572,7 +573,7 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   <div class="view-head">
     <div class="crumb">第1章 · 有理数</div>
     <h2>1.4 加减法：数轴上走路</h2>
-    <p class="lead">加减法不用背口诀，记住两句话：<strong>加 = 向右跳，减 = 向左跳</strong>。跳到哪，答案就是哪。</p>
+    <p class="lead">加减法先转化为<strong>加上一个带符号的数</strong>：加正数向右，加负数向左；减去一个数等于加上它的相反数。</p>
     <div class="rule">减去一个数 = 加上它的相反数</div>
   </div>
   <div class="stage">
@@ -610,7 +611,7 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   </div>
   <div class="think" data-think="t14">
     <div class="t-head">想一想 · 追问三步（答完再看下一问）</div>
-    <div class="t-q">第 1 问：小球向右跳，是在加还是在减？向左跳呢？</div>
+    <div class="t-q">第 1 问：小球向右跳，对应“加上正数”还是“加上负数”？向左呢？</div>
     <div class="t-q">第 2 问：5 − (−2) 为什么等于 5 + 2？在数轴上想想：减负就是掉头向右。</div>
     <div class="t-q">第 3 问：换个数试试：(−3) + 4 = ？先在心里猜，再去数轴上验证。</div>
     <button class="btn">下一问</button>
@@ -618,7 +619,7 @@ svg.canvas text{font-family:'Noto Sans SC',sans-serif}
   <div class="learned">
     <div class="q-head">这一节学到了</div>
     <ul>
-      <li>加法：向右跳；减法：向左跳</li>
+      <li>先将减法转化成加法；加正数向右跳，加负数向左跳</li>
       <li>减去一个数 = 加上它的相反数：5 − (−2) = 5 + 2 = 7</li>
       <li>同号相加取同号，异号相加看"谁离 0 更远"——数轴上跳一跳全明白</li>
     </ul>
@@ -1969,7 +1970,7 @@ $("pauseAll").addEventListener("click",function(){
     ticks.innerHTML+='<line x1="'+x+'" y1="142" x2="'+x+'" y2="158" stroke="#5A6A80" stroke-width="2"/>'+
       '<text x="'+x+'" y="184" text-anchor="middle" fill="#9FB2C9" font-size="14" font-weight="700">'+i+'</text>';
   }
-  var presets=[["(-2)+5",-2,5],["3-7",3,-7],["(-4)+3",-4,3],["5-(-2)",5,-2]];
+  var presets=[["(-2)+5",-2,5],["3-7",3,-7],["(-4)+3",-4,3],["5-(-2)",5,2]];
   var steps=[],idx=0,timer=null,ans=0,startA=0;
   function drawPos(v,c){
     ball.innerHTML='<circle cx="'+px(v)+'" cy="150" r="14" fill="'+(c||"#FFC857")+'" stroke="#fff" stroke-width="2.5"/>'+
@@ -1988,7 +1989,7 @@ $("pauseAll").addEventListener("click",function(){
     drawPos(a);
     tag.textContent="第 0 步：站在起点 "+a;
     result.textContent=b===0?"0 步，原地不动 → 答案 = "+a:"总步数 |"+b+"| = "+Math.abs(b)+" 格";
-    say.textContent=b>0?"加 "+b+" → 向右跳 "+b+" 格":"减 "+(-b)+" → 向左跳 "+(-b)+" 格";
+    say.textContent=label==="5-(-2)"?"减去负2 = 加上正2 → 向右走2格":label==="3-7"?"减去正7 = 加上负7 → 向左走7格":b>0?"加上正"+b+" → 向右走"+b+"格":"加上负"+Math.abs(b)+" → 向左走"+Math.abs(b)+"格";
     makeOpts();
   }
   var optsEl=$("walkOpts"),fb=$("walkFb"),guess=null;
@@ -2031,7 +2032,7 @@ $("pauseAll").addEventListener("click",function(){
       });
     }else{
       fb.className="p-fb bad";
-      fb.textContent="你猜的是 "+guess+"，正确答案是 "+ans+"。看看小球：加=向右跳，减=向左跳，你差在哪一步？";
+      fb.textContent="你猜的是 "+guess+"，正确答案是 "+ans+"。看小球：先转化成加法，再由加上的数决定左右方向，你差在哪一步？";
       qsa(".p-opt",optsEl).forEach(function(x){
         var v=parseInt(x.getAttribute("data-p"),10);
         if(v===ans){x.classList.add("right")}
@@ -2049,7 +2050,7 @@ $("pauseAll").addEventListener("click",function(){
       result.textContent="答案 = "+ans;
       judge();
     }else{
-      var dir=nv>steps[idx-1]?"右":"左";
+      var dir=nv>(idx===0?startA:steps[idx-1])?"右":"左";
       say.textContent="第 "+(idx+1)+" 步：往"+dir+"跳 1 格 → 到 "+nv;
     }
     idx++;
@@ -3136,5 +3137,6 @@ function renderBalance(beam,trayL,trayR,xArrL,nArrL,nArrR){
 
 })();
 </script>
+<script src="./chapter1-upgrades.js"></script>
 </body>
 </html>
