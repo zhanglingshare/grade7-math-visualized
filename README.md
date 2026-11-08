@@ -7,8 +7,11 @@
 | **学课程（主学习入口）** | [V.2完整课程](https://zhanglingshare.github.io/grade7-math-visualized/v2/#chapter/1) | 从第一章顺序学习；原19个实验、选择题、屏幕书写题继续保留 |
 | **第二章 · 有理数的运算** | [第二章完整探索](https://zhanglingshare.github.io/grade7-math-visualized/v2/#chapter/2) | 7主题28步、屏幕作答、84练习与21题复习；原实验保留 |
 | **看原理** | [原版可视化实验](https://zhanglingshare.github.io/grade7-math-visualized/#view-1-1) | 24个视图（包含首页），原有数学动画与首章28道先想再写题保留；目录按章节折叠 |
-| **专项刷题** | [156道变式题](https://zhanglingshare.github.io/grade7-math-visualized/practice-bank.html) | 13组失分考点各12道，先判断再作答、即时反馈、只重练曾经做错的题 |
+| **第一章专项刷题** | [72道有理数基础题](https://zhanglingshare.github.io/grade7-math-visualized/chapter1-practice.html) | 六个教材知识点各12道，不含加减乘除和乘方，支持屏幕作答及错题重练 |
+| **第二章专项刷题** | [156道有理数运算变式题](https://zhanglingshare.github.io/grade7-math-visualized/practice-bank.html) | 依据第二章试卷13组失分考点编排；不是第一章题库 |
 | **原卷复盘** | [23题逐题复盘与15个实验](https://zhanglingshare.github.io/grade7-math-visualized/exam-labs.html#overview) | 13个失分题号、其余题号及一题多问的复盘；原实验不删除 |
+
+**章节勘误：** 以前把第二章的156道运算专项挂在第一章学习链路里，现已拆开。当前教材第一章只对应正负数、分类、数轴、相反数、绝对值、大小比较；第二章为有理数运算。旧版V1页面沿用原有章节结构，作为历史实验保留，不能按新版教材章节直接对应。
 
 **重要区分：** 13个题号来自已上传试卷的失分或部分失分标记；156道是为训练新编的**变式题**，并不是孩子真实做错的156题。卷面第14题涂改判分仍需复核。
 
