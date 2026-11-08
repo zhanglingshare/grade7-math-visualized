@@ -23,41 +23,47 @@ if(t===2)return grade(this.id,i,"向东为正，向西走"+n+"米，记作多少
 return grade(this.id,i,"与250克标准相比，实际多了"+n+"克，偏差记作多少克？","+"+n,[fmt(-n),"0",fmt(n+1)],"高于标准，偏差记正。",g.signed);
 }},
 {id:"rational",number:1.21,title:"有理数分类",why:"不同写法可以表示同一个数",gen:function(i,r){
-var n=pick(r,2,9),t=i%6;
-if(t===0)return grade(this.id,i,"0属于正数还是负数？","既非正数也非负数",["正数","负数","既是正数又是负数"],"0不是正数，也不是负数。",g.rational);
+var n=i+2,t=i%6;
+if(t===0)return i===0?grade(this.id,i,"0属于正数还是负数？","既非正数也非负数",["正数","负数","既是正数又是负数"],"0不是正数，也不是负数。",g.rational):grade(this.id,i,"0属于负有理数吗？","不属于，但它是有理数",["属于，它是负整数","不属于，0不是有理数","0是负分数"],"0属于有理数，不属于正数或负数。",g.rational);
 if(t===1)return grade(this.id,i,n+".0是整数吗？","是，等于整数"+n,["否，有小数点就不是整数","是负整数","不是有理数"],"末尾的.0不改变数值。",g.rational);
 if(t===2)return grade(this.id,i,"−"+n+"/"+(n+1)+"属于什么数？","负的非整数有理数",["正整数","负整数","无理数"],"它是负分数，数值介于−1和0之间。",g.rational);
 if(t===3)return grade(this.id,i,n+"/"+n+"化简之后属于哪类？","正整数",["负整数","非整数有理数","无理数"],"约分得到1。",g.rational);
-if(t===4)return grade(this.id,i,"0.333…（3循环）是有理数吗？","是，它等于1/3",["否，无限小数都不是","否，因为有小数点","只有整数是有理数"],"循环小数可以写成分数。",g.rational);
+if(t===4)return i===4?grade(this.id,i,"0.333…（3循环）是有理数吗？","是，它等于1/3",["否，无限小数都不是","否，因为有小数点","只有整数是有理数"],"循环小数可以写成分数。",g.rational):grade(this.id,i,"0.666…（6循环）属于有理数吗？","是，它等于2/3",["不是，它不能写成分数","不是，只有有限小数可以","是，但只能等于6/10"],"0.666…＝2/3，可以表示为分数。",g.rational);
 return grade(this.id,i,"−"+n+"属于哪一类？","负整数",["正整数","非整数有理数","无理数"],"−"+n+"是整数，也属于有理数。",g.rational);
 }},
 {id:"axis",number:1.22,title:"数轴与位置",why:"找0、方向和每格的数值",gen:function(i,r){
-var n=pick(r,2,8),t=i%4;
+var n=i+2,t=i%4;
 if(t===0)return grade(this.id,i,"数轴每格是1，原点左侧"+n+"格表示多少？",fmt(-n),[fmt(n),"0",fmt(-n-1)],"左侧是负方向。",g.axis);
 if(t===1)return grade(this.id,i,"数轴每格是1，原点右侧"+n+"格表示多少？",fmt(n),[fmt(-n),"0",fmt(n+1)],"右侧是正方向。",g.axis);
 if(t===2)return grade(this.id,i,"每格表示0.5，原点左侧"+n+"格的点表示多少？",fmt(-.5*n),[fmt(.5*n),fmt(-n),fmt(-.5*n-.5)],"左移"+n+"格，每格0.5，对应"+fmt(-.5*n)+"。",g.axis);
-return grade(this.id,i,"一条直线有原点和正方向，却没有规定单位长度，它是完整数轴吗？","不是，缺少单位长度",["是，已经有0","是，有箭头就够了","不是，因为必须1厘米一格"],"原点、正方向和单位长度都要明确。",g.axis);
+if(i===3)return grade(this.id,i,"一条直线有原点和正方向，却没有规定单位长度，它是完整数轴吗？","不是，缺少单位长度",["是，已经有0","是，有箭头就够了","不是，因为必须1厘米一格"],"原点、正方向和单位长度都要明确。",g.axis);
+if(i===7)return grade(this.id,i,"直线有原点和统一的刻度，却未规定向哪边为正，它是完整数轴吗？","不是，缺少正方向",["是，刻度相等就行","不是，缺少小数","是，原点已确定"],"数轴必须规定正方向。",g.axis);
+return grade(this.id,i,"直线有规定的正方向和单位长度，但没标原点，它是完整数轴吗？","不是，缺少原点",["是，有单位长度就行","是，有箭头就行","不是，只有刻度太短"],"不确定原点就无法给各点确定坐标。",g.axis);
 }},
 {id:"opposite",number:1.23,title:"相反数",why:"关于0镜像，和为0",gen:function(i,r){
-var n=pick(r,2,13),t=i%4;
+var n=i+2,t=i%4;
 if(t===0)return grade(this.id,i,"−"+n+"的相反数是多少？",fmt(n),[fmt(-n),"0","1/"+n],"互为相反数相加为0。",g.opposite);
 if(t===1)return grade(this.id,i,n+"的相反数是多少？",fmt(-n),[fmt(n),"0",fmt(n+1)],"正数的相反数为负。",g.opposite);
 if(t===2)return grade(this.id,i,"a＝−"+n+"，则−a等于多少？",fmt(n),[fmt(-n),"0",fmt(-n*n)],"−a是a的相反数，可以是正的。",g.opposite);
 return grade(this.id,i,"a＝−"+n+"，求−(−a)。",fmt(-n),[fmt(n),"0",fmt(-2*n)],"连续两次取相反数回到a。",g.opposite);
 }},
 {id:"absolute",number:1.24,title:"绝对值",why:"距离不负，可能双解",gen:function(i,r){
-var n=pick(r,2,12),t=i%4;
+var n=i+2,t=i%4;
 if(t===0)return grade(this.id,i,"|−"+n+"|＝？",fmt(n),[fmt(-n),"0",fmt(n+1)],"距原点"+n+"个单位。",g.absolute);
 if(t===1)return grade(this.id,i,"离0恰好"+n+"个单位的点有几个？","2",["0","1",fmt(n+1)],"正负两侧各一个。",g.absolute);
 if(t===2)return grade(this.id,i,"|x|＝−"+n+"有几个解？","0",["1","2","无穷多个"],"绝对值不能为负。",g.absolute);
-return grade(this.id,i,"|x|＝0有几个解？","1",["0","2","无穷多个"],"只有x＝0。",g.absolute);
+if(i===3)return grade(this.id,i,"|x|＝0有几个解？","1",["0","2","无穷多个"],"只有x＝0。",g.absolute);
+if(i===7)return grade(this.id,i,"已知一个数到0的距离是0，这个数是多少？","0",["1","−1","2"],"位置只有在原点时，距离才为0。",g.absolute);
+return grade(this.id,i,"绝对值等于自身的数一定属于哪一类？","非负数",["负数","非零数","只有正整数"],"若a≥0，则|a|＝a；0也符合。",g.absolute);
 }},
 {id:"compare",number:1.25,title:"大小比较",why:"数值与到0的距离不同",gen:function(i,r){
 var a=pick(r,4,12),b=pick(r,1,a-1),t=i%4;
 if(t===0)return grade(this.id,i,"−"+a+"与−"+b+"，哪个数值更大？",fmt(-b),[fmt(-a),fmt(a),fmt(b)],"数轴靠右的−"+b+"更大。",g.compare);
 if(t===1)return grade(this.id,i,"−"+a+"与−"+b+"，哪个离0更远？",fmt(-a),[fmt(-b),fmt(b),"0"],"−"+a+"到0距离"+a+"。",g.compare);
 if(t===2)return grade(this.id,i,"满足−"+a+"＜x＜"+a+"的整数有几个？",fmt(2*a-1),[fmt(2*a),fmt(2*a+1),fmt(a-1)],"从−"+(a-1)+"到"+(a-1)+"，共"+(2*a-1)+"个整数。",g.compare);
-return grade(this.id,i,"−1与0之间有有理数吗？","有，例如−1/2",["没有，相邻整数之间无数","只有整数","只有正分数"],"−1/2等负分数在区间内。",g.compare);
+if(i===3)return grade(this.id,i,"−1与0之间有有理数吗？","有，例如−1/2",["没有，相邻整数之间无数","只有整数","只有正分数"],"−1/2等负分数在区间内。",g.compare);
+if(i===7)return grade(this.id,i,"0和1之间存在有理数吗？","有，例如1/2",["没有，因为0和1是相邻整数","只有无理数","只有0和1"],"1/2在0与1之间。",g.compare);
+return grade(this.id,i,"−2和−1之间存在有理数吗？","有，例如−3/2",["没有负分数","只有−2与−1","只有非负数"],"−1.5在−2与−1之间。",g.compare);
 }}
 ];
 var bank=[];
