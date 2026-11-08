@@ -28,7 +28,7 @@
     if(pnav){
       pnav.href=chapter===2?'../practice-bank.html':chapter===3?'#lab/expression':'../chapter1-practice.html';
       pnav.textContent=chapter===2?'二章专项':chapter===3?'第三章实验':'一章专项';
-      pnav.title=chapter===2?'第二章试卷薄弱点变式156题（另有84道课内题）':chapter===3?'第三章尚未设独立专项题库，进入课内实验':'第一章6个概念的72道基础专项';
+      pnav.title=chapter===2?'第二章试卷薄弱点变式156题（另有84道课内题）':chapter===3?'第三章尚未设独立专项题库，进入课内实验':'第一章六大概念：72基础＋72变式＋72推理＋36综合题';
     }
     var rnav=document.getElementById('navOriginalView');
     if(rnav){
