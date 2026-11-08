@@ -26,8 +26,14 @@
     var chapter=route.indexOf('chapter/')===0?Number(route.split('/')[1]):route.indexOf('lab/')===0?getLesson(route.split('/')[1]).chapter:0;
     var pnav=document.getElementById('navPracticeChapter');
     if(pnav){
-      pnav.href=chapter===2?'../practice-bank.html':'../chapter1-practice.html';
-      pnav.title=chapter===2?'第二章：156道有理数运算专项':'第一章：72道有理数基础专项';
+      pnav.href=chapter===2?'../practice-bank.html':chapter===3?'#lab/expression':'../chapter1-practice.html';
+      pnav.textContent=chapter===2?'二章专项156题':chapter===3?'第三章实验':'一章专项72题';
+      pnav.title=chapter===2?'第二章试卷薄弱点变式156题（另有84道课内题）':chapter===3?'第三章尚未设独立专项题库，进入课内实验':'第一章6个概念的72道基础专项';
+    }
+    var rnav=document.getElementById('navOriginalView');
+    if(rnav){
+      rnav.href=chapter===2?'../#view-1-4':chapter===3?'../#view-2-1':'../#view-1-1';
+      rnav.title=chapter===2?'旧版加减法动态演示':chapter===3?'旧版字母与单项式实验':'旧版正负数与数轴原理实验';
     }
     document.querySelectorAll('[data-course-chapter]').forEach(function(a){if(Number(a.dataset.courseChapter)===chapter)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if((route==='chapter/2'||route.indexOf('chapter/2/')===0)&&window.ChapterTwoStudio){navActive('chapter2');window.ChapterTwoStudio.render(app,route);return;}
