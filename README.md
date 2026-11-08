@@ -5,6 +5,7 @@
 | 入口 | 访问地址 | 用途 |
 | --- | --- | --- |
 | **学课程（主学习入口）** | [V.2完整课程](https://zhanglingshare.github.io/grade7-math-visualized/v2/#chapter/1) | 从第一章顺序学习；原19个实验、选择题、屏幕书写题继续保留 |
+| **第二章 · 有理数的运算** | [第二章完整探索](https://zhanglingshare.github.io/grade7-math-visualized/v2/#chapter/2) | 7主题28步、屏幕作答、84练习与21题复习；原实验保留 |
 | **看原理** | [原版可视化实验](https://zhanglingshare.github.io/grade7-math-visualized/#view-1-1) | 24个视图（包含首页），原有数学动画与首章28道先想再写题保留；目录按章节折叠 |
 | **专项刷题** | [156道变式题](https://zhanglingshare.github.io/grade7-math-visualized/practice-bank.html) | 13组失分考点各12道，先判断再作答、即时反馈、只重练曾经做错的题 |
 | **原卷复盘** | [23题逐题复盘与15个实验](https://zhanglingshare.github.io/grade7-math-visualized/exam-labs.html#overview) | 13个失分题号、其余题号及一题多问的复盘；原实验不删除 |

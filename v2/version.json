@@ -17,5 +17,19 @@
   "chapter_one_guided_steps": 24,
   "chapter_one_guided_paper_questions": 12,
   "chapter_one_review_questions": 12,
-  "chapter_one_experiment_modes": 14
+  "chapter_one_experiment_modes": 14,
+  "chapter_two_revision": "2026-11-08-pdf-guided",
+  "chapter_two_guided_lessons": 7,
+  "chapter_two_guided_steps": 28,
+  "chapter_two_screen_tasks": 14,
+  "chapter_two_practice_questions": 84,
+  "chapter_two_review_questions": 21,
+  "chapter_two_workshops": [
+    "ledger",
+    "magic",
+    "bases",
+    "why",
+    "map"
+  ],
+  "chapter_two_activity_screen_tasks": 4
 }

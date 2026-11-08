@@ -9,6 +9,8 @@ function save(key,obj){try{localStorage.setItem(PREFIX+key,JSON.stringify(obj));
 function button(label,title){var b=el("button","dn-tool",label);b.type="button";if(title)b.setAttribute("aria-label",title);return b}
 function path(){var h=location.hash.replace(/^#/,"").split("/");return h}
 function taskKey(type,n,element){
+ var explicit=element.getAttribute("data-notebook-key");
+ if(explicit&&/^v2:chapter2:[a-z0-9:_-]+$/.test(explicit))return explicit.slice(0,180);
  if(type==="studio")return "v2:chapter1:"+((path()[2])||"unknown")+":paper:"+n;
  if(type==="v2")return "v2:lesson:"+((path()[1])||"unknown")+":paper:"+n;
  if(type==="c1"){var view=element.closest(".view"),lesson=view?view.id:"unknown",tabs=element.closest(".c1-lab").querySelectorAll(".c1-tabs .c1-btn"),active=0;Array.prototype.forEach.call(tabs,function(btn,i){if(btn.classList.contains("on"))active=i});return "v1:"+lesson+":question:"+active}
