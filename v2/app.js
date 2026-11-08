@@ -24,6 +24,11 @@
     stopAnimation();
     var route=location.hash.replace(/^#/,'')||'chapter/1';
     var chapter=route.indexOf('chapter/')===0?Number(route.split('/')[1]):route.indexOf('lab/')===0?getLesson(route.split('/')[1]).chapter:0;
+    var pnav=document.getElementById('navPracticeChapter');
+    if(pnav){
+      pnav.href=chapter===2?'../practice-bank.html':'../chapter1-practice.html';
+      pnav.title=chapter===2?'第二章：156道有理数运算专项':'第一章：72道有理数基础专项';
+    }
     document.querySelectorAll('[data-course-chapter]').forEach(function(a){if(Number(a.dataset.courseChapter)===chapter)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if((route==='chapter/2'||route.indexOf('chapter/2/')===0)&&window.ChapterTwoStudio){navActive('chapter2');window.ChapterTwoStudio.render(app,route);return;}
     if(route.indexOf('chapter/1')===0&&window.ChapterOneStudio){navActive('chapter1');window.ChapterOneStudio.render(app,route);return;}
