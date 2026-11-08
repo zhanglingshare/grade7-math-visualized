@@ -27,11 +27,11 @@ route:["货车题先区分哪两种量？",["位置与累计路程","向东与�
 };
 var topics=[
 {id:"reciprocal",number:6,title:"倒数与零",why:"倒数的条件，不是变号",gen:function(i,r){
- var n=i===0?0:i===1?-1:i===2?1:pick(r,2,9)*(i%2?-1:1),a=fraction(n),wr=n===0?["0","1","无穷大"]:n===-1?["1","0","不存在"]:n===1?["−1","0","不存在"]:[fraction(-n),fmt(n),fmt(-n)];
+ var n=i===0?0:i===1?-1:i===2?1:pick(r,2,9)*(i%2?-1:1);if(i===10)n=11;var a=fraction(n),wr=n===0?["0","1","无穷大"]:n===-1?["1","0","不存在"]:n===1?["−1","0","不存在"]:[fraction(-n),fmt(n),fmt(-n)];
  return grade(this.id,i,"求 "+fmt(n)+" 的倒数。",a,wr,n===0?"0乘任何数都等于0，所以不存在与0相乘得1的数。":fmt(n)+"×("+a+")=1。",gates[this.id])
 }},
 {id:"sign",number:9,title:"负号与乘方",why:"括号是底数的边界",gen:function(i,r){
- var n=pick(r,2,5),type=i%4,ans=type===0?-(n*n):type===1?n*n:type===2?-(n*n*n):-(n*n),q=type===0?"−"+n+"²":type===1?"(−"+n+")²":type===2?"(−"+n+")³":"−(−"+n+")²";
+ var n=pick(r,2,5);if(i===4)n=6;if(i===7)n=7;if(i===9)n=8;var type=i%4,ans=type===0?-(n*n):type===1?n*n:type===2?-(n*n*n):-(n*n),q=type===0?"−"+n+"²":type===1?"(−"+n+")²":type===2?"(−"+n+")³":"−(−"+n+")²";
  return grade(this.id,i,"计算："+q,fmt(ans),[fmt(-ans),fmt(n*n),fmt(-n)],type===1?"括号内整个负数平方，得到正数。":type===2?"负数奇次幂为负。":"外面的负号没有参加平方，仍要保留。",gates[this.id])
 }},
 {id:"jump",number:10,title:"交替跳跃",why:"两跳一组，先找规律",gen:function(i,r){
@@ -54,7 +54,7 @@ var topics=[
  return grade(this.id,i,"计算：−"+a+"²＋"+b+"＋(−"+c+")²－|−"+d+"|",fmt(ans),[fmt(a*a+b+c*c-d),fmt(-(a*a)+b-c*c-d),fmt(-(a*a)+b+c*c+d)],"先算−"+a+"²＝"+fmt(-(a*a))+"、(−"+c+")²＝"+c*c+"、|−"+d+"|＝"+d+"，再做加减得"+fmt(ans)+"。",gates[this.id])
 }},
 {id:"science",number:17,title:"科学记数与数量级",why:"先估结果大约几个零",gen:function(i,r){
- var million=2+(i%8),mass=90*million,correct=sci(mass);
+ var million=i>=8?i+2:2+(i%8),mass=90*million,correct=sci(mass);
  return grade(this.id,i,"氢气每立方厘米约0.00009克，"+million+"百万立方厘米氢气的质量是多少？用科学记数法表示（克）。",correct,[sci(mass/10),sci(mass*10),sci(million*.00009)],million+"×10⁶ × 9×10⁻⁵ ＝"+fmt(mass)+"克＝"+correct+"克。",gates[this.id])
 }},
 {id:"conditions",number:18,title:"相反数倒数与双解",why:"有两种m，不能漏掉一个",gen:function(i,r){
@@ -69,6 +69,10 @@ var topics=[
 }},
 {id:"algebra",number:20,title:"符号条件推理",why:"不用盲目代入具体数",gen:function(i,r){
  var k=2+i,mode=i%5,expr=["a＋b","a÷b","|a|÷a","−|b|÷b",fmt(k)+"|bc|÷(bc)"][mode],ans=[0,-1,1,1,k][mode];
+ if(i>=5&&mode===0){expr=k+"＋a＋b";ans=k;}
+ if(i>=5&&mode===1){expr=k+"a÷b";ans=-k;}
+ if(i>=5&&mode===2){expr=k+"×|a|÷a";ans=k;}
+ if(i>=5&&mode===3){expr=k+"×(−|b|÷b)";ans=k;}
  return grade(this.id,i,"已知c＜b＜0＜a，|a|＝|b|。求 "+expr+" 的值。",fmt(ans),[fmt(-ans),fmt(ans+1),fmt(ans-1)],"a与b互为相反数；a＞0、b＜0、bc＞0。根据符号化简得"+fmt(ans)+"。",gates[this.id])
 }},
 {id:"binary",number:21,title:"二进制翻译",why:"位权1、2、4、8……",gen:function(i,r){
@@ -89,7 +93,13 @@ var topics=[
 }}
 ];
 var bank=[];
-topics.forEach(function(topic,topicIndex){var r=rnd(1007+topic.number*15487);for(var i=0;i<12;i++)bank.push(topic.gen(i,r))});
+topics.forEach(function(topic,topicIndex){var r=rnd(1007+topic.number*15487);for(var i=0;i<12;i++){
+ var q=topic.gen(i,r);
+ var isRevision=(topic.id==='reciprocal'&&i===10)||(topic.id==='sign'&&[4,7,9].indexOf(i)>=0)||(topic.id==='science'&&i>=8)||(topic.id==='algebra'&&i>=5&&i%5!==4);
+ if(isRevision)q.id+='-revised'; /* New exercise must not inherit historical answer from previously duplicated variant. */
+ bank.push(q);
+}});
+
 function choices(q){var all=[q.correct].concat(q.wrongs),uniq=[];all.forEach(function(c){c=String(c);if(uniq.indexOf(c)<0)uniq.push(c)});
  var x=0;while(uniq.length<4&&x++<30){var n=parseFloat(q.correct.replace(/−/g,"-"));var fallback=Number.isFinite(n)?fmt(n+2+x):"备选"+x;if(uniq.indexOf(fallback)<0)uniq.push(fallback)}
  var r=rnd(q.id.split("").reduce(function(n,ch){return(n*31+ch.charCodeAt(0))>>>0},17));
