@@ -1,4 +1,4 @@
-/* 人教版七上第一章《有理数》专项：正负数、分类、数轴、相反数、绝对值、比较大小，共72道。 */
+/* 人教版七上第一章分层专项：原72道保留，新增180道（252道独立题位），只覆盖第1章知识。 */
 (function(){
 "use strict";
 function byId(id){return document.getElementById(id)}
@@ -66,8 +66,16 @@ if(i===7)return grade(this.id,i,"0和1之间存在有理数吗？","有，例如
 return grade(this.id,i,"−2和−1之间存在有理数吗？","有，例如−3/2",["没有负分数","只有−2与−1","只有非负数"],"−1.5在−2与−1之间。",g.compare);
 }}
 ];
-var bank=[];
-topics.forEach(function(topic,topicIndex){var r=rnd(1007+topicIndex*15487);for(var i=0;i<12;i++)bank.push(topic.gen(i,r))});
+var bank=[],advanced=window.MathChapterOneAdvanced;
+topics.forEach(function(topic,topicIndex){
+ var r=rnd(1007+topicIndex*15487);
+ for(var i=0;i<12;i++){var original=topic.gen(i,r);original.level="基础";bank.push(original)}
+ if(advanced&&advanced.forTopic)bank.push.apply(bank,advanced.forTopic(topic.id));
+});
+if(advanced&&advanced.mixed){
+ topics.push({id:"mixed",number:"综合",title:"全章综合与迁移",why:"辨条件、识陷阱、跨概念联系"});
+ bank.push.apply(bank,advanced.mixed());
+}
 function choices(q){var all=[q.correct].concat(q.wrongs),uniq=[];all.forEach(function(c){c=String(c);if(uniq.indexOf(c)<0)uniq.push(c)});
  var x=0;while(uniq.length<4&&x++<30){var n=parseFloat(q.correct.replace(/−/g,"-"));var fallback=Number.isFinite(n)?fmt(n+2+x):"备选"+x;if(uniq.indexOf(fallback)<0)uniq.push(fallback)}
  var r=rnd(q.id.split("").reduce(function(n,ch){return(n*31+ch.charCodeAt(0))>>>0},17));
@@ -75,30 +83,36 @@ function choices(q){var all=[q.correct].concat(q.wrongs),uniq=[];all.forEach(fun
  return uniq.slice(0,4)
 }
 bank.forEach(function(q){q.options=choices(q)});
-if(bank.length!==72||new Set(bank.map(function(q){return q.id})).size!==72||bank.some(function(q){return q.options.length!==4||new Set(q.options).size!==4||!q.options.includes(q.correct)||q.think[2]<0||q.think[2]>=q.think[1].length})){throw new Error("题库验证失败")}
+if(bank.length!==(advanced?252:72)||new Set(bank.map(function(q){return q.id})).size!==bank.length||bank.some(function(q){return q.options.length!==4||new Set(q.options).size!==4||!q.options.includes(q.correct)||q.think[2]<0||q.think[2]>=q.think[1].length})){throw new Error("题库验证失败")}
 var STORAGE="grade7:practice:chapter1:v1";var records={};
 try{records=JSON.parse(localStorage.getItem(STORAGE)||"{}")||{}}catch(e){records={}}
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(records))}catch(e){byId("feedback").textContent="浏览器无法保存记录；当前练习仍然可以继续。"}}
 var topicIndex=0,questionIndex=0,stage=0,picked=-1;
-function topicItems(){var t=topics[topicIndex],all=bank.filter(function(q){return q.topic===t.id});if(byId("practiceMode").value==="wrong")return all.filter(function(q){return records[q.id]&&records[q.id].lastCorrect===false});return all}
+function topicItems(){
+ var t=topics[topicIndex],level=byId("practiceLevel").value;
+ var all=bank.filter(function(q){return q.topic===t.id&&(level==="all"||t.id==="mixed"||q.level===level)});
+ if(byId("practiceMode").value==="wrong")return all.filter(function(q){return records[q.id]&&records[q.id].lastCorrect===false});
+ return all;
+}
 function card(topic){var answered=bank.filter(function(q){return q.topic===topic.id&&records[q.id]&&records[q.id].lastCorrect}).length;return answered}
 function progress(){var good=0,wrong=0;bank.forEach(function(q){var rec=records[q.id];if(rec){if(rec.lastCorrect)good++;else if(rec.attempts>0)wrong++}});
  byId("masteredCount").textContent=good;byId("wrongCount").textContent=wrong;
  var list=byId("topicList"),scrollPos=list.scrollLeft;list.replaceChildren();topics.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.className="topic-btn"+(i===topicIndex?" active":"");b.setAttribute("aria-pressed",String(i===topicIndex));
  var no=document.createElement("span");no.className="topic-no";no.textContent=t.number;
  var name=document.createElement("span");name.className="topic-desc";var strong=document.createElement("strong");strong.textContent=t.title;var small=document.createElement("small");small.textContent=t.why;name.appendChild(strong);name.appendChild(small);
- var done=document.createElement("span");done.className="topic-amount";done.textContent=card(t)+"/12";b.appendChild(no);b.appendChild(name);b.appendChild(done);
- b.addEventListener("click",function(){topicIndex=i;questionIndex=0;stage=0;picked=-1;draw()});list.appendChild(b)});list.scrollLeft=scrollPos;
+ var done=document.createElement("span");done.className="topic-amount";done.textContent=card(t)+"/"+bank.filter(function(q){return q.topic===t.id}).length;b.appendChild(no);b.appendChild(name);b.appendChild(done);
+ b.addEventListener("click",function(){topicIndex=i;questionIndex=0;stage=0;picked=-1;if(t.id==="mixed")byId("practiceLevel").value="all";draw()});list.appendChild(b)});list.scrollLeft=scrollPos;
 }
 function choiceButton(text,index,act,feedbackClass,disabled){var b=document.createElement("button");b.type="button";b.className="answer"+(feedbackClass?" "+feedbackClass:"");b.disabled=!!disabled;
  var no=document.createElement("b");no.textContent=String.fromCharCode(65+index);var content=document.createElement("span");content.textContent=text;b.appendChild(no);b.appendChild(content);b.addEventListener("click",act);return b}
 function draw(){progress();var set=topicItems(),topic=topics[topicIndex],i=Math.max(0,Math.min(questionIndex,Math.max(0,set.length-1)));questionIndex=i;
  byId("topicBadge").textContent="第一章 · "+topic.number+" · "+topic.title;
- byId("questionIndex").textContent=set.length?"第"+(i+1)+"题 / "+set.length+"题 · 原题变式":"当前没有待重练题";
- byId("progressBar").style.width=(card(topic)/12*100)+"%";
+ byId("practiceLevel").disabled=topic.id==="mixed";
+ byId("questionIndex").textContent=set.length?"第"+(i+1)+"题 / "+set.length+"题 · "+set[i].level:"当前筛选没有题目";
+ byId("progressBar").style.width=(card(topic)/Math.max(1,bank.filter(function(q){return q.topic===topic.id}).length)*100)+"%";
  byId("prevQuestion").disabled=i===0||!set.length;byId("nextQuestion").disabled=!set.length||i>=set.length-1;byId("nextQuestion").textContent=i>=set.length-1?"下一组考点 →":"下一题 →";if(set.length&&i>=set.length-1&&topicIndex<topics.length-1)byId("nextQuestion").disabled=false;
  var area=byId("answerChoices");area.replaceChildren();
- if(!set.length){byId("questionText").textContent="这一组目前没有待重练题。";byId("questionPrompt").textContent="可以切回“全部12道”，继续练新题。";byId("feedback").textContent="只有曾经答错、且尚未重练答对的题才进入这里。";byId("stepThink").className="";byId("stepAnswer").className="";byId("practicePaper").dataset.paperId="";return}
+ if(!set.length){byId("questionText").textContent="这一组目前没有待重练题。";byId("questionPrompt").textContent="可以调整层级筛选，或切换到全部题目。";byId("feedback").textContent="只有曾经答错、且尚未重练答对的题才进入这里。";byId("stepThink").className="";byId("stepAnswer").className="";byId("practicePaper").dataset.paperId="";return}
  var q=set[i];byId("questionText").textContent=q.question;
  byId("stepThink").className=stage===0?"active":"done";byId("stepAnswer").className=stage===1?"active":"";
  var slot=byId("practicePaper");slot.dataset.paperId=q.id;var existing=slot.querySelector(".dn-root");if(existing&&existing.dataset.dnKey!=="bank:"+q.id)existing.remove();
@@ -131,6 +145,7 @@ function draw(){progress();var set=topicItems(),topic=topics[topicIndex],i=Math.
 }
 function startQuestion(idx){questionIndex=idx;stage=0;picked=-1;draw()}
 byId("practiceMode").addEventListener("change",function(){startQuestion(0)});
+byId("practiceLevel").addEventListener("change",function(){startQuestion(0)});
 byId("prevQuestion").addEventListener("click",function(){startQuestion(Math.max(0,questionIndex-1))});
 byId("nextQuestion").addEventListener("click",function(){
  var pool=topicItems();
@@ -138,9 +153,9 @@ byId("nextQuestion").addEventListener("click",function(){
  if(questionIndex>=pool.length-1){if(topicIndex<topics.length-1){topicIndex++;byId("practiceMode").value="all";startQuestion(0)}return;}
  startQuestion(questionIndex+1);
 });
-byId("resetTopic").addEventListener("click",function(){if(!window.confirm("重新练这一组12题？只清除该组的作答进度，不删除其他组。"))return;var name=topics[topicIndex].id;bank.filter(function(q){return q.topic===name}).forEach(function(q){delete records[q.id]});persist();byId("practiceMode").value="all";startQuestion(0)});
+byId("resetTopic").addEventListener("click",function(){if(!window.confirm("重新练当前整组"+bank.filter(function(q){return q.topic===topics[topicIndex].id}).length+"题？仅清除这组作答记录（包括原来的12道），其它组不动。"))return;var name=topics[topicIndex].id;bank.filter(function(q){return q.topic===name}).forEach(function(q){delete records[q.id]});persist();byId("practiceMode").value="all";startQuestion(0)});
 var hand=byId("practiceHandwriting");
 hand.addEventListener("toggle",function(){if(hand.open){var n=byId("practicePaper");n.setAttribute("data-paper-id",n.dataset.paperId||"")}}); 
 draw();
-window.MathChapterOnePractice={topics:topics,bank:bank}; // 可在浏览器控制台复核题库，不收集用户资料
+window.MathChapterOnePractice={topics:topics,bank:bank,version:"expanded-252"}; // 可在浏览器控制台复核题库，不收集用户资料
 })();
