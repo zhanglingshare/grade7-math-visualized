@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f2ea"><meta name="description" content="人教版七年级上册第一章：正负数、有理数、数轴、相反数、绝对值、大小比较。72道手机平板直接作答的基础训练。">
-<title>第一章专项 · 72道有理数基础题 | 看得见的数学</title>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f2ea"><meta name="description" content="人教版七年级上册第一章：正负数、有理数、数轴、相反数、绝对值、大小比较。252道手机平板直接作答的基础训练。">
+<title>第一章专项 · 252道有理数基础题 | 看得见的数学</title>
 <link rel="stylesheet" href="./practice-bank.css?v=2"><link rel="stylesheet" href="./learning-nav.css?v=2"><link rel="stylesheet" href="./digital-notebook.css?v=2">
-<script defer src="./chapter1-practice.js?v=3"></script><script defer src="./digital-notebook.js?v=3"></script>
+<script defer src="./chapter1-advanced.js?v=1"></script><script defer src="./chapter1-practice.js?v=4"></script><script defer src="./digital-notebook.js?v=3"></script>
 </head>
 <body class="math-practice">
 <header class="practice-top"><a href="./v2/#chapter/1" class="practice-brand">数学专项训练 · 第一章</a>
@@ -15,22 +15,30 @@
 <a href="./exam-labs.html#overview" title="第二章23题原卷复盘">二章原卷</a>
 </nav>
 <main>
-<section class="hero"><span class="eyebrow">CHAPTER ONE · 第一章有理数基础</span><h1>先读懂数，才谈得上运算。</h1><p>严格对应现行教材第一章六个核心知识点：正负数、有理数分类、数轴、相反数、绝对值、大小比较。每类12道，共72道。<strong>不混入第二章的加减乘除和乘方题。</strong>手机、平板直接作答。</p></section>
+<section class="hero"><span class="eyebrow">CHAPTER ONE · 第一章有理数基础</span><h1>把第一章，真正学透。</h1><p>六个知识点，每个先做12道基础题，再做12道情境变式和12道深入推理，最后完成36道全章综合，共252道不同练习。<strong>不混入第二章的加减乘除或乘方专项。</strong> 手机、平板可直接作答，不必一次做完。</p></section>
 <nav class="bank-chapters" aria-label="按教材章节选择专项题库">
-<a href="./chapter1-practice.html" aria-current="page"><strong>第一章 · 有理数</strong><span>72道基础题</span></a>
+<a href="./chapter1-practice.html" aria-current="page"><strong>第一章 · 有理数</strong><span>252道基础题</span></a>
 <a href="./practice-bank.html"><strong>第二章 · 有理数的运算</strong><span>156道错题变式</span></a>
 </nav>
 <div class="stats">
-<div class="stat"><strong>72</strong><span>第一章专项练习</span></div>
+<div class="stat"><strong>252</strong><span>第一章分层专项</span></div>
 <div class="stat"><strong id="masteredCount">0</strong><span>首次或重练答对</span></div>
 <div class="stat"><strong id="wrongCount">0</strong><span>当前待重练</span></div>
 </div>
-<div class="layout">
+<div class="level-overview" aria-label="分层练习结构">
+<div><strong>01 基础辨认</strong><span>72道 · 看懂定义</span></div>
+<div><strong>02 情境变式</strong><span>72道 · 换条件仍会</span></div>
+<div><strong>03 深入推理</strong><span>72道 · 先判断再下笔</span></div>
+<div><strong>04 全章综合</strong><span>36道 · 连起六个概念</span></div>
+</div><div class="layout">
 <aside class="topic-panel" aria-label="考点导航">
 <h2>第一章 · 按教材顺序</h2><div class="topic-list" id="topicList"></div></aside>
 <div>
 <section class="practice-card">
-<div class="practice-toolbar"><span class="practice-label" id="topicBadge">正在加载题库</span><label for="practiceMode"><select class="practice-select" id="practiceMode"><option value="all">本考点全部12道</option><option value="wrong">只练曾经做错的题</option></select></label></div>
+<div class="practice-toolbar"><span class="practice-label" id="topicBadge">正在加载题库</span>
+<div class="practice-filters">
+<label><span class="sr-only-practice">难度层级</span><select class="practice-select" id="practiceLevel" aria-label="选择练习层级"><option value="all">全部层级 · 36题</option><option value="基础">01 · 基础12题</option><option value="情境变式">02 · 变式12题</option><option value="深入推理">03 · 深思12题</option></select></label>
+<label><span class="sr-only-practice">作答范围</span><select class="practice-select" id="practiceMode" aria-label="选择练习范围"><option value="all">当前层级全部题</option><option value="wrong">只练实际做错的题</option></select></label></div></div>
 <div class="question-board">
 <div class="question-index" id="questionIndex">加载中</div><div class="question-text" id="questionText"></div>
 <div class="stepper"><span id="stepThink" class="active">① 先判断</span><span id="stepAnswer">② 再作答</span></div>
@@ -41,7 +49,7 @@
 <div class="mini-progress" aria-hidden="true"><div id="progressBar"></div></div>
 <div class="actionbar"><button id="prevQuestion">上一题</button><button id="nextQuestion" class="primary">下一题</button><button id="resetTopic">重新练这一组</button></div>
 <details class="paper-toggle" id="practiceHandwriting"><summary>需要演算？打开屏幕草稿（手指或触控笔）</summary><div class="practice-paper" data-paper-id="" id="practicePaper"></div></details>
-<div class="review"><strong>怎样练才有效：</strong>每题先判断，再选择。答错会留下重练标记；重做答对才从“待重练”中移出。作答记录只保存在本设备浏览器，不上传、不跨设备同步。手写草稿仅保存笔迹，不会自动识别评分。</div>
+<div class="review"><strong>推荐节奏：</strong>每天8—12题，先完成基础，再做变式和深入题；错题隔天重做。原72道题的作答记录继续保留；新增题目和笔迹仍保存在本设备浏览器，不会自动识别手写答案。</div>
 <div class="board-foot"><span>第二章考试错题和相关训练另设入口，不混入此处。</span><a href="./v2/#chapter/1">返回第一章课程 →</a><a href="./practice-bank.html">去第二章156道运算训练 →</a></div>
 </section>
 </div></div></main>
