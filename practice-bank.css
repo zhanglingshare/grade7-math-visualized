@@ -8,3 +8,13 @@ main{max-width:1110px;margin:0 auto;padding:23px 16px 60px}.hero .eyebrow{font-s
 :focus-visible{outline:3px solid #ecb25b;outline-offset:2px}
 @media(max-width:820px){.layout{grid-template-columns:1fr}.topic-panel{max-height:none}.topic-list{display:flex;gap:8px;overflow:auto;padding:2px 0 4px;scroll-snap-type:x proximity}.topic-btn{min-width:164px;flex:none;scroll-snap-align:start;align-items:center}.topic-no{min-width:27px}.topic-btn .topic-amount{display:none}.practice-top{padding:9px 13px}.practice-menu{width:100%;margin-left:0;justify-content:space-between}.practice-menu a{flex:1;text-align:center;padding:8px 5px}.stats{margin:13px 0}.practice-card{padding:13px}}@media(max-width:480px){main{padding:15px 10px 40px}.stats{gap:6px}.stat{padding:10px}.stat strong{font-size:22px}.question-board{padding:14px}.answers{grid-template-columns:1fr}.answer{min-height:57px}.hero h1{font-size:27px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Avoid mixing the new textbook's chapter 1 fundamentals and chapter 2 operations. */
+.bank-chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 18px}
+.bank-chapters a{display:flex;flex-direction:column;gap:3px;padding:12px 16px;border-radius:15px;border:1px solid #d8e1e9;background:#fff;color:#344e68;transition:transform .17s}
+.bank-chapters a strong{font-size:15px;font-weight:900;line-height:1.45}
+.bank-chapters a span{font-size:12px;color:#738399}
+.bank-chapters a[aria-current="page"]{border-color:#ec9062;background:#fff0e6;box-shadow:inset 4px 0 0 #ef713e}
+.bank-chapters a[aria-current="page"] strong{color:#a74c2b}
+.bank-chapters a:focus-visible{outline:3px solid #f4aa65}
+@media(max-width:480px){.bank-chapters{gap:6px}.bank-chapters a{padding:10px 9px}.bank-chapters a strong{font-size:12px}.bank-chapters a span{font-size:11px}}
