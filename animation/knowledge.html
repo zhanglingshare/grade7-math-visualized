@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>知识图谱 · 七年级数学</title>
+<style>
+:root{color-scheme:light;--paper:#fffaf2;--ink:#2a211b;--muted:#6e5c50;--line:#e8dccb;--orange:#9b3b10;--warm:#fbe6d8;--green:#236144;--red:#8e2923}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background-color:#f4eee4;background-image:linear-gradient(#e8dccb66 1px,transparent 1px),linear-gradient(90deg,#e8dccb66 1px,transparent 1px);background-size:22px 22px;font:16px/1.55 system-ui,"PingFang SC","Microsoft YaHei",sans-serif}
+[hidden]{display:none!important}
+button,a{font:inherit}
+a{color:var(--orange);text-underline-offset:.2em}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #365c94;outline-offset:2px}
+nav{position:sticky;top:0;z-index:2;background:#f4eee4;border-bottom:1px solid var(--line)}
+nav div{max-width:1040px;margin:auto;padding:6px 14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+nav a{display:grid;place-items:center;min-height:42px;color:var(--ink);font-size:14px;font-weight:700;text-decoration:none;border-radius:9px;white-space:nowrap}
+nav a:hover{background:var(--paper)}
+nav a[aria-current]{background:var(--warm);color:var(--orange)}
+main{max-width:1040px;margin:auto;padding:18px 14px 28px}
+h1{font-size:clamp(1.65rem,5vw,2.35rem);margin:6px 0 1px}
+h2{margin:0;font-size:1.32rem}
+p{margin:5px 0 12px}
+.back{display:inline-flex;align-items:center;min-height:44px;font-weight:650}
+.intro,.meta,.status{color:var(--muted)}
+.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:14px;align-items:start}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}
+.focus{background:#232831;color:#fff8ea;border-radius:12px;padding:15px;margin:0 0 13px}
+.focus .meta,.focus .status{color:#e8d9c4}
+.focus .status[data-state="ok"]{color:#a9e1be}
+.focus .status[data-state="weak"]{color:#ffb5a9}
+.status{font-size:.82rem}
+.focus p:last-child{margin-bottom:0}
+.relations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.relations>section{position:relative;border-top:2px solid #ddbeaa;padding-top:8px}
+.relations>section::before{content:"";position:absolute;left:50%;top:-15px;height:13px;border-left:2px solid #ddbeaa}
+.relations h3{font-size:.92rem;margin:0 0 6px}
+.nodes{display:grid;gap:5px}
+.node{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:44px;padding:6px 8px;text-align:left;color:var(--ink);background:#fffdf8;border:1px solid var(--line);border-radius:8px}
+.node:hover,.node[aria-current]{background:var(--warm);border-color:#ce916d}
+.node span{overflow-wrap:anywhere}
+.nodes .meta,.nodes small{color:var(--muted);font-size:.75rem}
+.actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px}
+.primary{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;border-radius:9px;background:#a54215;color:#fff;font-weight:700;text-decoration:none}
+#groups{display:grid;gap:7px;margin-top:10px}
+details{border:1px solid var(--line);border-radius:8px;padding:3px 7px}
+summary{min-height:38px;padding:6px 3px;font-weight:650;cursor:pointer}
+footer{font-size:.84rem;color:var(--muted);margin:18px 0}
+@media(max-width:700px){.layout{grid-template-columns:1fr}}
+@media(max-width:420px){nav div{padding-inline:8px}nav a{font-size:13px}.panel{padding:10px}.relations{gap:6px}.node{font-size:.86rem}}
+</style>
+</head>
+<body>
+<nav aria-label="学习导航"><div><a href="index.html">第一章</a><a href="chapter-2.html">第二章</a><a href="chapter-3.html">第三章</a><a href="knowledge.html" aria-current="page">知识图谱</a></div></nav>
+<main>
+<a id="back" class="back" href="index.html">← 回课程目录</a>
+<h1>知识图谱</h1>
+<p class="intro">点一个知识点，看先学什么、后面哪里会用到。</p>
+<div class="layout">
+<section class="panel" aria-labelledby="topic">
+<div class="focus" aria-live="polite"><div class="meta" id="location"></div><h2 id="topic"></h2><div class="status" id="status"></div><p id="hint"></p></div>
+<div class="relations">
+<section><h3>先学这些</h3><div class="nodes" id="before"></div></section>
+<section><h3>后面会用到</h3><div class="nodes" id="after"></div></section>
+</div>
+<div class="actions"><a id="lesson" class="primary" href="index.html">打开这一课</a><a id="check" href="index.html">测一测（2 题）</a></div>
+</section>
+<section class="panel" aria-labelledby="browse"><h2 id="browse">按章节找</h2><div id="groups"></div></section>
+</div>
+<footer>知识点和先修关系改编自 <a href="https://github.com/xiaoyang111222/cn-math-taxonomy">xiaoyang111222 / cn-math-taxonomy</a>，采用 <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans">CC BY-NC 4.0</a>。本站选取小学前置与七上前三章，调整了部分关系和讲解。<a href="https://math.pansgo.com/explore/">打开原项目完整图谱 ↗</a></footer>
+</main>
+<script>
+'use strict';
+const {topics,edges}={"topics":{"cnm_p201":{"ch":0,"nm":"认识负数","s":"认识负数","g":"六上","miss":"负数表示什么还不清楚","h":"比 0 小的数是负数，写法是在前面加“−”，读作“负几”。温度零下 3℃ 记作 −3℃。","id":"cnm_p201"},"cnm_p165":{"ch":0,"nm":"分数的意义","s":"分数的意义","g":"五下","miss":"分数的意义还不牢","h":"把单位“1”平均分成 b 份，取 a 份就是 a/b；a/b 也等于 a ÷ b，所以 6/3 = 2。","id":"cnm_p165"},"cnm_p170":{"ch":0,"nm":"分数和小数互化","s":"分数小数互化","g":"五下","miss":"分数和小数互化不熟","h":"0.5 = 1/2，0.25 = 1/4，0.75 = 3/4，0.7 = 7/10。分数化小数：分子 ÷ 分母。","id":"cnm_p170"},"cnm_p125":{"ch":0,"nm":"小数加减法","s":"小数加减","g":"四下","miss":"小数加减算错（小数点没对齐）","h":"小数加减先把小数点对齐，再按整数加减来算。","id":"cnm_p125"},"cnm_p172":{"ch":0,"nm":"通分","s":"通分","g":"五下","miss":"通分不熟","h":"通分：找两个分母的最小公倍数做公分母，分子分母同乘一个数。1/2 和 1/3 → 3/6 和 2/6。","id":"cnm_p172"},"cnm_p173":{"ch":0,"nm":"异分母分数加减","s":"分数加减","g":"五下","miss":"分数加减（通分）算错","h":"异分母分数相加减，先通分，再把分子相加减，最后约分。","id":"cnm_p173"},"cnm_p178":{"ch":0,"nm":"分数乘法","s":"分数乘法","g":"六上","miss":"分数乘法不熟","h":"分数乘分数：分子乘分子，分母乘分母，能约分先约分。","id":"cnm_p178"},"cnm_p246":{"ch":0,"nm":"倒数的认识","s":"倒数(小学)","g":"六上","miss":"倒数（小学）没掌握","h":"乘积是 1 的两个数互为倒数。把分子分母交换位置：3/4 的倒数是 4/3，5 的倒数是 1/5。","id":"cnm_p246"},"cnm_p183":{"ch":0,"nm":"分数除法","s":"分数除法","g":"六上","miss":"分数除法不熟","h":"除以一个分数，等于乘这个分数的倒数。","id":"cnm_p183"},"cnm_p112":{"ch":0,"nm":"四则运算顺序","s":"运算顺序","g":"四下","miss":"运算顺序（先乘除后加减）没守住","h":"先算括号里面，再算乘除，最后算加减；同一级从左往右。","id":"cnm_p112"},"cnm_p120":{"ch":0,"nm":"小数点移动","s":"小数点移动","g":"四下","miss":"小数点移动不熟","h":"小数点向右移一位，数扩大到 10 倍；向左移一位，缩小到 1/10。","id":"cnm_p120"},"cnm_p121":{"ch":0,"nm":"求小数的近似数","s":"四舍五入","g":"四下","miss":"四舍五入不熟","h":"看要保留那一位的下一位：小于 5 舍去，大于或等于 5 进 1。","id":"cnm_p121"},"cnm_001":{"ch":1,"L":1,"no":"1.1","nm":"正数和负数","s":"正负数","miss":"正数、负数和 0 分不清","h":"小于 0 的数是负数。看到“−”先看它在式子里表示什么：−3 是负数，5−3 是减法，−(−3) 表示取相反数，结果是 3。0 既不是正数也不是负数。","id":"cnm_001"},"cnm_002":{"ch":1,"L":1,"no":"1.1","nm":"相反意义的量","s":"相反意义的量","miss":"相反意义的量没用正负号表示","h":"先定哪边为正（基准记作 0），相反的一边就用负数。","id":"cnm_002"},"cnm_003":{"ch":1,"L":2,"no":"1.2.1","nm":"有理数的分类","s":"有理数分类","miss":"有理数分类不清","h":"先化简再分类：6/3 = 2 是整数，−2.5 = −5/2 是负分数，0 是整数但不正不负。","id":"cnm_003"},"cnm_004":{"ch":1,"L":3,"no":"1.2.2","nm":"数轴三要素","s":"数轴","miss":"数轴的三要素（原点、正方向、单位长度）没掌握","h":"数轴必须有原点、正方向、单位长度，缺一不可；每格代表多少要看单位长度。","id":"cnm_004"},"cnm_005":{"ch":1,"L":3,"no":"1.2.2","nm":"在数轴上表示数","s":"数轴上的点","miss":"在数轴上找点没找对","h":"正数在原点右边，负数在原点左边；−3 就是原点左边 3 个单位。向右走加，向左走减。","id":"cnm_005"},"cnm_006":{"ch":1,"L":4,"no":"1.2.3","nm":"相反数","s":"相反数","miss":"相反数没转对","h":"只有符号不同的两个数互为相反数：3 和 −3。−(−2) = 2，0 的相反数是 0。","id":"cnm_006"},"cnm_007":{"ch":1,"L":5,"no":"1.2.4","nm":"绝对值的意义","s":"绝对值=距离","miss":"绝对值就是“到原点的距离”这一点没想到","h":"|a| 是数轴上 a 到原点的距离，距离不会是负的；两点距离 = 右边的数 − 左边的数。","id":"cnm_007"},"cnm_008":{"ch":1,"L":5,"no":"1.2.4","nm":"绝对值的化简","s":"绝对值化简","miss":"绝对值化简不对","h":"正数和 0 的绝对值是它本身，负数的绝对值是它的相反数：|−6| = 6，−|−3| = −3。","id":"cnm_008"},"cnm_009":{"ch":1,"L":6,"no":"1.2.5","nm":"有理数的大小比较","s":"大小比较","miss":"负数比大小搞反了","h":"数轴上右边的数总比左边大；两个负数，绝对值大的反而小。","id":"cnm_009"},"cnm_010":{"ch":2,"L":1,"no":"2.1.1","nm":"有理数的加法","s":"加法法则","miss":"加法法则（先定符号，再算绝对值）没用对","h":"同号相加：取相同符号，绝对值相加；异号相加：取绝对值较大的数的符号，大绝对值减小绝对值。","id":"cnm_010"},"cnm_011":{"ch":2,"L":1,"no":"2.1.1","nm":"加法运算律","s":"加法运算律","miss":"加法交换律、结合律没用上","h":"加法可以交换位置、改变结合顺序：先把互为相反数的配成 0，或把同号的放一起。","id":"cnm_011"},"cnm_012":{"ch":2,"L":2,"no":"2.1.2","nm":"有理数的减法","s":"减法法则","miss":"减法没改成“加上相反数”","h":"减去一个数，等于加上这个数的相反数：a − b = a + (−b)。两处都要变：减号变加号，b 变成 −b。","id":"cnm_012"},"cnm_013":{"ch":2,"L":2,"no":"2.1.2","nm":"加减混合运算","s":"加减混合","miss":"加减混合时符号丢了","h":"先把减法都改成加法，写成省略括号的和，再把正数、负数分别相加。","id":"cnm_013"},"cnm_014":{"ch":2,"L":3,"no":"2.2.1","nm":"有理数的乘法","s":"乘法法则","miss":"乘法符号法则（同号得正，异号得负）没掌握","h":"两数相乘，同号得正，异号得负，再把绝对值相乘；任何数乘 0 都得 0。","id":"cnm_014"},"cnm_015":{"ch":2,"L":3,"no":"2.2.1","nm":"多个因数相乘与运算律","s":"多因数/分配律","miss":"多个因数的符号或分配律用错","h":"几个不为 0 的数相乘：负因数有奇数个，积为负；偶数个，积为正。分配律：a(b+c) = ab + ac，每一项都要乘到、带着符号乘。","id":"cnm_015"},"cnm_016":{"ch":2,"L":3,"no":"2.2.1","nm":"倒数","s":"倒数","miss":"倒数没求对","h":"乘积为 1 的两个数互为倒数；负数的倒数还是负数：−2/3 的倒数是 −3/2。0 没有倒数。","id":"cnm_016"},"cnm_017":{"ch":2,"L":4,"no":"2.2.2","nm":"有理数的除法","s":"除法法则","miss":"除法没改成“乘倒数”","h":"除以一个不为 0 的数，等于乘这个数的倒数；两数相除，同号得正，异号得负。0 不能作除数。","id":"cnm_017"},"cnm_018":{"ch":2,"L":4,"no":"2.2.2","nm":"加减乘除混合运算","s":"四则混合","miss":"运算顺序（先乘除后加减、同级从左到右）没守住","h":"先乘除，后加减；乘除同级时从左到右，不能先算后面的。","id":"cnm_018"},"cnm_019":{"ch":2,"L":5,"no":"2.3.1","nm":"乘方的意义（底数）","s":"底数是谁","miss":"没看清底数（负号在不在括号里）","h":"(−2)² 的底数是 −2，等于 (−2)×(−2) = 4；−2² 的底数是 2，等于 −(2×2) = −4。","id":"cnm_019"},"cnm_020":{"ch":2,"L":5,"no":"2.3.1","nm":"乘方的符号规律","s":"乘方符号","miss":"负数乘方的符号判断错","h":"负数的偶次幂是正数，奇次幂是负数；正数的任何次幂都是正数。","id":"cnm_020"},"cnm_021":{"ch":2,"L":6,"no":"2.3.1","nm":"含乘方的混合运算","s":"含乘方混合","miss":"混合运算顺序（乘方→乘除→加减）没守住","h":"先乘方，再乘除，最后加减；有括号先算括号里面的。","id":"cnm_021"},"cnm_022":{"ch":2,"L":7,"no":"2.3.2","nm":"科学记数法","s":"科学记数法","miss":"科学记数法 a×10ⁿ 中 a 或 n 写错","h":"a × 10ⁿ 中 1 ≤ |a| < 10；n 等于原数的整数位数减 1（小数点向左移了几位）。","id":"cnm_022"},"cnm_023":{"ch":2,"L":8,"no":"2.3.3","nm":"近似数","s":"近似数","miss":"“精确到哪一位”判断错","h":"精确到哪一位，就看它的下一位四舍五入；近似数末尾的 0 不能随便删，1.80 精确到百分位。","id":"cnm_023"},"cnm_p142":{"ch":0,"nm":"用字母表示数（小学）","s":"字母表示数","g":"五上","miss":"小学“用字母表示数”就没掌握","h":"字母可以代表一个数：a × 4 可以写成 4a，a × a 写成 a²；“x 比 y 多 5”写成 x = y + 5。","id":"cnm_p142"},"cnm_p231":{"ch":0,"nm":"常见数量关系","s":"数量关系","g":"四上","miss":"“单价 × 数量 = 总价”“速度 × 时间 = 路程”这类数量关系不熟","h":"总价 = 单价 × 数量；路程 = 速度 × 时间；工作总量 = 工作效率 × 工作时间。","id":"cnm_p231"},"cnm_025":{"ch":3,"L":1,"no":"3.1","nm":"用字母表示数","s":"字母表示数","miss":"“字母是一个可以放各种数的空位”还没想通","h":"字母可以表示任意一个数：正方形边长 a，周长就是 4a；a = 3 时周长 12。放进实际问题，字母的取值要合理。","id":"cnm_025"},"cnm_026":{"ch":3,"L":2,"no":"3.1","nm":"代数式的书写规范","s":"书写规范","miss":"代数式的书写规范（省略乘号、数字在前、除法写成分数）没掌握","h":"数字与字母相乘省略乘号、数字写前面（3a）；除法写成分数（a/b）；带分数化成假分数；系数 1 不写；和、差带单位要加括号。","id":"cnm_026"},"cnm_027":{"ch":3,"L":3,"no":"3.1","nm":"列代数式","s":"列代数式","miss":"列代数式时顺序或括号没处理好（先找整句的运算，再圈出参与运算的整体）","h":"先找整句要做的运算，再圈出参与运算的整体：“a 与 5 的差的 3 倍”是 3(a − 5)，“a 与 b 差的平方”是 (a − b)²。","id":"cnm_027"},"cnm_028":{"ch":3,"L":4,"no":"3.1","nm":"代数式的实际意义","s":"式子的意义","miss":"代数式每一部分表示什么没对上","h":"把式子拆开对故事：2a + 3 中，2a 是“2 个 a”（2 本 a 元的本子），3 是单独的 3（一支 3 元的笔）。","id":"cnm_028"},"cnm_029":{"ch":3,"L":5,"no":"3.2","nm":"代数式的值","s":"代入求值","miss":"代入求值时负数没加括号，或者省略的乘号没补回来","h":"代入：把字母换成数，负数加括号，补回省略的乘号，再按“乘方 → 乘除 → 加减”计算：x = −2 时，3x² = 3 × (−2)² = 12。","id":"cnm_029"},"cnm_030":{"ch":3,"L":6,"no":"数学活动","nm":"用代数式表示规律","s":"找规律","miss":"没找到“每次多几个”，写不出含 n 的式子","h":"列表看每次多几个：每次多 3 → 3n；再拿第 1 个对常数：3 × 1 + 1 = 4，所以是 3n + 1。","id":"cnm_030"}},"edges":[["cnm_001","cnm_p201","h","r"],["cnm_002","cnm_001","h","r"],["cnm_003","cnm_p165","h","r"],["cnm_003","cnm_001","h","r"],["cnm_003","cnm_p170","s","a"],["cnm_004","cnm_001","h","r"],["cnm_005","cnm_004","h","r"],["cnm_005","cnm_p170","s","a"],["cnm_006","cnm_005","h","r"],["cnm_007","cnm_005","h","r"],["cnm_008","cnm_007","h","r"],["cnm_008","cnm_006","h","r"],["cnm_009","cnm_008","h","r"],["cnm_009","cnm_005","h","a"],["cnm_010","cnm_008","h","r"],["cnm_010","cnm_002","s","r"],["cnm_010","cnm_p173","h","a"],["cnm_010","cnm_p125","h","a"],["cnm_011","cnm_010","h","r"],["cnm_012","cnm_010","h","r"],["cnm_012","cnm_006","h","a"],["cnm_013","cnm_011","h","r"],["cnm_013","cnm_012","h","r"],["cnm_014","cnm_008","h","r"],["cnm_014","cnm_p178","h","a"],["cnm_015","cnm_014","h","r"],["cnm_016","cnm_014","h","r"],["cnm_016","cnm_p246","h","a"],["cnm_017","cnm_016","h","r"],["cnm_017","cnm_014","h","a"],["cnm_017","cnm_p183","h","a"],["cnm_018","cnm_013","h","r"],["cnm_018","cnm_017","h","r"],["cnm_018","cnm_015","s","r"],["cnm_018","cnm_p112","h","a"],["cnm_019","cnm_014","h","r"],["cnm_020","cnm_019","h","r"],["cnm_021","cnm_018","h","r"],["cnm_021","cnm_020","h","r"],["cnm_022","cnm_020","h","r"],["cnm_022","cnm_p120","h","a"],["cnm_023","cnm_p121","h","r"],["cnm_023","cnm_022","s","r"],["cnm_p173","cnm_p172","h","r"],["cnm_p246","cnm_p178","h","r"],["cnm_p170","cnm_p165","h","r"],["cnm_025","cnm_p142","h","r"],["cnm_026","cnm_025","h","r"],["cnm_026","cnm_p165","h","a"],["cnm_027","cnm_026","h","r"],["cnm_027","cnm_p231","s","r"],["cnm_027","cnm_019","s","a"],["cnm_028","cnm_027","h","r"],["cnm_029","cnm_026","h","r"],["cnm_029","cnm_021","h","r"],["cnm_029","cnm_019","h","a"],["cnm_029","cnm_014","h","a"],["cnm_029","cnm_012","s","a"],["cnm_030","cnm_027","h","r"],["cnm_030","cnm_029","s","r"]]};
+const chapters=['小学前置','第一章 · 有理数','第二章 · 有理数的运算','第三章 · 代数式'];
+const pages=['','index.html','chapter-2.html','chapter-3.html'];
+const defaults=['cnm_p201','cnm_006','cnm_012','cnm_029'];
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+const from=/^[1-3]$/.test(params.get('from')||'')?Number(params.get('from')):0;
+const fromLesson=params.get('lesson')||'';
+const returnToLesson=/^L[1-8]$/.test(fromLesson)&&Object.values(topics).some(t=>t.ch===from&&'L'+t.L===fromLesson);
+if(from){
+ $('back').href=pages[from]+(returnToLesson?'#/'+fromLesson:'#/');
+ $('back').textContent=returnToLesson?'← 回刚才的课':'← 回第'+'一二三'[from-1]+'章目录';
+}
+const item=id=>topics[id];
+const entries=Object.entries(topics);
+const labels={ok:'实际答对过',weak:'答错后待巩固',none:'未验证'};
+let selected;
+function state(id){
+ try{
+  const v=JSON.parse(localStorage.getItem('g7_diag_v1')||'{}')?.tp?.[id];
+  return v?.weak?'weak':v?.ok?'ok':'none';
+ }catch(_){return 'none';}
+}
+function node(id,suffix){
+ const b=document.createElement('button');
+ b.type='button';b.className='node';b.dataset.topic=id;
+ const name=document.createElement('span');name.textContent=item(id).nm;b.appendChild(name);
+ if(suffix){const tag=document.createElement('small');tag.textContent=suffix;b.appendChild(tag);}
+ b.onclick=()=>{location.hash=id;};
+ return b;
+}
+const groups=chapters.map((name,i)=>{
+ const group=document.createElement('details');
+ const title=document.createElement('summary');title.textContent=name;group.appendChild(title);
+ const nodes=document.createElement('div');nodes.className='nodes';
+ entries.filter(([,t])=>t.ch===i).forEach(([id])=>nodes.appendChild(node(id)));
+ group.appendChild(nodes);$('groups').appendChild(group);return group;
+});
+function showRelations(container,links,index){
+ container.replaceChildren();
+ if(!links.length){const p=document.createElement('span');p.className='meta';p.textContent='本站暂无关联知识点';container.appendChild(p);return;}
+ for(const edge of links)container.appendChild(node(edge[index],edge[2]==='s'?'相关':'先修'));
+}
+function render(){
+ const requested=location.hash.slice(1);
+ const id=Object.hasOwn(topics,requested)?requested:entries.find(([,t])=>returnToLesson&&t.ch===from&&'L'+t.L===fromLesson)?.[0]||defaults[from||1];
+ const t=item(id),status=state(id);
+ $('location').textContent=chapters[t.ch]+' · '+(t.ch?t.no:t.g);
+ $('topic').textContent=t.nm;$('hint').textContent=t.h;
+ $('status').dataset.state=status;$('status').textContent=labels[status];
+ showRelations($('before'),edges.filter(([target])=>target===id),1);
+ showRelations($('after'),edges.filter(([,source])=>source===id),0);
+ $('lesson').hidden=!t.ch;
+ if(t.ch)$('lesson').href=pages[t.ch]+'#/L'+t.L;
+ $('check').href=pages[t.ch||3]+'#/check/'+id;
+ if(selected!==id){
+  groups[t.ch].open=true;
+  document.querySelectorAll('#groups [data-topic]').forEach(button=>{
+   if(button.dataset.topic===id)button.setAttribute('aria-current','true');else button.removeAttribute('aria-current');
+  });
+  selected=id;
+ }
+}
+window.addEventListener('hashchange',render);
+window.addEventListener('pageshow',render);
+window.addEventListener('storage',e=>{if(e.key==='g7_diag_v1')render();});
+render();
+</script>
+</body>
+</html>
