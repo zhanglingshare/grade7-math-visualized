@@ -1,0 +1,1356 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>第一章 有理数 · 动手感悟原理（诊断版）</title><style>:root{--bg:#f4eee4;--paper:#fffaf2;--ink:#2a211b;--muted:#7b6b5d;--line:#e8dccb;--or:#d45216;--or2:#fbe6d8;--gr:#2b8a55;--gr2:#e1f1e6;--rd:#c8372d;--rd2:#fbe3df;--bl:#2f6fd1;--bl2:#e4ecfb;--sh:0 10px 30px rgba(90,60,30,.07)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.view{max-width:1040px;margin:0 auto;padding:12px 14px 60px}
+.top{position:sticky;top:0;z-index:20;background:rgba(244,238,228,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px 14px}
+.top .tt{flex:1;min-width:0;font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .tt small{color:var(--or);font-weight:700;margin-right:6px}
+.ib{min-height:40px;min-width:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);font-size:14px;white-space:nowrap}
+.ib:disabled{opacity:.35}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--sh);margin-bottom:14px}
+.step{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;margin:0 0 8px}
+.step i{font-style:normal;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--or);color:#fff;font-size:13px;flex:none}
+.muted{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:8px 14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;line-height:1.35;text-align:left;transition:all .25s cubic-bezier(.16,1,.3,1)}
+.chip:hover{border-color:#d9c3a8}
+.chip.on{border-color:var(--or);background:var(--or2)}
+.chip.ok{border-color:var(--gr);background:var(--gr2);color:#145233}
+.chip.no{border-color:var(--rd);background:var(--rd2);color:#7d1c15}
+.chip:disabled{cursor:default}
+.chip.dim{opacity:.45}
+.guess{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px;border-radius:14px;background:#fff4ea;border:1px dashed #efc3a3;margin-bottom:10px;font-size:14.5px}
+.guess b{color:var(--or)}
+.guess .chip{min-height:36px;padding:4px 12px;font-size:14px}
+.guess .gv{flex-basis:100%;font-size:13.5px;color:var(--muted)}
+.stagewrap{position:relative;border-radius:14px;background:#fffdf8;border:1px solid var(--line);overflow:hidden}
+.stagewrap svg{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.tag{margin-left:auto;white-space:nowrap;padding:3px 10px;border-radius:999px;background:var(--ink);color:#fff;font-size:12.5px;opacity:.85;pointer-events:none;transition:opacity .4s}
+.tag.go{background:var(--or)}
+.mission{margin:10px 0 0;padding:10px 12px;border-radius:14px;background:var(--or2);border:1.5px solid #f1b994;font-size:15.5px;font-weight:700;line-height:1.45}
+.mission small{display:block;font-weight:600;color:var(--or);font-size:12.5px}
+.mission.done{background:var(--gr2);border-color:#9fd3b3}
+.mission.done small{color:var(--gr)}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.seg button{border:0;background:none;min-height:40px;padding:0 12px;font-size:14px}
+.seg button.on{background:var(--or);color:#fff}
+.tog{min-height:40px;padding:0 12px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:14px}
+.tog.on{border-color:var(--or);background:var(--or2);color:#9a3a0d;font-weight:700}
+.readout{margin-top:10px;font-size:15px;min-height:24px;line-height:1.5}
+.readout b{color:var(--or)}
+input[type=range]{width:100%;height:36px;accent-color:var(--or)}
+.mlist{list-style:none;margin:0;padding:0;counter-reset:m}
+.mlist li{position:relative;padding:9px 10px 9px 40px;border-radius:12px;margin-bottom:6px;font-size:14.5px;background:#fff;border:1px solid var(--line);line-height:1.45}
+.mlist li:before{counter-increment:m;content:counter(m);position:absolute;left:10px;top:9px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#efe5d7;color:var(--muted);font-size:12px;font-weight:800}
+.mlist li.cur{border-color:#f1b994;background:#fff6ee;font-weight:700}
+.mlist li.ok:before{content:"✓";background:var(--gr);color:#fff}
+.mlist li .aha{display:block;margin-top:4px;color:#1d6b41;font-weight:600;font-size:13.5px}
+.mlist li.pop{animation:pop .7s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{0%{transform:scale(.96);background:#d6f0de}100%{transform:none}}
+.lgrid{display:grid;gap:0 14px}
+@media(min-width:900px){.lgrid{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:start}.lgrid .side{position:sticky;top:70px}}
+.rule{border-left:4px solid var(--or);background:#fff6ee;padding:10px 12px;border-radius:0 12px 12px 0;font-size:15px;margin-top:10px}
+.rule h4{margin:0 0 4px;font-size:14px;color:var(--or)}
+.rq{margin-bottom:12px}
+.rq p{margin:0 0 6px;font-weight:700}
+.fbtxt{margin-top:6px;font-size:14.5px}
+.fbtxt.ok{color:#1d6b41}.fbtxt.no{color:#9b241b}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:8px}
+.dots{display:flex;gap:4px}.dots span{width:9px;height:9px;border-radius:50%;background:#e6d9c6}.dots span.ok{background:var(--gr)}.dots span.no{background:var(--rd)}.dots span.cur{background:var(--or)}
+.shen{padding:10px;border-radius:14px;background:var(--bl2);margin-bottom:10px}
+.shen p{margin:0 0 6px;font-size:14.5px}.shen p b{color:var(--bl)}
+.shen .chip{min-height:40px;font-size:14.5px}
+.qbody{transition:opacity .4s}
+.qbody.lock{opacity:.35;pointer-events:none}
+.qtext{font-size:17px;font-weight:700;margin:0 0 10px;line-height:1.5}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,40px);opacity:0;z-index:50;background:#2a211b;color:#fff;padding:10px 16px;border-radius:14px;font-size:15px;transition:all .45s cubic-bezier(.16,1,.3,1);max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.scn{margin-top:10px;border-radius:14px;padding:8px 10px;border:1.5px solid}
+.scn.w{border-color:#efb3ab;background:#fff5f3}.scn.r{border-color:#a9d9bb;background:#f3fbf6}
+.scn-t{font-size:12.5px;font-weight:800}.scn.w .scn-t{color:var(--rd)}.scn.r .scn-t{color:var(--gr)}
+.scn svg{display:block;width:100%;height:auto;max-height:150px}
+.scn p{margin:2px 0 0;font-size:14.5px}
+.morph{display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:800;padding:10px 0;flex-wrap:wrap}
+.morph .b{opacity:0;transform:translateX(-14px);animation:mIn .8s .6s cubic-bezier(.16,1,.3,1) forwards}
+.morph .arr{opacity:0;animation:mIn .5s .3s forwards;color:var(--muted)}
+@keyframes mIn{to{opacity:1;transform:none}}
+.btn{min-height:46px;padding:0 18px;border-radius:14px;border:0;background:var(--or);color:#fff;font-weight:700;font-size:15.5px}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.hero{padding:18px 4px 8px}
+.hero h1{margin:0;font-size:26px;line-height:1.25}
+.hero h1 span{color:var(--or)}
+.hero p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.loop{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.loop span{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px}
+.loop span b{color:var(--or)}
+.lcards{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:700px){.lcards{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.lcards{grid-template-columns:1fr 1fr 1fr}}
+.lc{display:block;text-align:left;width:100%;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--sh);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.lc:hover{transform:translateY(-2px)}
+.lc .no{color:var(--or);font-weight:800;font-size:13px}
+.lc h3{margin:2px 0 4px;font-size:19px}
+.lc p{margin:0;color:var(--muted);font-size:14px}
+.lc svg{width:100%;height:56px;display:block;margin:8px 0}
+.prog{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.prog span{font-size:12.5px;padding:2px 8px;border-radius:999px;background:#f1e8db;color:var(--muted)}
+.prog span.ok{background:var(--gr2);color:#1d6b41}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.stat div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+.stat b{display:block;font-size:22px;color:var(--or)}
+.stat small{font-size:12px;color:var(--muted)}
+.wi{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-bottom:10px}
+.wi .src{font-size:12.5px;color:var(--or);font-weight:700}
+textarea{width:100%;min-height:64px;border:1.5px solid var(--line);border-radius:12px;padding:8px;font:inherit;font-size:15px;background:#fff}
+h2.sec{font-size:18px;margin:18px 4px 10px}
+@media (prefers-reduced-motion: reduce){*{transition-duration:.01s!important;animation-duration:.2s!important}}
+.step{white-space:nowrap}
+@media(max-width:480px){.step .muted{display:none}}
+button.lc{display:flex;flex-direction:column;justify-content:flex-start}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.tier{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:6px 4px 7px;text-align:center;min-height:56px;line-height:1.25}
+.tier b{display:block;font-size:14px}.tier small{display:block;font-size:11px;color:var(--muted);margin-top:1px}
+.tier .bar{display:block;height:4px;border-radius:2px;background:#efe5d7;margin:4px 6px 0;overflow:hidden}.tier .bar span{display:block;height:100%;background:var(--gr);border-radius:2px}
+.tier.on{border-color:var(--or);background:var(--or2)}.tier.on b{color:#9a3a0d}
+.tier.full small{color:var(--gr);font-weight:700}
+.tier.mix{border-style:dashed}
+.tt2{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;background:#f1e8db;font-size:11.5px}
+.inrow{display:flex;gap:8px}
+.ans{flex:1;min-width:0;min-height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;font-size:18px;background:#fff}
+.ans:focus{outline:none;border-color:var(--or)}
+.ans.ok{border-color:var(--gr);background:var(--gr2)}.ans.no{border-color:var(--rd);background:var(--rd2)}
+.keys{display:flex;gap:6px;margin-top:8px}
+.key{min-width:48px;min-height:40px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:17px;font-weight:700}
+
+.dxbox{margin-top:12px;border:1.5px solid #efc3a3;background:#fff7ef;border-radius:16px;padding:12px}
+.dxbox .step i{background:#2a211b;font-size:12px}
+.dxq{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0}
+.dxq .qtext{margin:4px 0 8px;font-weight:600}
+.dxh{font-size:13.5px;font-weight:800;color:var(--or)}
+.dxh b{color:var(--ink)}
+.dxg{display:inline-block;font-size:11px;font-weight:700;color:#5b4a3c;background:#efe6d9;border-radius:8px;padding:0 6px;margin-left:4px}
+.dxres{background:#2a211b;color:#fff;border-radius:14px;padding:12px;margin:10px 0}
+.dxres .dxh{color:#ffb98f}
+.dxres .dxt{margin:4px 0 0;font-size:16.5px;font-weight:700;line-height:1.5}
+.dxres .muted2{margin:6px 0 0;color:#e8dccb;font-size:14px}
+.dxres .dxpath span{background:rgba(255,255,255,.08)}
+.dxres .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.dxfix{background:var(--gr2);border:1px solid #b9dfc8;border-radius:14px;padding:10px 12px;margin:8px 0}
+.dxfix .dxh{color:#145233}
+.dxfix p{margin:4px 0 8px}
+.dxpath{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:8px 0 2px;font-size:13px}
+.dxpath span{border-radius:10px;padding:2px 8px;font-weight:700}
+.dxpath span.ok{background:var(--gr2);color:#145233}
+.dxpath span.no{background:var(--rd2);color:#7d1c15}
+.dxpath i{font-style:normal;color:#b0a090}
+.dxend{margin-top:6px}
+.dxlk{display:inline-flex;align-items:center;text-decoration:none;min-height:42px;font-size:14.5px}
+.dxprim{color:#145233;font-size:13.5px;font-weight:600}
+.dxsug{margin:8px 0 0;padding:8px 10px;border-radius:12px;background:#fff4ea;border:1px dashed #efc3a3;font-size:14px}
+.dxroot{margin:6px 0 8px;padding:8px 10px;border-radius:12px;background:#fff4ea;border:1px dashed #efc3a3;font-size:14px}
+.dxroot span{color:var(--rd);font-weight:700}
+.dxmapcard{margin-top:12px}
+.dxnote{margin:0 0 8px;font-size:13.5px;color:var(--muted)}
+.dxleg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;font-size:13px;font-weight:700}
+.dxleg span{border-radius:10px;padding:3px 10px;border:1.4px solid}
+.dxleg .ok,.dxst.ok{background:#dff3e7;border-color:#2b8a55;color:#145233}
+.dxleg .none,.dxst.none{background:#fff;border-color:#bfb2a3;border-style:dashed;color:#7b6b5d}
+.dxleg .weak,.dxst.weak{background:#fbe1dd;border-color:#c8372d;color:#7d1c15}
+.dxst{display:inline-block;border:1.2px solid;border-radius:9px;padding:0 7px;font-size:12px;font-weight:700;margin:2px 2px 0 0}
+.dxsvg{width:100%;max-width:560px;margin:0 auto}
+.dxmap{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.dxreco{margin-top:8px;padding:10px 12px;border-radius:14px;background:#fff4ea;border:1.5px solid #f0b48e}
+.dxsm{margin:4px 0;font-size:13.5px;color:#5b4a3c}
+.dxpanel{margin-top:8px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+.dxpanel p{margin:4px 0}
+.dxfoot{margin:22px 4px 0;font-size:12px;line-height:1.6;color:var(--muted)}
+.dxfoot a{color:var(--or)}
+.dxtop .lc{text-decoration:none;color:inherit}
+a.btn{display:inline-flex;align-items:center;text-decoration:none}
+.reviewDialog{width:min(100%,900px);height:92dvh;max-height:92dvh;margin:auto;padding:0;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+.reviewDialog::backdrop{background:#2a211b99}
+.reviewDialog .reviewBar{padding:8px;border-bottom:1px solid var(--line)}
+.reviewDialog iframe{display:block;width:100%;height:calc(100% - 61px);border:0;background:var(--bg)}
+.chapterNav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chapterNav a,.chapterNav strong{padding:8px 12px;color:var(--ink)}
+</style></head><body><div id="app"></div><script>'use strict';
+const NS='http://www.w3.org/2000/svg';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+function S(tag,at,par){const e=document.createElementNS(NS,tag);if(at)for(const k in at)e.setAttribute(k,at[k]);if(par)par.appendChild(e);return e;}
+function H(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild;}
+const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function fmt(v){if(Math.abs(v)<1e-9)v=0;let s=(Math.round(v*100)/100).toString();return s.replace('-','−');}
+function par(v){return v<0?'('+fmt(v)+')':fmt(v);}
+function fmtS(v){return (v>0?'+':'')+fmt(v);}
+function near(a,b){return Math.abs(a-b)<1e-6;}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function snap(v,s){return Math.round(v/s)*s;}
+// cubic-bezier(.16,1,.3,1)
+function bezier(x1,y1,x2,y2){const cx=(t,a,b)=>3*(1-t)*(1-t)*t*a+3*(1-t)*t*t*b+t*t*t;return function(x){if(x<=0)return 0;if(x>=1)return 1;let lo=0,hi=1,t=x;for(let i=0;i<22;i++){t=(lo+hi)/2;if(cx(t,x1,x2)<x)lo=t;else hi=t;}return cx(t,y1,y2);};}
+const EASE=bezier(.16,1,.3,1);
+let EPOCH=0;
+function tween(dur,fn){const ep=EPOCH;return new Promise(res=>{const t0=performance.now();dur=RM?Math.min(dur,150):dur;function f(now){if(ep!==EPOCH)return res(false);const k=Math.min(1,(now-t0)/dur);fn(EASE(k),k);if(k<1)requestAnimationFrame(f);else res(true);}requestAnimationFrame(f);});}
+// smooth follow for stage visuals
+function lerp(a,b,k){return a+(b-a)*k;}
+function follow(cur,tgt,dt,speed){speed=speed||12;if(RM)return tgt;const k=1-Math.exp(-speed*dt);const v=cur+(tgt-cur)*k;return Math.abs(v-tgt)<1e-3?tgt:v;}
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const m=svg.getScreenCTM();return m?p.matrixTransform(m.inverse()):{x:0,y:0};}
+function drag(svg,el,o){el.style.cursor='grab';el.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();try{el.setPointerCapture(e.pointerId);}catch(_){}const p0=svgPt(svg,e);let moved=false;o.start&&o.start(p0.x,p0.y);const mv=ev=>{const p=svgPt(svg,ev);if(Math.hypot(p.x-p0.x,p.y-p0.y)>4)moved=true;o.move&&o.move(p.x,p.y,ev);};const up=ev=>{el.removeEventListener('pointermove',mv);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',up);const p=svgPt(svg,ev);o.end&&o.end(p.x,p.y,moved);};el.addEventListener('pointermove',mv);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);if(o.moveOnDown)o.move(p0.x,p0.y,e);});}
+// number line drawing helper for stages
+function numberLine(g,o){const x0=o.x0??180,u=o.u??26,y=o.y,min=o.min??-6,max=o.max??6;const X=v=>x0+v*u;
+  S('line',{x1:X(min)-12,y1:y,x2:X(max)+16,y2:y,stroke:'#5b4a3c','stroke-width':2},g);
+  S('path',{d:`M${X(max)+22},${y} l-10,-6 v12 z`,fill:'#5b4a3c'},g);
+  for(let k=min;k<=max;k++){S('line',{x1:X(k),y1:y-(k===0?8:5),x2:X(k),y2:y+(k===0?8:5),stroke:'#5b4a3c','stroke-width':k===0?2.4:1.4},g);
+    if(o.labels!==false){const t=S('text',{x:X(k),y:y+22,'text-anchor':'middle','font-size':k===0?13:12,'font-weight':k===0?800:500,fill:k===0?'#2a211b':'#7b6b5d'},g);t.textContent=fmt(k*(o.tv||1));}}
+  return {X,V:x=>(x-x0)/u,x0,u,y};}
+function txt(par,at,s){const t=S('text',at,par);t.textContent=s;return t;}
+
+// ---------- storage ----------
+const LS='g7ch1_rational_v1';
+let DB={};try{DB=JSON.parse(localStorage.getItem(LS)||'{}')||{};}catch(e){DB={};}
+['m','g','r','q','w','qd'].forEach(k=>{if(!DB[k]||typeof DB[k]!=='object')DB[k]={};});if(!Array.isArray(DB.log))DB.log=[];
+window.addEventListener('storage',e=>{if(e.key===LS&&e.newValue){try{const n=JSON.parse(e.newValue);['m','g','r','q','w','qd'].forEach(k=>{if(!n[k])n[k]={};});if(!Array.isArray(n.log))n.log=[];DB=n;}catch(_){}}});
+function save(){try{localStorage.setItem(LS,JSON.stringify(DB));}catch(e){}}
+
+function toast(msg,ms){let t=$('#toast');if(!t){t=H('<div id="toast" class="toast"></div>');document.body.appendChild(t);}t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),ms||2600);}
+
+// ---------- router ----------
+const app=()=>$('#app');
+let CUR=null; // current stage
+function cleanup(){EPOCH++;CUR=null;}
+function route(){cleanup();const h=location.hash.replace(/^#/,'')||'/';const m=h.match(/^\/L(\d)$/);if(m&&LESSONS[+m[1]-1])showLesson(+m[1]-1);else if(h==='/wrong')showWrong();else if(h==='/start')DXUI.startView();else showHome();window.scrollTo(0,0);}
+window.addEventListener('hashchange',route);
+let lastT=performance.now();
+function loop(now){const dt=Math.min(.05,(now-lastT)/1000);lastT=now;if(CUR&&CUR.frame){try{CUR.frame(now,dt);}catch(e){console.error(e);CUR=null;}}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+
+// ---------- home ----------
+function lessonProg(L){const md=(DB.m[L.id]||[]).filter(Boolean).length;const q=DB.q[L.id];const qd=Object.keys(DB.qd[L.id]||{}).length;return {md,mt:L.missionsCount||0,q,qd,qn:L.quiz.length};}
+function showHome(){const wcount=Object.keys(DB.w).length;const logs=DB.log;const errs={'审题没看清':0,'法则记混了':0,'算完没检查':0};let fast=0,tot=0;logs.forEach(l=>{if(errs[l.err]!=null)errs[l.err]++;fast+=l.fast||0;tot+=l.n||0;});
+ const v=H(`<div><div class="view">
+ <div class="hero"><h1>第一章 有理数<br><span>动手拖一拖，自己发现规则</span></h1>
+ <p>人教版七年级上册 · 6 节课。每节课先别背规则，先动手玩，看它怎么变，再自己说出原理。</p>
+ <div class="loop"><span><b>①</b> 先猜</span><span><b>②</b> 动手感悟</span><span><b>③</b> 说出原理</span><span><b>④</b> 先审题再刷题</span><span><b>⑤</b> 看自己错在哪</span><span><b>⑥</b> 反思</span></div></div>
+ <nav class="chapterNav" aria-label="章节"><strong aria-current="page">第一章</strong><a href="chapter-2.html">第二章</a><a href="chapter-3.html">第三章</a></nav>
+ <div class="lcards" id="lcs"></div>
+ <h2 class="sec">复盘</h2>
+ <div class="lcards"><button class="lc" id="gowrong"><div class="no">错题本</div><h3>${wcount?wcount+' 道题等你重做':'暂时没有错题'}</h3><p>只留做错的题，重做对了才会消失。</p></button>
+ <div class="lc"><div class="no">我的复盘记录</div><h3>做了 ${logs.length} 组题</h3>
+ <div class="stat"><div><b>${errs['审题没看清']}</b><small>审题没看清</small></div><div><b>${errs['法则记混了']}</b><small>法则记混了</small></div><div><b>${errs['算完没检查']}</b><small>算完没检查</small></div></div>
+ <p style="margin-top:8px">${tot?`不到 5 秒就作答：${fast}/${tot} 题。${fast/tot>.3?'<b style="color:#c8372d">太快了，先想一想再动笔。</b>':'保持先想后做。'}`:'做完一组题后，这里会显示你最常犯的错误。'}</p></div></div>
+ </div></div>`);
+ app().replaceChildren(v);
+ const box=$('#lcs',v);
+ LESSONS.forEach((L,i)=>{const p=lessonProg(L);const c=H(`<button class="lc"><div class="no">${L.no}</div><h3>${L.title}</h3><p>${L.sub}</p>${L.icon||''}<div class="prog"><span class="${p.md>=p.mt&&p.mt?'ok':''}">动手任务 ${p.md}/${p.mt}</span><span class="${p.qd===p.qn?'ok':''}">题目已掌握 ${p.qd}/${p.qn}</span></div></button>`);c.onclick=()=>location.hash='#/L'+(i+1);box.appendChild(c);});
+ $('#gowrong',v).onclick=()=>location.hash='#/wrong';
+ DXUI.home(v);
+}
+
+// ---------- lesson ----------
+function topBar(title,i){const n=LESSONS.length;return H(`<div class="top"><div class="in"><button class="ib" data-go="#/">← 目录</button><div class="tt">${title}</div>${i==null?'':`<button class="ib" ${i<=0?'disabled':''} data-go="#/L${i}">‹ 上一课</button><button class="ib" ${i>=n-1?'disabled':''} data-go="#/L${i+2}">下一课 ›</button>`}</div></div>`);}
+function bindGo(root){$$('[data-go]',root).forEach(b=>b.onclick=()=>{location.hash=b.dataset.go;});}
+
+function showLesson(i){const L=LESSONS[i];
+ const root=H(`<div></div>`);root.appendChild(topBar(`<small>${L.no}</small>${L.title}`,i));
+ const v=H(`<div class="view"><div class="lgrid">
+  <div class="main"><div class="card" id="stagecard">
+   <div class="guess" id="guess"></div>
+   <div class="step"><i>2</i>动手感悟 <span class="muted" style="font-weight:500;font-size:13px">拖一拖、点一点</span><span class="tag" id="tag">看演示…</span></div>
+   <div class="mission" id="mission"></div>
+   <div class="ctrls" id="ctrlTop"></div>
+   <div class="stagewrap" id="sw" style="margin-top:10px"></div>
+   <div class="ctrls" id="ctrls"></div>
+   <div class="readout" id="readout"></div>
+  </div></div>
+  <div class="side"><div class="card"><div class="step"><i>✓</i>任务清单</div><ol class="mlist" id="mlist"></ol></div></div>
+ </div>
+ <div class="card" id="rulecard"></div>
+ <div class="card" id="quizcard"></div>
+ <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="#/">← 回目录</button>${i<LESSONS.length-1?`<button class="btn" data-go="#/L${i+2}">下一课：${LESSONS[i+1].title} →</button>`:'<button class="btn" data-go="#/wrong">去错题本 →</button>'}</div>
+ </div>`);
+ root.appendChild(v);app().replaceChildren(root);bindGo(root);
+ // guess
+ renderGuess(L,$('#guess',v));
+ // stage
+ const sw=$('#sw',v);
+ const api={demo:false,touched:false,ep:EPOCH,
+  say(h){$('#readout',v).innerHTML=h;},
+  ctrls:$('#ctrls',v),ctrlTop:$('#ctrlTop',v),
+  update(){checkMissions();},
+  curMission(){const d=DB.m[L.id]||[];let k=0;while(d[k])k++;return st?Math.min(k,st.missions.length):k;},
+  wait(ms){const ep=EPOCH;return new Promise(r=>setTimeout(()=>r(ep===EPOCH&&api.demo&&!api.touched),RM?Math.min(ms,200):ms));}
+ };
+ let st=null;st=L.stage(sw,api);L.missionsCount=st.missions.length;
+ const svg=sw.querySelector('svg');
+ // demo hand overlay
+ const hand=S('g',{opacity:0,'pointer-events':'none'},svg);S('circle',{r:20,fill:'rgba(42,33,27,.12)',stroke:'#2a211b','stroke-width':1.5,'stroke-dasharray':'3 3'},hand);const ring=S('circle',{r:10,fill:'none',stroke:'#d45216','stroke-width':2},hand);
+ sw.addEventListener('pointerdown',()=>{if(api.demo){api.touched=true;api.demo=false;setTag('轮到你了！',true);}},true);
+ $('#ctrls',v).addEventListener('pointerdown',()=>{if(api.demo){api.touched=true;api.demo=false;setTag('轮到你了！',true);}},true);
+ $('#ctrlTop',v).addEventListener('pointerdown',()=>{if(api.demo){api.touched=true;api.demo=false;setTag('轮到你了！',true);}},true);
+ function setTag(t,go){const tg=$('#tag',v);tg.textContent=t;tg.classList.toggle('go',!!go);if(go){clearTimeout(tg._h);tg._h=setTimeout(()=>{tg.style.opacity=0;},2600);}else tg.style.opacity=.85;}
+ const frame=st.frame;
+ CUR={frame(now,dt){frame(now,dt);if(api.demo&&st.handAt){const p=st.handAt();if(p){hand.setAttribute('opacity',1);hand.setAttribute('transform',`translate(${p.x+6},${p.y+10})`);ring.setAttribute('r',8+6*((now/600)%1));ring.setAttribute('opacity',1-((now/600)%1));}else hand.setAttribute('opacity',0);}else hand.setAttribute('opacity',0);}};
+ svg.appendChild(hand);
+ function renderMissions(justDone){const d=DB.m[L.id]||[];const cur=api.curMission();const ol=$('#mlist',v);ol.replaceChildren();
+  st.missions.forEach((m,k)=>{const li=H(`<li class="${d[k]?'ok':''} ${k===cur?'cur':''} ${k===justDone?'pop':''}">${m.t}${d[k]?`<span class="aha">发现：${m.aha}</span>`:''}</li>`);ol.appendChild(li);});
+  const mb=$('#mission',v);
+  if(justDone!=null){mb.className='mission done';mb.innerHTML=`<small>任务 ${justDone+1} 完成 ✓ 你发现了：</small>${st.missions[justDone].aha}`;clearTimeout(mb._h);mb._h=setTimeout(()=>{if(api.ep===EPOCH)showCur();},3600);}else showCur();
+  function showCur(){const c=api.curMission();if(c>=st.missions.length){mb.className='mission done';mb.innerHTML='<small>全部任务完成 ✓</small>往下走：用你自己的话说出原理。';}else{mb.className='mission';mb.innerHTML=`<small>任务 ${c+1}/${st.missions.length}</small>${st.missions[c].t}`;}}
+  if(st.onMission)st.onMission(api.curMission());
+  updGuessVerdict();
+ }
+ function checkMissions(){if(api.demo||!st)return;const d=DB.m[L.id]||(DB.m[L.id]=[]);let jd=null;const k=api.curMission();if(k<st.missions.length&&st.missions[k].ok()){d[k]=1;jd=k;}if(jd!=null){save();renderMissions(jd);}}
+ function updGuessVerdict(){const g=$('#guess .gv',v);const d=(DB.m[L.id]||[]).filter(Boolean).length;if(!g)return;const mine=DB.g[L.id];if(mine==null){g.textContent='猜一下再动手（不猜也能玩）。';return;}
+  if(d>=2){g.innerHTML=`你猜的是“${L.guess.o[mine]}”。动手之后看：${mine===L.guess.a?'<b style="color:#2b8a55">猜对了！</b>':'<b style="color:#c8372d">和你猜的不一样，</b>'}${L.guess.why}`;}else g.textContent='记住你的猜测，动手完成 2 个任务后揭晓。';}
+ api._upd=updGuessVerdict;window._updG=updGuessVerdict;
+ renderMissions();
+ renderRule(L,$('#rulecard',v));
+ renderQuiz(L,$('#quizcard',v),L.quiz);
+ // intro demo starts right away
+ api.demo=true;setTag('看演示…');
+ (async()=>{await new Promise(r=>setTimeout(r,250));if(st.demo){await st.demo(api);}const ok=api.demo&&!api.touched;api.demo=false;if(api.ep!==EPOCH)return;if(ok&&st.reset)st.reset();setTag('轮到你了！拖动试试',true);renderMissions();})();
+}
+function renderGuess(L,box){const g=L.guess;box.innerHTML=`<span><b>① 先猜：</b>${g.q}</span>`;const mine=DB.g[L.id];
+ g.o.forEach((o,k)=>{const b=H(`<button class="chip ${mine===k?'on':''}">${o}</button>`);b.onclick=()=>{DB.g[L.id]=k;save();$$('.chip',box).forEach(x=>x.classList.remove('on'));b.classList.add('on');const gv=$('.gv',box);if(gv)gv.textContent='记住你的猜测，动手完成 2 个任务后揭晓。';const d=(DB.m[L.id]||[]).filter(Boolean).length;if(d>=2&&window._updG)window._updG();};box.appendChild(b);});
+ box.appendChild(H('<span class="gv"></span>'));}
+
+function renderRule(L,box){box.innerHTML=`<div class="step"><i>3</i>说出原理 <span class="muted" style="font-weight:500;font-size:13px">用你刚才看到的，选出正确的说法</span></div>`;
+ let answered=0;const need=L.rule.length;
+ L.rule.forEach((r,k)=>{const q=H(`<div class="rq"><p>${r.q}</p><div class="chips"></div><div class="fbtxt"></div></div>`);
+  r.o.forEach((o,j)=>{const b=H(`<button class="chip">${o}</button>`);b.onclick=()=>{if(q._done)return;if(j===r.a){q._done=1;b.classList.add('ok');$$('.chip',q).forEach(x=>{if(x!==b)x.classList.add('dim');x.disabled=true;});const f=$('.fbtxt',q);f.className='fbtxt ok';f.textContent='✓ '+r.e;answered++;if(answered===need)show();}else{b.classList.add('no');b.disabled=true;const f=$('.fbtxt',q);f.className='fbtxt no';f.textContent='再回到上面的动画看看：'+(r.h||'这个说法和你看到的不一样。');}};$('.chips',q).appendChild(b);});
+  box.appendChild(q);});
+ const book=H(`<div class="rule" style="display:none"><h4>课本上的原理（你已经自己发现了）</h4>${L.book}</div>`);box.appendChild(book);
+ function show(){book.style.display='block';book.animate&&book.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:600,easing:'cubic-bezier(.16,1,.3,1)'});DB.r[L.id]=1;save();}
+}
+
+// ---------- feedback scene ----------
+function scene(sc,kind){const col=kind==='w'?'#c8372d':'#2b8a55';const w=H(`<div class="scn ${kind}"><div class="scn-t">${kind==='w'?'按你的答案，会是这样：':'正确的是这样：'}</div></div>`);
+ if(sc.f){w.appendChild(H(`<div class="morph"><span class="a">${sc.f[0]}</span><span class="arr">→</span><span class="b" style="color:${col}">${sc.f[1]}</span></div>`));}
+ else if(sc.r){const [mn,mx]=sc.r;const step=sc.step||1;const W=340,y=62;const X=v=>22+(v-mn)/(mx-mn)*(W-44);
+  const svg=S('svg',{viewBox:`0 0 ${W} 104`});const g=S('g',{},svg);
+  if(sc.b){S('rect',{x:X(sc.b[0]),y:y-9,width:X(sc.b[1])-X(sc.b[0]),height:18,rx:4,fill:'#cfeedd',stroke:'#2b8a55','stroke-width':1},g);}
+  S('line',{x1:10,y1:y,x2:W-10,y2:y,stroke:'#5b4a3c','stroke-width':1.8},g);S('path',{d:`M${W-6},${y} l-9,-5 v10 z`,fill:'#5b4a3c'},g);
+  const n=Math.round((mx-mn)/step);const every=n>13?2:1;
+  for(let k=0;k<=n;k++){const v=mn+k*step;const isZ=near(v,0);S('line',{x1:X(v),y1:y-(isZ?7:4),x2:X(v),y2:y+(isZ?7:4),stroke:'#5b4a3c','stroke-width':isZ?2.2:1.2},g);if(k%every===0)txt(g,{x:X(v),y:y+20,'text-anchor':'middle','font-size':11,fill:isZ?'#2a211b':'#7b6b5d','font-weight':isZ?800:400},fmt(v));}
+  if(sc.dir){txt(g,{x:W-12,y:y-14,'text-anchor':'end','font-size':11,fill:'#d45216','font-weight':700},sc.dir+' →');if(sc.neg)txt(g,{x:12,y:y-14,'font-size':11,fill:'#7b6b5d'},'← '+sc.neg);}
+  const ropes=(sc.p||[]).map(p=>{const x1=X(p[0]),x2=X(p[1]);const h=Math.min(26,Math.abs(x2-x1)/2+6);const path=S('path',{d:`M${x1},${y} Q${(x1+x2)/2},${y-h*2} ${x2},${y}`,fill:'none',stroke:col,'stroke-width':3,'stroke-linecap':'round',opacity:.75},g);const L=path.getTotalLength?0:0;const lab=txt(g,{x:(x1+x2)/2,y:y-h-4,'text-anchor':'middle','font-size':12,'font-weight':800,fill:col,opacity:0},p[2]||'');return {path,lab};});
+  const ms=(sc.m||[]).map(m=>({v:m[0],t:m[1],o:m[2]==='o'})).sort((a,b)=>a.v-b.v);let px=-99,lv=0;ms.forEach(m=>{const x=X(m.v);lv=(x-px<40)?(lv+1)%2:0;px=x;m.lv=lv;});
+  const mel=ms.map(m=>{const gg=S('g',{},g);S('circle',{r:6.5,fill:m.o?'#fff':col,stroke:col,'stroke-width':2},gg);const tl=txt(gg,{y:m.lv?32:-14,'text-anchor':'middle','font-size':12,'font-weight':800,fill:col},m.t);if(m.lv)tl.setAttribute('y',-30);return {gg,x:X(m.v)};});
+  w.appendChild(svg);
+  setTimeout(()=>{tween(700,e=>{mel.forEach((m,i)=>{const k=clamp(e*1.4-i*.15,0,1);m.gg.setAttribute('transform',`translate(${m.x},${lerp(y-40,y,EASE(k))})`);m.gg.setAttribute('opacity',k);});ropes.forEach(r=>{const len=300;r.path.setAttribute('stroke-dasharray',len);r.path.setAttribute('stroke-dashoffset',len*(1-e));r.lab.setAttribute('opacity',e);});});},60);
+  mel.forEach(m=>{m.gg.setAttribute('transform',`translate(${m.x},${y-40})`);m.gg.setAttribute('opacity',0);});
+ }
+ if(sc.c)w.appendChild(H(`<p>${sc.c}</p>`));
+ return w;}
+
+// ---------- quiz ----------
+const TN={b:'基础',v:'变式',e:'考试题',mix:'混合'};
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function htmlText(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function parseAns(s){s=String(s).replace(/[−－–—]/g,'-').replace(/＋/g,'+').replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/[．。]/g,'.').replace(/／/g,'/');
+ const toks=s.split(/[或,，、;；\s]+|和/).filter(Boolean);const out=[];
+ for(let t of toks){let pm=false;if(t[0]==='±'){pm=true;t=t.slice(1);}const m=t.match(/^([+-]?)(\d+(?:\.\d+)?|\.\d+)(?:\/(\d+(?:\.\d+)?))?$/);if(!m)return null;if(m[3]!=null&&+m[3]===0)return null;let v=+m[2]/(m[3]!=null?+m[3]:1);if(m[1]==='-')v=-v;if(!Number.isFinite(v))return null;out.push(v);if(pm&&v!==0)out.push(-v);}
+ return out.length?out:null;}
+function sameSet(a,b){const u=x=>{const r=[];x.forEach(v=>{if(!r.some(w=>Math.abs(w-v)<1e-9))r.push(v);});return r;};a=u(a);b=u(b);return a.length===b.length&&a.every(v=>b.some(w=>Math.abs(w-v)<1e-9));}
+function renderQuiz(L,box,qs){const qd=()=>DB.qd[L.id]||(DB.qd[L.id]={});let mode=null,set=[],i=0,res=[],times=[],dxs=[];
+ const tierIdx=t=>qs.map((q,k)=>q.t===t?k:-1).filter(k=>k>=0);
+ const prog=t=>{const ids=tierIdx(t);return [ids.filter(k=>qd()[k]).length,ids.length];};
+ function pick(m){mode=m;if(m==='mix'){const pools=['b','v','e'].map(t=>shuffle(tierIdx(t)).sort((a,b)=>(qd()[a]?1:0)-(qd()[b]?1:0)));const pat=shuffle([2,2,1]);set=[];pat.forEach((n,j)=>set.push(...pools[j].slice(0,n)));set=shuffle(set);}else set=shuffle(tierIdx(m)).slice(0,5);i=0;res=[];times=[];dxs=[];draw();}
+ function head(){const tabs=['b','v','e'].map(t=>{const [d,n]=prog(t);return `<button class="tier ${mode===t?'on':''} ${d===n?'full':''}" data-t="${t}"><b>${TN[t]}</b><small>已掌握 ${d}/${n}</small><span class="bar"><span style="width:${(d/n*100).toFixed(0)}%"></span></span></button>`;}).join('');
+  return `<div class="step"><i>4</i>刷题 <span class="muted" style="font-weight:500;font-size:13px">每组 5 题，每题先审题</span></div>
+  <div class="tiers">${tabs}<button class="tier mix ${mode==='mix'?'on':''}" data-t="mix"><b>换一组</b><small>三档混合</small><span class="bar"><span style="width:${(Object.keys(qd()).filter(k=>qs[k]).length/qs.length*100).toFixed(0)}%"></span></span></button></div>`;}
+ function bindTabs(){$$('.tier',box).forEach(b=>b.onclick=()=>pick(b.dataset.t));}
+ function draw(){if(i>=set.length)return reflect();const qi=set[i],q=qs[qi];
+  box.innerHTML=head()+`<div class="qmeta"><span>${TN[mode]} · 第 ${i+1} / ${set.length} 题 <span class="tt2">${TN[q.t]}${q.in?' · 填空':''}</span></span><span class="dots">${set.map((_,k)=>`<span class="${res[k]===true?'ok':res[k]===false?'no':k===i?'cur':''}"></span>`).join('')}</span></div>`;bindTabs();
+  const card=H(`<div></div>`);box.appendChild(card);ask(card,q,(ok,secs,info)=>{res[i]=ok;times.push(secs);
+   const key=L.id+':'+qi;const tg=(DX.TAG[L.id]||[])[qi];if(ok&&tg)DX.rec('cnm_'+tg.split(',')[0],true,'quiz');
+   const next=()=>{const nb=H(`<div class="row"><button class="btn">${i<set.length-1?'下一题 →':'做完了，去反思 →'}</button></div>`);nb.firstChild.onclick=()=>{i++;draw();box.scrollIntoView({behavior:'smooth',block:'start'});};card.appendChild(nb);};
+   if(!ok&&tg){const ep=EPOCH;DXUI.run(card,{lid:L.id,qi,q,info},r=>{if(ep!==EPOCH)return;if(r){dxs.push(r.sum);if(DB.w[key]){DB.w[key].dx=r.sum;save();}}next();});}else next();},ok=>{const key=L.id+':'+qi;if(ok){qd()[qi]=1;delete DB.w[key];}else{DB.w[key]={t:Date.now()};}save();});}
+ function reflect(){const n=set.length,ok=res.filter(x=>x).length;const fast=times.filter(t=>t<5).length;const avg=times.reduce((a,b)=>a+b,0)/Math.max(1,times.length);
+  const prev=DB.q[L.id];DB.q[L.id]={n,best:Math.max(ok,prev&&prev.n===n?prev.best:0)};save();
+  const nextT=['b','v','e'].find(t=>{const [d,m]=prog(t);return d<m;});
+  box.innerHTML=head()+`<div class="step" style="margin-top:12px"><i>6</i>反思 <span class="muted" style="font-weight:500;font-size:13px">30 秒，想清楚错在哪</span></div>
+  <div class="stat"><div><b>${ok}/${n}</b><small>答对</small></div><div><b>${avg.toFixed(1)}s</b><small>平均想了几秒</small></div><div><b style="color:${fast?'#c8372d':'#2b8a55'}">${fast}</b><small>不到5秒就答</small></div></div>
+  ${fast?`<p class="fbtxt no">有 ${fast} 题不到 5 秒就答了。考试时先审题：题目问什么？用哪条规则？</p>`:''}
+  <div class="rq" style="margin-top:12px"><p>${ok===n?'全对！回想一下，哪一步你最容易出错？':'你的错误主要是哪一种？'}</p><div class="chips" id="errs"></div></div>
+  <div class="rq"><p>下次我要……（选一句或自己写）</p><div class="chips" id="next"></div><textarea id="nt" placeholder="例如：看到绝对值先想“距离”"></textarea></div>
+  <div class="row"><button class="btn" id="sv">记录我的反思</button><button class="btn ghost" id="again">再练这一组</button><button class="btn ghost" id="fresh">换一组</button>${nextT&&nextT!==mode?`<button class="btn ghost" id="nextT">去练「${TN[nextT]}」</button>`:''}</div><div class="fbtxt ok" id="svd"></div>`;bindTabs();
+  let err=null;['审题没看清','法则记混了','算完没检查'].forEach(e=>{const b=H(`<button class="chip">${e}</button>`);b.onclick=()=>{err=e;$$('#errs .chip',box).forEach(x=>x.classList.remove('on'));b.classList.add('on');};$('#errs',box).appendChild(b);});
+  {const sg=DXUI.suggest(dxs);if(sg){const bt=$$('#errs .chip',box).find(x=>x.textContent===sg.err);if(bt)bt.click();$('#errs',box).after(H(`<p class="dxsug">🔎 诊断建议选「${sg.err}」：${sg.text}${sg.root&&DX.T[sg.root]?' 建议先补：<b>'+DX.T[sg.root].nm+'</b>。':''}（你觉得不对，可以改选）</p>`));}}
+  ['先圈出题目问什么','想清楚用哪条规则再动笔','算完代回去检查一遍','画数轴帮我想'].forEach(s=>{const b=H(`<button class="chip">${s}</button>`);b.onclick=()=>{$('#nt',box).value=s;};$('#next',box).appendChild(b);});
+  $('#sv',box).onclick=()=>{if(!err){toast('先选一个：你最容易错在哪一步？');return;}DB.log.push({l:L.id,t:Date.now(),tier:mode,n,ok,err,dx:(DXUI.suggest(dxs)||{}).root||null,fast,avg:+avg.toFixed(1),note:$('#nt',box).value.slice(0,200)});save();$('#svd',box).textContent=`已记录 ✓ ${ok<n?'做错的题已放进错题本，明天再做一次。':''}`;$('#sv',box).disabled=true;};
+  $('#again',box).onclick=()=>{set=shuffle(set);i=0;res=[];times=[];dxs=[];draw();};$('#fresh',box).onclick=()=>pick('mix');const nt=$('#nextT',box);if(nt)nt.onclick=()=>pick(nextT);}
+ const first=['b','v','e'].find(t=>{const [d,m]=prog(t);return d<m;});pick(first||'mix');}
+// one question: 审题 -> answer -> feedback
+function typedWrongScene(q,vals,raw){if(q.line&&!q.wl0&&vals.every(v=>v>=q.line.r[0]-1e-9&&v<=q.line.r[1]+1e-9))return {r:q.line.r,step:q.line.step,m:vals.map(v=>[v,'你写的 '+fmt(v)]).concat(q.ctx||[]),c:q.wc};return {f:[raw,'≠ '+q.at],c:q.wc};}
+function ask(card,q,done,record){const t0=performance.now();
+ const el=H(`<div><div class="shen"><p><b>先审题：</b>${q.s[0]}</p><div class="chips"></div><div class="fbtxt"></div></div><div class="qbody lock"><p class="qtext">${q.q}</p><div class="chips opts"></div><div class="fb"></div></div></div>`);card.appendChild(el);el._q=q;
+ const sc=$('.shen .chips',el),body=$('.qbody',el);
+ q.s[1].forEach((o,j)=>{const b=H(`<button class="chip">${o}</button>`);b.onclick=()=>{if(el._s)return;el._s=1;el._sok=(j===q.s[2]);$$('.chip',sc).forEach((x,k)=>{x.disabled=true;if(k===q.s[2])x.classList.add('ok');});const f=$('.shen .fbtxt',el);if(j===q.s[2]){f.className='fbtxt ok';f.textContent='✓ '+q.s[3];}else{b.classList.add('no');f.className='fbtxt no';f.textContent='看清楚：'+q.s[3];}body.classList.remove('lock');const inp=$('.ans',el);if(inp)setTimeout(()=>inp.focus({preventScroll:true}),50);};sc.appendChild(b);});
+ const fb=$('.fb',el);
+ function finish(ok,secs,wscene,mine){if(record)record(ok);if(secs<5)toast(`只用了 ${secs.toFixed(1)} 秒就作答——先想一想再动笔。`);
+  if(ok){fb.appendChild(H(`<div class="fbtxt ok">✓ 对了！${q.e}</div>`));if(q.r)fb.appendChild(scene(q.r,'r'));done&&done(ok,secs,{mine,shen:el._sok});return;}
+  fb.appendChild(H(`<div class="fbtxt no">✗ 你的答案是“${q.in?htmlText(mine):mine}”。先看看按你的答案会怎样：</div>`));if(wscene)fb.appendChild(scene(wscene,'w'));const ep=EPOCH;
+  setTimeout(()=>{if(ep!==EPOCH||!card.isConnected)return;if(q.r)fb.appendChild(scene(q.r,'r'));fb.appendChild(H(`<div class="fbtxt ok">${q.in?'正确答案：'+q.at+'。':''}${q.e}</div>`));done&&done(ok,secs,{mine,shen:el._sok});},wscene?1500:200);}
+ if(q.in){const row=H(`<div><div class="inrow"><input class="ans" type="text" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="${q.ph||'写出答案，如 −5 或 1/2'}"><button class="btn">确定</button></div><div class="keys"></div></div>`);$('.opts',el).replaceWith(row);
+  const inp=$('.ans',row);['−','/','.','或'].forEach(k=>{const b=H(`<button class="key">${k}</button>`);b.onclick=()=>{const s=inp.selectionStart??inp.value.length,e2=inp.selectionEnd??s;const ins=k==='或'?' 或 ':k;inp.value=inp.value.slice(0,s)+ins+inp.value.slice(e2);inp.focus();const p=s+ins.length;try{inp.setSelectionRange(p,p);}catch(_){}};$('.keys',row).appendChild(b);});
+  const submit=()=>{if(!el._s||el._a)return;const raw=inp.value.trim();const vals=parseAns(raw);if(!vals){toast('没看懂你的答案：写成数字，比如 −5、1/2、0.5；两个答案用“或”隔开。');return;}el._a=1;const secs=(performance.now()-t0)/1000;inp.disabled=true;$('.inrow .btn',row).disabled=true;$$('.key',row).forEach(x=>x.disabled=true);const ok=sameSet(vals,q.num);inp.classList.add(ok?'ok':'no');finish(ok,secs,ok?null:typedWrongScene(q,vals,htmlText(raw)),raw);};
+  $('.inrow .btn',row).onclick=submit;inp.addEventListener('keydown',e=>{if(e.key==='Enter')submit();});
+ }else q.o.forEach((o,j)=>{const b=H(`<button class="chip">${o}</button>`);b.onclick=()=>{if(!el._s||el._a)return;el._a=1;const secs=(performance.now()-t0)/1000;$$('.opts .chip',el).forEach(x=>x.disabled=true);const ok=j===q.a;b.classList.add(ok?'ok':'no');if(!ok)$$('.opts .chip',el)[q.a].classList.add('ok');finish(ok,secs,ok?null:((q.w&&(q.w[j]||q.w.d))||null),o);};$('.opts',el).appendChild(b);});
+}
+
+// ---------- wrong book ----------
+function showWrong(){const root=H('<div></div>');root.appendChild(topBar('错题本',null));const v=H(`<div class="view"><div class="hero"><h1>错题本</h1><p>只留做错的题。先审题，再重做；做对了它就会消失。</p></div><div id="wl"></div></div>`);root.appendChild(v);app().replaceChildren(root);bindGo(root);
+ const keys=Object.keys(DB.w).filter(k=>{const [lid,qi]=k.split(':');const L=LESSONS.find(x=>x.id===lid);return L&&L.quiz[+qi];});
+ const wl=$('#wl',v);if(!keys.length){wl.appendChild(H('<div class="card"><b>没有错题 🎉</b><p class="muted">去各节课刷题，做错的题会自动进来。</p><button class="btn" data-go="#/">回目录</button></div>'));bindGo(wl);return;}
+ keys.forEach(k=>{const [lid,qi]=k.split(':');const L=LESSONS.find(x=>x.id===lid);const q=L.quiz[+qi];const c=H(`<div class="card wi"><div class="src">${L.no} ${L.title} · ${TN[q.t]||''} · 第 ${+qi+1} 题</div></div>`);wl.appendChild(c);
+  {const dx=DB.w[k]&&DB.w[k].dx;if(dx&&dx.text)c.appendChild(H(`<div class="dxroot"><b>🔎 上次诊断：</b>${dx.text}${dx.root&&dx.root!==dx.main&&DX.T[dx.root]?` <span>建议先补「${DX.T[dx.root].nm}」</span>`:''}</div>`));}
+  ask(c,q,(ok,secs,info)=>{if(ok){const tg=(DX.TAG[lid]||[])[+qi];if(tg)DX.rec('cnm_'+tg.split(',')[0],true,'quiz');delete DB.w[k];save();c.appendChild(H('<div class="fbtxt ok">已消掉 ✓ 这次答对了。</div>'));setTimeout(()=>{c.animate&&c.animate([{opacity:1},{opacity:0,transform:'scale(.97)'}],{duration:500,easing:'ease'});setTimeout(()=>c.remove(),480);},2200);}else{DB.w[k]=Object.assign(DB.w[k]||{},{t:Date.now()});save();const again=()=>{const r=H('<div class="row"><button class="btn ghost">再做一次</button></div>');r.firstChild.onclick=()=>{route();};c.appendChild(r);};const tg=(DX.TAG[lid]||[])[+qi];if(tg){const ep=EPOCH;DXUI.run(c,{lid,qi:+qi,q,info},r=>{if(ep!==EPOCH)return;if(r&&DB.w[k]){DB.w[k].dx=r.sum;save();}again();});}else again();}});});
+}
+
+function mkSvg(sw,h){const svg=S('svg',{viewBox:`0 0 360 ${h}`});sw.appendChild(svg);return svg;}
+function btn(html,cls){return H(`<button class="${cls||'tog'}">${html}</button>`);}
+function segCtl(labels,on,cb){const s=H('<div class="seg"></div>');labels.forEach((l,k)=>{const b=H(`<button class="${k===on?'on':''}">${l}</button>`);b.onclick=()=>{$$('button',s).forEach(x=>x.classList.remove('on'));b.classList.add('on');cb(k);};s.appendChild(b);});s.set=k=>{$$('button',s).forEach((x,j)=>x.classList.toggle('on',j===k));};return s;}
+function pill(par,col){const g=S('g',{},par);const r=S('rect',{rx:9,height:22,y:-15,fill:'#fff',stroke:col||'#e8dccb','stroke-width':1.2},g);const t=S('text',{'text-anchor':'middle','font-size':13,'font-weight':800,y:1},g);g.set=(s,c)=>{t.textContent=s;if(c){t.setAttribute('fill',c);r.setAttribute('stroke',c);}const w=Math.max(30,s.length*8+14);r.setAttribute('width',w);r.setAttribute('x',-w/2);};return g;}
+const OR='#d45216',BL='#2f6fd1',GR='#2b8a55',RD='#c8372d',INK='#2a211b';
+function colOf(v){return v>0.0001?OR:v<-0.0001?BL:INK;}
+
+/* ===== L1 正数和负数 ===== */
+function stage1(sw,api){const svg=mkSvg(sw,320);const st={base:4,dir:1,flips:0,v:40.1,handOn:'base'};const vis={base:4,dir:1,v:40.1};
+ const Y=h=>184-h*20;
+ S('rect',{x:0,y:0,width:360,height:Y(4),fill:'#eef5fb'},svg);S('rect',{x:0,y:Y(4),width:360,height:196-Y(4),fill:'#d6e8f4'},svg);
+ let wd='M0,'+Y(4);for(let i=0;i<12;i++)wd+=' q15,-5 30,0';S('path',{d:wd,fill:'none',stroke:'#7fb2d6','stroke-width':2},svg);
+ txt(svg,{x:354,y:Y(4)+15,'text-anchor':'end','font-size':11,fill:'#4f87ad'},'海平面');
+ S('rect',{x:0,y:192,width:360,height:6,fill:'#cdb999'},svg);
+ const objs=[{n:'鸟',x:130,h:7},{n:'船',x:210,h:4},{n:'鱼',x:285,h:1}];
+ const og=S('g',{},svg);
+ // bird
+ let g=S('g',{transform:`translate(130,${Y(7)})`},og);S('path',{d:'M-14,0 q7,-9 14,0 q7,-9 14,0',fill:'none',stroke:INK,'stroke-width':2.4,'stroke-linecap':'round'},g);
+ g=S('g',{transform:`translate(210,${Y(4)})`},og);S('path',{d:'M-20,-3 h40 l-7,11 h-26 z',fill:'#a8643a'},g);S('line',{x1:0,y1:-3,x2:0,y2:-30,stroke:INK,'stroke-width':1.6},g);S('path',{d:'M1,-29 l16,22 h-16 z',fill:'#fff',stroke:'#cbb','stroke-width':1},g);
+ g=S('g',{transform:`translate(285,${Y(1)})`},og);S('ellipse',{rx:14,ry:7,fill:'#f0a35a'},g);S('path',{d:'M12,0 l10,-7 v14 z',fill:'#f0a35a'},g);S('circle',{cx:-7,cy:-2,r:1.6,fill:INK},g);
+ objs.forEach(o=>{o.p=pill(svg);o.p.setAttribute('transform',`translate(${o.x},${Y(o.h)-(o.n==='船'?40:20)})`);});
+ // ruler
+ const rg=S('g',{},svg);S('line',{x1:36,y1:Y(8)-4,x2:36,y2:Y(0)+4,stroke:'#5b4a3c','stroke-width':2},rg);const rl=[];
+ for(let h=0;h<=8;h++){S('line',{x1:31,y1:Y(h),x2:41,y2:Y(h),stroke:'#5b4a3c','stroke-width':1.3},rg);rl.push(txt(rg,{x:27,y:Y(h)+4,'text-anchor':'end','font-size':11.5,'font-weight':700,fill:'#7b6b5d'},''));}
+ const arrow=S('g',{},svg);S('line',{x1:0,y1:28,x2:0,y2:-24,stroke:OR,'stroke-width':3},arrow);S('path',{d:'M0,-34 l-7,11 h14 z',fill:OR},arrow);const arT=txt(svg,{x:56,y:24,'text-anchor':'middle','font-size':11,'font-weight':800,fill:OR},'正');
+ // baseline
+ const bg=S('g',{},svg);S('line',{x1:40,y1:0,x2:350,y2:0,stroke:OR,'stroke-width':2.4,'stroke-dasharray':'7 5'},bg);const halo=S('circle',{cx:322,r:16,fill:OR,opacity:.18},bg);S('circle',{cx:322,r:11,fill:OR},bg);txt(bg,{x:322,y:4.5,'text-anchor':'middle','font-size':12,'font-weight':800,fill:'#fff'},'0');txt(bg,{x:304,y:-7,'text-anchor':'end','font-size':11.5,'font-weight':800,fill:OR},'0 基准（拖我）');
+ const hit=S('rect',{x:40,y:-18,width:320,height:36,fill:'transparent'},bg);
+ drag(svg,hit,{move:(x,y)=>{st.base=clamp(Math.round((184-y)/20),0,8);info();}});
+ // tolerance gauge
+ const GX=v=>30+(v-39.5)*300,gy=272;
+ txt(svg,{x:180,y:222,'text-anchor':'middle','font-size':12.5,'font-weight':800,fill:INK},'零件直径要求 40±0.2 mm · 拖动测量值');
+ S('rect',{x:GX(39.8),y:gy-12,width:GX(40.2)-GX(39.8),height:24,rx:5,fill:'#d5efdf',stroke:GR,'stroke-width':1},svg);
+ S('line',{x1:22,y1:gy,x2:338,y2:gy,stroke:'#5b4a3c','stroke-width':1.6},svg);
+ for(let k=0;k<=10;k++){const v=39.5+k*.1;S('line',{x1:GX(v),y1:gy-4,x2:GX(v),y2:gy+4,stroke:'#5b4a3c'},svg);txt(svg,{x:GX(v),y:gy+20,'text-anchor':'middle','font-size':10.5,fill:near(v,40)?INK:'#7b6b5d','font-weight':near(v,40)?800:400},fmt(v));}
+ const th=S('g',{},svg);const thh=S('circle',{r:15,fill:OR,opacity:.18},th);const thc=S('circle',{r:9,fill:OR,stroke:'#fff','stroke-width':2},th);const thl=pill(th);thl.setAttribute('transform','translate(0,-22)');
+ const ghit=S('rect',{x:14,y:gy-30,width:332,height:58,fill:'transparent'},svg);
+ drag(svg,ghit,{moveOnDown:true,move:x=>{st.v=clamp(Math.round((39.5+(x-30)/300)*20)/20,39.5,40.5);info();}});
+ // controls
+ const db=btn('正方向：向上 ↑','tog on');db.onclick=()=>{st.dir*=-1;st.flips++;syncBtn();info();};api.ctrls.appendChild(db);
+ const rb=btn('基准回到海平面','tog');rb.onclick=()=>{st.base=4;info();};api.ctrls.appendChild(rb);
+ function syncBtn(){db.textContent='正方向：'+(st.dir>0?'向上 ↑':'向下 ↓');}
+ const rd=o=>(o.h-st.base)*st.dir;
+ const names={4:'海平面',1:'鱼的位置',7:'鸟的位置'};
+ function ok40(v){return v>39.8-1e-9&&v<40.2+1e-9;}
+ function info(){const nm=names[st.base]||(st.base>4?'海平面以上 '+(st.base-4)+' 米':'海平面以下 '+(4-st.base)+' 米');api.say(`基准（0）在<b>${nm}</b>，规定<b>${st.dir>0?'向上':'向下'}</b>为正 → 鸟 <b>${fmtS(rd(objs[0]))}</b> 米，船 <b>${fmtS(rd(objs[1]))}</b> 米，鱼 <b>${fmtS(rd(objs[2]))}</b> 米。<br>零件 ${st.v.toFixed(2)} mm：偏差 <b>${fmtS(Math.round((st.v-40)*100)/100)}</b> → ${ok40(st.v)?'<b style="color:#2b8a55">合格</b>':'<b style="color:#c8372d">不合格</b>'}`);api.update();}
+ info();
+ return {missions:[
+  {t:'把“0 基准线”拖到鱼的位置，鱼的读数变成几？',aha:'物体正好在基准上，读数就是 0。0 不是“没有”，而是“基准”。',ok:()=>st.base===1},
+  {t:'移动基准线，让船的读数变成负数。',aha:'船一动没动，读数却变了：正负是相对基准说的。',ok:()=>rd(objs[1])<0},
+  {t:'不动基准，点“切换正方向”，看所有读数怎么变。',aha:'换一个正方向，所有读数的符号都反过来：正负号是人约定的。',ok:()=>st.flips>0},
+  {t:'把零件尺寸拖到正好 39.8 mm，它合格吗？',aha:'39.8 是下限端点，偏差 −0.2，仍然合格。',ok:()=>near(st.v,39.8)},
+  {t:'找出最大的合格尺寸。',aha:'40.2 是上限：从 39.8 到 40.2 都合格，两个端点都算。',ok:()=>near(st.v,40.2)}],
+ frame(now,dt){vis.base=follow(vis.base,st.base,dt,10);vis.dir=follow(vis.dir,st.dir,dt,6);vis.v=follow(vis.v,st.v,dt,14);
+  bg.setAttribute('transform',`translate(0,${Y(vis.base)})`);halo.setAttribute('r',14+3*Math.sin(now/260));
+  for(let h=0;h<=8;h++){const r=Math.round((h-vis.base)*vis.dir);rl[h].textContent=fmtS(r);rl[h].setAttribute('fill',r===0?OR:'#7b6b5d');}
+  arrow.setAttribute('transform',`translate(56,${Y(4)+14}) scale(1,${vis.dir.toFixed(3)})`);arT.setAttribute('y',vis.dir>0?Y(4)-30:Y(4)+64);
+  objs.forEach(o=>{const r=Math.round((o.h-vis.base)*vis.dir);o.p.set((r>0?'+':'')+fmt(r)+' 米',colOf(r));});
+  th.setAttribute('transform',`translate(${GX(vis.v)},${gy})`);thh.setAttribute('r',13+3*Math.sin(now/260));const okv=ok40(st.v);thc.setAttribute('fill',okv?GR:RD);thl.set(vis.v.toFixed(2)+(okv?' 合格':' 不合格'),okv?GR:RD);},
+ handAt(){return st.handOn==='arrow'?{x:56,y:Y(4)+10}:{x:322,y:Y(vis.base)};},
+ async demo(api){const seq=[6,1,4,'f','f'];for(const s of seq){if(!await api.wait(950))return;if(s==='f'){st.handOn='arrow';st.dir*=-1;syncBtn();}else{st.handOn='base';st.base=s;}info();}await api.wait(900);},
+ reset(){st.base=4;st.dir=1;st.handOn='base';syncBtn();info();}};
+}
+
+/* ===== L2 有理数分类 ===== */
+function stage2(sw,api){const svg=mkSvg(sw,330);
+ const cards=[{s:'6/3',v:'2',b:0},{s:'2.0',v:'2',b:0},{s:'−3',v:'−3',b:2},{s:'0',v:'0',b:1},{s:'0.25',v:'1/4',b:3},{s:'−1/2',v:'−1/2',b:4},{s:'0.333…',v:'1/3',b:3},{s:'−8/4',v:'−2',b:2}];
+ const bins=['正整数','0','负整数','正分数','负分数'];const BX=i=>6+i*70,BW=64,BY=152;
+ const st={place:cards.map(()=>-1),order:[],sel:-1,drag:-1,wrong:-1,handCard:2};
+ // brackets
+ S('path',{d:`M${BX(0)+4},146 v-8 H${BX(2)+BW-4} v8`,fill:'none',stroke:'#b9a58d','stroke-width':1.5},svg);txt(svg,{x:(BX(0)+BX(2)+BW)/2,y:132,'text-anchor':'middle','font-size':13,'font-weight':800,fill:INK},'整数');
+ S('path',{d:`M${BX(3)+4},146 v-8 H${BX(4)+BW-4} v8`,fill:'none',stroke:'#b9a58d','stroke-width':1.5},svg);txt(svg,{x:(BX(3)+BX(4)+BW)/2,y:132,'text-anchor':'middle','font-size':13,'font-weight':800,fill:INK},'分数');
+ txt(svg,{x:180,y:116,'text-anchor':'middle','font-size':11.5,fill:'#7b6b5d'},'把上面的数拖进下面的格子（也可以先点卡片再点格子）');
+ const binEls=bins.map((b,i)=>{const g=S('g',{},svg);const r=S('rect',{x:BX(i),y:BY,width:BW,height:172,rx:12,fill:'#fff',stroke:'#e1d3bf','stroke-width':1.5,'stroke-dasharray':'5 4'},g);txt(g,{x:BX(i)+BW/2,y:BY+20,'text-anchor':'middle','font-size':13,'font-weight':800,fill:i===1?INK:(i===0||i===3?OR:BL)},b);
+  r.addEventListener('pointerdown',e=>{if(st.sel>=0){const c=st.sel;st.sel=-1;drop(c,i);}});return r;});
+ const home=i=>({x:52+(i%4)*85,y:i<4?30:78});
+ const vis=cards.map((c,i)=>({...home(i),s:1,f:0}));
+ const cel=cards.map((c,i)=>{const g=S('g',{},svg);const halo=S('rect',{x:-42,y:-23,width:84,height:46,rx:14,fill:OR,opacity:0},g);const r=S('rect',{x:-37,y:-19,width:74,height:38,rx:10,fill:'#fff',stroke:'#d8c6ae','stroke-width':1.6},g);const t1=txt(g,{y:5,'text-anchor':'middle','font-size':16,'font-weight':800,fill:INK},c.s);const t2=txt(g,{y:14,'text-anchor':'middle','font-size':11.5,'font-weight':800,fill:GR,opacity:0},c.s===c.v?'':'= '+c.v);
+  drag(svg,g,{start:(x,y)=>{st.drag=i;st.ox=vis[i].x-x;st.oy=vis[i].y-y;},move:(x,y)=>{vis[i].x=x+st.ox;vis[i].y=y+st.oy;},end:(x,y,moved)=>{st.drag=-1;if(!moved){st.sel=st.sel===i?-1:i;return;}if(y>BY-10){drop(i,clamp(Math.floor((x-6)/70),0,4));}else{unplace(i);}}});
+  return {g,r,t1,t2,halo};});
+ function unplace(i){st.place[i]=-1;st.order=st.order.filter(k=>k!==i);api.update();}
+ function hint(c,b){const isInt=c.b<=2,tgtInt=b<=2;const val=c.v;const neg=c.s.startsWith('−');
+  if(c.b===1)return '0 是正数吗？是负数吗？想一想它该单独待在哪。';
+  if(isInt&&!tgtInt)return `翻过来看：${c.s} = ${val}。它的值是整数还是分数？`;
+  if(!isInt&&tgtInt)return `${c.s} = ${val}，不是整数哦。`;
+  return `${c.s} 是${neg?'负':'正'}数，看清符号。`;}
+ function drop(i,b){unplace(i);st.place[i]=b;st.order.push(i);const c=cards[i];
+  if(b!==c.b){st.wrong=i;api.say(`<b style="color:#c8372d">不对哦：</b>${hint(c,b)}`);const ep=EPOCH;setTimeout(()=>{if(ep!==EPOCH)return;st.wrong=-1;if(st.place[i]===b){unplace(i);}},1500);}
+  else{api.say(`<b style="color:#2b8a55">✓ ${c.s}</b>${c.s!==c.v?' = '+c.v:''} 放进“${bins[b]}”。`);}
+  api.update();}
+ function slotPos(i){const b=st.place[i];const k=st.order.filter(j=>st.place[j]===b).indexOf(i);return {x:BX(b)+BW/2,y:BY+50+k*44};}
+ const good=i=>st.place[i]===cards[i].b;
+ api.say('先猜：每张卡片是整数还是分数？拖进去后，卡片会翻出它真正的值。');
+ return {missions:[
+  {t:'把 −3 和 0.25 放进正确的格子。',aha:'先看正负，再看值是不是整数。0.25 = 1/4 是分数。',ok:()=>good(2)&&good(4)},
+  {t:'6/3 有分数线，它该放哪？试一试。',aha:'6/3 = 2，是整数！分类看数值，不看写法。',ok:()=>good(0)},
+  {t:'0 放在哪一格？',aha:'0 是整数，但它既不是正数也不是负数，所以单独一格。',ok:()=>good(3)},
+  {t:'0.333… 写不完，它能放进来吗？',aha:'0.333… = 1/3：无限循环小数能化成分数，是有理数。',ok:()=>good(6)},
+  {t:'把 8 张卡全部放对。',aha:'正整数、0、负整数是整数；正分数、负分数是分数；合起来就是有理数。',ok:()=>cards.every((c,i)=>good(i))}],
+ frame(now,dt){cards.forEach((c,i)=>{const v=vis[i];const placed=st.place[i]>=0;const tgt=placed?slotPos(i):home(i);if(st.drag!==i){v.x=follow(v.x,tgt.x,dt,9);v.y=follow(v.y,tgt.y,dt,9);}v.s=follow(v.s,placed&&st.drag!==i?.84:(st.drag===i?1.08:1),dt,10);v.f=follow(v.f,placed?1:0,dt,8);
+   let sx=v.s;let shake=st.wrong===i?Math.sin(now/40)*4:0;cel[i].g.setAttribute('transform',`translate(${(v.x+shake).toFixed(1)},${v.y.toFixed(1)}) scale(${sx.toFixed(3)})`);
+   const show=c.s!==c.v?v.f:0;cel[i].t1.setAttribute('y',(5-9*show).toFixed(1));cel[i].t2.setAttribute('opacity',show.toFixed(2));
+   cel[i].r.setAttribute('stroke',st.wrong===i?RD:(placed&&good(i)?GR:'#d8c6ae'));cel[i].r.setAttribute('fill',st.wrong===i?'#fbe3df':(placed&&good(i)?'#eef8f1':'#fff'));
+   cel[i].halo.setAttribute('opacity',st.sel===i?(.25+.12*Math.sin(now/200)):0);});
+  binEls.forEach((r,b)=>r.setAttribute('stroke',st.sel>=0?OR:'#e1d3bf'));},
+ handAt(){const v=vis[st.handCard];return {x:v.x,y:v.y};},
+ async demo(api){if(!await api.wait(700))return;st.handCard=2;st.place[2]=2;st.order.push(2);if(!await api.wait(1500))return;st.handCard=4;st.place[4]=3;st.order.push(4);if(!await api.wait(1700))return;},
+ reset(){st.place=cards.map(()=>-1);st.order=[];st.handCard=2;api.say('先猜：每张卡片是整数还是分数？拖进去后，卡片会翻出它真正的值。');}};
+}
+
+/* ===== L3 数轴 ===== */
+function stage3(sw,api){const svg=mkSvg(sw,200);const st={o:true,d:true,u:true,tv:1,p:2,offOnce:{o:0,d:0,u:0}};const vis={p:2,sh:0,df:1,uf:1,tv:1,ao:1,oo:1};
+ const x0=180,u=26,y=112;
+ S('line',{x1:8,y1:y,x2:340,y2:y,stroke:'#5b4a3c','stroke-width':2},svg);
+ const arrow=S('path',{d:`M352,${y} l-12,-7 v14 z`,fill:'#5b4a3c'},svg);const arT=txt(svg,{x:346,y:y-14,'text-anchor':'end','font-size':11,'font-weight':800,fill:OR},'正方向');
+ const J=[];for(let j=-14;j<=14;j++){const l=S('line',{y1:y-5,y2:y+5,stroke:'#5b4a3c','stroke-width':1.4},svg);const t=txt(svg,{y:y+24,'text-anchor':'middle','font-size':12,fill:'#7b6b5d'},'');J.push({j,l,t});}
+ const og=S('g',{},svg);S('circle',{r:5,fill:INK},og);txt(og,{y:44,'text-anchor':'middle','font-size':11,'font-weight':800,fill:INK},'原点');
+ const P=S('g',{},svg);const ph=S('circle',{r:16,fill:OR,opacity:.2},P);S('circle',{r:10,fill:OR,stroke:'#fff','stroke-width':2.5},P);const bub=pill(P,OR);bub.setAttribute('transform','translate(0,-32)');
+ const warn=txt(svg,{x:180,y:28,'text-anchor':'middle','font-size':14,'font-weight':800,fill:RD},'');
+ const hit=S('rect',{x:0,y:60,width:360,height:110,fill:'transparent'},svg);
+ drag(svg,hit,{moveOnDown:true,move:x=>{st.p=clamp(snap((x-x0)/u,.5),-6,6);info();}});
+ const tg={};[['o','原点'],['d','正方向'],['u','单位长度']].forEach(([k,n])=>{const b=btn(n+' ✓','tog on');b.onclick=()=>{st[k]=!st[k];if(!st[k])st.offOnce[k]=1;sync();info();};tg[k]=b;api.ctrlTop.appendChild(b);});
+ const seg=segCtl(['每格 0.5','每格 1','每格 2'],1,k=>{st.tv=[.5,1,2][k];info();});api.ctrls.appendChild(seg);
+ function sync(){for(const k in tg){tg[k].classList.toggle('on',st[k]);tg[k].textContent=({o:'原点',d:'正方向',u:'单位长度'})[k]+(st[k]?' ✓':' ✗');}seg.set([.5,1,2].indexOf(st.tv));}
+ const val=()=>st.p*st.tv;const all=()=>st.o&&st.d&&st.u;
+ function info(){const miss=[!st.o&&'原点',!st.d&&'正方向',!st.u&&'单位长度'].filter(Boolean);
+  if(miss.length)api.say(`缺少<b style="color:#c8372d">${miss.join('、')}</b>：这个点到底表示几？说不清！`);
+  else api.say(`三要素齐全：每格表示 <b>${fmt(st.tv)}</b>，橙点在原点${st.p>0?'右':st.p<0?'左':''}边${st.p?`第 <b>${fmt(Math.abs(st.p))}</b> 格`:''}，表示 <b>${fmt(val())}</b>${near(val(),.5)?'，也就是 <b>1/2</b>':''}。`);api.update();}
+ info();
+ return {missions:[
+  {t:'三要素都开着：把橙点拖到 1.5。',aha:'有了原点、正方向、单位长度，每个点对应唯一的一个数。',ok:()=>all()&&near(val(),1.5)},
+  {t:'关掉“原点”，橙点还能说清是几吗？',aha:'没有原点，不知道从哪里数起，读数一直在变。',ok:()=>st.offOnce.o&&!st.o},
+  {t:'打开原点，再关掉“正方向”看看。',aha:'没有正方向，分不清是 +3 还是 −3。',ok:()=>st.o&&!st.d},
+  {t:'把正方向打开，再关掉“单位长度”。',aha:'没有单位长度，一格是多少说不清。三要素缺一不可！',ok:()=>st.o&&st.d&&!st.u},
+  {t:'三要素打开，每格改成 0.5，把点放在 1/2。',aha:'0.5 和 1/2 是同一个数，落在同一个点上。',ok:()=>all()&&st.tv===.5&&near(val(),.5)},
+  {t:'每格表示 2 时，把点放到 −6。',aha:'每格是 2，−6 在原点左边第 3 格：先看刻度，再读数。',ok:()=>all()&&st.tv===2&&near(val(),-6)}],
+ frame(now,dt){vis.p=follow(vis.p,st.p,dt,14);vis.sh=follow(vis.sh,st.o?0:2.4*Math.sin(now/900),dt,5);vis.df=follow(vis.df,st.d?1:Math.cos(now/750),dt,5);vis.uf=follow(vis.uf,st.u?1:1+.45*Math.sin(now/650),dt,5);vis.tv=follow(vis.tv,st.tv,dt,8);vis.ao=follow(vis.ao,st.d?1:0,dt,8);vis.oo=follow(vis.oo,st.o?1:0,dt,8);
+  const sc=u*vis.uf*vis.df;const any=!all();
+  J.forEach(o=>{const x=x0+(o.j+vis.sh)*sc;const vis_=x>4&&x<342;o.l.setAttribute('x1',x);o.l.setAttribute('x2',x);o.l.setAttribute('opacity',vis_?(st.u?1:.6):0);
+   const v=o.j*vis.tv;const showL=st.tv>=1||o.j%2===0;o.t.setAttribute('x',x);o.t.textContent=fmt(Math.round(v*2)/2)+(any?'?':'');o.t.setAttribute('opacity',vis_&&showL?(any?.55:1):0);
+   const z=o.j===0&&st.o;o.l.setAttribute('stroke-width',z?2.6:1.4);o.l.setAttribute('y1',y-(z?9:5));o.l.setAttribute('y2',y+(z?9:5));o.t.setAttribute('font-weight',z?800:500);});
+  og.setAttribute('transform',`translate(${x0+vis.sh*sc},${y})`);og.setAttribute('opacity',vis.oo);arrow.setAttribute('opacity',vis.ao);arT.setAttribute('opacity',vis.ao);
+  const xp=x0+vis.p*u;P.setAttribute('transform',`translate(${xp},${y})`);ph.setAttribute('r',14+3*Math.sin(now/260));
+  let rv;const dfS=Math.abs(vis.df)<.2?(vis.df<0?-.2:.2):vis.df;rv=((xp-x0)/(u*vis.uf*dfS)-vis.sh)*vis.tv;
+  if(!any){const v=val();bub.set(fmt(Math.round(vis.p*2)/2*st.tv)+(near(v,.5)&&near(vis.p,st.p)?' = 1/2':''),OR);warn.textContent='';}
+  else if(!st.d&&st.o&&st.u){const a=Math.abs(st.p*st.tv);bub.set(a?`${fmt(a)} 还是 ${fmt(-a)}？`:'0',RD);warn.textContent='没有正方向：往哪边是正？';}
+  else{bub.set(fmt(Math.round(rv*10)/10)+' ？',RD);warn.textContent=!st.o?'没有原点：从哪里开始数？':'没有单位长度：一格是多少？';}},
+ handAt(){return {x:x0+vis.p*u,y};},
+ async demo(api){for(const p of[-3,1.5]){if(!await api.wait(900))return;st.p=p;info();}if(!await api.wait(900))return;st.o=false;sync();info();if(!await api.wait(2000))return;st.o=true;sync();info();await api.wait(600);},
+ reset(){Object.assign(st,{o:true,d:true,u:true,tv:1,p:2});st.offOnce={o:0,d:0,u:0};sync();info();}};
+}
+
+/* ===== L4 相反数 ===== */
+function stage4(sw,api){const svg=mkSvg(sw,220);const st={a:1.5,hand:'A'};const vis={a:1.5,b:-1.5};const y=132;
+ const f1=txt(svg,{x:180,y:28,'text-anchor':'middle','font-size':17,'font-weight':800,fill:INK},'');const f2=txt(svg,{x:180,y:52,'text-anchor':'middle','font-size':14,'font-weight':800,fill:GR},'');
+ const arc=S('path',{fill:'none',stroke:'#b9a58d','stroke-width':1.6,'stroke-dasharray':'5 5'},svg);
+ const nl=numberLine(S('g',{},svg),{y});
+ const segA=S('line',{y1:y,y2:y,stroke:OR,'stroke-width':6,'stroke-linecap':'round',opacity:.55},svg);const segB=S('line',{y1:y,y2:y,stroke:BL,'stroke-width':6,'stroke-linecap':'round',opacity:.55},svg);
+ const dA=txt(svg,{y:y-12,'text-anchor':'middle','font-size':12,'font-weight':800,fill:OR},'');const dB=txt(svg,{y:y-12,'text-anchor':'middle','font-size':12,'font-weight':800,fill:BL},'');
+ const mid=S('g',{transform:`translate(180,${y})`},svg);S('path',{d:'M0,30 l-6,9 h12 z',fill:GR},mid);txt(mid,{y:52,'text-anchor':'middle','font-size':11,'font-weight':800,fill:GR},'中点永远是 0');
+ const mk=(c,nm)=>{const g=S('g',{},svg);const h=S('circle',{r:16,fill:c,opacity:.2},g);S('circle',{r:10.5,fill:c,stroke:'#fff','stroke-width':2.5},g);const l=pill(g,c);l.setAttribute('transform','translate(0,-34)');return {g,h,l};};
+ const B=mk(BL),A=mk(OR);
+ const hit=S('rect',{x:0,y:y-50,width:360,height:90,fill:'transparent'},svg);
+ svg.insertBefore(hit,B.g);
+ drag(svg,hit,{moveOnDown:true,move:x=>{setA(clamp(snap(nl.V(x),.5),-6,6));}});
+ drag(svg,A.g,{move:x=>setA(clamp(snap(nl.V(x),.5),-6,6))});drag(svg,B.g,{move:x=>setA(-clamp(snap(nl.V(x),.5),-6,6))});
+ const lab=H('<label style="flex:1;min-width:200px;font-size:14px">拖动滑块改变 a：<input type="range" min="-6" max="6" step="0.5"></label>');const rng=lab.querySelector('input');rng.value=st.a;rng.oninput=()=>setA(+rng.value);api.ctrls.appendChild(lab);
+ function setA(a){st.a=a;rng.value=a;info();}
+ function info(){const a=st.a;api.say(`a = <b>${fmt(a)}</b>，它的相反数 −a = <b>${fmt(-a)}</b>。两点到原点的距离都是 <b>${fmt(Math.abs(a))}</b>。${a<0?'<br><b style="color:#2b8a55">注意：a 是负数，−a 反而是正数！</b>':''}`);api.update();}
+ info();
+ return {missions:[
+  {t:'把橙点 a 拖到 3，蓝点 −a 跑到哪了？',aha:'3 和 −3 在原点两侧，离原点一样远。',ok:()=>near(st.a,3)},
+  {t:'想办法让 −a 变成正数。',aha:'a 是负数时，−a 是正数！所以 −a 不一定是负数。',ok:()=>st.a<0},
+  {t:'把 a 拖到 0，它的相反数是谁？',aha:'0 的相反数是 0 自己。',ok:()=>near(st.a,0)},
+  {t:'让 a 和 −a 正好相距 5。',aha:'相距 5，每边 2.5：原点永远在正中间。',ok:()=>near(Math.abs(st.a),2.5)}],
+ frame(now,dt){vis.a=follow(vis.a,st.a,dt,13);vis.b=follow(vis.b,-st.a,dt,6);const xa=nl.X(vis.a),xb=nl.X(vis.b);
+  A.g.setAttribute('transform',`translate(${xa},${y})`);B.g.setAttribute('transform',`translate(${xb},${y})`);
+  A.h.setAttribute('r',14+3*Math.sin(now/260));B.h.setAttribute('r',14+3*Math.sin(now/260+1.5));
+  const ra=Math.round(vis.a*2)/2,rb=Math.round(vis.b*2)/2;A.l.set('a = '+fmt(ra),OR);B.l.set('−a = '+fmt(rb),rb>0?GR:BL);
+  const r=Math.abs(xa-180),rr=Math.abs(xb-180);const R=(r+rr)/2;arc.setAttribute('d',R>2?`M${xa},${y} A${R},${R*.55} 0 0 ${xa<xb?1:0} ${xb},${y}`:'');
+  segA.setAttribute('x1',180);segA.setAttribute('x2',xa);segB.setAttribute('x1',180);segB.setAttribute('x2',xb);
+  const da=Math.abs(Math.round(vis.a*2)/2);dA.setAttribute('x',(180+xa)/2);dB.setAttribute('x',(180+xb)/2);dA.textContent=da?fmt(da):'';dB.textContent=da?fmt(da):'';dA.setAttribute('y',y+(Math.abs(xa-180)<30?-46:-12));dB.setAttribute('y',y+(Math.abs(xb-180)<30?-46:-12));
+  const a=st.a;f1.textContent=`a + (−a) = ${fmt(a)} + ${par(-a)} = 0`;f2.textContent=a<0?'a 是负数 → −a 是正数！':near(a,0)?'0 的相反数就是 0':'';},
+ handAt(){return {x:nl.X(vis.a),y};},
+ async demo(api){for(const a of[4,-3,2]){if(!await api.wait(1000))return;setA(a);}await api.wait(900);},
+ reset(){setA(1.5);}};
+}
+
+/* ===== L5 绝对值 ===== */
+function stage5(sw,api){const svg=mkSvg(sw,240);const st={mode:0,x:1.5,found:{},none:false,a:-1,b:2,m:0,n:0,lastC:-1};const vis={x:1.5,a:-1,b:2,m:0,n:0,o0:1,o1:0,o2:0};
+ const G=[S('g',{},svg),S('g',{},svg),S('g',{},svg)];
+ // mode 0 rope
+ const g0=G[0];const tgtT=txt(g0,{x:180,y:28,'text-anchor':'middle','font-size':15,'font-weight':800,fill:INK},'');
+ const nl0=numberLine(S('g',{},g0),{y:160});const pins=S('g',{},g0);
+ const rope=S('path',{fill:'none',stroke:OR,'stroke-width':6,'stroke-linecap':'round'},g0);const rope2=S('path',{fill:'none',stroke:'#ffd2b8','stroke-width':2,'stroke-linecap':'round'},g0);
+ const rl=pill(g0,OR);const P=S('g',{},g0);const ph=S('circle',{r:16,fill:OR,opacity:.2},P);S('circle',{r:10.5,fill:OR,stroke:'#fff','stroke-width':2.5},P);P.style.pointerEvents='none';const pl=txt(P,{y:44,'text-anchor':'middle','font-size':12.5,'font-weight':800,fill:OR},'');
+ const hit0=S('rect',{x:0,y:90,width:360,height:110,fill:'transparent'},g0);g0.insertBefore(hit0,P);
+ drag(svg,hit0,{moveOnDown:true,move:x=>{st.x=clamp(snap(nl0.V(x),.5),-6,6);onX();}});
+ // mode 1 two points
+ const g1=G[1];const f1=txt(g1,{x:180,y:30,'text-anchor':'middle','font-size':16,'font-weight':800,fill:INK},'');const nl1=numberLine(S('g',{},g1),{y:160});
+ const rope1=S('path',{fill:'none',stroke:GR,'stroke-width':6,'stroke-linecap':'round',opacity:.85},g1);const r1l=pill(g1,GR);
+ const mkP=(par,c,n)=>{const g=S('g',{},par);const h=S('circle',{r:16,fill:c,opacity:.2},g);S('circle',{r:10.5,fill:c,stroke:'#fff','stroke-width':2.5},g);const l=txt(g,{y:44,'text-anchor':'middle','font-size':12.5,'font-weight':800,fill:c},n);return {g,h,l};};
+ const hit1=S('rect',{x:0,y:90,width:360,height:110,fill:'transparent'},g1);
+ const PA=mkP(g1,OR,'A'),PB=mkP(g1,BL,'B');
+ drag(svg,hit1,{moveOnDown:true,move:x=>{const v=clamp(snap(nl1.V(x),.5),-6,6);if(Math.abs(v-st.a)<=Math.abs(v-st.b))st.a=v;else st.b=v;info();}});
+ drag(svg,PA.g,{move:x=>{st.a=clamp(snap(nl1.V(x),.5),-6,6);info();}});drag(svg,PB.g,{move:x=>{st.b=clamp(snap(nl1.V(x),.5),-6,6);info();}});
+ // mode 2 sum zero
+ const g2=G[2];const f2=txt(g2,{x:180,y:22,'text-anchor':'middle','font-size':14.5,'font-weight':800,fill:INK},'');
+ const nlm=numberLine(S('g',{},g2),{y:90});const nln=numberLine(S('g',{},g2),{y:196,x0:232,min:-8,max:4});
+ S('circle',{cx:nlm.X(3),cy:90,r:4,fill:GR},g2);S('circle',{cx:nln.X(-5),cy:196,r:4,fill:GR},g2);
+ txt(g2,{x:8,y:66,'font-size':12,'font-weight':800,fill:OR},'m 的位置');txt(g2,{x:8,y:150,'font-size':12,'font-weight':800,fill:BL},'n 的位置');
+ const ropeM=S('path',{fill:'none',stroke:OR,'stroke-width':5,'stroke-linecap':'round'},g2);const mL=pill(g2,OR);
+ const sq=S('rect',{fill:'#dbe6fb',stroke:BL,'stroke-width':1.5},g2);const ropeN=S('line',{y1:196,y2:196,stroke:BL,'stroke-width':5,'stroke-linecap':'round'},g2);const nL=pill(g2,BL);
+ const PM=mkP(g2,OR,'m'),PN=mkP(g2,BL,'n');
+ const hm=S('rect',{x:0,y:58,width:360,height:56,fill:'transparent'},g2),hn=S('rect',{x:0,y:166,width:360,height:56,fill:'transparent'},g2);g2.insertBefore(hm,PM.g);g2.insertBefore(hn,PM.g);
+ drag(svg,hm,{moveOnDown:true,move:x=>{st.m=clamp(snap(nlm.V(x),.5),-6,6);info();}});drag(svg,hn,{moveOnDown:true,move:x=>{st.n=clamp(snap(nln.V(x),.5),-8,4);info();}});
+ drag(svg,PM.g,{move:x=>{st.m=clamp(snap(nlm.V(x),.5),-6,6);info();}});drag(svg,PN.g,{move:x=>{st.n=clamp(snap(nln.V(x),.5),-8,4);info();}});
+ // controls
+ const seg=segCtl(['绳子量距离','两点距离','和为 0'],0,k=>setMode(k));api.ctrlTop.appendChild(seg);
+ const nb=btn('找不到这样的点','tog');nb.onclick=()=>{if(target()===-1){st.none=true;api.say('<b style="color:#2b8a55">对！</b>绳子的长度不可能是负数，所以没有任何点满足 |x| = −1。');api.update();}else toast('这个目标是能找到的，再拖拖看。');};api.ctrls.appendChild(nb);
+ function setMode(k){st.mode=k;seg.set(k);nb.style.display=k===0?'':'none';info();}
+ function target(){const c=api.curMission();return c===0?3:c===1?0:c===2?-1:null;}
+ function onX(){if(!api.demo&&target()===3&&near(Math.abs(st.x),3)){st.found[st.x]=1;}info();}
+ function drawPins(){pins.replaceChildren();Object.keys(st.found).forEach(k=>{const x=nl0.X(+k);S('line',{x1:x,y1:160,x2:x,y2:118,stroke:GR,'stroke-width':2},pins);S('path',{d:`M${x},118 l16,6 l-16,6 z`,fill:GR},pins);});}
+ function info(){drawPins();const t=target();
+  if(st.mode===0){tgtT.textContent=t===3?`目标：|x| = 3，已找到 ${Object.keys(st.found).length} 个`:t===0?'目标：|x| = 0':t===-1?'目标：|x| = −1':'随便拖：绳长 = 到原点的距离';api.say(`x = <b>${fmt(st.x)}</b>，绳子长 <b>${fmt(Math.abs(st.x))}</b>，所以 |${fmt(st.x)}| = <b>${fmt(Math.abs(st.x))}</b>。${t===-1?'<br>拖遍整条数轴，绳子能变成负的吗？找不到就点“找不到这样的点”。':''}`);}
+  else if(st.mode===1){api.say(`A = <b>${fmt(st.a)}</b>，B = <b>${fmt(st.b)}</b>，AB 之间的距离 = |a − b| = |${fmt(st.a)} − ${par(st.b)}| = <b>${fmt(Math.abs(st.a-st.b))}</b>`);}
+  else{const d1=Math.abs(st.m-3),d2=(st.n+5)**2;api.say(`|m − 3| 是 m 到 3 的距离，(n + 5)² 是 n 到 −5 距离的平方。两个都 <b>≥ 0</b>，加起来要等于 0……<br>现在：${fmt(d1)} + ${fmt(d2)} = <b>${fmt(d1+d2)}</b>`);}
+  api.update();}
+ setMode(0);
+ return {missions:[
+  {t:'目标 |x| = 3：拖动橙点，找出所有这样的点。',aha:'到原点距离为 3 的点有两个：3 和 −3。',ok:()=>st.found[3]&&st.found[-3]},
+  {t:'目标 |x| = 0：这样的点有几个？把橙点拖过去。',aha:'只有原点自己：|0| = 0。',ok:()=>api.curMission()===1&&st.mode===0&&near(st.x,0)},
+  {t:'目标 |x| = −1：找得到吗？找不到就点“找不到这样的点”。',aha:'绳长（距离）不会是负数，所以 |x| ≥ 0，|x| = −1 没有解。',ok:()=>st.none},
+  {t:'两点距离：把 A 放在 −2，B 放在 3，量一量。',aha:'AB = |a − b| = |−2 − 3| = 5，就是数格子。',ok:()=>near(st.a,-2)&&near(st.b,3)},
+  {t:'和为 0：拖动 m 和 n，让 |m − 3| + (n + 5)² = 0。',aha:'两项都不会小于 0，和为 0 只能都等于 0：m = 3，n = −5，m + n = −2。',ok:()=>near(st.m,3)&&near(st.n,-5)}],
+ onMission(c){if(c!==st.lastC){const first=st.lastC===-1;st.lastC=c;if(first){if(c===3)setMode(1);else if(c>=4)setMode(2);}if(!first){if(c<3)info();const ep=EPOCH;setTimeout(()=>{if(ep!==EPOCH||st.lastC!==c)return;if(c===3)setMode(1);else if(c===4)setMode(2);},3200);}}},
+ frame(now,dt){['o0','o1','o2'].forEach((k,i)=>{vis[k]=follow(vis[k],st.mode===i?1:0,dt,10);G[i].setAttribute('opacity',vis[k].toFixed(2));G[i].style.display=vis[k]<.02?'none':'';});
+  const pul=14+3*Math.sin(now/260);
+  if(st.mode===0){vis.x=follow(vis.x,st.x,dt,13);const x=nl0.X(vis.x),X0=nl0.X(0);const h=Math.min(64,8+Math.abs(vis.x)*9);const d=`M${X0},160 Q${(X0+x)/2},${160-h*1.6} ${x},160`;rope.setAttribute('d',d);rope2.setAttribute('d',d);
+   const dd=Math.abs(Math.round(vis.x*2)/2);rl.set(`|${fmt(Math.round(vis.x*2)/2)}| = ${fmt(dd)}`,OR);rl.setAttribute('transform',`translate(${(X0+x)/2},${160-h*0.8-14})`);
+   P.setAttribute('transform',`translate(${x},160)`);ph.setAttribute('r',pul);pl.textContent='x = '+fmt(Math.round(vis.x*2)/2);}
+  if(st.mode===1){vis.a=follow(vis.a,st.a,dt,13);vis.b=follow(vis.b,st.b,dt,13);const xa=nl1.X(vis.a),xb=nl1.X(vis.b);const h=Math.min(40,Math.abs(xa-xb)/3+6);rope1.setAttribute('d',`M${xa},160 Q${(xa+xb)/2},${160-h*2} ${xb},160`);r1l.set(fmt(Math.abs(st.a-st.b)),GR);r1l.setAttribute('transform',`translate(${(xa+xb)/2},${160-h-16})`);
+   PA.g.setAttribute('transform',`translate(${xa},160)`);PB.g.setAttribute('transform',`translate(${xb},160)`);PA.h.setAttribute('r',pul);PB.h.setAttribute('r',pul);PA.l.textContent='A = '+fmt(st.a);PB.l.textContent='B = '+fmt(st.b);
+   f1.textContent=`AB = |${fmt(st.a)} − ${par(st.b)}| = ${fmt(Math.abs(st.a-st.b))}`;}
+  if(st.mode===2){vis.m=follow(vis.m,st.m,dt,13);vis.n=follow(vis.n,st.n,dt,13);const xm=nlm.X(vis.m),x3=nlm.X(3);const h=Math.min(40,Math.abs(xm-x3)/3+4);ropeM.setAttribute('d',`M${x3},90 Q${(xm+x3)/2},${90-h*1.6} ${xm},90`);
+   const d1=Math.abs(st.m-3),dn=Math.abs(st.n+5),d2=dn*dn;mL.set(`|m − 3| = ${fmt(d1)}`,d1?OR:GR);mL.setAttribute('transform',`translate(${clamp((xm+x3)/2,60,300)},${90-h*0.8-16})`);
+   const xn=nln.X(vis.n),x5=nln.X(-5);ropeN.setAttribute('x1',x5);ropeN.setAttribute('x2',xn);const s=Math.min(52,Math.abs(vis.n+5)*14);sq.setAttribute('x',Math.min(xn,x5)+(Math.abs(xn-x5)-s)/2);sq.setAttribute('y',196-6-s);sq.setAttribute('width',s);sq.setAttribute('height',s);
+   nL.set(`(n + 5)² = ${fmt(d2)}`,d2?BL:GR);nL.setAttribute('transform',`translate(${clamp((xn+x5)/2,70,300)},${Math.min(196-14-s,170)})`);
+   PM.g.setAttribute('transform',`translate(${xm},90)`);PN.g.setAttribute('transform',`translate(${xn},196)`);PM.h.setAttribute('r',pul);PN.h.setAttribute('r',pul);PM.l.textContent='m = '+fmt(st.m);PN.l.textContent='n = '+fmt(st.n);
+   f2.textContent=d1+d2===0?'0 + 0 = 0 ✓ m = 3，n = −5，m + n = −2':`|m − 3| + (n + 5)² = ${fmt(d1)} + ${fmt(d2)} = ${fmt(d1+d2)}`;f2.setAttribute('fill',d1+d2===0?GR:INK);}},
+ handAt(){return st.mode===0?{x:nl0.X(vis.x),y:160}:null;},
+ async demo(api){for(const x of[4,-3,-5]){if(!await api.wait(950))return;st.x=x;onX();}await api.wait(900);},
+ reset(){st.x=1.5;onX();}};
+}
+
+/* ===== L6 大小比较 ===== */
+function stage6(sw,api){const svg=mkSvg(sw,260);const st={mode:0,a:2,b:-1,q:0,pick:-1,qok:[0,0,0],L:-3,R:4,inL:false,inR:false,seen:false,lastC:-1};const vis={a:2,b:-1,o0:1,o1:0,o2:0};const G=[S('g',{},svg),S('g',{},svg),S('g',{},svg)];
+ // mode0
+ const g0=G[0];const cmp=txt(g0,{x:180,y:32,'text-anchor':'middle','font-size':22,'font-weight':800,fill:INK},'');txt(g0,{x:180,y:52,'text-anchor':'middle','font-size':11.5,fill:'#7b6b5d'},'数轴上，右边的数总比左边的大');
+ const nl=numberLine(S('g',{},g0),{y:100});
+ const mk=(par,c,n)=>{const g=S('g',{},par);const h=S('circle',{r:16,fill:c,opacity:.2},g);S('circle',{r:10.5,fill:c,stroke:'#fff','stroke-width':2.5},g);txt(g,{y:4.5,'text-anchor':'middle','font-size':11,'font-weight':800,fill:'#fff'},n);const big=txt(g,{y:-22,'text-anchor':'middle','font-size':12,'font-weight':800,fill:GR},'更大');return {g,h,big};};
+ const hit=S('rect',{x:0,y:62,width:360,height:70,fill:'transparent'},g0);
+ const PA=mk(g0,OR,'A'),PB=mk(g0,BL,'B');
+ drag(svg,hit,{moveOnDown:true,move:x=>{const v=clamp(snap(nl.V(x),.5),-6,6);if(Math.abs(v-st.a)<=Math.abs(v-st.b))st.a=v;else st.b=v;info();}});
+ drag(svg,PA.g,{move:x=>{st.a=clamp(snap(nl.V(x),.5),-6,6);info();}});drag(svg,PB.g,{move:x=>{st.b=clamp(snap(nl.V(x),.5),-6,6);info();}});
+ const rows=[['A 离原点 |a|',OR,'d','a'],['A 的大小',OR,'s','a'],['B 离原点 |b|',BL,'d','b'],['B 的大小',BL,'s','b']].map((r,i)=>{const yy=146+i*27+(i>1?8:0);txt(g0,{x:8,y:yy+11,'font-size':12,'font-weight':700,fill:r[1]},r[0]);S('rect',{x:96,y:yy,width:200,height:14,rx:7,fill:'#f1e8db'},g0);const bar=S('rect',{x:96,y:yy,height:14,rx:7,fill:r[1],opacity:r[2]==='d'?.45:.9},g0);const val=txt(g0,{x:300,y:yy+11,'font-size':12,'font-weight':800,fill:r[1]},'');return {bar,val,k:r[2],p:r[3],prev:null,tr:0,tt:0};});
+ // mode1 three
+ const g1=G[1];const SET=[2.5,-4,0.7,-3,-0.5];const QS=[['哪个数最大？点一下',0],['哪个数的绝对值最大？',1],['哪个数最接近 0？',4]];
+ const qT=txt(g1,{x:180,y:32,'text-anchor':'middle','font-size':16,'font-weight':800,fill:INK},'');const qS=txt(g1,{x:180,y:56,'text-anchor':'middle','font-size':12.5,'font-weight':700,fill:'#7b6b5d'},'');
+ const nl1=numberLine(S('g',{},g1),{y:150});const ropes1=S('g',{},g1);
+ const dots=SET.map((v,i)=>{const g=S('g',{transform:`translate(${nl1.X(v)},150)`},g1);const hc=S('circle',{r:18,fill:'transparent'},g);const c=S('circle',{r:9,fill:'#8d7b6a',stroke:'#fff','stroke-width':2},g);txt(g,{y:i%2?-18:-18,'text-anchor':'middle','font-size':13,'font-weight':800,fill:INK},fmtS(v));
+  g.style.cursor='pointer';g.addEventListener('pointerdown',e=>{e.stopPropagation();pick(i);});return {g,c};});
+ function pick(i){if(st.q>=3||st.qok[st.q])return;const [qq,ans]=QS[st.q];st.pick=i;drawRopes();if(i===ans){st.qok[st.q]=1;qS.textContent='✓ 对！';qS.setAttribute('fill',GR);const ep=EPOCH;setTimeout(()=>{if(ep!==EPOCH)return;st.q++;st.pick=-1;info();},1300);}else{qS.setAttribute('fill',RD);qS.textContent=st.q===0?`${fmtS(SET[i])} 不是最靠右的，再看看`:st.q===1?`看绳子：${fmtS(SET[i])} 离原点 ${fmt(Math.abs(SET[i]))}，还有更远的`:`看绳子：${fmtS(SET[i])} 离原点 ${fmt(Math.abs(SET[i]))}，还有更近的`;}info(true);}
+ function drawRopes(){ropes1.replaceChildren();if(st.q===0||st.q>=3||st.pick<0)return;SET.forEach(v=>{const x=nl1.X(v),x0=nl1.X(0);const h=Math.abs(x-x0)/3+4;const p=S('path',{d:`M${x0},150 Q${(x0+x)/2},${150-h*2} ${x},150`,fill:'none',stroke:'#c9a98a','stroke-width':2.5},ropes1);txt(ropes1,{x:(x0+x)/2,y:150-h-6+(v<0?0:0),'text-anchor':'middle','font-size':11,'font-weight':800,fill:'#8d6b4c'},fmt(Math.abs(v)));const L=320;p.setAttribute('stroke-dasharray',L);p.setAttribute('stroke-dashoffset',L);tween(700,e=>p.setAttribute('stroke-dashoffset',L*(1-e)));});}
+ // mode2 range
+ const g2=G[2];const rT=txt(g2,{x:180,y:30,'text-anchor':'middle','font-size':17,'font-weight':800,fill:INK},'');const rS=txt(g2,{x:180,y:54,'text-anchor':'middle','font-size':13,'font-weight':700,fill:GR},'');
+ const nl2=numberLine(S('g',{},g2),{y:150});const band=S('line',{y1:150,y2:150,stroke:OR,'stroke-width':7,opacity:.3,'stroke-linecap':'round'},g2);
+ const ints=[];for(let k=-6;k<=6;k++){ints.push({k,c:S('circle',{cx:nl2.X(k),cy:150,r:0,fill:GR},g2),s:0});}
+ const mkE=()=>{const g=S('g',{},g2);const h=S('circle',{r:17,fill:OR,opacity:.18},g);const c=S('circle',{r:9,stroke:OR,'stroke-width':3},g);return {g,h,c};};const EL=mkE(),ER=mkE();
+ const hit2=S('rect',{x:0,y:110,width:360,height:80,fill:'transparent'},g2);g2.insertBefore(hit2,EL.g);
+ const mvE=x=>{const v=clamp(Math.round(nl2.V(x)),-6,6);if(Math.abs(v-st.L)<=Math.abs(v-st.R)){st.L=Math.min(v,st.R-1);}else{st.R=Math.max(v,st.L+1);}info();};
+ drag(svg,hit2,{moveOnDown:true,move:mvE});
+ [[EL,'L','inL'],[ER,'R','inR']].forEach(([E,k,ik])=>drag(svg,E.g,{move:x=>{const v=clamp(Math.round(nl2.V(x)),-6,6);if(k==='L')st.L=Math.min(v,st.R-1);else st.R=Math.max(v,st.L+1);info();},end:(x,y,moved)=>{if(!moved){st[ik]=!st[ik];syncT();info();}}}));
+ const tL=btn('包含左端点 ✗','tog'),tR=btn('包含右端点 ✗','tog');tL.onclick=()=>{st.inL=!st.inL;syncT();info();};tR.onclick=()=>{st.inR=!st.inR;syncT();info();};
+ function syncT(){tL.classList.toggle('on',st.inL);tR.classList.toggle('on',st.inR);tL.textContent='包含左端点 '+(st.inL?'✓':'✗');tR.textContent='包含右端点 '+(st.inR?'✓':'✗');}
+ const seg=segCtl(['两点比较','三个“最”','区间整数'],0,k=>setMode(k));api.ctrlTop.appendChild(seg);api.ctrls.appendChild(tL);api.ctrls.appendChild(tR);
+ function setMode(k){st.mode=k;seg.set(k);tL.style.display=tR.style.display=k===2?'':'none';if(k===2)st.seen=true;info();}
+ function list(){const a=[];for(let k=st.L+(st.inL?0:1);k<=st.R-(st.inR?0:1);k++)a.push(k);return a;}
+ function info(keep){if(st.mode===0){const a=st.a,b=st.b;api.say(`A = <b>${fmt(a)}</b>，|A| = ${fmt(Math.abs(a))}；B = <b>${fmt(b)}</b>，|B| = ${fmt(Math.abs(b))}。${a!==b?`<b>${a>b?'A':'B'}</b> 在右边，所以 ${a>b?'A > B':'A < B'}。`:'两点重合，A = B。'}${a<0&&b<0&&a!==b?`<br>两个都是负数：绝对值大的是 ${Math.abs(a)>Math.abs(b)?'A':'B'}，可它反而<b>更小</b>！`:''}`);}
+  else if(st.mode===1){if(st.q<3){qT.textContent=QS[st.q][0];if(!keep){qS.textContent=`第 ${st.q+1}/3 问`;qS.setAttribute('fill','#7b6b5d');}}else{qT.textContent='三个都答对 ✓';qS.textContent='最大看位置，绝对值看离原点的距离';qS.setAttribute('fill',GR);}
+   api.say('“最大”“绝对值最大”“最接近 0”是三个不同的问题：点一点，看绳子（到原点的距离）。');}
+  else{const l=list();rT.textContent=`${fmt(st.L)} ${st.inL?'≤':'<'} x ${st.inR?'≤':'<'} ${fmt(st.R)}`;rS.textContent=`整数有 ${l.length} 个：${l.map(fmt).join('、')}`;api.say(`空心圆 = 不包含端点，实心圆 = 包含。点端点或下面的按钮切换。<b>“<”不含端点，“≤”含端点。</b>`);}
+  api.update();}
+ setMode(0);
+ return {missions:[
+  {t:'把 A、B 都拖到负数区（原点左边），谁更大？',aha:'两个负数，也是靠右的那个更大。',ok:()=>st.a<0&&st.b<0&&st.a!==st.b},
+  {t:'把 A 拖到 −5，B 拖到 −2：看下面的条，谁的绝对值大？谁大？',aha:'|−5| > |−2|，但 −5 < −2：两个负数比较，绝对值大的反而小。',ok:()=>near(st.a,-5)&&near(st.b,-2)},
+  {t:'切到“三个最”：把三个问题都答对。',aha:'最大看位置；绝对值最大看离原点最远；最接近 0 看离原点最近。',ok:()=>st.qok.every(Boolean)},
+  {t:'切到“区间整数”：先数 −3 < x < 4 有几个整数，再改成两端都包含。',aha:'不含端点 6 个，两端都含 8 个：先看清是 < 还是 ≤。',ok:()=>st.seen&&st.L===-3&&st.R===4&&st.inL&&st.inR}],
+ onMission(c){if(c!==st.lastC){const first=st.lastC===-1;st.lastC=c;if(first){if(c===2)setMode(1);else if(c>=3)setMode(2);}if(!first){const ep=EPOCH;setTimeout(()=>{if(ep!==EPOCH||st.lastC!==c)return;if(c===2)setMode(1);else if(c===3)setMode(2);},3200);}}},
+ frame(now,dt){['o0','o1','o2'].forEach((k,i)=>{vis[k]=follow(vis[k],st.mode===i?1:0,dt,10);G[i].setAttribute('opacity',vis[k].toFixed(2));G[i].style.display=vis[k]<.02?'none':'';});const pul=14+3*Math.sin(now/260);
+  if(st.mode===0){vis.a=follow(vis.a,st.a,dt,13);vis.b=follow(vis.b,st.b,dt,13);PA.g.setAttribute('transform',`translate(${nl.X(vis.a)},100)`);PB.g.setAttribute('transform',`translate(${nl.X(vis.b)},100)`);
+   const aw=st.a>st.b,bw=st.b>st.a;PA.h.setAttribute('r',aw?pul+5:14);PB.h.setAttribute('r',bw?pul+5:14);PA.h.setAttribute('opacity',aw?.35:.15);PB.h.setAttribute('opacity',bw?.35:.15);PA.big.setAttribute('opacity',aw?1:0);PB.big.setAttribute('opacity',bw?1:0);
+   cmp.textContent=`${fmt(st.a)} ${st.a>st.b?'>':st.a<st.b?'<':'='} ${fmt(st.b)}`;
+   rows.forEach(r=>{const v=r.p==='a'?vis.a:vis.b;const q=r.k==='d'?Math.abs(v)/6:(v+6)/12;r.bar.setAttribute('width',Math.max(0,q*200).toFixed(1));if(r.prev!=null){const d=q-r.prev;if(Math.abs(d)>.0008){r.tr=d>0?1:-1;r.tt=now;}}r.prev=q;const rv=Math.round(v*2)/2;const base=r.k==='d'?fmt(Math.abs(rv)):fmt(rv);const show=now-r.tt<900&&r.tr;r.val.textContent=base+(show?(r.tr>0?' ↑变大':' ↓变小'):'');});}
+  if(st.mode===1){dots.forEach((d,i)=>{const ans=st.q<3?QS[st.q][1]:-1;let c='#8d7b6a';if(st.pick===i)c=i===ans?GR:RD;d.c.setAttribute('fill',c);d.c.setAttribute('r',st.q<3?9+1.5*Math.sin(now/300+i):9);});}
+  if(st.mode===2){EL.g.setAttribute('transform',`translate(${nl2.X(st.L)},150)`);ER.g.setAttribute('transform',`translate(${nl2.X(st.R)},150)`);EL.c.setAttribute('fill',st.inL?OR:'#fff');ER.c.setAttribute('fill',st.inR?OR:'#fff');EL.h.setAttribute('r',pul);ER.h.setAttribute('r',pul);band.setAttribute('x1',nl2.X(st.L));band.setAttribute('x2',nl2.X(st.R));
+   const l=list();ints.forEach((o,i)=>{const on=l.includes(o.k)&&o.k!==st.L&&o.k!==st.R;o.s=follow(o.s,on?1:0,dt,9-(i%3));o.c.setAttribute('r',(o.s*6).toFixed(2));});}},
+ handAt(){return st.mode===0?{x:nl.X(vis.a),y:100}:null;},
+ async demo(api){for(const a of[-1.5,-5]){if(!await api.wait(1100))return;st.a=a;info();}if(!await api.wait(1200))return;st.a=2;info();await api.wait(700);},
+ reset(){st.a=2;st.b=-1;info();}};
+}
+
+function icon(marks,band){let s='<svg viewBox="0 0 300 56"><line x1="10" y1="34" x2="290" y2="34" stroke="#5b4a3c" stroke-width="2"/><path d="M296,34 l-9,-5 v10 z" fill="#5b4a3c"/>';for(let k=-6;k<=6;k++)s+=`<line x1="${150+k*22}" y1="30" x2="${150+k*22}" y2="38" stroke="#5b4a3c"/>`;if(band)s+=`<line x1="${150+band[0]*22}" y1="34" x2="${150+band[1]*22}" y2="34" stroke="#d45216" stroke-width="7" opacity=".35" stroke-linecap="round"/>`;marks.forEach(m=>{s+=`<circle cx="${150+m[0]*22}" cy="34" r="6" fill="${m[1]}"/>`;if(m[2])s+=`<text x="${150+m[0]*22}" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="${m[1]}">${m[2]}</text>`;});return s+'</svg>';}
+const LESSONS=[
+{id:'L1',no:'1.1',title:'正数和负数',sub:'0 是约定的基准，不是“没有”',missionsCount:5,stage:stage1,
+ icon:icon([[0,'#2a211b','0 基准'],[3,'#d45216','+3'],[-3,'#2f6fd1','−3']]),
+ guess:{q:'向上为正时鸟记 +3 米。改成向下为正，会怎样？',o:['鸟的位置变了','位置不变，读数变成 −3','什么都不变'],a:1,why:'物体不动，只是换了约定，读数的符号就反过来了。'},
+ rule:[{q:'正号、负号表示的是什么？',o:['物体本身的好坏','相对基准（0）的两个相反方向，是人约定的','数越大越好'],a:1,e:'先约定基准和正方向，相反意义的量才能用正负数表示。',h:'回去切换一下正方向，物体动了吗？'},
+  {q:'0 在这里表示什么？',o:['什么都没有','基准本身（不是正数也不是负数）'],a:1,e:'0 是基准，既不是正数，也不是负数。',h:'把基准线拖到鱼那里，鱼是“没有”了吗？'},
+  {q:'40±0.2 mm 的合格范围是？',o:['39.8 到 40.2，包括两端','39.8 到 40.2，不包括两端','只有 40'],a:0,e:'40 − 0.2 = 39.8，40 + 0.2 = 40.2，两个端点也合格。',h:'把零件拖到 39.8 看看是红还是绿。'}],
+ book:'<p>大于 0 的数叫做<b>正数</b>；在正数前面加上“−”的数叫做<b>负数</b>。<b>0 既不是正数，也不是负数</b>。</p><p>具有相反意义的量，可以用正数和负数表示：先规定基准（0）和正方向。</p><p>“40±0.2 mm”表示 39.8 mm 到 40.2 mm 都合格，端点也合格。</p>',
+ quiz:[
+ {s:['这题规定哪个方向为正？',['向上','向下'],1,'题目第一句：规定向下为正。'],q:'规定向下为正。一个物体在基准上方 3 米，应记为？',o:['+3 米','−3 米','0 米'],a:1,e:'向上与正方向（向下）相反，所以记为 −3 米。',
+  w:{0:{r:[-4,4],dir:'正方向：向下',neg:'向上',m:[[3,'+3 = 向下 3 米']],c:'+3 表示往正方向（向下）3 米，可物体在上方。'},2:{r:[-4,4],dir:'正方向：向下',neg:'向上',m:[[0,'0 = 就在基准上']],c:'0 表示正好在基准上，可物体离基准 3 米。'}},
+  r:{r:[-4,4],dir:'正方向：向下',neg:'向上',m:[[-3,'−3 = 向上 3 米']],c:'和正方向相反，用负号：−3 米。'}},
+ {s:['偏差是多少克？',['+20 克','+2520 克','−20 克'],0,'偏差 = 实际 − 标准 = 2520 − 2500 = +20 克。'],q:'标准 2500 克，允许偏差 ±20 克。实际质量 2520 克，合格吗？',o:['合格，端点也在范围内','不合格，端点不能取','无法判断'],a:0,e:'偏差 +20 克，正好在允许范围的右端点，仍然合格。',
+  w:{d:{r:[-30,30],step:10,b:[-20,20],m:[[20,'+20']],c:'“±20 克”包括正好 ±20 克，+20 就在绿区边上。'}},r:{r:[-30,30],step:10,b:[-20,20],m:[[20,'+20 在绿区边上 ✓']],c:'绿区包括两个端点：−20 到 +20 都合格。'}},
+ {s:['判断“一定”对不对，最快的办法是？',['找一个反例','举一个符合的例子'],0,'只要找到一个反例，“一定”就不成立。'],q:'“不是正数的数一定是负数”，对吗？',o:['对','不对，0 也不是正数','不对，1 不是正数'],a:1,e:'0 既不是正数也不是负数，它就是反例。',
+  w:{0:{r:[-3,3],m:[[0,'0：不是正数，也不是负数']],c:'0 不是正数，可它也不是负数。'},2:{r:[-3,3],m:[[1,'1 是正数']],c:'1 在原点右边，是正数，不能当反例。'}},r:{r:[-3,3],m:[[0,'0：不正不负']],c:'反例就是 0。'}},
+ {s:['这里的 0℃ 是？',['什么都没有','一个约定的基准温度'],1,'0℃ 是规定的基准温度，不是“没有温度”。'],q:'气温 0℃ 表示“没有温度”，对吗？',o:['对','不对，0℃ 是基准，比它高记正、低记负'],a:1,e:'0 是基准，不是“什么都没有”。−5℃ 比 0℃ 还冷。',
+  w:{d:{r:[-6,6],m:[[0,'0℃'],[-5,'−5℃']],c:'如果 0℃ 是“没有温度”，那 −5℃ 是什么？'}},r:{r:[-6,6],m:[[-5,'−5℃'],[0,'0℃ 基准'],[5,'+5℃']],c:'0 是分界的基准，两边是相反意义的量。'}},
+ {s:['收入和支出是？',['相反意义的量','没有关系的量'],0,'收入和支出意义相反，可以用正负数表示。'],q:'收入 100 元记作 +100 元，那么支出 50 元记作？',o:['+50 元','−50 元','−100 元'],a:1,e:'支出与收入意义相反，用负号；数量是 50，所以是 −50 元。',
+  w:{0:{r:[-100,100],step:50,m:[[50,'+50 = 收入 50']],c:'+50 表示收入 50 元，不是支出。'},2:{r:[-100,100],step:50,m:[[-100,'−100']],c:'符号对了，可数量是 50，不是 100。'}},r:{r:[-100,100],step:50,m:[[-50,'−50 支出'],[100,'+100 收入']],c:'相反意义用相反符号，数量各自不变。'}},
+ {s:['合格范围是多少？',['39.8 到 40.2','40 到 40.2','39.8 到 40'],0,'40 − 0.2 = 39.8，40 + 0.2 = 40.2。'],q:'零件直径要求 40±0.2 mm，测得 39.75 mm，合格吗？',o:['合格','不合格'],a:1,e:'39.75 < 39.8，低于下限，不合格。',
+  w:{0:{r:[39.6,40.4],step:0.1,b:[39.8,40.2],m:[[39.75,'39.75']],c:'39.75 在绿区左边外面。'}},r:{r:[39.6,40.4],step:0.1,b:[39.8,40.2],m:[[39.75,'39.75 < 39.8 ✗']],c:'只差 0.05 毫米，就出了合格区。'}}]},
+
+{id:'L2',no:'1.2.1',title:'有理数的分类',sub:'看数值，不看写法',missionsCount:5,stage:stage2,
+ icon:'<svg viewBox="0 0 300 56"><g font-size="15" font-weight="800" text-anchor="middle"><rect x="10" y="12" width="64" height="34" rx="9" fill="#fff" stroke="#d8c6ae"/><text x="42" y="35">6/3</text><text x="98" y="35" fill="#7b6b5d">→</text><rect x="122" y="12" width="64" height="34" rx="9" fill="#eef8f1" stroke="#2b8a55"/><text x="154" y="35" fill="#2b8a55">= 2</text><text x="250" y="35" fill="#d45216">整数！</text></g></svg>',
+ guess:{q:'6/3 是整数还是分数？',o:['整数','分数','都不是'],a:0,why:'6/3 = 2，分类要看它的值。'},
+ rule:[{q:'判断一个数是整数还是分数，要看什么？',o:['写法里有没有分数线','它化简后的值'],a:1,e:'6/3 = 2 是整数，0.25 = 1/4 是分数：看数值不看写法。',h:'把 6/3 拖进去，看它翻出来的值。'},
+  {q:'0 属于哪一类？',o:['正整数','负整数','整数，但既不是正数也不是负数'],a:2,e:'0 是整数，它单独占一格。',h:'0 放进正整数的格子会怎样？'},
+  {q:'0.333…（3 无限循环）是有理数吗？',o:['是，它等于 1/3','不是，它写不完'],a:0,e:'无限循环小数能化成分数，所以是有理数。'}],
+ book:'<p>正整数、0、负整数统称<b>整数</b>；正分数、负分数统称<b>分数</b>。</p><p><b>整数和分数统称有理数。</b>有限小数和无限循环小数都可以化成分数，它们都是有理数。</p><p>分类时看数值：6/3 = 2 是整数，−8/4 = −2 是负整数。</p>',
+ quiz:[
+ {s:['0.333… 是什么样的小数？',['无限循环小数','有限小数','无限不循环小数'],0,'3 一直重复，是无限循环小数。'],q:'0.333…（3 无限循环）是有理数吗？',o:['是，它等于 1/3','不是，因为写不完','不是，因为有小数点'],a:0,e:'无限循环小数都能化成分数：0.333… = 1/3，所以是有理数。',w:{d:{f:['0.333…','= 1/3'],c:'写不完不要紧，它能化成分数。'}},r:{f:['0.333…','1/3'],c:'能写成分数，就是有理数。'}},
+ {s:['8.5% 先化成什么？',['小数 0.085','小数 0.85'],0,'百分号就是除以 100：8.5% = 0.085。'],q:'8.5% 化成最简分数是？',o:['85/10','17/200','85/100'],a:1,e:'8.5% = 0.085 = 85/1000 = 17/200。',w:{0:{f:['85/10','= 8.5'],c:'85/10 = 8.5，比 8.5% 大了 100 倍。'},2:{f:['85/100','= 0.85 = 85%'],c:'85/100 是 85%，不是 8.5%。'}},r:{f:['8.5% = 0.085','85/1000 = 17/200'],c:'85/1000 分子分母同时除以 5，得 17/200。'}},
+ {s:['分类时看的是？',['写法','化简后的值'],1,'先把数化简，看它的值。'],q:'−8/4 属于哪一类？',o:['负分数','负整数','正整数'],a:1,e:'−8/4 = −2，是负整数。',w:{0:{f:['−8/4','= −2'],c:'有分数线，可它的值是 −2，是整数。'},2:{f:['−8/4','= −2'],c:'它是负数，不是正整数。'}},r:{f:['−8/4','−2（负整数）'],c:'看数值，不看写法。'}},
+ {s:['0 是正数吗？',['是','不是，是负数','它既不是正数也不是负数'],2,'0 是正数和负数的分界。'],q:'0 属于哪一类？',o:['正整数','负整数','整数（既不正也不负）'],a:2,e:'0 是整数，但既不是正数也不是负数。',w:{d:{r:[-3,3],m:[[0,'0 在分界上']],c:'0 在原点，不在左边，也不在右边。'}},r:{r:[-3,3],m:[[0,'0：整数，不正不负']],c:'整数 = 正整数、0、负整数。'}},
+ {s:['要判断“一定”，先找？',['反例','例子'],0,'找到一个反例就能推翻。'],q:'“写成分数形式的数一定不是整数”，对吗？',o:['对','不对，例如 6/3 = 2'],a:1,e:'6/3 有分数线，但值是 2，是整数。',w:{0:{f:['6/3','= 2'],c:'6/3 写成分数，值却是整数 2。'}},r:{f:['6/3','2'],c:'反例：6/3 = 2。'}},
+ {s:['有理数都能写成什么样子？',['两个整数的比（分母不为 0）','任意小数'],0,'有理数都能写成 p/q 的形式，p、q 是整数，q ≠ 0。'],q:'关于有理数的分数形式，哪一句正确？',o:['分子、分母都是整数，分母不能为 0','分母可以为 0','只有正数能写成分数'],a:0,e:'有理数都能写成两个整数的比，分母不能为 0；例如 −3 = −3/1，0 = 0/1。',w:{1:{f:['5/0','没有意义'],c:'分母为 0 的分数没有意义。'},2:{f:['−3，0','−3/1，0/1'],c:'负数和 0 也能写成分数。'}},r:{f:['−3，0','−3/1，0/1'],c:'分母不为 0。'}}]},
+
+{id:'L3',no:'1.2.2',title:'数轴',sub:'三要素缺一不可',missionsCount:6,stage:stage3,
+ icon:icon([[0,'#2a211b','原点'],[1.5,'#d45216','1.5']]),
+ guess:{q:'每格表示 0.5，原点右边第 3 格是几？',o:['3','1.5','0.5'],a:1,why:'3 个 0.5 是 1.5：先看每格表示多少。'},
+ rule:[{q:'一条直线成为数轴，必须规定哪三样？',o:['原点、正方向、单位长度','原点、箭头、数字','直线、刻度、颜色'],a:0,e:'三要素缺一个，点就说不清表示几。',h:'回去关掉其中一个，看看点还能读出来吗？'},
+  {q:'0.5 和 1/2 在同一条数轴上对应几个点？',o:['一个','两个'],a:0,e:'它们是同一个数的两种写法，对应同一个点。'}],
+ book:'<p>规定了<b>原点、正方向和单位长度</b>的直线叫做<b>数轴</b>。</p><p>任何一个有理数都可以用数轴上的一个点来表示。读数前先看清每一格表示多少。</p>',
+ quiz:[
+ {s:['每一格表示多少？',['1','0.5'],1,'题目说每格表示 0.5。'],q:'每格表示 0.5，原点右边第 3 格表示多少？',o:['3','1.5','0.5'],a:1,e:'3 个 0.5 是 1.5。',w:{0:{r:[0,3],step:0.5,m:[[3,'3？']],c:'3 在第 6 格，你把每格当成了 1。'},2:{r:[0,3],step:0.5,m:[[0.5,'0.5']],c:'0.5 只是第 1 格。'}},r:{r:[0,3],step:0.5,m:[[1.5,'第 3 格 = 1.5']],c:'0.5 + 0.5 + 0.5 = 1.5'}},
+ {s:['数轴三要素是？',['原点、正方向、单位长度','原点、箭头、数字'],0,'三个要素缺一不可。'],q:'一条直线标了原点和正方向，但没规定单位长度，它是数轴吗？',o:['是','不是，缺少单位长度'],a:1,e:'没有单位长度，就不知道每个位置对应哪个数。',w:{0:{f:['点 P = ?','1？2？5？'],c:'没有单位长度，点 P 可能表示任何数。'}},r:{f:['原点 + 正方向 + 单位长度','点和数一一对应'],c:'三要素齐了才是数轴。'}},
+ {s:['0.5 和 1/2 是？',['同一个数的两种写法','两个不同的数'],0,'1/2 = 0.5。'],q:'0.5 和 1/2 在同一条数轴上对应几个点？',o:['两个','一个','无法确定'],a:1,e:'它们是同一个数，所以是同一个点。',w:{d:{r:[-1,1],step:0.5,m:[[0.5,'0.5 和 1/2 都在这']],c:'1/2 = 0.5，落在同一处，不是两个点。'}},r:{r:[-1,1],step:0.5,m:[[0.5,'0.5 = 1/2']],c:'一个数，一个点。'}},
+ {s:['题目说了往哪个方向移动吗？',['说了向右','说了向左','没说'],2,'没说方向，就要考虑两种情况。'],q:'点 A 表示 −3，移动 4 个单位到点 B，B 表示的数是？',o:['1','−7','1 或 −7'],a:2,e:'向右：−3 + 4 = 1；向左：−3 − 4 = −7。没说方向，两种都要写。',w:{0:{r:[-8,2],m:[[-3,'A'],[1,'B']],p:[[-3,1,'向右 4']],c:'你只考虑了向右，漏了向左。'},1:{r:[-8,2],m:[[-7,'B'],[-3,'A']],p:[[-3,-7,'向左 4']],c:'你只考虑了向左，漏了向右。'}},r:{r:[-8,2],m:[[-7,'B₁'],[-3,'A'],[1,'B₂']],p:[[-3,1,'4'],[-3,-7,'4']],c:'两个方向都要考虑：1 或 −7。'}},
+ {s:['−2.5 在原点哪一边？',['左边','右边'],0,'负数在原点左边。'],q:'每格表示 0.5，−2.5 在原点左边第几格？',o:['2.5 格','5 格','25 格'],a:1,e:'2.5 ÷ 0.5 = 5，左边第 5 格。',w:{0:{r:[-3,0],step:0.5,m:[[-1.25,'2.5 格处 = −1.25']],c:'只走 2.5 格，才到 −1.25。'},2:{f:['25 格','= −12.5'],c:'25 格 × 0.5 = 12.5，走太远了。'}},r:{r:[-3,0],step:0.5,m:[[-2.5,'第 5 格 = −2.5']],c:'2.5 ÷ 0.5 = 5 格。'}}]},
+
+{id:'L4',no:'1.2.3',title:'相反数',sub:'关于原点对折，−a 不一定是负数',missionsCount:4,stage:stage4,
+ icon:icon([[-2.5,'#2f6fd1','−a'],[2.5,'#d45216','a']]),
+ guess:{q:'−a 一定是负数吗？',o:['一定是','不一定'],a:1,why:'a 是负数时，−a 是正数，比如 a = −3，−a = 3。'},
+ rule:[{q:'a 和 −a 在数轴上是什么关系？',o:['关于原点对称，到原点的距离相等','都在原点右边','一定一个正一个负'],a:0,e:'它们像对折一样，原点在正中间。',h:'拖到 0 试试，还是“一正一负”吗？'},
+  {q:'−a 一定是负数吗？',o:['一定是','不一定：a 是负数时，−a 是正数'],a:1,e:'−a 读作“a 的相反数”，不是“负数 a”。'},
+  {q:'a + (−a) 等于多少？',o:['0','2a','不一定'],a:0,e:'互为相反数的两个数相加得 0。'}],
+ book:'<p>只有符号不同的两个数叫做互为<b>相反数</b>。<b>0 的相反数是 0</b>。</p><p>在数轴上，互为相反数的两个点（0 除外）分别在原点两侧，到原点的距离相等。</p><p>a 的相反数是 −a；a + (−a) = 0。a 是负数时，−a 是正数。</p>',
+ quiz:[
+ {s:['相反数是改什么？',['只改符号','符号和数值都改'],0,'相反数：符号相反，到原点的距离相同。'],q:'−3 的相反数是？',o:['+5','+3','−3'],a:1,e:'−3 关于原点对称的点是 +3。',w:{0:{r:[-6,6],m:[[-3,'−3'],[5,'+5']],p:[[-3,0,'3'],[0,5,'5']],c:'两边到原点的距离不一样：3 和 5。'},2:{r:[-4,4],m:[[-3,'−3 自己']],c:'−3 是它自己，不是它的相反数。'}},r:{r:[-4,4],m:[[-3,'−3'],[3,'+3']],p:[[-3,0,'3'],[0,3,'3']],c:'关于原点对称，距离都是 3。'}},
+ {s:['0 在数轴上的哪里？',['原点','原点右边'],0,'0 就在原点。'],q:'0 的相反数是？',o:['没有','1','0'],a:2,e:'原点对折后还在原点，所以 0 的相反数是 0。',w:{d:{r:[-3,3],m:[[0,'0']],c:'0 对折后还在原点：它的相反数存在，就是 0。'}},r:{r:[-3,3],m:[[0,'0 的相反数 = 0']],c:'对折后和自己重合。'}},
+ {s:['−a 中的 a 可能是负数吗？',['可能','不可能'],0,'a 可以是任何有理数。'],q:'“−a 一定是负数”对吗？',o:['对','不对，比如 a = −2 时 −a = 2'],a:1,e:'−a 是 a 的相反数，a 为负时 −a 为正。',w:{0:{r:[-4,4],m:[[-2,'a = −2'],[2,'−a = 2']],c:'a = −2 时，−a = 2，是正数！'}},r:{r:[-4,4],m:[[-2,'a = −2'],[2,'−a = 2']],c:'−a 不一定是负数。'}},
+ {s:['互为相反数的两点，原点在哪？',['正中间','一端'],0,'原点是它们的中点。'],q:'互为相反数的两个数在数轴上相距 5，它们是？',o:['−5 和 5','−2.5 和 2.5','0 和 5'],a:1,e:'原点在正中间，每边 5 ÷ 2 = 2.5。',w:{0:{r:[-6,6],m:[[-5,'−5'],[5,'5']],p:[[-5,5,'相距 10']],c:'−5 和 5 相距 10，不是 5。'},2:{r:[-1,6],m:[[0,'0'],[5,'5']],c:'0 和 5 不是相反数。'}},r:{r:[-3,3],m:[[-2.5,'−2.5'],[2.5,'2.5']],p:[[-2.5,2.5,'相距 5']],c:'每边 2.5。'}},
+ {s:['−(−5) 怎么读？',['−5 的相反数','负负 5'],0,'−(…) 表示括号里那个数的相反数。'],q:'−(−5) = ?',o:['5','−5','0'],a:0,e:'−5 的相反数是 5。',w:{1:{r:[-6,6],m:[[-5,'−5']],c:'−(−5) 是 −5 的相反数，要对折到另一边。'},2:{r:[-6,6],m:[[-5,'−5'],[0,'0？']],c:'相反数不是“抵消成 0”，是对折。'}},r:{r:[-6,6],m:[[-5,'−5'],[5,'−(−5) = 5']],c:'对折到原点另一边。'}},
+ {s:['a = −a，说明 a 和它的相反数？',['是同一个点','离得很远'],0,'对折后和自己重合。'],q:'如果 a = −a，那么 a 是？',o:['0','任意数','不存在'],a:0,e:'只有原点对折后和自己重合，所以 a = 0。',w:{d:{r:[-4,4],m:[[-2,'−a = −2'],[2,'a = 2']],c:'试 a = 2：−a = −2，并不相等。'}},r:{r:[-4,4],m:[[0,'a = −a = 0']],c:'只有 0 满足。'}}]},
+
+{id:'L5',no:'1.2.4',title:'绝对值',sub:'绝对值就是距离，永远不会是负数',missionsCount:5,stage:stage5,
+ icon:icon([[-3,'#2b8a55','−3'],[0,'#2a211b'],[3,'#2b8a55','3']],[-3,3]),
+ guess:{q:'|x| = 3，x 有几个值？',o:['1 个','2 个','0 个'],a:1,why:'3 和 −3 离原点都是 3。'},
+ rule:[{q:'|a| 表示什么？',o:['a 到原点的距离，所以 |a| ≥ 0','把负号去掉，可以小于 0','a 本身'],a:0,e:'绝对值是距离，距离不会是负数。',h:'拖到负数那边，绳长变成负的了吗？'},
+  {q:'|x| = −1 的 x 是？',o:['x = −1','x = 1','没有这样的数'],a:2,e:'绝对值不可能是负数。'},
+  {q:'两个非负数相加等于 0，说明？',o:['两个都等于 0','有一个是 0'],a:0,e:'|m − 3| + (n + 5)² = 0 时，m = 3，n = −5。'}],
+ book:'<p>数轴上表示数 a 的点与原点的<b>距离</b>叫做 a 的<b>绝对值</b>，记作 |a|。</p><p>正数的绝对值是它本身；负数的绝对值是它的相反数；0 的绝对值是 0。所以 <b>|a| ≥ 0</b>。</p><p>数轴上两点 A、B 的距离 = |a − b|。几个非负数（绝对值、平方）相加等于 0，每一个都等于 0。</p>',
+ quiz:[
+ {s:['|a| 表示什么？',['a 到原点的距离','a 去掉符号后的样子'],0,'绝对值是距离。'],q:'|a| = 2.5，a 有几个可能值？',o:['1 个','2 个','3 个'],a:1,e:'2.5 和 −2.5 到原点的距离都是 2.5。',w:{0:{r:[-4,4],m:[[2.5,'2.5']],p:[[0,2.5,'2.5']],c:'你只找了右边，左边还有一个。'},2:{r:[-4,4],m:[[-2.5,'−2.5'],[2.5,'2.5']],c:'距离为 2.5 的点只有左右两个，没有第三个。'}},r:{r:[-4,4],m:[[-2.5,'−2.5'],[2.5,'2.5']],p:[[0,2.5,'2.5'],[0,-2.5,'2.5']],c:'左右各一个。'}},
+ {s:['距离能是负数吗？',['能','不能'],1,'距离不会是负数。'],q:'|a| = −2，a 是？',o:['−2','2','不存在'],a:2,e:'绝对值是距离，不可能是负数，所以不存在。',w:{0:{r:[-3,3],m:[[-2,'−2']],p:[[0,-2,'|−2| = 2']],c:'|−2| = 2，不是 −2。'},1:{r:[-3,3],m:[[2,'2']],p:[[0,2,'|2| = 2']],c:'|2| = 2，也不是 −2。'}},r:{f:['|a| = −2','无解'],c:'距离不会是负数。'}},
+ {s:['|0| 等于几？',['0','1'],0,'|0| = 0。'],q:'“绝对值等于它本身的数一定是正数”对吗？',o:['对','不对，0 也满足'],a:1,e:'|0| = 0，所以应该说是非负数（正数和 0）。',w:{0:{r:[-3,3],m:[[0,'|0| = 0']],c:'0 也满足，可 0 不是正数。'}},r:{r:[-3,3],m:[[0,'|0| = 0'],[2,'|2| = 2']],c:'正数和 0 都满足。'}},
+ {s:['两点距离怎么算？',['大数减小数','两个数相加'],0,'距离 = 右边的数 − 左边的数 = |a − b|。'],q:'A 表示 −2，B 表示 3，AB 的距离是？',o:['1','5','−5'],a:1,e:'3 − (−2) = 5，数格子也是 5 格。',w:{0:{r:[-3,4],m:[[-2,'A'],[3,'B']],p:[[-2,3,'数一数：5 格']],c:'−2 + 3 = 1 是把它们相加了，不是距离。'},2:{r:[-3,4],m:[[-2,'A'],[3,'B']],p:[[-2,3,'5 格']],c:'距离不会是负数：|−2 − 3| = 5。'}},r:{r:[-3,4],m:[[-2,'A'],[3,'B']],p:[[-2,3,'5']],c:'|−2 − 3| = |−5| = 5'}},
+ {s:['两个非负数相加等于 0，说明？',['每一个都是 0','有一个是 0'],0,'非负数相加为 0，只能每个都为 0。'],q:'|m − 3| + (n + 5)² = 0，则 m + n = ?',o:['8','−2','2'],a:1,e:'m − 3 = 0，n + 5 = 0，所以 m = 3，n = −5，m + n = −2。',w:{0:{f:['m = 3，n = 5','(5 + 5)² = 100 ≠ 0'],c:'n + 5 = 0，n 应该是 −5。'},2:{f:['m = −3，n = 5','|−3 − 3| = 6 ≠ 0'],c:'代回去检查：不等于 0。'}},r:{f:['m = 3，n = −5','m + n = −2'],c:'代回检查：|0| + 0² = 0 ✓'}},
+ {s:['|x| = 4 的 x 在哪？',['原点两边各一个','只在右边'],0,'到原点距离为 4 的点有两个。'],q:'|x| = 4，x = ?',o:['4','−4','4 或 −4'],a:2,e:'4 和 −4 到原点的距离都是 4。',w:{0:{r:[-5,5],m:[[4,'4']],c:'漏了 −4。'},1:{r:[-5,5],m:[[-4,'−4']],c:'漏了 4。'}},r:{r:[-5,5],m:[[-4,'−4'],[4,'4']],p:[[0,4,'4'],[0,-4,'4']],c:'两个都要写。'}}]},
+
+{id:'L6',no:'1.2.5',title:'有理数的大小比较',sub:'右边大；两个负数，绝对值大的反而小',missionsCount:4,stage:stage6,
+ icon:icon([[-5,'#2f6fd1','−5'],[-2,'#d45216','−2 更大']]),
+ guess:{q:'−5 和 −2，谁大？',o:['−5','−2'],a:1,why:'−2 在 −5 的右边，所以 −2 更大。'},
+ rule:[{q:'两个负数比较大小：',o:['绝对值大的反而小','绝对值大的就大','没法比较'],a:0,e:'|−5| > |−2|，但 −5 < −2。',h:'把 A 拖到 −5、B 拖到 −2，看看谁亮。'},
+  {q:'“最接近标准”比较的是？',o:['数的大小','绝对值的大小（离 0 的距离）'],a:1,e:'离 0 越近，绝对值越小，越接近标准。'},
+  {q:'x < 4 和 x ≤ 4，哪个包括 4？',o:['x < 4','x ≤ 4'],a:1,e:'“≤”含端点，“<”不含端点。',h:'在“区间整数”里切换端点看看。'}],
+ book:'<p>数轴上<b>右边的数总比左边的数大</b>。</p><p>正数大于 0，0 大于负数，正数大于负数。<b>两个负数，绝对值大的反而小。</b></p><p>“最大”看位置，“绝对值最大”看离原点最远，“最接近标准”看离 0 最近。“<”不含端点，“≤”含端点。</p>',
+ quiz:[
+ {s:['“最接近标准”比较的是？',['偏差的大小','偏差的绝对值'],1,'离 0 最近 = 绝对值最小。'],q:'5 个零件偏差 +5、−3.5、+0.7、−2.5、−0.6 克，哪个最接近标准？',o:['+5 克','−3.5 克','−0.6 克','+0.7 克'],a:2,e:'绝对值分别是 5、3.5、0.7、2.5、0.6，0.6 最小。',
+  w:{0:{r:[-4,5],m:[[-3.5,'−3.5'],[-0.6,'−0.6'],[5,'+5']],p:[[0,5,'5']],c:'+5 最大，可它离 0 最远。'},1:{r:[-4,5],m:[[-3.5,'−3.5'],[-0.6,'−0.6'],[5,'+5']],p:[[0,-3.5,'3.5']],c:'−3.5 最小，可它离 0 很远。'},3:{r:[-1,1],step:0.2,m:[[-0.6,'−0.6'],[0.7,'+0.7']],p:[[0,0.7,'0.7'],[0,-0.6,'0.6']],c:'+0.7 离 0 是 0.7，比 0.6 远一点。'}},
+  r:{r:[-1,1],step:0.2,m:[[-0.6,'−0.6 最近'],[0.7,'+0.7']],p:[[0,-0.6,'0.6']],c:'比的是到 0 的距离：0.6 < 0.7。'}},
+ {s:['−3 < x < 4 包括端点吗？',['包括','不包括'],1,'“<”不包括端点。'],q:'−3 < x < 4 的整数 x 有几个？',o:['6 个','7 个','8 个'],a:0,e:'−2、−1、0、1、2、3，共 6 个。',
+  w:{1:{r:[-4,5],m:[[-3,'−3','o'],[-2,'1'],[-1,'2'],[0,'3'],[1,'4'],[2,'5'],[3,'6'],[4,'4','o']],c:'只有 6 个点，你把一个端点算进去了。'},2:{r:[-4,5],m:[[-3,'−3?','o'],[-2,'1'],[-1,'2'],[0,'3'],[1,'4'],[2,'5'],[3,'6'],[4,'4?','o']],c:'“<”不包括 −3 和 4。'}},r:{r:[-4,5],m:[[-2,'1'],[-1,'2'],[0,'3'],[1,'4'],[2,'5'],[3,'6']],c:'空出两个端点，一共 6 个。'}},
+ {s:['两个都是负数，比的是？',['谁离原点远','谁更靠右'],1,'数轴上右边的数更大。'],q:'−3.5 和 −3.05，哪个大？',o:['−3.5','−3.05'],a:1,e:'−3.05 更靠右（离原点更近），所以 −3.05 > −3.5。',w:{0:{r:[-4,-3],step:0.1,m:[[-3.5,'−3.5'],[-3.05,'−3.05']],c:'3.5 > 3.05，可两个负数是绝对值大的反而小。'}},r:{r:[-4,-3],step:0.1,m:[[-3.5,'−3.5'],[-3.05,'−3.05 更大']],c:'−3.05 在右边，所以更大。'}},
+ {s:['负整数有哪些？',['…、−3、−2、−1','…、−2、−1、0'],0,'0 不是负数。'],q:'最大的负整数是？',o:['−1','0','不存在'],a:0,e:'负整数依次是 …、−3、−2、−1，最靠右的是 −1；0 不是负数。',w:{1:{r:[-4,2],m:[[0,'0 不是负数']],c:'0 不是负整数。'},2:{r:[-4,1],m:[[-3,'−3'],[-2,'−2'],[-1,'−1']],c:'负整数里最靠右的就是 −1，它存在。'}},r:{r:[-4,1],m:[[-3,'−3'],[-2,'−2'],[-1,'−1 最大']],c:'最大的负整数是 −1。'}},
+ {s:['a 是负数，−a 是？',['正数','负数'],0,'负数的相反数是正数。'],q:'若 a 是负数，下列正确的是？',o:['−a < a','−a = a','−a > a'],a:2,e:'a 在原点左边，−a 在右边，所以 −a > a。',w:{d:{r:[-4,4],m:[[-2,'a（比如 −2）'],[2,'−a = 2']],c:'取 a = −2 试一试：−a = 2 > −2。'}},r:{r:[-4,4],m:[[-2,'a'],[2,'−a 更大']],c:'正数大于负数。'}},
+ {s:['题目说“包括两个端点”，意思是？',['−2 和 4 也要数','只数中间的'],0,'包括端点，就要把 −2 和 4 也数进去。'],q:'−2 与 4 之间（包括两个端点）共有几个整数？',o:['5 个','6 个','7 个'],a:2,e:'−2、−1、0、1、2、3、4，共 7 个；也可以用 4 − (−2) + 1 = 7。',
+  w:{0:{r:[-3,5],m:[[-1,'1'],[0,'2'],[1,'3'],[2,'4'],[3,'5']],c:'5 个：两个端点都没算。'},1:{r:[-3,5],m:[[-2,'?'],[-1,'2'],[0,'3'],[1,'4'],[2,'5'],[3,'6'],[4,'?']],c:'6 个：漏了一个端点。'}},r:{r:[-3,5],m:[[-2,'1'],[-1,'2'],[0,'3'],[1,'4'],[2,'5'],[3,'6'],[4,'7']],c:'两个端点都要数：7 个。'}},
+ {s:['“−1 与 0 之间有哪些数”，要找的是？',['只找整数','任何数'],1,'题目问“有哪些数”，不只是整数。'],q:'−1 与 0 之间有哪些数？',o:['没有任何数','有负分数，但没有整数','有负整数'],a:1,e:'比如 −0.5、−0.25；但没有整数。',w:{0:{r:[-1,0],step:0.25,m:[[-0.5,'−0.5'],[-0.25,'−0.25']],c:'中间有无数个数，比如 −0.5。'},2:{r:[-1,0],step:0.25,m:[[-1,'−1'],[0,'0']],c:'−1 和 0 之间没有整数。'}},r:{r:[-1,0],step:0.25,m:[[-0.5,'−0.5'],[-0.25,'−0.25']],c:'有负分数，没有整数。'}}]}
+];
+
+const TIERS={L1:'vvvbbe',L2:'vevbvb',L3:'bbvev',L4:'bbvevv',L5:'bvveeb',L6:'vvbbvev'};
+const EXTRA={
+L1:[
+ {t:'b',s:['看什么判断正负？',['数前面的符号','数的大小'],0,'带“−”号的非 0 数是负数。'],q:'−0.5 是正数还是负数？',o:['正数','负数','既不是正数也不是负数'],a:1,e:'−0.5 前面有负号，在原点左边，是负数。',
+  w:{d:{r:[-2,2],step:0.5,m:[[-0.5,'−0.5 在原点左边']],c:'在原点左边的数是负数，再小也是负数。'}},r:{r:[-2,2],step:0.5,m:[[-0.5,'−0.5 负数']],c:'原点左边 = 负数。'}},
+ {t:'b',s:['向西和向东是？',['相反意义的量','相同意义的量'],0,'东和西方向相反，可以用正负数表示。'],q:'向东走 5 米记作 +5 米，那么向西走 3 米记作？',o:['+3 米','−3 米','−5 米'],a:1,e:'向西与向东相反，用负号；走了 3 米，记作 −3 米。',
+  w:{0:{r:[-6,6],dir:'向东',neg:'向西',m:[[3,'+3 = 向东 3 米']],c:'+3 表示向东，方向反了。'},2:{r:[-6,6],dir:'向东',neg:'向西',m:[[-5,'−5 = 向西 5 米']],c:'方向对了，可只走了 3 米。'}},r:{r:[-6,6],dir:'向东',neg:'向西',m:[[-3,'−3 = 向西 3 米'],[5,'+5 = 向东 5 米']],c:'方向用符号，路程用数。'}},
+ {t:'b',s:['0 算负数吗？',['算','不算'],1,'0 既不是正数也不是负数。'],q:'−3，0，2.5，−1/2，+7，−0.01 中，负数有几个？',o:['2 个','3 个','4 个'],a:1,e:'负数是 −3、−1/2、−0.01，共 3 个。',
+  w:{0:{f:['−0.01','也是负数'],c:'−0.01 很小，但它也是负数，别漏了。'},2:{f:['0','不是负数'],c:'0 不是负数，不能数进去。'}},r:{f:['−3、−1/2、−0.01','3 个'],c:'看符号，0 除外。'}},
+ {t:'v',s:['负号把意义变成？',['相反的意义','相同的意义'],0,'“增长”的相反意义是“减少”。'],q:'“增长 −3%”实际表示什么？',o:['增长 3%','减少 3%','不变'],a:1,e:'增长为正，那么 −3% 的增长就是减少 3%。',
+  w:{0:{f:['增长 −3%','≠ 增长 3%'],c:'负号表示相反意义，不能忽略。'},2:{f:['−3%','≠ 0'],c:'−3 不是 0，有变化。'}},r:{f:['增长 −3%','= 减少 3%'],c:'负号 → 相反意义。'}},
+ {t:'v',s:['基准是多少分？',['80 分','0 分'],0,'80 分是基准，基准记作 0。'],q:'以 80 分为基准，85 分记作 +5 分，那么 80 分记作？',o:['+80 分','0 分','−80 分'],a:1,e:'80 分就是基准，和基准相差 0，记作 0 分。',
+  w:{0:{f:['+80','= 比基准高 80 分（160 分）'],c:'+80 表示比基准高 80 分。'},2:{f:['−80','= 比基准低 80 分（0 分）'],c:'−80 表示比基准低 80 分。'}},r:{r:[-6,6],m:[[0,'80 分 → 0'],[5,'85 分 → +5']],c:'基准本身记作 0。'}},
+ {t:'e',in:true,num:[-1.5],at:'−1.5',line:{r:[-4,6]},ctx:[[0,'50 千克','o']],wc:'偏差 = 实际 − 标准：48.5 − 50。',s:['标准是多少？48.5 是超过还是不足？',['50 千克，不足','50 千克，超过'],0,'48.5 比 50 少，不足用负数。'],q:'以 50 千克为标准，超过的千克数记为正数。某同学体重 48.5 千克，应记作多少千克？（填数）',e:'48.5 − 50 = −1.5，记作 −1.5 千克。',r:{r:[-4,6],m:[[-1.5,'−1.5'],[0,'50 千克']],c:'比标准少 1.5 千克。'}},
+ {t:'e',in:true,num:[20.05],at:'20.05',line:{r:[19.9,20.1],step:0.05},wc:'±0.05 的上限是 20 + 0.05。',s:['±0.05 的上限怎么算？',['20 + 0.05','20 − 0.05'],0,'“+0.05”是上限，“−0.05”是下限。'],q:'零件直径标注为 20±0.05 mm，合格零件的最大直径是多少 mm？',e:'20 + 0.05 = 20.05 mm；合格范围是 19.95～20.05 mm，端点也合格。',r:{r:[19.9,20.1],step:0.05,b:[19.95,20.05],m:[[20.05,'20.05 最大']],c:'绿区是合格范围，右端点是 20.05。'}},
+ {t:'e',s:['“正数和负数统称有理数”漏了谁？',['0','分数'],0,'有理数还包括 0。'],q:'下列说法正确的是？',o:['0 是最小的数','正数和负数统称有理数','一个数不是正数就是负数','0 既不是正数也不是负数'],a:3,e:'0 是正数和负数的分界，既不是正数也不是负数。',
+  w:{0:{r:[-3,3],m:[[-2,'−2 比 0 小'],[0,'0']],c:'负数都比 0 小，0 不是最小的。'},1:{f:['正数、负数','还漏了 0'],c:'有理数 = 正数、0、负数。'},2:{r:[-3,3],m:[[0,'0：不正不负']],c:'0 就是反例。'}},r:{r:[-3,3],m:[[0,'0 不正不负']],c:'0 是分界。'}},
+ {t:'e',in:true,num:[-1.2],at:'−1.2',line:{r:[-2,2],step:0.5},wc:'低于警戒水位，用负数。',s:['低于警戒水位用？',['负数','正数'],0,'高于记正，低于记负。'],q:'水库以警戒水位为 0，高于警戒水位记为正。现在水位比警戒水位低 1.2 米，记作多少米？（填数）',e:'低 1.2 米，记作 −1.2 米。',r:{r:[-2,2],step:0.5,m:[[-1.2,'−1.2'],[0,'警戒水位']],c:'在 0 的下方（负方向）1.2 米。'}}],
+L2:[
+ {t:'b',s:['负分数要满足什么？',['是负数，而且不是整数','只要是负数'],0,'负分数：负的，且不是整数。'],q:'下列数中，哪个是负分数？',o:['−3','−0.75','0.75'],a:1,e:'−0.75 = −3/4，是负分数。',w:{0:{f:['−3','负整数'],c:'−3 是整数。'},2:{f:['0.75','= 3/4，正分数'],c:'0.75 是正的。'}},r:{f:['−0.75','= −3/4（负分数）'],c:'负的，且不是整数。'}},
+ {t:'b',s:['题目说的是哪两类合起来？',['整数和分数','正数和负数'],0,'看清：整数和分数。'],q:'整数和分数统称为？',o:['有理数','正数','自然数'],a:0,e:'整数和分数统称有理数。',w:{d:{f:['整数 + 分数','= 有理数'],c:'负整数、负分数也在里面，不只是正数或自然数。'}},r:{f:['整数 + 分数','有理数'],c:'课本定义。'}},
+ {t:'b',s:['−2.5 化成分数是？',['−5/2','−25'],0,'−2.5 = −5/2。'],q:'−2.5 属于哪一类？',o:['负整数','负分数','正分数'],a:1,e:'−2.5 = −5/2，是负分数。',w:{0:{f:['−2.5','= −5/2，不是整数'],c:'有小数部分 0.5，不是整数。'},2:{f:['−2.5','是负数'],c:'看符号：负的。'}},r:{f:['−2.5','−5/2（负分数）'],c:'有限小数都是分数。'}},
+ {t:'v',s:['3.0 的值是？',['3','不等于 3'],0,'3.0 = 3。'],q:'分类时，“3.0”和“3”一样吗？',o:['一样，都是正整数','不一样，3.0 是分数'],a:0,e:'3.0 的值就是 3，看数值不看写法，是正整数。',w:{1:{f:['3.0','= 3'],c:'写成小数，值还是整数 3。'}},r:{f:['3.0','3（正整数）'],c:'看数值，不看写法。'}},
+ {t:'v',s:['π 的小数部分循环吗？',['循环','不循环'],1,'π = 3.1415926… 是无限不循环小数。'],q:'π 是有理数吗？',o:['是，因为它是小数','不是，它是无限不循环小数'],a:1,e:'只有有限小数和无限循环小数能化成分数；π 不循环，不是有理数。',w:{0:{f:['3.1415926…','不循环，化不成分数'],c:'不是所有小数都是有理数。'}},r:{f:['π','不是有理数'],c:'无限不循环小数不是有理数。'}},
+ {t:'e',in:true,num:[4],at:'4',wc:'别忘了 0 和 9/3 也是整数。',ph:'填个数',s:['9/3 是整数吗？',['是，9/3 = 3','不是'],0,'9/3 = 3，是整数。'],q:'把 −7，0.5，0，9/3，−2/3，12，−0.6 分类。整数有几个？',e:'整数有 −7、0、9/3（=3）、12，共 4 个。',r:{f:['−7、0、9/3、12','4 个'],c:'0.5、−2/3、−0.6 是分数。'}},
+ {t:'e',in:true,num:[2],at:'2',wc:'−4 是负整数，不是负分数。',ph:'填个数',s:['−4 是负分数吗？',['不是，是负整数','是'],0,'−4 是负整数。'],q:'在 −3.5，2，0，−1/3，6/2，−4 中，负分数有几个？',e:'负分数有 −3.5 和 −1/3，共 2 个。',r:{f:['−3.5、−1/3','2 个'],c:'负的，且不是整数。'}},
+ {t:'e',s:['有理数的分类里有 0 吗？',['有','没有'],0,'0 是整数，也是有理数。'],q:'下列说法正确的是？',o:['正有理数和负有理数统称有理数','整数和分数统称有理数','0 不是有理数','分数不包括负分数'],a:1,e:'课本定义：整数和分数统称有理数。',w:{0:{f:['正有理数、负有理数','漏了 0'],c:'0 也是有理数。'},2:{f:['0','= 0/1，是有理数'],c:'0 是整数。'},3:{f:['−1/2','也是分数'],c:'分数包括正分数和负分数。'}},r:{f:['整数 + 分数','有理数'],c:'课本定义。'}},
+ {t:'e',in:true,num:[-3],at:'−3',wc:'分子除以分母：−12 ÷ 4。',s:['化简要做什么？',['分子除以分母','只看分子'],0,'−12/4 = −12 ÷ 4。'],q:'−12/4 化简后等于多少？它是哪一类数？（填化简后的数）',e:'−12/4 = −3，是负整数。',r:{f:['−12/4','= −3（负整数）'],c:'看数值，不看写法。'}}],
+L3:[
+ {t:'b',s:['数轴的正方向通常朝？',['右','左'],0,'通常规定向右为正方向。'],q:'数轴上，原点左边的点表示什么数？',o:['正数','负数','0'],a:1,e:'原点左边是负数，右边是正数。',w:{d:{r:[-3,3],m:[[-2,'左边：−2']],c:'原点左边的点都是负数。'}},r:{r:[-3,3],m:[[-2,'负数'],[2,'正数']],c:'左负右正。'}},
+ {t:'b',s:['负数在原点哪边？',['左边','右边'],0,'负数在原点左边。'],q:'数轴上表示 −3 的点在哪里？',o:['原点左边 3 个单位','原点右边 3 个单位','原点左边 −3 个单位'],a:0,e:'−3 在原点左边，离原点 3 个单位。',w:{1:{r:[-4,4],m:[[3,'右边 3 = +3']],c:'右边 3 个单位表示 +3。'},2:{r:[-4,4],m:[[-3,'−3']],c:'方向用“左边”说了，距离写 3，不写 −3。'}},r:{r:[-4,4],m:[[-3,'−3']],p:[[0,-3,'3 个单位']],c:'方向：左；距离：3。'}},
+ {t:'b',s:['往右数，数变大还是变小？',['变大','变小'],0,'往右走，数变大。'],q:'数轴上从 −2 出发，每格表示 1，往右数 3 格是几？',o:['1','−5','3'],a:0,e:'−2 → −1 → 0 → 1，是 1。',w:{1:{r:[-6,2],m:[[-5,'−5'],[-2,'起点']],p:[[-2,-5,'往左了']],c:'−5 是往左数 3 格。'},2:{r:[-3,4],m:[[-2,'起点'],[3,'3']],c:'3 是从原点数的，不是从 −2。'}},r:{r:[-3,2],m:[[-2,'起点'],[1,'1']],p:[[-2,1,'3 格']],c:'从 −2 往右 3 格。'}},
+ {t:'v',s:['单位长度要求刻度？',['均匀','随便'],0,'同一条数轴上，每格长度必须一样。'],q:'下面哪一条可以当作数轴？',o:['有原点、向右箭头、刻度均匀','有原点、向右箭头、刻度不均匀','有刻度和箭头，没有原点'],a:0,e:'三要素都要有，而且单位长度要统一。',w:{1:{f:['刻度不均匀','单位长度不统一'],c:'每格长度不一样，就没有单位长度。'},2:{f:['没有原点','从哪里数起？'],c:'缺原点，不是数轴。'}},r:{f:['原点 + 正方向 + 均匀刻度','数轴'],c:'三要素齐全。'}},
+ {t:'v',s:['每格表示多少？',['2','1'],0,'题目说每格表示 2。'],q:'每格表示 2，点 P 在原点左边第 4 格，P 表示？',o:['−4','−8','−2'],a:1,e:'4 格 × 2 = 8，在左边，所以是 −8。',w:{0:{r:[-10,2],step:2,m:[[-4,'−4 只到第 2 格']],c:'你把每格当成 1 了。'},2:{r:[-10,2],step:2,m:[[-2,'−2 是第 1 格']],c:'只数了 1 格。'}},r:{r:[-10,2],step:2,m:[[-8,'第 4 格 = −8']],c:'先看每格表示多少。'}},
+ {t:'v',s:['−1/2 化成小数是？',['−0.5','−1.2'],0,'1 ÷ 2 = 0.5。'],q:'−1/2 和 −0.5 在数轴上对应几个点？',o:['1 个','2 个'],a:0,e:'它们是同一个数，对应同一个点。',w:{1:{r:[-1,1],step:0.5,m:[[-0.5,'−1/2 = −0.5']],c:'同一个数，同一个点。'}},r:{r:[-1,1],step:0.5,m:[[-0.5,'−1/2 = −0.5']],c:'写法不同，位置相同。'}},
+ {t:'e',in:true,num:[3],at:'3',line:{r:[-3,6]},wc:'从 −2 开始，向右数 5 格。',s:['向右移动，数变大还是变小？',['变大','变小'],0,'向右移动，数变大。'],q:'数轴上点 A 表示 −2，把点 A 向右移动 5 个单位得到点 B，B 表示的数是？',e:'−2 向右 5 个单位是 3（−2 + 5 = 3）。',r:{r:[-3,6],m:[[-2,'A'],[3,'B']],p:[[-2,3,'右移 5']],c:'数格子：5 格。'}},
+ {t:'e',in:true,num:[4,-2],at:'4 或 −2',line:{r:[-4,6]},wc:'在 1 的左右两边各找一个。',ph:'两个答案用“或”隔开',s:['题目说了在 1 的哪一边吗？',['没说，两边都要找','只在右边'],0,'没说方向，左右两边都要找。'],q:'数轴上与表示 1 的点距离为 3 的点表示什么数？（两个都写，用“或”隔开）',e:'右边：1 + 3 = 4；左边：1 − 3 = −2。',r:{r:[-4,6],m:[[-2,'−2'],[1,'1'],[4,'4']],p:[[1,4,'3'],[1,-2,'3']],c:'两边各一个：4 或 −2。'}},
+ {t:'e',in:true,num:[-2.5],at:'−2.5',line:{r:[-3,3],step:0.5},wc:'原点左边是负数。',s:['原点左边的数是？',['负数','正数'],0,'原点左边是负数。'],q:'数轴上一点在原点左边，与原点相距 2.5 个单位，这个点表示的数是？',e:'左边、距离 2.5，所以是 −2.5。',r:{r:[-3,3],step:0.5,m:[[-2.5,'−2.5']],p:[[0,-2.5,'2.5']],c:'方向定符号，距离定数值。'}},
+ {t:'e',s:['原点右边是？',['正数','负数'],0,'右正左负。'],q:'每格表示 1，点 A 在原点右边 1.5 格，点 B 在原点左边 2 格。下列正确的是？',o:['A = 1.5，B = −2','A = −1.5，B = 2','A = 1.5，B = 2'],a:0,e:'右边为正：A = 1.5；左边为负：B = −2。',w:{1:{r:[-3,3],m:[[-1.5,'A？'],[2,'B？']],c:'方向反了：右边是正数。'},2:{r:[-3,3],m:[[1.5,'A'],[2,'B？']],c:'B 在左边，应该是 −2。'}},r:{r:[-3,3],m:[[-2,'B = −2'],[1.5,'A = 1.5']],c:'右正左负。'}}],
+L4:[
+ {t:'b',s:['相反数改什么？',['只改符号','变成倒数'],0,'相反数只改符号。'],q:'2.5 的相反数是？',o:['−2.5','2.5','1/2.5'],a:0,e:'2.5 的相反数是 −2.5。',w:{1:{r:[-3,3],m:[[2.5,'2.5 自己']],c:'这是它自己。'},2:{f:['1/2.5','= 0.4，那是倒数'],c:'倒数不是相反数。'}},r:{r:[-3,3],m:[[-2.5,'−2.5'],[2.5,'2.5']],c:'关于原点对称。'}},
+ {t:'b',s:['−(+4) 表示什么？',['+4 的相反数','负负得正'],0,'−(…) 表示括号里那个数的相反数。'],q:'−(+4) = ?',o:['−4','4'],a:0,e:'+4 的相反数是 −4。',w:{1:{r:[-5,5],m:[[4,'+4 自己']],c:'要对折到左边。'}},r:{r:[-5,5],m:[[-4,'−(+4) = −4'],[4,'+4']],c:'+4 的相反数是 −4。'}},
+ {t:'b',s:['相反数在数轴上是什么样？',['关于原点对称','挨在一起'],0,'对折重合。'],q:'互为相反数的两个数（0 除外）在数轴上的位置是？',o:['在原点两侧，到原点距离相等','在原点同一侧','一定相距 1'],a:0,e:'它们关于原点对称：两侧、等距。',w:{1:{r:[-4,4],m:[[1,'1'],[3,'3']],c:'同一侧的两点，不可能关于原点对称。'},2:{r:[-4,4],m:[[-3,'−3'],[3,'3']],p:[[-3,3,'相距 6']],c:'距离不固定：−3 和 3 相距 6。'}},r:{r:[-4,4],m:[[-3,'−3'],[3,'3']],p:[[-3,0,'3'],[0,3,'3']],c:'两侧、等距。'}},
+ {t:'v',s:['数一数负号有几个',['3 个（奇数个）','2 个'],0,'三个负号，奇数个，结果为负。'],q:'化简：−[−(−2)] = ?',o:['2','−2'],a:1,e:'−(−2) = 2，再取相反数得 −2。',w:{0:{r:[-3,3],m:[[2,'2？']],c:'−(−2) = 2，外面还有一个负号 → −2。'}},r:{r:[-3,3],m:[[-2,'−[−(−2)] = −2']],c:'对折三次，回到左边。'}},
+ {t:'v',s:['谁的相反数是正数？',['负数','正数'],0,'负数的相反数是正数。'],q:'若 a 的相反数是正数，则 a 是？',o:['正数','负数','0'],a:1,e:'只有负数的相反数是正数。',w:{0:{r:[-4,4],m:[[-2,'相反数 −2'],[2,'a = 2']],c:'a = 2 时，相反数 −2 不是正数。'},2:{r:[-4,4],m:[[0,'0 的相反数是 0']],c:'0 不是正数。'}},r:{r:[-4,4],m:[[-2,'a = −2'],[2,'相反数 2']],c:'a 是负数。'}},
+ {t:'e',in:true,num:[7],at:'7',line:{r:[-8,8]},wc:'−a 是 a 的相反数：−(−7)。',s:['−a 是什么？',['a 的相反数','一个负数'],0,'−a 读作 a 的相反数。'],q:'若 a = −7，则 −a = ____',e:'−a = −(−7) = 7。',r:{r:[-8,8],m:[[-7,'a'],[7,'−a = 7']],c:'对折到右边。'}},
+ {t:'e',in:true,num:[0],at:'0',wc:'先求 x：3 的相反数是 −3。',s:['x 是多少？',['−3','3'],0,'x 与 3 互为相反数，x = −3。'],q:'若 x 与 3 互为相反数，则 x + 3 = ____',e:'x = −3，所以 x + 3 = −3 + 3 = 0。互为相反数的两数之和为 0。',r:{r:[-4,4],m:[[-3,'x = −3'],[3,'3']],c:'和为 0。'}},
+ {t:'e',in:true,num:[4],at:'4',wc:'m − 1 等于 −3 的相反数，也就是 3。',s:['−3 的相反数是？',['3','−3'],0,'−3 的相反数是 3。'],q:'若 m − 1 与 −3 互为相反数，则 m = ____',e:'m − 1 = 3，所以 m = 4。代回检查：4 − 1 = 3，3 与 −3 互为相反数 ✓',r:{f:['m − 1 = 3','m = 4'],c:'代回去检查。'}},
+ {t:'e',s:['原点在 A、B 的哪里？',['正中间','A 那一端'],0,'互为相反数，原点是中点。'],q:'数轴上点 A、B 表示的数互为相反数，AB = 8，点 A 在原点左边。A 表示？',o:['−4','−8','4'],a:0,e:'原点在中间，每边 8 ÷ 2 = 4；A 在左边，所以 A = −4。',w:{1:{r:[-9,9],m:[[-8,'A？'],[8,'B？']],p:[[-8,8,'相距 16']],c:'−8 和 8 相距 16，不是 8。'},2:{r:[-5,5],m:[[4,'4 在右边']],c:'A 在原点左边，是负数。'}},r:{r:[-5,5],m:[[-4,'A'],[4,'B']],p:[[-4,4,'8']],c:'每边 4。'}}],
+L5:[
+ {t:'b',s:['|−6| 表示什么？',['−6 到原点的距离','−6 本身'],0,'绝对值是距离。'],q:'|−6| = ?',o:['6','−6'],a:0,e:'−6 到原点的距离是 6。',w:{1:{r:[-7,7],m:[[-6,'−6']],p:[[0,-6,'距离 6']],c:'距离是 6，不是 −6。'}},r:{r:[-7,7],m:[[-6,'−6']],p:[[0,-6,'6']],c:'|−6| = 6'}},
+ {t:'b',s:['正数的绝对值是？',['它本身','它的相反数'],0,'正数的绝对值是它本身。'],q:'|+3.5| = ?',o:['3.5','−3.5'],a:0,e:'3.5 到原点的距离是 3.5。',w:{1:{r:[-4,4],m:[[3.5,'3.5']],p:[[0,3.5,'3.5']],c:'距离不会是负数。'}},r:{r:[-4,4],m:[[3.5,'3.5']],p:[[0,3.5,'3.5']],c:'|+3.5| = 3.5'}},
+ {t:'b',s:['0 到原点的距离是？',['0','1'],0,'0 就在原点。'],q:'|0| = ?',o:['0','1','没有绝对值'],a:0,e:'0 就在原点，距离为 0。',w:{d:{r:[-2,2],m:[[0,'就在原点']],c:'0 的绝对值存在，就是 0。'}},r:{r:[-2,2],m:[[0,'|0| = 0']],c:'距离为 0。'}},
+ {t:'v',s:['先算哪一步？',['先算 |−3| = 3','先去掉负号'],0,'先算绝对值，再取相反数。'],q:'−|−3| = ?',o:['3','−3'],a:1,e:'|−3| = 3，前面的负号再取相反数，得 −3。',w:{0:{r:[-4,4],m:[[3,'3？']],c:'|−3| = 3，前面还有负号 → −3。'}},r:{r:[-4,4],m:[[-3,'−|−3| = −3']],c:'绝对值外面的负号不能丢。'}},
+ {t:'v',s:['“绝对值最小”就是离原点？',['最近','最远'],0,'绝对值最小 = 离原点最近。'],q:'绝对值最小的有理数是？',o:['0','1','−1','不存在'],a:0,e:'|0| = 0，任何数的绝对值都 ≥ 0，所以 0 最小。',w:{1:{r:[-2,2],m:[[0,'0 更近'],[1,'1']],c:'0 离原点的距离是 0，比 1 近。'},2:{r:[-2,2],m:[[-1,'−1'],[0,'0 更近']],c:'0 离原点更近。'},3:{r:[-2,2],m:[[0,'就是 0']],c:'存在，就是 0。'}},r:{r:[-2,2],m:[[0,'|0| = 0 最小']],c:'距离最小是 0。'}},
+ {t:'v',s:['|a| = |b| 说明什么一样？',['到原点的距离','位置'],0,'只说明离原点一样远。'],q:'若 |a| = |b|，则 a 与 b 的关系是？',o:['a = b','a = b 或 a = −b','a = −b'],a:1,e:'离原点一样远，可能是同一个点，也可能关于原点对称。',w:{0:{r:[-4,4],m:[[-2,'b = −2'],[2,'a = 2']],c:'a = 2，b = −2 时 |a| = |b|，但 a ≠ b。'},2:{r:[-4,4],m:[[2,'a = b = 2']],c:'a = b = 2 也满足，不一定 a = −b。'}},r:{r:[-4,4],m:[[-2,'−2'],[2,'2']],c:'相等，或互为相反数。'}},
+ {t:'e',in:true,num:[7],at:'7',wc:'先分别算：|−5| = 5，|+2| = 2。',s:['先分别算绝对值，得到？',['5 和 2','−5 和 2'],0,'绝对值都不是负数。'],q:'计算：|−5| + |+2| = ____',e:'|−5| = 5，|+2| = 2，5 + 2 = 7。',r:{r:[-6,3],m:[[-5,'−5'],[2,'+2']],p:[[0,-5,'5'],[0,2,'2']],c:'5 + 2 = 7'}},
+ {t:'e',in:true,num:[5,-1],at:'5 或 −1',line:{r:[-2,6]},wc:'|x − 2| 是 x 到 2 的距离，在 2 的左右两边各找一个。',ph:'两个答案用“或”隔开',s:['|x − 2| 表示什么距离？',['x 到 2 的距离','x 到原点的距离'],0,'|x − 2| 是数轴上 x 与 2 之间的距离。'],q:'若 |x − 2| = 3，则 x = ____（两个都写，用“或”隔开）',e:'x 到 2 的距离是 3：x = 2 + 3 = 5 或 x = 2 − 3 = −1。',r:{r:[-2,6],m:[[-1,'−1'],[2,'2'],[5,'5']],p:[[2,5,'3'],[2,-1,'3']],c:'5 或 −1'}},
+ {t:'e',in:true,num:[6],at:'6',wl0:true,wc:'距离 = 右边的数 − 左边的数：1.5 − (−4.5)。',s:['两点距离怎么算？',['右边的数减左边的数','两个数直接相减'],0,'1.5 − (−4.5)，也可以数格子。'],q:'数轴上点 A 表示 −4.5，点 B 表示 1.5，则 AB = ____',e:'AB = 1.5 − (−4.5) = 6，即 |−4.5 − 1.5| = 6。',r:{r:[-5,2],m:[[-4.5,'A'],[1.5,'B']],p:[[-4.5,1.5,'6']],c:'4.5 + 1.5 = 6'}}],
+L6:[
+ {t:'b',s:['数轴上谁在右边？',['−3','−7'],0,'−3 在 −7 的右边。'],q:'比较大小：−7 ___ −3',o:['>','<','='],a:1,e:'−7 在 −3 左边，所以 −7 < −3。',w:{d:{r:[-8,0],m:[[-7,'−7'],[-3,'−3']],c:'−7 更靠左，更小。'}},r:{r:[-8,0],m:[[-7,'−7 小'],[-3,'−3 大']],c:'−7 < −3'}},
+ {t:'b',s:['负数和 0 比，谁大？',['0 大','负数大'],0,'0 大于一切负数。'],q:'0 和 −0.1，谁大？',o:['0','−0.1'],a:0,e:'0 大于任何负数，0 > −0.1。',w:{1:{r:[-0.5,0.5],step:0.1,m:[[-0.1,'−0.1'],[0,'0']],c:'−0.1 在 0 左边，比 0 小。'}},r:{r:[-0.5,0.5],step:0.1,m:[[-0.1,'−0.1'],[0,'0 大']],c:'0 > −0.1'}},
+ {t:'b',s:['最小的数在数轴的？',['最左边','最右边'],0,'越往左越小。'],q:'−2，0，1，−3.5 中，最小的是？',o:['0','−2','−3.5','1'],a:2,e:'−3.5 在最左边，最小。',w:{d:{r:[-4,2],m:[[-3.5,'−3.5'],[-2,'−2'],[0,'0'],[1,'1']],c:'最左边的 −3.5 才最小。'}},r:{r:[-4,2],m:[[-3.5,'−3.5 最小'],[-2,'−2'],[0,'0'],[1,'1']],c:'最左边最小。'}},
+ {t:'v',s:['“绝对值最大”比的是？',['离原点的距离','数轴上的位置'],0,'绝对值看距离。'],q:'−4，3，−1 中，绝对值最大的是？',o:['3','−4','−1'],a:1,e:'绝对值分别是 4、3、1，−4 的最大（虽然 −4 是三个数里最小的）。',w:{0:{r:[-5,4],m:[[-4,'−4'],[-1,'−1'],[3,'3']],p:[[0,3,'3'],[0,-4,'4']],c:'3 是最大的数，但离原点 4 的是 −4。'},2:{r:[-5,4],m:[[-4,'−4'],[-1,'−1'],[3,'3']],p:[[0,-1,'1'],[0,-4,'4']],c:'−1 离原点最近。'}},r:{r:[-5,4],m:[[-4,'−4'],[-1,'−1'],[3,'3']],p:[[0,-4,'4']],c:'看绳子：−4 最远。'}},
+ {t:'e',in:true,num:[5],at:'5',wl0:true,line:{r:[-4,3]},wc:'−3.5 和 2 不包括；数一数 −3、−2、−1、0、1。',ph:'填个数',s:['−3.5 和 2 包括吗？',['都不包括','都包括'],0,'“大于”“小于”不包括端点。'],q:'大于 −3.5 且小于 2 的整数一共有几个？',e:'−3、−2、−1、0、1，共 5 个。',r:{r:[-4,3],m:[[-3,'−3'],[-2,'−2'],[-1,'−1'],[0,'0'],[1,'1']],c:'5 个。'}},
+ {t:'e',in:true,num:[-3],at:'−3',line:{r:[-5,0]},ctx:[[-2.5,'−2.5','o']],wc:'比 −2.5 小，要往左边找；−2 在 −2.5 右边，反而更大。',s:['比 −2.5 小，要往哪边找？',['左边','右边'],0,'越往左越小。'],q:'比 −2.5 小的最大整数是？',e:'往左找，第一个整数是 −3。',r:{r:[-5,0],m:[[-3,'−3'],[-2.5,'−2.5']],c:'−3 < −2.5，而且是离它最近的整数。'}},
+ {t:'e',s:['从小到大 = 数轴上？',['从左到右','从右到左'],0,'从小到大就是从左往右读。'],q:'把 −1.5，0，2，−3，1/2 按从小到大排列，正确的是？',o:['−3 < −1.5 < 0 < 1/2 < 2','−1.5 < −3 < 0 < 1/2 < 2','0 < 1/2 < −1.5 < 2 < −3'],a:0,e:'在数轴上从左往右读：−3、−1.5、0、1/2、2。',w:{1:{r:[-4,3],m:[[-3,'−3'],[-1.5,'−1.5'],[0,'0'],[0.5,'1/2'],[2,'2']],c:'−3 在 −1.5 左边，−3 更小。'},2:{r:[-4,3],m:[[-3,'−3'],[-1.5,'−1.5'],[0,'0'],[0.5,'1/2'],[2,'2']],c:'负数比 0 小，要排在最前面。'}},r:{r:[-4,3],m:[[-3,'−3'],[-1.5,'−1.5'],[0,'0'],[0.5,'1/2'],[2,'2']],c:'从左往右读。'}},
+ {t:'e',in:true,num:[5],at:'5',wl0:true,line:{r:[-3,3]},wc:'“不大于 2”就是 ≤ 2：−2、−1、0、1、2。',ph:'填个数',s:['“不大于 2”包括 2 吗？',['包括','不包括'],0,'不大于就是 ≤。'],q:'绝对值不大于 2 的整数有几个？',e:'|x| ≤ 2 的整数：−2、−1、0、1、2，共 5 个。',r:{r:[-3,3],m:[[-2,'−2'],[-1,'−1'],[0,'0'],[1,'1'],[2,'2']],c:'5 个，两个端点都算。'}}]
+};
+LESSONS.forEach(L=>{const T=TIERS[L.id];L.quiz.forEach((q,i)=>{q.t=T[i];});L.quiz.push(...EXTRA[L.id]);});
+
+// ===== 诊断：知识点、先修关系、探测题（两章共用）=====
+// 知识点与先修关系改编自 cn-math-taxonomy（CC BY-NC 4.0，已修改：逐条按人教版 2024 七上审核、增删边、重写诊断题）
+const DX={};
+(function(){
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;};
+const M=s=>String(s).replace(/-/g,'−');
+const n2=v=>{if(Math.abs(v)<1e-12)v=0;return M(String(+v.toFixed(6)));};          // number display
+const p2=v=>v<0?'('+n2(v)+')':n2(v);                                                 // parenthesize negative
+const fr=(n,d)=>{if(d<0){n=-n;d=-d;}const g=gcd(n,d);n/=g;d/=g;return {n,d,v:n/d,s:d===1?n2(n):M((n<0?'-':'')+Math.abs(n)+'/'+d),a:d===1?String(n):'('+n+'/'+d+')'};};
+const pf=f=>f.v<0?'('+f.s+')':f.s;
+const A=s=>String(s).replace(/−/g,'-');  // ascii for chk
+function C(q,right,wrongs,e,chk){const seen=new Set([right]);const w=[];wrongs.forEach(x=>{if(!seen.has(x)){seen.add(x);w.push(x);}});const o=shf([right,...w.slice(0,3)]);return {q,o,a:o.indexOf(right),e,chk};}
+function T(q,vals,at,e,chk,ex){return Object.assign({q,num:vals,at,e,chk,in:true},ex||{});}
+const nz=(a,b)=>{let x;do{x=ri(a,b);}while(x===0);return x;};
+const D1=()=>ri(2,9)+pick([0,0.5,0.2,0.8,0.4]);
+
+// ---------- topics ----------
+// ch: 0 小学 1 第一章 2 第二章 ; L = 课号（本章内）; no = 课本节号
+DX.T={
+ cnm_p201:{ch:0,nm:'认识负数',s:'认识负数',g:'六上',miss:'负数表示什么还不清楚',h:'比 0 小的数是负数，写法是在前面加“−”，读作“负几”。温度零下 3℃ 记作 −3℃。'},
+ cnm_p165:{ch:0,nm:'分数的意义',s:'分数的意义',g:'五下',miss:'分数的意义还不牢',h:'把单位“1”平均分成 b 份，取 a 份就是 a/b；a/b 也等于 a ÷ b，所以 6/3 = 2。'},
+ cnm_p170:{ch:0,nm:'分数和小数互化',s:'分数小数互化',g:'五下',miss:'分数和小数互化不熟',h:'0.5 = 1/2，0.25 = 1/4，0.75 = 3/4，0.7 = 7/10。分数化小数：分子 ÷ 分母。'},
+ cnm_p125:{ch:0,nm:'小数加减法',s:'小数加减',g:'四下',miss:'小数加减算错（小数点没对齐）',h:'小数加减先把小数点对齐，再按整数加减来算。'},
+ cnm_p172:{ch:0,nm:'通分',s:'通分',g:'五下',miss:'通分不熟',h:'通分：找两个分母的最小公倍数做公分母，分子分母同乘一个数。1/2 和 1/3 → 3/6 和 2/6。'},
+ cnm_p173:{ch:0,nm:'异分母分数加减',s:'分数加减',g:'五下',miss:'分数加减（通分）算错',h:'异分母分数相加减，先通分，再把分子相加减，最后约分。'},
+ cnm_p178:{ch:0,nm:'分数乘法',s:'分数乘法',g:'六上',miss:'分数乘法不熟',h:'分数乘分数：分子乘分子，分母乘分母，能约分先约分。'},
+ cnm_p246:{ch:0,nm:'倒数的认识',s:'倒数(小学)',g:'六上',miss:'倒数（小学）没掌握',h:'乘积是 1 的两个数互为倒数。把分子分母交换位置：3/4 的倒数是 4/3，5 的倒数是 1/5。'},
+ cnm_p183:{ch:0,nm:'分数除法',s:'分数除法',g:'六上',miss:'分数除法不熟',h:'除以一个分数，等于乘这个分数的倒数。'},
+ cnm_p112:{ch:0,nm:'四则运算顺序',s:'运算顺序',g:'四下',miss:'运算顺序（先乘除后加减）没守住',h:'先算括号里面，再算乘除，最后算加减；同一级从左往右。'},
+ cnm_p120:{ch:0,nm:'小数点移动',s:'小数点移动',g:'四下',miss:'小数点移动不熟',h:'小数点向右移一位，数扩大到 10 倍；向左移一位，缩小到 1/10。'},
+ cnm_p121:{ch:0,nm:'求小数的近似数',s:'四舍五入',g:'四下',miss:'四舍五入不熟',h:'看要保留那一位的下一位：小于 5 舍去，大于或等于 5 进 1。'},
+ cnm_001:{ch:1,L:1,no:'1.1',nm:'正数和负数',s:'正负数',miss:'正数、负数和 0 分不清',h:'小于 0 的数是负数。看到“−”先看它在式子里表示什么：−3 是负数，5−3 是减法，−(−3) 表示取相反数，结果是 3。0 既不是正数也不是负数。'},
+ cnm_002:{ch:1,L:1,no:'1.1',nm:'相反意义的量',s:'相反意义的量',miss:'相反意义的量没用正负号表示',h:'先定哪边为正（基准记作 0），相反的一边就用负数。'},
+ cnm_003:{ch:1,L:2,no:'1.2.1',nm:'有理数的分类',s:'有理数分类',miss:'有理数分类不清',h:'先化简再分类：6/3 = 2 是整数，−2.5 = −5/2 是负分数，0 是整数但不正不负。'},
+ cnm_004:{ch:1,L:3,no:'1.2.2',nm:'数轴三要素',s:'数轴',miss:'数轴的三要素（原点、正方向、单位长度）没掌握',h:'数轴必须有原点、正方向、单位长度，缺一不可；每格代表多少要看单位长度。'},
+ cnm_005:{ch:1,L:3,no:'1.2.2',nm:'在数轴上表示数',s:'数轴上的点',miss:'在数轴上找点没找对',h:'正数在原点右边，负数在原点左边；−3 就是原点左边 3 个单位。向右走加，向左走减。'},
+ cnm_006:{ch:1,L:4,no:'1.2.3',nm:'相反数',s:'相反数',miss:'相反数没转对',h:'只有符号不同的两个数互为相反数：3 和 −3。−(−2) = 2，0 的相反数是 0。'},
+ cnm_007:{ch:1,L:5,no:'1.2.4',nm:'绝对值的意义',s:'绝对值=距离',miss:'绝对值就是“到原点的距离”这一点没想到',h:'|a| 是数轴上 a 到原点的距离，距离不会是负的；两点距离 = 右边的数 − 左边的数。'},
+ cnm_008:{ch:1,L:5,no:'1.2.4',nm:'绝对值的化简',s:'绝对值化简',miss:'绝对值化简不对',h:'正数和 0 的绝对值是它本身，负数的绝对值是它的相反数：|−6| = 6，−|−3| = −3。'},
+ cnm_009:{ch:1,L:6,no:'1.2.5',nm:'有理数的大小比较',s:'大小比较',miss:'负数比大小搞反了',h:'数轴上右边的数总比左边大；两个负数，绝对值大的反而小。'},
+ cnm_010:{ch:2,L:1,no:'2.1.1',nm:'有理数的加法',s:'加法法则',miss:'加法法则（先定符号，再算绝对值）没用对',h:'同号相加：取相同符号，绝对值相加；异号相加：取绝对值较大的数的符号，大绝对值减小绝对值。'},
+ cnm_011:{ch:2,L:1,no:'2.1.1',nm:'加法运算律',s:'加法运算律',miss:'加法交换律、结合律没用上',h:'加法可以交换位置、改变结合顺序：先把互为相反数的配成 0，或把同号的放一起。'},
+ cnm_012:{ch:2,L:2,no:'2.1.2',nm:'有理数的减法',s:'减法法则',miss:'减法没改成“加上相反数”',h:'减去一个数，等于加上这个数的相反数：a − b = a + (−b)。两处都要变：减号变加号，b 变成 −b。'},
+ cnm_013:{ch:2,L:2,no:'2.1.2',nm:'加减混合运算',s:'加减混合',miss:'加减混合时符号丢了',h:'先把减法都改成加法，写成省略括号的和，再把正数、负数分别相加。'},
+ cnm_014:{ch:2,L:3,no:'2.2.1',nm:'有理数的乘法',s:'乘法法则',miss:'乘法符号法则（同号得正，异号得负）没掌握',h:'两数相乘，同号得正，异号得负，再把绝对值相乘；任何数乘 0 都得 0。'},
+ cnm_015:{ch:2,L:3,no:'2.2.1',nm:'多个因数相乘与运算律',s:'多因数/分配律',miss:'多个因数的符号或分配律用错',h:'几个不为 0 的数相乘：负因数有奇数个，积为负；偶数个，积为正。分配律：a(b+c) = ab + ac，每一项都要乘到、带着符号乘。'},
+ cnm_016:{ch:2,L:3,no:'2.2.1',nm:'倒数',s:'倒数',miss:'倒数没求对',h:'乘积为 1 的两个数互为倒数；负数的倒数还是负数：−2/3 的倒数是 −3/2。0 没有倒数。'},
+ cnm_017:{ch:2,L:4,no:'2.2.2',nm:'有理数的除法',s:'除法法则',miss:'除法没改成“乘倒数”',h:'除以一个不为 0 的数，等于乘这个数的倒数；两数相除，同号得正，异号得负。0 不能作除数。'},
+ cnm_018:{ch:2,L:4,no:'2.2.2',nm:'加减乘除混合运算',s:'四则混合',miss:'运算顺序（先乘除后加减、同级从左到右）没守住',h:'先乘除，后加减；乘除同级时从左到右，不能先算后面的。'},
+ cnm_019:{ch:2,L:5,no:'2.3.1',nm:'乘方的意义（底数）',s:'底数是谁',miss:'没看清底数（负号在不在括号里）',h:'(−2)² 的底数是 −2，等于 (−2)×(−2) = 4；−2² 的底数是 2，等于 −(2×2) = −4。'},
+ cnm_020:{ch:2,L:5,no:'2.3.1',nm:'乘方的符号规律',s:'乘方符号',miss:'负数乘方的符号判断错',h:'负数的偶次幂是正数，奇次幂是负数；正数的任何次幂都是正数。'},
+ cnm_021:{ch:2,L:6,no:'2.3.1',nm:'含乘方的混合运算',s:'含乘方混合',miss:'混合运算顺序（乘方→乘除→加减）没守住',h:'先乘方，再乘除，最后加减；有括号先算括号里面的。'},
+ cnm_022:{ch:2,L:7,no:'2.3.2',nm:'科学记数法',s:'科学记数法',miss:'科学记数法 a×10ⁿ 中 a 或 n 写错',h:'a × 10ⁿ 中 1 ≤ |a| < 10；n 等于原数的整数位数减 1（小数点向左移了几位）。'},
+ cnm_023:{ch:2,L:8,no:'2.3.3',nm:'近似数',s:'近似数',miss:'“精确到哪一位”判断错',h:'精确到哪一位，就看它的下一位四舍五入；近似数末尾的 0 不能随便删，1.80 精确到百分位。'}
+};
+Object.keys(DX.T).forEach(k=>{DX.T[k].id=k;});
+// 先修关系：[topic, prerequisite, strength, src]  src: r=仓库原有, a=审核后新增
+DX.E=[
+ ['cnm_001','cnm_p201','h','r'],['cnm_002','cnm_001','h','r'],['cnm_003','cnm_p165','h','r'],['cnm_003','cnm_001','h','r'],['cnm_003','cnm_p170','s','a'],
+ ['cnm_004','cnm_001','h','r'],['cnm_005','cnm_004','h','r'],['cnm_005','cnm_p170','s','a'],['cnm_006','cnm_005','h','r'],['cnm_007','cnm_005','h','r'],
+ ['cnm_008','cnm_007','h','r'],['cnm_008','cnm_006','h','r'],['cnm_009','cnm_008','h','r'],['cnm_009','cnm_005','h','a'],
+ ['cnm_010','cnm_008','h','r'],['cnm_010','cnm_002','s','r'],['cnm_010','cnm_p173','h','a'],['cnm_010','cnm_p125','h','a'],
+ ['cnm_011','cnm_010','h','r'],['cnm_012','cnm_010','h','r'],['cnm_012','cnm_006','h','a'],['cnm_013','cnm_011','h','r'],['cnm_013','cnm_012','h','r'],
+ ['cnm_014','cnm_008','h','r'],['cnm_014','cnm_p178','h','a'],['cnm_015','cnm_014','h','r'],['cnm_016','cnm_014','h','r'],['cnm_016','cnm_p246','h','a'],
+ ['cnm_017','cnm_016','h','r'],['cnm_017','cnm_014','h','a'],['cnm_017','cnm_p183','h','a'],
+ ['cnm_018','cnm_013','h','r'],['cnm_018','cnm_017','h','r'],['cnm_018','cnm_015','s','r'],['cnm_018','cnm_p112','h','a'],
+ ['cnm_019','cnm_014','h','r'],['cnm_020','cnm_019','h','r'],['cnm_021','cnm_018','h','r'],['cnm_021','cnm_020','h','r'],
+ ['cnm_022','cnm_020','h','r'],['cnm_022','cnm_p120','h','a'],['cnm_023','cnm_p121','h','r'],['cnm_023','cnm_022','s','r'],
+ ['cnm_p173','cnm_p172','h','r'],['cnm_p246','cnm_p178','h','r'],['cnm_p170','cnm_p165','h','r']
+];
+DX.pre=id=>DX.E.filter(e=>e[0]===id).sort((a,b)=>(a[2]==='h'?0:1)-(b[2]==='h'?0:1)).map(e=>e[1]);
+
+// ---------- probe generators ----------
+// 每个知识点：c = 确认题（只看概念，不靠计算），k = 回查单测，r = 同结构复测（计算）
+const G={};
+G.cnm_p201={k:[
+ ()=>{const a=ri(2,15);return C(`温度零下 ${a}℃ 记作？`,`−${a}℃`,[`+${a}℃`,`${a}℃`,`0℃`],`零下用负数：−${a}℃。`,{fixed:'hand'});},
+ ()=>{const a=ri(2,9);return C(`−${a} 读作？`,`负 ${a}`,[`减 ${a}`,`正 ${a}`],`“−${a}”读作负 ${a}。`,{fixed:'hand'});},
+ ()=>{const a=ri(2,9),b=ri(1,9);return C(`−${a} 和 ${b}，哪个比 0 小？`,`−${a}`,[`${b}`,'都比 0 小'],`负数比 0 小。`,{fixed:'hand'});}]};
+G.cnm_p165={k:[
+ ()=>{const b=ri(5,12),a=ri(1,b-2);const f=fr(b-a,b);return T(`一根绳子平均分成 ${b} 段，用去 ${a} 段，剩下的占全长的几分之几？`,[f.v],f.s,`剩下 ${b-a} 段，占 ${f.s}。`,{x:`(${b}-${a})/${b}`});},
+ ()=>{const b=ri(2,6),k=ri(2,5);return T(`${b*k}/${b} 等于几？（填数）`,[k],String(k),`${b*k}/${b} = ${b*k} ÷ ${b} = ${k}。`,{x:`${b*k}/${b}`});},
+ ()=>{const b=ri(3,9);return C(`1/${b} 表示？`,`把单位“1”平均分成 ${b} 份取 1 份`,[`把单位“1”分成 ${b} 份取 1 份（不一定平均）`,`${b} 个 1`],`分数要“平均分”。`,{fixed:'hand'});}]};
+G.cnm_p170={k:[
+ ()=>{const [f,d]=pick([['1/2','0.5'],['1/4','0.25'],['3/4','0.75'],['1/5','0.2'],['3/10','0.3'],['2/5','0.4']]);return T(`把 ${f} 写成小数。`,[+d],d,`${f} = ${d}。`,{x:f});},
+ ()=>{const [d,f]=pick([['0.7','7/10'],['0.25','1/4'],['0.125','1/8'],['0.6','3/5'],['0.75','3/4']]);return T(`把 ${d} 化成最简分数。`,[+d],f,`${d} = ${f}。`,{x:d,fmt:f},{fraction:f});},
+ ()=>{const [d,f,w1,w2]=pick([['0.5','1/2','1/5','2/5'],['0.25','1/4','2/5','1/25'],['0.75','3/4','7/5','3/5']]);return C(`${d} 和哪个分数相等？`,f,[w1,w2],`${d} = ${f}。`,{val:d});}]};
+G.cnm_p125={k:[
+ ()=>{const a=ri(11,49)/10,b=ri(11,49)/100;return T(`${n2(a)} + ${n2(b)} = ？`,[+(a+b).toFixed(4)],n2(+(a+b).toFixed(4)),'小数点对齐再加。',{x:`${a}+${b}`});},
+ ()=>{const a=ri(30,90)/10,b=ri(11,29)/10;return T(`${n2(a)} − ${n2(b)} = ？`,[+(a-b).toFixed(4)],n2(+(a-b).toFixed(4)),'小数点对齐再减。',{x:`${a}-${b}`});},
+ ()=>{const a=ri(11,39)/10,b=ri(11,39)/10;return T(`${n2(a)} + ${n2(b)} = ？`,[+(a+b).toFixed(4)],n2(+(a+b).toFixed(4)),'小数点对齐再加。',{x:`${a}+${b}`});}]};
+G.cnm_p172={k:[
+ ()=>{const [a,b]=pick([[2,3],[4,6],[3,4],[6,8],[4,10],[2,5]]);const l=a*b/gcd(a,b);return T(`把 1/${a} 和 1/${b} 通分，最小的公分母是多少？`,[l],String(l),`${a} 和 ${b} 的最小公倍数是 ${l}。`,{lcm:[a,b]});},
+ ()=>{const d=[3,4,6,8][ri(0,3)];const m=ri(2,4);const n=ri(1,d-1);return T(`把 ${n}/${d} 化成分母是 ${d*m} 的分数，分子是多少？`,[n*m],String(n*m),`分子分母同乘 ${m}：${n*m}/${d*m}。`,{x:`${n}*${m}`});},
+ ()=>{const [a,b]=pick([[6,4],[9,6],[10,4],[8,12]]);const l=a*b/gcd(a,b);return T(`把 1/${a} 和 1/${b} 通分，最小的公分母是多少？`,[l],String(l),`${a} 和 ${b} 的最小公倍数是 ${l}。`,{lcm:[a,b]});}]};
+G.cnm_p173={k:[
+ ()=>{const [b,d]=pick([[2,3],[3,4],[2,5],[4,6],[3,5]]);const a=ri(1,b-1),c=ri(1,d-1);const f=fr(a*d+c*b,b*d);return T(`计算：${a}/${b} + ${c}/${d} = ？`,[f.v],f.s,'先通分，再加分子，最后约分。',{x:`${a}/${b}+${c}/${d}`});},
+ ()=>{const [b,d]=pick([[2,3],[3,4],[2,5],[4,6],[2,6]]);const a=b-1,c=1;const f=fr(a*d-c*b,b*d);return T(`计算：${a}/${b} − ${c}/${d} = ？`,[f.v],f.s,'先通分，再减分子，最后约分。',{x:`${a}/${b}-${c}/${d}`});},
+ ()=>{const [b,d]=pick([[2,4],[3,6],[4,8]]);const f=fr(d/b+1,d);return T(`计算：1/${b} + 1/${d} = ？`,[f.v],f.s,'先通分。',{x:`1/${b}+1/${d}`});}]};
+G.cnm_p178={k:[
+ ()=>{const a=ri(1,4),b=ri(a+1,7),c=ri(1,5),d=ri(c+1,8);const f=fr(a*c,b*d);return T(`计算：${a}/${b} × ${c}/${d} = ？`,[f.v],f.s,'分子乘分子，分母乘分母，再约分。',{x:`${a}/${b}*${c}/${d}`});},
+ ()=>{const d=pick([3,4,5,6]),n=ri(1,d-1),k=pick([2,3])*d;const f=fr(n*k,d);return T(`计算：${n}/${d} × ${k} = ？`,[f.v],f.s,`${k} ÷ ${d} × ${n}。`,{x:`${n}/${d}*${k}`});},
+ ()=>{const [a,b,c,d]=pick([[2,3,3,4],[3,5,5,6],[4,9,3,8]]);const f=fr(a*c,b*d);return T(`计算：${a}/${b} × ${c}/${d} = ？`,[f.v],f.s,'先约分再乘更快。',{x:`${a}/${b}*${c}/${d}`});}]};
+G.cnm_p246={k:[
+ ()=>{const d=ri(2,9),n=ri(1,d-1);const f=fr(d,n);return T(`${fr(n,d).s} 的倒数是多少？`,[f.v],f.s,'分子分母交换位置。',{x:`1/(${n}/${d})`});},
+ ()=>{const a=ri(2,12);return T(`${a} 的倒数是多少？`,[1/a],`1/${a}`,`${a} = ${a}/1，倒数是 1/${a}。`,{x:`1/${a}`});},
+ ()=>{const d=ri(3,9),n=ri(1,d-1);const f=fr(n,d);return C(`哪一组数互为倒数？`,`${f.s} 和 ${fr(d,n).s}`,[`${f.s} 和 ${f.s}`,`${f.s} 和 ${d}`,`${f.s} 和 ${n}`],'乘积是 1 才互为倒数。',{rec:[[f.a,fr(d,n).a],[f.a,f.a],[f.a,String(d)],[f.a,String(n)]]});}]};
+G.cnm_p183={k:[
+ ()=>{const a=ri(1,4),b=ri(a+1,7),c=ri(1,4),d=ri(c+1,7);const f=fr(a*d,b*c);return T(`计算：${a}/${b} ÷ ${c}/${d} = ？`,[f.v],f.s,`÷ ${c}/${d} 变成 × ${d}/${c}。`,{x:`(${a}/${b})/(${c}/${d})`});},
+ ()=>{const d=ri(2,6),n=ri(1,d-1),k=ri(2,5);const f=fr(n,d*k);return T(`计算：${n}/${d} ÷ ${k} = ？`,[f.v],f.s,`÷ ${k} 就是 × 1/${k}。`,{x:`(${n}/${d})/${k}`});},
+ ()=>{const d=ri(3,8),n=ri(1,d-1);return C(`${n} ÷ 1/${d} 等于？`,`${n} × ${d}`,[`${n} × 1/${d}`,`${n} ÷ ${d}`],`除以 1/${d} 等于乘 ${d}。`,{eq:`${n}/(1/${d})`,opts:[`${n}*${d}`,`${n}*(1/${d})`,`${n}/${d}`]});}]};
+G.cnm_p112={k:[
+ ()=>{const a=ri(30,60),b=ri(2,6),c=ri(2,6),d=ri(2,3);const v=a-(b+c)*d;return T(`${a} − (${b} + ${c}) × ${d} = ？`,[v],n2(v),'先括号，再乘，最后减。',{x:`${a}-(${b}+${c})*${d}`});},
+ ()=>{const b=ri(2,6),c=ri(2,6),a=ri(1,20);const v=a+b*c;return C(`${a} + ${b} × ${c}，先算哪一步？`,`${b} × ${c}`,[`${a} + ${b}`,'从左到右都行'],'先乘除，后加减。',{fixed:'hand'});},
+ ()=>{const b=ri(2,6),q=ri(2,9),c=ri(1,q);const v=q-c;return T(`${b*q} ÷ ${b} − ${c} = ？`,[v],n2(v),'先除，后减。',{x:`${b*q}/${b}-${c}`});}]};
+G.cnm_p120={k:[
+ ()=>{const a=ri(11,99)/10;return T(`${n2(a)} 的小数点向右移动一位，变成多少？`,[+(a*10).toFixed(4)],n2(+(a*10).toFixed(4)),'向右一位，扩大到 10 倍。',{x:`${a}*10`});},
+ ()=>{const a=ri(11,99);return T(`${a} 的小数点向左移动两位，变成多少？`,[a/100],n2(a/100),'向左两位，缩小到 1/100。',{x:`${a}/100`});},
+ ()=>{const a=ri(11,99)/10;return T(`${n2(a)} × 1000 = ？`,[+(a*1000).toFixed(4)],n2(+(a*1000).toFixed(4)),'×1000：小数点向右移三位。',{x:`${a}*1000`});}]};
+G.cnm_p121={k:[
+ ()=>{const a=ri(101,999)/100;const r=Math.round(a*10+1e-9)/10;return T(`${n2(a)} 保留一位小数是多少？`,[r],r.toFixed(1),'看百分位：四舍五入。',{round:[String(a),1]},{dec:1});},
+ ()=>{const a=ri(11,99)/10;const r=Math.round(a+1e-9);return T(`${n2(a)} 四舍五入到个位是多少？`,[r],String(r),'看十分位。',{round:[String(a),0]},{dec:0});},
+ ()=>{const a=pick(['7.96','3.97','5.95','2.98']);const r=(Math.round(+a*10+1e-9)/10).toFixed(1);return T(`${a} 保留一位小数是多少？（末尾的 0 要不要写？）`,[+r],r,`进位后是 ${r}，保留一位小数要写出末尾的 0。`,{round:[a,1]},{dec:1});}]};
+
+// ---- 第一章 ----
+G.cnm_001={k:[
+ ()=>{const pool=shf([-ri(1,9),0,ri(1,9)/2,-ri(1,9)/10,ri(2,9),-ri(1,5)-0.5]);const neg=pool.filter(v=>v<0).length;return C(`${pool.map(n2).join('，')} 中，负数有几个？`,`${neg} 个`,[`${neg+1} 个`,`${neg-1} 个`,`${neg+2} 个`],`负数：${pool.filter(v=>v<0).map(n2).join('、')}；0 不是负数。`,{count:pool.map(String),neg});},
+ ()=>C('关于 0，正确的是？','0 既不是正数也不是负数',['0 是正数','0 是负数'],'0 是正数和负数的分界。',{fixed:'repo cnm_001_q2'}),
+ ()=>{const v=pick(['−0.01','−1/100','−0.5']);return C(`${v} 是正数还是负数？`,'负数',['正数','既不是正数也不是负数'],`${v} 带负号且不是 0，是负数（再小也是）。`,{fixed:'hand'});},
+ ()=>C('若 m 是正数，下列一定是负数的是？','−m',['m − 1','m²','−(−m)'],'−m 是正数的相反数，一定是负数。m − 1 可能是正数。',{fixed:'repo cnm_001_q4'})]};
+const CTX=[['收入','支出','元'],['向东走','向西走','米'],['上升','下降','米'],['盈利','亏损','元'],['存入','取出','元']];
+G.cnm_002={k:[
+ ()=>{const [p,n,u]=pick(CTX);const a=ri(2,9)*10,b=ri(1,9)*10;return C(`${p} ${a} ${u}记作 +${a} ${u}，那么${n} ${b} ${u}记作？`,`−${b} ${u}`,[`+${b} ${u}`,`−${a} ${u}`],`${n}和${p}意义相反，用负号；数量是 ${b}。`,{fixed:'hand'});},
+ ()=>{const [p,n,u]=pick(CTX);const b=ri(2,9);return C(`${p} 5 ${u}记作 +5 ${u}，那么 −${b} ${u}表示？`,`${n} ${b} ${u}`,[`${p} ${b} ${u}`,`${n} 5 ${u}`],'负号表示相反的意义。',{fixed:'hand'});},
+ ()=>{const s=pick([50,60,80,100]);const x=s+nz(-9,9);return T(`以 ${s} 为基准，超过记正。${x} 记作多少？（填数）`,[x-s],n2(x-s),`${x} − ${s} = ${n2(x-s)}。`,{x:`${x}-${s}`});}],
+ c:[()=>{const [p,n,u]=pick(CTX);const b=ri(2,9);return C(`${p}记为正，那么${n} ${b} ${u}用什么符号？`,'负号 −',['正号 +','不用符号'],`${n}和${p}意义相反，用负号。`,{fixed:'hand'});}]};
+G.cnm_003={k:[
+ ()=>{const [x,c]=pick([['−8/4','负整数'],['6/3','正整数'],['−2.5','负分数'],['0.75','正分数'],['−12/4','负整数'],['−1/3','负分数']]);return C(`${x} 属于哪一类？`,c,['正整数','负整数','正分数','负分数'].filter(z=>z!==c),'先化简再分类。',{cls:[x,c]});},
+ ()=>C('π 是有理数吗？','不是，π 是无限不循环小数',['是，它是小数','是，它约等于 3.14'],'有理数是整数和分数；π 不能写成分数。',{fixed:'hand'}),
+ ()=>{const pool=shf(['−7','0','0.5','9/3','−2/3','12','−0.6']);return T(`${pool.join('，')} 中，整数有几个？`,[4],'4','−7、0、9/3=3、12，共 4 个。',{ints:pool});}],
+ c:[()=>C('6/3 是分数还是整数？','整数（6/3 = 2）',['分数','既不是整数也不是分数'],'先化简：6/3 = 2，是整数。',{fixed:'hand'})]};
+G.cnm_004={k:[
+ ()=>C('一条直线只有原点和正方向，它是数轴吗？','不是，缺少单位长度',['是','不是，缺少箭头'],'数轴三要素：原点、正方向、单位长度。',{fixed:'repo cnm_004_q1'}),
+ ()=>{const s=pick([0.5,2,5,10]),k=ri(2,5);return T(`数轴每格表示 ${n2(s)}，原点左边第 ${k} 格表示多少？`,[-s*k],n2(-s*k),`左边为负：−${n2(s)} × ${k} = ${n2(-s*k)}。`,{x:`-${s}*${k}`});},
+ ()=>C('下面哪一条可以当作数轴？','有原点、正方向，刻度均匀',['有原点、正方向，刻度不均匀','有正方向和刻度，没有原点'],'三要素缺一不可，单位长度要统一。',{fixed:'repo cnm_004_q3'})],
+ c:[()=>C('画数轴必须有哪三样？','原点、正方向、单位长度',['原点、正方向、箭头','原点、刻度、数字 1'],'三要素：原点、正方向、单位长度。',{fixed:'hand'})]};
+G.cnm_005={k:[
+ ()=>{const a=ri(2,6);return C(`数轴上表示 −${a} 的点在哪里？`,`原点左边 ${a} 个单位`,[`原点右边 ${a} 个单位`,`原点左边 ${a-1} 个单位`],'负数在原点左边，离原点几个单位就是几。',{fixed:'hand'});},
+ ()=>{const a=-ri(1,6),b=ri(2,8);return T(`点 A 表示 ${n2(a)}，向右移动 ${b} 个单位到 B，B 表示几？`,[a+b],n2(a+b),`向右走加：${n2(a)} + ${b} = ${n2(a+b)}。`,{x:`${a}+${b}`});},
+ ()=>{const a=-(ri(1,5)+0.5),b=ri(1,4);return C(`${n2(a)} 和 ${b}，在数轴上哪个更靠右？`,String(b),[n2(a),'一样'],'正数在原点右边，负数在左边。',{fixed:'hand'});},
+ ()=>{const a=ri(2,5),b=ri(1,4);return T(`点 A 表示 ${a}，向左移动 ${a+b} 个单位到 B，B 表示几？`,[-b],n2(-b),`向左走减：${a} − ${a+b} = ${n2(-b)}。`,{x:`${a}-${a+b}`});}],
+ c:[()=>{const a=ri(2,6);return C(`−${a} 在原点的哪边？`,'左边',['右边','就在原点'],'负数在原点左边。',{fixed:'hand'});}]};
+G.cnm_006={k:[
+ (P)=>{const a=P&&P.b!=null&&P.b<0?-P.b:ri(2,9);return T(`−${a} 的相反数是几？`,[a],String(a),`只改符号：−${a} 的相反数是 ${a}。`,{x:`-(-${a})`});},
+ ()=>{const a=ri(2,9);return T(`化简：−(−${a}) = ？`,[a],String(a),`−(−${a}) 表示 −${a} 的相反数，是 ${a}。`,{x:`-(-${a})`});},
+ ()=>{const a=ri(2,9);return C(`下列哪一组互为相反数？`,`−${a} 和 ${a}`,[`−${a} 和 1/${a}`,`−(−${a}) 和 ${a}`,`${a} 和 1/${a}`],'和为 0、只有符号不同才是相反数。',{opp:[[`-${a}`,`${a}`],[`-${a}`,`1/${a}`],[`-(-${a})`,`${a}`],[`${a}`,`1/${a}`]]});},
+ ()=>{const a=ri(2,9);return T(`若 a 的相反数是 −${a}，则 a = ？`,[a],String(a),`a = ${a}。`,{x:`${a}`});}],
+ c:[(P)=>{const a=P&&P.b!=null&&P.b<0?-P.b:ri(2,9);return C(`数轴上，−${a} 的相反数在哪里？`,`原点右边 ${a} 个单位`,[`原点左边 ${a} 个单位`,'就在原点'],`相反数关于原点对称：${a}。`,{fixed:'hand'});}]};
+G.cnm_007={k:[
+ ()=>{const a=ri(2,9);return T(`数轴上表示 −${a} 的点到原点的距离是多少？`,[a],String(a),'距离不分左右，没有负的。',{x:`abs(-${a})`});},
+ ()=>{const a=-ri(1,6),b=ri(1,6);return T(`点 A 表示 ${n2(a)}，点 B 表示 ${b}，A、B 相距多少？`,[b-a],n2(b-a),`右边减左边：${b} − (${n2(a)}) = ${n2(b-a)}。`,{x:`abs(${b}-(${a}))`});},
+ ()=>C('下列说法正确的是？','互为相反数的两个数绝对值相等',['绝对值等于它本身的数是正数','任何数的绝对值都大于 0'],'0 的绝对值是 0；绝对值等于本身的数是正数和 0。',{fixed:'repo cnm_007_q3'})],
+ c:[()=>C('|a| 表示什么？','数轴上 a 到原点的距离',['把 a 的负号去掉就行','a 的相反数'],'绝对值的意义：距离。',{fixed:'hand'})]};
+G.cnm_008={k:[
+ ()=>{const a=ri(2,12);return T(`|−${a}| = ？`,[a],String(a),`负数的绝对值是它的相反数：${a}。`,{x:`abs(-${a})`});},
+ ()=>{const a=ri(2,9);return T(`−|−${a}| = ？`,[-a],n2(-a),`先算 |−${a}| = ${a}，前面的负号还在：−${a}。`,{x:`-abs(-${a})`});},
+ ()=>{const a=ri(2,9);return T(`|x| = ${a}，x = ？（两个都写，用“或”隔开）`,[a,-a],`${a} 或 −${a}`,'到原点距离为 a 的点有两个。',{xs:[`${a}`,`-${a}`],absEq:a});},
+ ()=>{const a=ri(2,9),b=ri(2,9);return T(`|−${a}| + |${b}| = ？`,[a+b],String(a+b),'先各自去绝对值，再相加。',{x:`abs(-${a})+abs(${b})`});}],
+ c:[()=>{const a=ri(2,9);return C(`|−${a}| 和 −${a} 一样吗？`,`不一样：|−${a}| = ${a}`,[`一样，都是 −${a}`,`不一样：|−${a}| = −${a}`],'绝对值是距离，不会是负数。',{fixed:'hand'});}]};
+G.cnm_009={k:[
+ ()=>{const a=ri(11,49)/10,b=+(a+ri(1,9)/10).toFixed(1);return C(`−${n2(a)} 和 −${n2(b)}，哪个大？`,`−${n2(a)}`,[`−${n2(b)}`,'一样大'],'两个负数，绝对值小的反而大。',{gt:[`-${a}`,`-${b}`]});},
+ ()=>{const p=shf([-ri(5,9),-ri(1,3),0,ri(1,5)]);const m=Math.min(...p);return C(`${p.map(n2).join('，')} 中，最小的是？`,n2(m),p.filter(x=>x!==m).map(n2),'最左边的最小。',{min:p.map(String)});},
+ ()=>C('下列大小关系正确的是？','−|−4| < −3',['−3 > −2','|−5| < |3|','−1/2 < −2/3'],'−|−4| = −4 < −3。',{fixed:'repo cnm_009_q4'})],
+ c:[()=>C('两个负数比大小，正确的是？','绝对值大的反而小',['绝对值大的就大','看不出来'],'越往左越小，−5 < −2。',{fixed:'hand'})]};
+
+// ---- 第二章 ----
+G.cnm_010={k:[
+ ()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a}) + ${b} = ？`,[b-a],n2(b-a),'异号：取绝对值大的符号，大减小。',{x:`(-${a})+${b}`});},
+ ()=>{const a=ri(2,9),b=ri(2,9);return C(`(−${a}) + (−${b}) = ？`,n2(-a-b),[n2(a+b),n2(a-b===0?1:a-b),n2(b-a===0?-1:b-a)],'同号：符号不变，绝对值相加。',{val:`(-${a})+(-${b})`});},
+ ()=>{const a=ri(2,9),b=ri(a+1,15);return T(`${a} + (−${b}) = ？`,[a-b],n2(a-b),`异号：−${b} 绝对值大，取负号，${b} − ${a}。`,{x:`${a}+(-${b})`});}],
+ c:[()=>{let a=ri(2,9),b=ri(2,9);while(a===b)b=ri(2,9);return C(`算 (−${a}) + ${b}，判断和的符号要看什么？`,'绝对值较大的数的符号',['总看绝对值较小的数的符号','总看第一个数的符号'],'异号相加，看谁的绝对值大。',{fixed:'hand'});}],
+ r:[()=>{const a=ri(2,12),b=ri(2,12);return T(`计算：(−${a}) + ${b} = ？（填数）`,[b-a],n2(b-a),'先定符号，再算绝对值。',{x:`(-${a})+${b}`});},
+    ()=>{const a=ri(2,12),b=ri(2,12);return T(`计算：(−${a}) + (−${b}) = ？（填数）`,[-a-b],n2(-a-b),'同号相加。',{x:`(-${a})+(-${b})`});}]};
+G.cnm_011={k:[
+ ()=>{const a=ri(11,29),b=ri(2,9),c=ri(2,9);return C(`计算 ${a} + (−${b}) + (−${a}) + ${c}，最简便的做法是？`,`先把 ${a} 和 −${a} 配成 0`,['从左往右一个个算','先算 (−' + b + ') + (−' + a + ')'],'互为相反数的先配成 0。',{fixed:'hand'});},
+ ()=>{const a=ri(11,29),b=ri(2,9),c=ri(2,9);const v=c-b;return T(`简便计算：${a} + (−${b}) + (−${a}) + ${c} = ？`,[v],n2(v),`${a} 和 −${a} 抵消，剩 −${b} + ${c}。`,{x:`${a}+(-${b})+(-${a})+${c}`});},
+ ()=>C('13 + (−7) + (−13) = 13 + (−13) + (−7) 用的是？','加法交换律',['加法结合律','乘法分配律'],'交换了 (−7) 和 (−13) 的位置。',{fixed:'repo cnm_011_q2'})]};
+G.cnm_012={c:[
+ (P)=>{let a,b;if(P&&P.a&&P.b<0&&Math.abs(P.a)!==-P.b){a=P.a;b=-P.b;}else{a=ri(2,9);do{b=ri(2,9);}while(b===a);}
+   const L=`${p2(a)} − (−${b})`;return C(`${L} 和下面哪个相等？`,`${n2(a)} + ${b}`,[`${n2(a)} − ${b}`,`${n2(-a)} + ${b}`],`减去 −${b} 等于加上它的相反数 ${b}。`,{eq:`${a}-(-${b})`,opts:[`${a}+${b}`,`${a}-${b}`,`${-a}+${b}`]});},
+ ()=>{const a=ri(2,9);let b;do{b=ri(2,9);}while(b===a);return C(`${a} − ${b} 等于？`,`${a} + (−${b})`,[`${a} + ${b}`,`−${a} + ${b}`],'减去一个数 = 加上它的相反数。',{eq:`${a}-${b}`,opts:[`${a}+(-${b})`,`${a}+${b}`,`-${a}+${b}`]});}],
+ k:[()=>{const a=ri(2,9),b=ri(2,9);return T(`${a} − (−${b}) = ？`,[a+b],String(a+b),`= ${a} + ${b}。`,{x:`${a}-(-${b})`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a}) − ${b} = ？`,[-a-b],n2(-a-b),`= (−${a}) + (−${b})。`,{x:`(-${a})-${b}`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a}) − (−${b}) = ？`,[b-a],n2(b-a),`= (−${a}) + ${b}。`,{x:`(-${a})-(-${b})`});}],
+ r:[()=>{const a=ri(2,9);let b=ri(2,9);return T(`计算：${a} − (−${b}) = ？（填数）`,[a+b],String(a+b),`= ${a} + ${b} = ${a+b}。`,{x:`${a}-(-${b})`});},
+    ()=>{const a=ri(2,9);let b;do{b=ri(2,9);}while(b===a);return T(`计算：(−${a}) − (−${b}) = ？（填数）`,[b-a],n2(b-a),`= (−${a}) + ${b}。`,{x:`(-${a})-(-${b})`});}]};
+G.cnm_013={k:[
+ ()=>{const a=ri(2,9),b=ri(2,9),c=ri(2,9),d=ri(2,9);return C(`把 −${a} + (−${b}) − (−${c}) + ${d} 写成省略括号的形式：`,`−${a} − ${b} + ${c} + ${d}`,[`−${a} − ${b} − ${c} + ${d}`,`−${a} + ${b} + ${c} + ${d}`,`−${a} − ${b} + ${c} − ${d}`],'+(−b) 写成 −b，−(−c) 写成 +c。',{eq:`-${a}+(-${b})-(-${c})+${d}`,opts:[`-${a}-${b}+${c}+${d}`,`-${a}-${b}-${c}+${d}`,`-${a}+${b}+${c}+${d}`,`-${a}-${b}+${c}-${d}`]});},
+ ()=>{const a=ri(2,9),b=ri(2,9),c=ri(2,9);const v=-a+b-c;return T(`(−${a}) − (−${b}) + (−${c}) = ？`,[v],n2(v),'先全改成加法，再算。',{x:`(-${a})-(-${b})+(-${c})`});},
+ ()=>{const a=ri(2,9),b=ri(2,9),c=ri(2,9),d=ri(2,9);const v=-a+b+c-d;return T(`−${a} + ${b} − (−${c}) − ${d} = ？`,[v],n2(v),'正数放一起、负数放一起。',{x:`-${a}+${b}-(-${c})-${d}`});}]};
+G.cnm_014={c:[
+ ()=>{const a=ri(2,9),b=ri(2,9);return C(`(−${a}) × (−${b}) 的结果是正还是负？`,'正',['负','0'],'同号得正。',{sign:`(-${a})*(-${b})`});},
+ ()=>{const a=ri(2,9),b=ri(2,9);return C(`(−${a}) × ${b} 的结果是正还是负？`,'负',['正','0'],'异号得负。',{sign:`(-${a})*${b}`});}],
+ k:[()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a}) × (−${b}) = ？`,[a*b],String(a*b),'同号得正。',{x:`(-${a})*(-${b})`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a}) × ${b} = ？`,[-a*b],n2(-a*b),'异号得负。',{x:`(-${a})*${b}`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return C(`下列结果为正数的是？`,`(−${a}) × (−${b})`,[`(−${a}) × ${b}`,`${a} × (−${b})`,`0 × (−${b})`],'同号得正。',{pos:[`(-${a})*(-${b})`,`(-${a})*${b}`,`${a}*(-${b})`,`0*(-${b})`]});}],
+ r:[()=>{const a=ri(2,9),b=ri(2,9);return T(`计算：(−${a}) × (−${b}) = ？（填数）`,[a*b],String(a*b),'同号得正。',{x:`(-${a})*(-${b})`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return T(`计算：${a} × (−${b}) = ？（填数）`,[-a*b],n2(-a*b),'异号得负。',{x:`${a}*(-${b})`});}]};
+G.cnm_015={c:[
+ ()=>{const m=ri(1,4);const fs=[];for(let i=0;i<4;i++)fs.push(i<m?-ri(1,5):ri(2,5));const neg=m;const sh=shf(fs);const expr=sh.map(p2).join(' × ');return C(`${expr} 的积是正还是负？`,neg%2?'负':'正',[neg%2?'正':'负','0'],`有 ${sh.filter(x=>x<0).length} 个负因数，${neg%2?'奇数个，积为负':'偶数个，积为正'}。`,{sign:sh.map(x=>'('+x+')').join('*')});}],
+ k:[()=>{const a=ri(2,5),b=ri(2,5),c=ri(2,5);return T(`(−${a}) × ${b} × (−${c}) = ？`,[a*b*c],String(a*b*c),'两个负因数，积为正。',{x:`(-${a})*${b}*(-${c})`});},
+    ()=>{const a=ri(2,5),b=ri(2,4),c=ri(1,3);const v=-a*b*c;return T(`(−${a}) × (−${b}) × (−${c}) = ？`,[v],n2(v),'三个负因数，积为负。',{x:`(-${a})*(-${b})*(-${c})`});},
+    ()=>{const a=ri(2,6),b=ri(2,6),c=ri(b+1,9);return C(`用分配律算 (−${a}) × (${b} − ${c})，第一步正确的是？`,`(−${a})×${b} + (−${a})×(−${c})`,[`(−${a})×${b} − ${a}×${c}`,`(−${a})×${b} + ${c}`,`−${a}×${b} − ${c}`],'每一项都要乘，带着符号乘。',{eq:`(-${a})*(${b}-${c})`,opts:[`(-${a})*${b}+(-${a})*(-${c})`,`(-${a})*${b}-${a}*${c}`,`(-${a})*${b}+${c}`,`-${a}*${b}-${c}`],note:'opt2 equals? checked'});}],
+ r:[()=>{const a=ri(2,5),b=ri(2,5),c=ri(2,5);return T(`计算：(−${a}) × ${b} × (−${c}) = ？（填数）`,[a*b*c],String(a*b*c),'先定符号（两个负因数→正），再乘绝对值。',{x:`(-${a})*${b}*(-${c})`});}]};
+G.cnm_016={c:[
+ ()=>{const d=ri(2,9),n=ri(1,d-1);const f=fr(-n,d);return C(`${f.s} 的倒数是正数还是负数？`,'负数',['正数','不一定'],'倒数和原数同号（乘积是正的 1）。',{fixed:'hand'});}],
+ k:[()=>{const d=ri(2,9),n=ri(1,d-1);const f=fr(-n,d),g=fr(-d,n);return T(`${f.s} 的倒数是多少？`,[g.v],g.s,'分子分母交换，符号不变。',{x:`1/(${f.a})`});},
+    ()=>{const a=ri(2,9);return T(`−${a} 的倒数是多少？`,[-1/a],`−1/${a}`,`(−${a}) × (−1/${a}) = 1。`,{x:`1/(-${a})`});},
+    ()=>C('倒数等于它本身的数是？','1 和 −1',['只有 1','0、1 和 −1'],'0 没有倒数；1×1 = 1，(−1)×(−1) = 1。',{fixed:'repo cnm_016_q3'})],
+ r:[()=>{const d=ri(2,9),n=ri(1,d-1);const f=fr(-n,d),g=fr(-d,n);return T(`${f.s} 的倒数是多少？（填数）`,[g.v],g.s,'分子分母交换，符号不变。',{x:`1/(${f.a})`});}]};
+G.cnm_017={c:[
+ ()=>{const d=ri(2,9),n=ri(1,d-1);const f=fr(-n,d);return C(`除以 ${f.s}，等于？`,`乘 ${fr(-d,n).s}`,[`乘 ${fr(d,n).s}`,`乘 ${f.s}`],'除以一个数 = 乘它的倒数（符号不变）。',{eq:`7/(${f.a})`,opts:[`7*(${fr(-d,n).a})`,`7*(${fr(d,n).a})`,`7*(${f.a})`]});},
+ ()=>{const a=ri(2,9),b=ri(2,9);return C(`(−${a*b}) ÷ (−${b}) 的结果是正还是负？`,'正',['负','0'],'同号得正，和乘法一样。',{sign:`(-${a*b})/(-${b})`});}],
+ k:[()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a*b}) ÷ ${b} = ？`,[-a],n2(-a),'异号得负。',{x:`(-${a*b})/${b}`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return T(`(−${a*b}) ÷ (−${b}) = ？`,[a],String(a),'同号得正。',{x:`(-${a*b})/(-${b})`});},
+    ()=>C('下列式子中，没有意义的是？','5 ÷ 0',['0 ÷ 5','0 × 5','5 − 0'],'0 不能作除数。',{fixed:'hand'})],
+ r:[()=>{const d=pick([2,3,4]),n=pick([1,2,3].filter(x=>gcd(x,d)===1));const k=ri(1,4)*n;const v=fr(-k*d,n);return T(`计算：${k} ÷ (−${n}/${d}) = ？（填数）`,[v.v],v.s,`= ${k} × (−${d}/${n})。`,{x:`${k}/(-${n}/${d})`});},
+    ()=>{const a=ri(2,9),b=ri(2,9);return T(`计算：(−${a*b}) ÷ (−${b}) = ？（填数）`,[a],String(a),'同号得正。',{x:`(-${a*b})/(-${b})`});}]};
+G.cnm_018={c:[
+ ()=>{const b=ri(2,5),c=ri(2,5),a=b*c*ri(1,3);return C(`${a} ÷ (−${b}) × ${c}，应该怎么算？`,`从左到右：先算 ${a} ÷ (−${b})`,[`先算 (−${b}) × ${c}`,'先算哪个都一样'],'乘除同级，从左到右。',{fixed:'hand'});},
+ ()=>{const a=ri(2,9),b=ri(2,5),c=ri(2,5);return C(`${a} − ${b} × (−${c})，先算哪一步？`,`${b} × (−${c})`,[`${a} − ${b}`,'从左到右'],'先乘除，后加减。',{fixed:'hand'});}],
+ k:[()=>{const b=ri(2,5),c=ri(2,5),q=ri(1,3),a=b*q;const v=-q*c;return T(`${a} ÷ (−${b}) × ${c} = ？`,[v],n2(v),'从左到右。',{x:`${a}/(-${b})*${c}`});},
+    ()=>{const a=ri(2,9),b=ri(2,5),c=ri(2,5);return T(`${a} − ${b} × (−${c}) = ？`,[a+b*c],String(a+b*c),'先乘，再减。',{x:`${a}-${b}*(-${c})`});},
+    ()=>{const a=ri(2,9),b=ri(2,5),c=ri(2,5);return C(`${a} + ${b} × (−${c}) = ？`,n2(a-b*c),[n2((a+b)*-c),n2(a+b*c),n2(-(a-b*c))],'先乘后加。',{val:`${a}+${b}*(-${c})`});}],
+ r:[()=>{const b=ri(2,5),c=ri(2,5),q=ri(1,3),a=b*q;return T(`计算：${a} ÷ (−${b}) × ${c} = ？（填数）`,[-q*c],n2(-q*c),'从左到右。',{x:`${a}/(-${b})*${c}`});},
+    ()=>{const a=ri(2,9),b=ri(2,5),c=ri(2,5);return T(`计算：${a} − ${b} × (−${c}) = ？（填数）`,[a+b*c],String(a+b*c),'先乘，再减。',{x:`${a}-${b}*(-${c})`});}]};
+G.cnm_019={c:[
+ ()=>{const a=ri(2,5),n=ri(2,4);return C(`−${a}${'⁰¹²³⁴⁵'[n]} 中，底数是？`,`${a}`,[`−${a}`,`${n}`],'负号在括号外，不在底数里。',{fixed:'hand'});},
+ ()=>{const a=ri(2,5),n=ri(2,4);return C(`(−${a})${'⁰¹²³⁴⁵'[n]} 中，底数是？`,`−${a}`,[`${a}`,`${n}`],'括号里的整体是底数。',{fixed:'hand'});}],
+ k:[()=>{const a=ri(2,5);return T(`−${a}² = ？`,[-a*a],n2(-a*a),`底数是 ${a}：−(${a}×${a})。`,{x:`-${a}^2`});},
+    ()=>{const a=ri(2,5);return T(`(−${a})² = ？`,[a*a],String(a*a),`(−${a})×(−${a})。`,{x:`(-${a})^2`});},
+    ()=>C('下列各组中，两个式子的值相等的是？','(−2)³ 与 −2³',['(−2)² 与 −2²','(−3)² 与 −3²','2³ 与 3²'],'(−2)³ = −8，−2³ = −8。',{eqpair:[['(-2)^3','-2^3'],['(-2)^2','-2^2'],['(-3)^2','-3^2'],['2^3','3^2']]})],
+ r:[()=>{const a=ri(2,5);return T(`计算：−${a}² = ？（填数）`,[-a*a],n2(-a*a),`底数是 ${a}。`,{x:`-${a}^2`});},
+    ()=>{const a=ri(2,4);return T(`计算：−(−${a})² = ？（填数）`,[-a*a],n2(-a*a),`(−${a})² = ${a*a}，再取相反数。`,{x:`-(-${a})^2`});}]};
+G.cnm_020={c:[
+ ()=>{const a=ri(2,5),n=ri(2,5);return C(`(−${a})${'⁰¹²³⁴⁵'[n]} 是正数还是负数？`,n%2?'负数':'正数',[n%2?'正数':'负数','0'],`负数的${n%2?'奇':'偶'}次幂是${n%2?'负':'正'}数。`,{sign:`(-${a})^${n}`});}],
+ k:[()=>{const a=ri(2,3),n=ri(3,4);return T(`(−${a})${'⁰¹²³⁴⁵'[n]} = ？`,[Math.pow(-a,n)],n2(Math.pow(-a,n)),'先定符号，再算。',{x:`(-${a})^${n}`});},
+    ()=>{const n=ri(2020,2030);return T(`(−1)^${n} = ？`,[n%2?-1:1],n%2?'−1':'1','奇次 −1，偶次 1。',{x:`(-1)^${n}`});},
+    ()=>{const [n,d]=pick([[1,2],[2,3],[1,3]]);const v=fr(-n*n*n,d*d*d);return T(`(−${n}/${d})³ = ？`,[v.v],v.s,'奇次幂为负。',{x:`(-${n}/${d})^3`});}],
+ r:[()=>{const a=ri(2,3),n=ri(2,4);return T(`计算：(−${a})${'⁰¹²³⁴⁵'[n]} = ？（填数）`,[Math.pow(-a,n)],n2(Math.pow(-a,n)),'先定符号，再算。',{x:`(-${a})^${n}`});}]};
+G.cnm_021={c:[
+ ()=>{const a=ri(2,9),b=ri(2,4),c=ri(2,3);return C(`${a} − ${b} × (−${c})²，第一步算？`,`(−${c})²`,[`${a} − ${b}`,`${b} × (−${c})`],'先乘方，再乘除，最后加减。',{fixed:'hand'});}],
+ k:[()=>{const a=ri(2,20),b=ri(2,4),c=ri(2,3);return T(`${a} − ${b} × ${c}² = ？`,[a-b*c*c],n2(a-b*c*c),'先乘方，再乘，最后减。',{x:`${a}-${b}*${c}^2`});},
+    ()=>{const a=ri(2,3),b=ri(2,3);return T(`−${a}² + (−${b})² = ？`,[-a*a+b*b],n2(-a*a+b*b),`−${a}² = ${-a*a}，(−${b})² = ${b*b}。`,{x:`-${a}^2+(-${b})^2`});},
+    ()=>{const c=pick([2,4]);const a=ri(1,5);return T(`(−2)³ ÷ ${c} − ${a} = ？`,[-8/c-a],n2(-8/c-a),'先乘方，再除，最后减。',{x:`(-2)^3/${c}-${a}`});}],
+ r:[()=>{const a=ri(2,20),b=ri(2,4),c=ri(2,3);return T(`计算：${a} − ${b} × (−${c})² = ？（填数）`,[a-b*c*c],n2(a-b*c*c),'先乘方，再乘，最后减。',{x:`${a}-${b}*(-${c})^2`});}]};
+const sup=n=>String(n).split('').map(c=>c==='-'?'⁻':'⁰¹²³⁴⁵⁶⁷⁸⁹'[+c]).join('');
+G.cnm_022={c:[
+ ()=>{const m=ri(11,99),z=ri(4,7);const N=m*Math.pow(10,z);const a=m/10,n=z+1;return C(`${N.toLocaleString('en').replace(/,/g,' ')} 用科学记数法表示是？`,`${n2(a)} × 10${sup(n)}`,[`${m} × 10${sup(z)}`,`${n2(a)} × 10${sup(z)}`,`${n2(m/100)} × 10${sup(n+1)}`],`a 要在 1～10 之间：${n2(a)}；整数有 ${n+1} 位，n = ${n}。`,{sci:[String(N),[[a,n],[m,z],[a,z],[m/100,n+1]]]});}],
+ k:[()=>{const d=ri(6,10);return C(`一个 ${d} 位整数写成科学记数法，10 的指数是？`,String(d-1),[String(d),String(d+1)],'n = 整数位数 − 1。',{digits:d});},
+    ()=>{const m=ri(11,99),n=ri(4,6);const v=m/10*Math.pow(10,n);return C(`${n2(m/10)} × 10${sup(n)} 的原数是？`,v.toLocaleString('en').replace(/,/g,' '),[(v/10).toLocaleString('en').replace(/,/g,' '),(v*10).toLocaleString('en').replace(/,/g,' ')],`小数点向右移 ${n} 位。`,{val:`${m/10}*10^${n}`,numopts:true});},
+    ()=>C('下列是科学记数法的是？','1.2 × 10⁷',['12 × 10⁶','0.12 × 10⁸'],'a 必须满足 1 ≤ |a| < 10。',{fixed:'hand'})],
+ r:[()=>{const m=ri(11,99),z=ri(4,6);const N=m*Math.pow(10,z);return T(`把 ${N.toLocaleString('en').replace(/,/g,' ')} 写成科学记数法。（例：5.6×10^7）`,[N],`${n2(m/10)}×10${sup(z+1)}`,`a = ${n2(m/10)}，n = ${z+1}。`,{x:String(N)},{sci:true,keys:['−','.','×10^']});}]};
+const PL=['个位','十分位','百分位','千分位'];
+G.cnm_023={c:[
+ ()=>{const [x,p]=pick([['1.80','百分位'],['2.4','十分位'],['0.050','千分位'],['3.0','十分位'],['12.30','百分位']]);return C(`近似数 ${x} 精确到哪一位？`,p,PL.filter(z=>z!==p).slice(0,3),'看最后一位数字在哪一位，末尾的 0 也算。',{prec:[x,p]});}],
+ k:[()=>{const x=(ri(1001,9999)/1000).toFixed(3);const r=(Math.round(+x*100+1e-9)/100).toFixed(2);return T(`把 ${x} 精确到百分位。`,[+r],r,'看千分位四舍五入。',{round:[x,2]},{dec:2});},
+    ()=>{const x=(ri(101,999)/100).toFixed(2);const r=(Math.round(+x*10+1e-9)/10).toFixed(1);return T(`把 ${x} 精确到十分位。`,[+r],r,'看百分位四舍五入。',{round:[x,1]},{dec:1});},
+    ()=>{const x=pick(['1.8','2.5','3.2']);const lo=(+x-0.05).toFixed(2),hi=(+x+0.05).toFixed(2);return C(`近似数 ${x} 表示的准确数 a 的范围是？`,`${lo} ≤ a < ${hi}`,[`${lo} < a ≤ ${hi}`,`${(+x-0.5).toFixed(1)} ≤ a < ${(+x+0.5).toFixed(1)}`],'精确到十分位，误差在 0.05 以内（四舍五入）。',{fixed:'hand'});}],
+ r:[()=>{const x=pick(['9.996','4.996','2.995','7.998']);const r=(Math.round(+x*100+1e-9)/100).toFixed(2);return T(`把 ${x} 精确到百分位。（填数）`,[+r],r,`进位后写成 ${r}，末尾的 0 不能删。`,{round:[x,2]},{dec:2});},
+    ()=>{const x=(ri(1001,9999)/1000).toFixed(3);const r=(Math.round(+x*100+1e-9)/100).toFixed(2);return T(`把 ${x} 精确到百分位。（填数）`,[+r],r,'看千分位四舍五入。',{round:[x,2]},{dec:2});}]};
+DX.G=G;
+DX.gen=function(id,kind,P,avoid){const g=G[id];if(!g)return null;let pool=(kind==='c'&&g.c)||(kind==='r'&&g.r)||g.k;if(P&&P.used!==id){const pp=pool.filter(f=>f.length>0);if(pp.length&&kind!=='r'){pool=pp;}}let it;for(let t=0;t<8;t++){it=pick(pool)(P);if(!avoid||!avoid.has(it.q))break;}it.tp=id;it.kind=kind;return it;};
+DX.util={ri,pick,shf,fr,n2,M};
+})();
+if(typeof module!=='undefined')module.exports=DX;
+
+// 第一章 90 题的知识点标签：每题 [主知识点, 具体子技能...]
+DX.CH=1;DX.LT={L1:['cnm_001','cnm_002'],L2:['cnm_003'],L3:['cnm_004','cnm_005'],L4:['cnm_006'],L5:['cnm_007','cnm_008'],L6:['cnm_009']};
+DX.TAG={
+L1:['002','002','001','002,001','002','002','001','002','001','002','002','002','002','001','002'],
+L2:['003','003,p170','003,p165','003,001','003,p165','003,p165','003,p170','003','003,p170','003','003','003,p165','003,p165','003','003,p165'],
+L3:['004','004','005,p170','005','004','005,001','005','005','004','004','005,p170','005','005','005','005'],
+L4:['006','006','006,001','006,005','006','006','006','006','006,005','006','006,001','006','006','006','006,005'],
+L5:['008,007','007','008','007,005','008','008,007','008,006','008','008','008,006','007','008,006','008','007,005','007,005'],
+L6:['009,007','009,005','009,008','009,005','009,006','009,005','009,003','009,008','009,001','009,005','009,008','009,005','009,005','009,005','009,008']};
+DX.DP={};
+DX.ROWS=[{label:'小学基础',ids:['cnm_p201','cnm_p165','cnm_p170']}].concat(LESSONS.map(L=>({label:L.no+' '+L.title,ids:DX.LT[L.id]})));
+
+// ===== 诊断引擎 + 界面（答错 → 确认 → 回查 → 同结构新题复测）=====
+(function(){
+const T=id=>DX.T[id];
+const full=x=>x&&x.indexOf('cnm_')===0?x:'cnm_'+x;
+// ---- 掌握状态（只记亲手答过的题，不做推断）----
+const DLS='g7_diag_v1';
+let ST={};try{ST=JSON.parse(localStorage.getItem(DLS)||'{}')||{};}catch(e){ST={};}
+if(!ST.tp||typeof ST.tp!=='object')ST.tp={};if(!Array.isArray(ST.runs))ST.runs=[];if(!ST.start||typeof ST.start!=='object')ST.start={};
+function dsave(){try{localStorage.setItem(DLS,JSON.stringify(ST));}catch(e){}}
+window.addEventListener('storage',e=>{if(e.key===DLS&&e.newValue){try{const n=JSON.parse(e.newValue);if(n&&n.tp){ST=n;if(!Array.isArray(ST.runs))ST.runs=[];if(!ST.start)ST.start={};}}catch(_){}}});
+DX.rec=function(id,ok,src){const s=ST.tp[id]||(ST.tp[id]={ok:0,bad:0,streak:0,weak:false});s.t=Date.now();s.src=src||'';
+ if(ok){s.ok++;if(s.weak){s.streak++;if(s.streak>=2){s.weak=false;s.streak=0;}}}else{s.bad++;s.weak=true;s.streak=0;}dsave();};
+DX.state=id=>{const s=ST.tp[id];if(!s)return 'none';if(s.weak)return 'weak';return s.ok>0?'ok':'none';};
+DX.ST=()=>ST;
+// 显示在本文件知识地图里的知识点
+function shown(){const ids=new Set();Object.values(DX.LT).forEach(a=>a.forEach(x=>ids.add(x)));let grow=true;while(grow){grow=false;DX.E.forEach(e=>{if(ids.has(e[0])&&!ids.has(e[1])){ids.add(e[1]);grow=true;}});}return ids;}
+DX.shown=shown;
+function order(id){const t=T(id);return t.ch*100+(t.L||0)*10+(t.ch===0?0:1);}
+// 从这里补起：薄弱、且它的先修里没有薄弱点；最底层优先
+DX.startHere=function(){const S=shown();const weak=[...S].filter(id=>DX.state(id)==='weak');
+ const roots=weak.filter(id=>!DX.pre(id).some(p=>S.has(p)&&DX.state(p)==='weak'));roots.sort((a,b)=>order(a)-order(b));return roots[0]||null;};
+// 课的链接
+DX.link=function(id){const t=T(id);if(t.ch===0)return {txt:`小学${t.g}「${t.nm}」`,href:null};
+ const ttl=`${t.no} ${t.nm}`;if(t.ch===DX.CH)return {txt:`重学 ${ttl}`,href:'#/L'+t.L};
+ const files={1:'index.html',2:'chapter-2.html',3:'chapter-3.html'};
+ return {txt:`回第${['','一','二','三'][t.ch]}章 ${ttl} 重学`,href:`${files[t.ch]}#/L${t.L}`,ext:true};};
+
+// ---- 诊断流程（与界面无关，可在 node 里用脚本答题测试）----
+DX.MAXD=3;
+DX.diagnose=async function(o,askFn,sayFn){
+ const main=full(o.main),subs=(o.subs||[]).map(full),P=o.P;const trail=[];let budget=7;const okSet=new Set();
+ sayFn=sayFn||(()=>{});
+ const seenQ=new Set();async function check(id,kind,role,depth){budget--;const it=DX.gen(id,kind,(role==='fix'||role==='retest')?null:P,seenQ);seenQ.add(it.q);const ok=await askFn(it,{role,id,depth});DX.rec(id,ok,'diag-'+role);trail.push({id,kind,role,ok,depth});if(ok)okSet.add(id);return ok;}
+ async function descend(X,depth){if(depth>DX.MAXD||budget<=2)return X;
+  const pre=DX.pre(X);const cand=[...subs.filter(s=>pre.includes(s)),...pre.filter(p=>!subs.includes(p))].filter(p=>!okSet.has(p)&&DX.G[p]);
+  let n=0;for(const p of cand){if(n>=2||budget<=2)break;n++;const ok=await check(p,'k','back',depth);if(!ok)return descend(p,depth+1);}return X;}
+ let mode,root=null,sub=null;
+ const okC=await check(main,'c','confirm',0);
+ if(okC){sub=subs.find(s=>s!==main&&DX.G[s]);
+  if(sub){const okS=await check(sub,'k','sub',1);if(!okS){root=await descend(sub,2);mode='sub';}else mode='unconfirmed';}else mode='unconfirmed';}
+ else{root=await descend(main,1);mode=root===main?'rule':'prereq';}
+ const M=T(main);let text,err;
+ if(mode==='unconfirmed'){text='原题答错，追问答对。错因待确认，先独立做一道新题。';err=null;}
+ else if(mode==='rule'){text=`「${M.nm}」的确认题答错了。先复习这一点，再做一道新题。`;err=null;}
+ else{text=`「${T(root).nm}」的回查题答错了，可以先补这一点。原题错因待确认。`;err=null;}
+ const res={main,root,mode,text,err,depth:Math.max(0,...trail.map(x=>x.depth))};
+ await sayFn('diag',res);
+ if(root&&root!==main){await sayFn('fix',res);res.fixOk=await check(root,'k','fix',0);}
+ else if(mode==='rule')await sayFn('fix',res);
+ res.retestOk=await check(main,'r','retest',0);
+ res.trail=trail;res.sum={text,root,main,mode,err,t:Date.now()};
+ ST.runs.push({main,root,mode,t:Date.now(),n:trail.length,ok:res.retestOk});if(ST.runs.length>200)ST.runs=ST.runs.slice(-200);dsave();
+ return res;};
+
+// ---- 界面 ----
+const ROLE={confirm:'🔎 确认：先弄清你卡在哪一步',sub:'🔎 再查一步',back:'↩ 回查前面的知识',fix:'🩹 补完再试一题',retest:'🔁 同类型新题：独立再试',start:'开局诊断',check:'测一测'};
+function gradeIt(it,raw){
+ if(it.fraction){
+  const text=String(raw).normalize('NFKC').replace(/[−–—]/g,'-').trim();
+  const m=text.match(/^([+-]?\d+)\s*\/\s*([1-9]\d*)$/);
+  if(!m||text.length>80)return {ok:false,msg:'请写成最简分数，例如 1/4。'};
+  const n=BigInt(m[1]),d=BigInt(m[2]),[a,b]=it.fraction.split('/').map(BigInt);
+  return {ok:n===a&&d===b,msg:'请约分到最简，再检查数值。'};
+ }
+ if(it.sci){const s=String(raw).replace(/[−－–—]/g,'-').replace(/[×xX*＊·]/g,'x').replace(/\s+/g,'').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+/g,m=>'^'+m.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]/g,c=>c==='⁻'?'-':String('⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(c))));
+  const m=s.match(/^([+-]?)(\d+(?:\.\d+)?)x10\^?\(?([+-]?\d+)\)?$/);if(!m)return null;const a=+m[2]*(m[1]==='-'?-1:1);const v=a*Math.pow(10,+m[3]);return {ok:Math.abs(v-it.num[0])<=1e-9*Math.abs(it.num[0])&&Math.abs(a)>=1&&Math.abs(a)<10};}
+ if(it.dec!=null){const t=String(raw).replace(/[−－–—]/g,'-').replace(/[．。]/g,'.').trim();const m=t.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);if(!m)return null;return {ok:Math.abs(+t-it.num[0])<1e-9&&(m[3]||'').length===it.dec};}
+ const v=parseAns(raw);if(!v)return null;return {ok:sameSet(v,it.num)};}
+DX.grade=gradeIt;
+function askUI(box,it,meta,label){return new Promise(res=>{
+ const t=meta&&meta.id?T(meta.id):null;
+ const el=H(`<div class="dxq" data-tp="${it.tp}" data-role="${meta.role}"><div class="dxh">${label||ROLE[meta.role]||''}${t&&meta.role!=='confirm'&&meta.role!=='retest'?`：<b>${t.nm}</b>${t.ch===0?' <span class="dxg">小学'+t.g+'</span>':t.ch!==DX.CH?' <span class="dxg">第一章</span>':''}`:''}</div><p class="qtext">${it.q}</p><div class="dxa"></div><div class="dxfb"></div></div>`);
+ box.appendChild(el);el._it=it;const A=$('.dxa',el),fb=$('.dxfb',el);let done=false;
+ function fin(ok,shown){done=true;fb.innerHTML=`<div class="fbtxt ${ok?'ok':'no'}">${ok?'✓ 对了。':'✗ 不对。'+(it.in?'正确答案：'+it.at+'。':'')}${it.e}</div>`;const go=H('<div class="row"><button class="btn dxgo">继续 →</button></div>');fb.appendChild(go);go.firstChild.onclick=()=>{go.remove();res(ok);};}
+ if(it.in){const row=H(`<div><div class="inrow"><input class="ans dxin" type="text" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="${it.sci?'如 5.6×10^7':'写出答案，如 −5 或 1/2'}"><button class="btn dxok">确定</button></div><div class="keys"></div></div>`);A.appendChild(row);const inp=$('.dxin',row);
+  (it.keys||(it.sci?['−','.','×10^']:it.dec!=null?['−','.']:['−','/','.','或'])).forEach(k=>{const b=H(`<button class="key">${k}</button>`);b.onclick=()=>{const s=inp.selectionStart??inp.value.length,e2=inp.selectionEnd??s;const ins=k==='或'?' 或 ':k;inp.value=inp.value.slice(0,s)+ins+inp.value.slice(e2);inp.focus();};$('.keys',row).appendChild(b);});
+  const sub=()=>{if(done)return;const g=gradeIt(it,inp.value.trim());if(!g){toast(it.sci?'写成 a×10^n 的样子，比如 5.6×10^7':'没看懂你的答案：写成数字，比如 −5、1/2、0.5');return;}inp.disabled=true;$('.dxok',row).disabled=true;$$('.key',row).forEach(x=>x.disabled=true);inp.classList.add(g.ok?'ok':'no');fin(g.ok);};
+  $('.dxok',row).onclick=sub;inp.addEventListener('keydown',e=>{if(e.key==='Enter')sub();});}
+ else{const ch=H('<div class="chips"></div>');A.appendChild(ch);it.o.forEach((o,j)=>{const b=H(`<button class="chip dxc">${o}</button>`);b.onclick=()=>{if(done)return;$$('.chip',ch).forEach(x=>x.disabled=true);const ok=j===it.a;b.classList.add(ok?'ok':'no');if(!ok)$$('.chip',ch)[it.a].classList.add('ok');fin(ok);};ch.appendChild(b);});}
+ if(el.scrollIntoView)setTimeout(()=>{try{el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(_){}},30);
+});}
+function pathHTML(trail){return '<div class="dxpath">'+trail.filter(x=>x.role!=='fix'&&x.role!=='retest').map(x=>`<span class="${x.ok?'ok':'no'}">${T(x.id).nm} ${x.ok?'✓':'✗'}</span>`).join('<i>→</i>')+'</div>';}
+function linkBtn(id){const l=DX.link(id);if(!l.href)return `<span class="dxlk dxprim">${l.txt}（下面的小提示就是它的要点）</span>`;return `<a class="btn ghost dxlk" href="${l.href}"${l.ext?' target="_blank"':''}>${l.txt} →</a>`;}
+function openReview(href,label){
+ const dialog=H('<dialog class="reviewDialog"><div class="reviewBar"><button type="button" class="btn">返回复测</button></div><iframe></iframe></dialog>');
+ const frame=dialog.querySelector('iframe');
+ frame.title=label;
+ frame.src=href;
+ dialog.querySelector('button').onclick=()=>dialog.close();
+ dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+ document.body.appendChild(dialog);
+ dialog.showModal();
+}
+const DXUI={};
+DXUI.run=function(card,ctx,cb){
+ const tags=(DX.TAG[ctx.lid]||[])[ctx.qi];if(!tags){cb&&cb(null);return;}const ts=tags.split(',').map(full);
+ const box=H(`<div class="dxbox"><div class="step"><i>🔎</i>诊断 <span style="font-weight:500;font-size:13px;color:var(--muted)">先用一道追问看看卡在哪一步</span></div><div class="dxlog"></div></div>`);card.appendChild(box);const log=$('.dxlog',box);
+ const ask=(it,meta)=>askUI(log,it,meta);
+ const say=(k,r)=>new Promise(res=>{if(k==='diag'){const d=H(`<div class="dxres"><div class="dxh">诊断结果</div><p class="dxt">${r.text}</p>${r.root&&r.root!==r.main?`<p class="muted2">建议先补：<b>${T(r.root).nm}</b></p>`:''}</div>`);log.appendChild(d);setTimeout(res,300);}
+  else{const id=r.root||r.main;const t=T(id);const d=H(`<div class="dxfix"><div class="dxh">🩹 先补「${t.nm}」</div><p>${t.h}</p><div class="row">${linkBtn(id)}<button class="btn dxgo">我看懂了，再试一题 →</button></div></div>`);log.appendChild(d);const review=$('a.dxlk',d);if(review){review.removeAttribute('target');review.onclick=e=>{e.preventDefault();openReview(review.getAttribute('href'),review.textContent);};}$('.dxgo',d).onclick=()=>{$('.dxgo',d).remove();res();};}});
+ DX.diagnose({main:ts[0],subs:ts.slice(1),P:DX.DP[ctx.lid+':'+ctx.qi],shenWrong:ctx.info&&ctx.info.shen===false},ask,say).then(r=>{
+  log.appendChild(H(`<div class="dxend">${pathHTML(r.trail)}<p class="fbtxt ${r.retestOk?'ok':'no'}">${r.retestOk?(DX.state(r.main)==='weak'?'✓ 新题做对了！再做对 1 次，这个点就从“薄弱”变回“实际答对过”。':'✓ 新题做对了，这个点记为“实际答对过”。'):'新题还没做对：它留在“薄弱”，知识地图里会提醒你从这里补。'}</p>${r.root&&r.root!==r.main?`<div class="row">${linkBtn(r.root)}</div>`:''}</div>`));
+  cb&&cb(r);}).catch(e=>{console.error(e);cb&&cb(null);});};
+// 反思：诊断给出的建议
+DXUI.suggest=function(list){list=list.filter(r=>r&&r.err);if(!list.length)return null;const c={};list.forEach(r=>{c[r.err]=(c[r.err]||0)+1;});const err=Object.keys(c).sort((a,b)=>c[b]-c[a])[0];const r=list.find(x=>x.err===err);return {err,text:r.text,root:r.root};};
+
+// ---- 知识地图 ----
+function rows(){if(DX.ROWS)return DX.ROWS;return [];}
+const COL={ok:['#dff3e7','#2b8a55','#145233'],none:['#fff','#bfb2a3','#7b6b5d'],weak:['#fbe1dd','#c8372d','#7d1c15']};
+DXUI.mapSVG=function(sel){const R=rows();const W=360,RH=56,NH=28;const pos={};let y=6;const parts=[];const rec=DX.startHere();
+ R.forEach(r=>{parts.push(`<text x="4" y="${y+11}" font-size="11" fill="#9a8877" font-weight="700">${r.label}</text>`);const n=r.ids.length;const gap=6;const w=(W-8-gap*(n-1))/n;r.ids.forEach((id,i)=>{pos[id]={x:4+i*(w+gap),y:y+16,w};});y+=RH;});
+ const H0=y+4;let ed='';
+ DX.E.forEach(e=>{const a=pos[e[1]],b=pos[e[0]];if(!a||!b)return;const x1=a.x+a.w/2,y1=a.y+NH,x2=b.x+b.w/2,y2=b.y;const st=DX.state(e[1]);const hot=st==='weak';
+  ed+=`<path d="M${x1.toFixed(1)},${y1} C${x1.toFixed(1)},${(y1+y2)/2} ${x2.toFixed(1)},${(y1+y2)/2} ${x2.toFixed(1)},${y2-3}" fill="none" stroke="${hot?'#e08a80':'#cdbfae'}" stroke-width="${hot?1.8:1.2}" ${e[2]==='s'?'stroke-dasharray="3 3"':''} opacity=".9"/><path d="M${x2.toFixed(1)},${y2-1} l-3,-5 h6 z" fill="${hot?'#e08a80':'#cdbfae'}"/>`;});
+ let nd='';Object.keys(pos).forEach(id=>{const p=pos[id],t=T(id),st=DX.state(id),c=COL[st];const isR=id===rec,isS=id===sel;
+  const lab=t.s.length*11>p.w-8?t.s.slice(0,Math.max(2,Math.floor((p.w-8)/11)))+'…':t.s;
+  nd+=`<g class="dxn" data-id="${id}" style="cursor:pointer"><rect x="${p.x.toFixed(1)}" y="${p.y}" width="${p.w.toFixed(1)}" height="${NH}" rx="9" fill="${c[0]}" stroke="${isR?'#d45216':isS?'#2a211b':c[1]}" stroke-width="${isR||isS?2.6:1.4}" ${st==='none'?'stroke-dasharray="4 3"':''}/><text x="${(p.x+p.w/2).toFixed(1)}" y="${p.y+18}" text-anchor="middle" font-size="11" font-weight="700" fill="${c[2]}">${lab}</text>${isR?`<circle cx="${(p.x+p.w-4).toFixed(1)}" cy="${p.y+2}" r="6" fill="#d45216"/><text x="${(p.x+p.w-4).toFixed(1)}" y="${p.y+5.5}" text-anchor="middle" font-size="9" fill="#fff" font-weight="800">!</text>`:''}</g>`;});
+ return `<svg class="dxmap" viewBox="0 0 ${W} ${H0}" width="100%" role="img" aria-label="知识地图">${parts.join('')}${ed}${nd}</svg>`;};
+DXUI.mapCard=function(){const S=[...shown()];const cnt={ok:0,none:0,weak:0};S.forEach(id=>cnt[DX.state(id)]++);const rec=DX.startHere();
+ const card=H(`<div class="card dxmapcard" id="dxmap"><div class="step"><i>🗺</i>我的知识地图</div>
+ <p class="dxnote">只算你<b>亲手答对</b>的题，不靠推测：后面的题做对了，不代表前面的点就会。箭头从“先要会的”指向“后学的”。</p>
+ <div class="dxleg"><span class="ok">实际答对过 ${cnt.ok}</span><span class="none">未验证 ${cnt.none}</span><span class="weak">薄弱 ${cnt.weak}</span></div>
+ <div class="dxsvg"></div>
+ <div class="dxrec"></div><div class="dxdet"></div></div>`);
+ const draw=sel=>{$('.dxsvg',card).innerHTML=DXUI.mapSVG(sel);$$('.dxn',card).forEach(g=>g.addEventListener('click',()=>detail(g.dataset.id)));};
+ function detail(id){draw(id);const t=T(id),st=DX.state(id),s=ST.tp[id]||{ok:0,bad:0,streak:0};const d=$('.dxdet',card);
+  const pre=DX.pre(id).filter(p=>shown().has(p));
+  d.innerHTML=`<div class="dxpanel"><div class="dxh">${t.ch===0?'小学'+t.g:t.no} · <b>${t.nm}</b> <span class="dxst ${st}">${st==='ok'?'实际答对过':st==='weak'?'薄弱':'未验证'}</span></div>
+  <p class="dxsm">${st==='weak'?`答错过诊断题。再<b>连续答对 ${2-(s.streak||0)} 次</b>才算过关。`:st==='ok'?`亲手答对过 ${s.ok} 次。`:'还没有亲手答过这个点的题。'}</p><p>${t.h}</p>
+  ${pre.length?`<p class="dxsm">先要会：${pre.map(p=>`<span class="dxst ${DX.state(p)}">${T(p).nm}</span>`).join(' ')}</p>`:''}
+  <div class="row"><button class="btn dxtest">测一测（2 题）</button>${DX.link(id).href?`<a class="btn ghost" href="${DX.link(id).href}">${DX.link(id).txt} →</a>`:''}</div><div class="dxlog"></div></div>`;
+  $('.dxtest',d).onclick=async()=>{$('.dxtest',d).disabled=true;const log=$('.dxlog',d);let okn=0;for(let k=0;k<2;k++){const it=DX.gen(id,k?'r':'k');const ok=await askUI(log,it,{role:'check',id},`测一测 ${k+1}/2`);DX.rec(id,ok,'check');if(ok)okn++;}
+   log.appendChild(H(`<p class="fbtxt ${okn===2?'ok':'no'}">${okn}/2 对。${DX.state(id)==='ok'?'这个点现在是“实际答对过”。':DX.state(id)==='weak'?'还算薄弱，看上面的要点再来。':''}</p>`));
+   const b=H('<div class="row"><button class="btn ghost">刷新地图</button></div>');b.firstChild.onclick=()=>{const n=DXUI.mapCard();card.replaceWith(n);};log.appendChild(b);};
+  if(d.scrollIntoView)try{d.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(_){}}
+ draw(null);
+ const rc=$('.dxrec',card);
+ if(rec){const t=T(rec);rc.innerHTML=`<div class="dxreco"><div class="dxh">📍 从这里补起：<b>${t.nm}</b>${t.ch===0?' <span class="dxg">小学'+t.g+'</span>':t.ch!==DX.CH?' <span class="dxg">第一章</span>':''}</div><p class="dxsm">这道前置题做错过，可以从这里补起。</p><div class="row"><button class="btn dxgorec">先测这个点</button>${DX.link(rec).href?`<a class="btn ghost" href="${DX.link(rec).href}">${DX.link(rec).txt} →</a>`:''}</div></div>`;$('.dxgorec',rc).onclick=()=>detail(rec);}
+ else if(cnt.ok===0)rc.innerHTML=`<div class="dxreco"><div class="dxh">还没有数据</div><p class="dxsm">做一次「开局诊断」（最多 10 题），地图就会亮起来。</p><div class="row"><a class="btn" href="#/start">开始开局诊断 →</a></div></div>`;
+ else{const un=S.filter(id=>DX.state(id)==='none'&&T(id).ch===DX.CH).sort((a,b)=>order(a)-order(b))[0];rc.innerHTML=`<div class="dxreco"><div class="dxh">目前没有薄弱点 👍</div>${un?`<p class="dxsm">还没验证的：<b>${T(un).nm}</b>，测一测就知道。</p><div class="row"><button class="btn ghost dxun">测「${T(un).nm}」</button></div>`:''}</div>`;const b=$('.dxun',rc);if(b)b.onclick=()=>detail(un);}
+ return card;};
+DXUI.home=function(v){const lcs=$('#lcs',v);if(!lcs)return;const sec=H(`<div><h2 class="sec">诊断</h2><div class="lcards dxtop"><a class="lc" href="#/start" id="gostart"><div class="no">开局诊断</div><h3>${ST.start[DX.CH]?'再测一次':'找到从哪里开始'}</h3><p>最多 10 题，沿着知识的先后顺序往回查，找到最该先补的那一个点。</p></a></div></div>`);
+ lcs.after(sec);sec.appendChild(DXUI.mapCard());v.querySelector('.view').appendChild(H(DXUI.footer()));};
+DXUI.footer=()=>`<div class="dxfoot">知识点与先修关系改编自 <a href="https://github.com/xiaoyang111222/cn-math-taxonomy" target="_blank" rel="noopener">cn-math-taxonomy</a>（作者 xiaoyang111222），采用 <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC 4.0</a> 许可。<b>已修改</b>：按人教版 2024 七上逐条审核先修关系（删去不合理的、补上课本里明确的），诊断题重新编写并用程序验算。仅供非商业使用。</div>`;
+// ---- 开局诊断 ----
+DXUI.startView=function(){const root=H('<div></div>');root.appendChild(topBar('开局诊断',null));const v=H(`<div class="view"><div class="hero"><h1>开局诊断</h1><p>最多 10 题。从这一章最后面的知识点开始问，答错了就往前查，找到最该先补的点。每题先想清楚再点。</p></div><div class="card" id="stc"><div class="dxlog"></div></div></div>`);root.appendChild(v);app().replaceChildren(root);bindGo(root);
+ const log=$('#stc .dxlog',v);const ep=EPOCH;
+ DX.startRun((it,meta)=>askUI(log,it,meta,`开局诊断 第 ${meta.k}/${meta.max} 题`)).then(r=>{if(ep!==EPOCH)return;ST.start[DX.CH]={t:Date.now(),asked:r.asked.length};dsave();
+  const rec=DX.startHere();log.appendChild(H(`<div class="dxres"><div class="dxh">诊断完成：做了 ${r.asked.length} 题，对 ${r.asked.filter(x=>x.ok).length} 题</div>${pathHTML(r.asked.map(x=>({id:x.id,ok:x.ok,role:'start'})))}<p class="dxt">${rec?`从这里补起：<b>${T(rec).nm}</b>。${T(rec).h}`:'这次问到的点你都答对了。去各节课刷题，继续验证其他点。'}</p><div class="row">${rec&&DX.link(rec).href?`<a class="btn" href="${DX.link(rec).href}">${DX.link(rec).txt} →</a>`:''}<a class="btn ghost" href="#/">看我的知识地图</a></div></div>`));});};
+DX.START={1:['cnm_009','cnm_008','cnm_002','cnm_003'],2:['cnm_021','cnm_013','cnm_017','cnm_022','cnm_023']};
+DX.startRun=async function(askFn,max){max=max||10;const S=shown();const asked=[];const seen=new Set();const q=[...DX.START[DX.CH]];
+ const order2=[...S].filter(id=>T(id).ch===DX.CH).sort((a,b)=>order(b)-order(a));
+ while(asked.length<max){let id=q.shift();if(!id){id=order2.find(x=>!seen.has(x));if(!id)break;}if(seen.has(id)||!DX.G[id])continue;seen.add(id);
+  const it=DX.gen(id,T(id).ch===0?'k':(DX.G[id].r?'r':'k'));const ok=await askFn(it,{role:'start',id,k:asked.length+1,max});DX.rec(id,ok,'start');asked.push({id,ok});
+  if(!ok){const pre=DX.pre(id).filter(p=>S.has(p)&&!seen.has(p));q.unshift(...pre.slice(0,2));}}
+ return {asked};};
+window.DXUI=DXUI;
+})();
+
+route();
+</script></body></html>
