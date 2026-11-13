@@ -23,23 +23,40 @@ h2{margin:0;font-size:1.32rem}
 p{margin:5px 0 12px}
 .back{display:inline-flex;align-items:center;min-height:44px;font-weight:650}
 .intro,.meta,.status{color:var(--muted)}
-.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:14px;align-items:start}
+ .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,.34fr);gap:14px;align-items:start}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:15px;min-width:0}
-.focus{background:#232831;color:#fff8ea;border-radius:12px;padding:15px;margin:0 0 13px}
-.focus .meta,.focus .status{color:#e8d9c4}
-.focus .status[data-state="ok"]{color:#a9e1be}
-.focus .status[data-state="weak"]{color:#ffb5a9}
-.status{font-size:.82rem}
+.graph{position:relative;isolation:isolate;border-radius:14px;padding:14px;background:#252c36;background-image:radial-gradient(#ffffff20 1px,transparent 1px);background-size:17px 17px;color:#fff5e6}
+#connections{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:visible}
+#connections .edge{fill:none;stroke:#ffbe79;stroke-width:2;opacity:.85;stroke-dasharray:1;stroke-dashoffset:0;animation:trace .42s ease-out}
+#connections .edge.optional{stroke:#b2c3e1;stroke-dasharray:5 5;animation:none}
+@keyframes trace{from{stroke-dashoffset:1}}
+.graph-stage + .graph-stage{margin-top:26px}
+.lane-label{font-size:.78rem;font-weight:700;color:#e2d6c5;text-align:center;margin:0 auto 6px;width:max-content;max-width:100%;padding:1px 6px;background:#252c36;border-radius:4px}
+.graph-nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,126px),1fr));gap:7px}
+.graph-node,.focus-node{min-height:47px;padding:6px 8px;text-align:center;border-radius:9px;font-size:.92rem;font-weight:750;line-height:1.3;overflow-wrap:anywhere}
+.graph-node{border:1px solid #6e7d92;background:#394557;color:#fff8ee}
+.graph-node:hover{background:#4c5d73}
+.graph-node small,.focus-node small{display:block;font-size:.7rem;font-weight:550;margin-top:4px}
+.graph-node small{color:#efdeca}
+.focus-node{margin:auto;width:max-content;max-width:100%;background:#ffd19a;border:2px solid #ffb766;color:#46240d;padding-inline:18px}
+.graph button:focus-visible,.focus-node:focus-visible{outline-color:#ffcf9b}
+.graph-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:7px;margin:8px 0 11px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;color:var(--muted);font-size:.82rem}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{display:inline-block;width:19px;border-top:2px solid #9b3b10}
+.legend .optional{border-top:2px dashed #48698d}
+#depth{border:1px solid var(--line);background:#fffdf8;color:var(--ink);border-radius:8px;min-height:44px;padding:5px 9px;font-weight:650}
+#depth[aria-pressed=true]{background:var(--warm);border-color:#ce916d}
+.focus{margin:12px 0 0;padding:10px 12px;background:#fff4e6;border-radius:9px}
+.focus h2{font-size:1.12rem}
 .focus p:last-child{margin-bottom:0}
-.relations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.relations>section{position:relative;border-top:2px solid #ddbeaa;padding-top:8px}
-.relations>section::before{content:"";position:absolute;left:50%;top:-15px;height:13px;border-left:2px solid #ddbeaa}
-.relations h3{font-size:.92rem;margin:0 0 6px}
+.status,.meta{font-size:.82rem}
+.status[data-state=ok]{color:var(--green)}
+.status[data-state=weak]{color:var(--red)}
+.example{color:#783509;font-weight:700}
 .nodes{display:grid;gap:5px}
-.node{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:44px;padding:6px 8px;text-align:left;color:var(--ink);background:#fffdf8;border:1px solid var(--line);border-radius:8px}
+.node{display:flex;align-items:center;min-height:44px;padding:6px 8px;text-align:left;color:var(--ink);background:#fffdf8;border:1px solid var(--line);border-radius:8px}
 .node:hover,.node[aria-current]{background:var(--warm);border-color:#ce916d}
-.node span{overflow-wrap:anywhere}
-.nodes .meta,.nodes small{color:var(--muted);font-size:.75rem}
 .actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px}
 .primary{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;border-radius:9px;background:#a54215;color:#fff;font-weight:700;text-decoration:none}
 #groups{display:grid;gap:7px;margin-top:10px}
@@ -47,7 +64,8 @@ details{border:1px solid var(--line);border-radius:8px;padding:3px 7px}
 summary{min-height:38px;padding:6px 3px;font-weight:650;cursor:pointer}
 footer{font-size:.84rem;color:var(--muted);margin:18px 0}
 @media(max-width:700px){.layout{grid-template-columns:1fr}}
-@media(max-width:420px){nav div{padding-inline:8px}nav a{font-size:13px}.panel{padding:10px}.relations{gap:6px}.node{font-size:.86rem}}
+@media(max-width:420px){nav div{padding-inline:8px}nav a{font-size:13px}.panel,.graph{padding:10px}.graph-nodes{grid-template-columns:repeat(auto-fit,minmax(min(100%,102px),1fr))}.graph-node{font-size:.82rem}}
+@media(prefers-reduced-motion:reduce){#connections .edge{animation:none}}
 </style>
 </head>
 <body>
@@ -57,12 +75,16 @@ footer{font-size:.84rem;color:var(--muted);margin:18px 0}
 <h1>知识图谱</h1>
 <p class="intro">点一个知识点，看先学什么、后面哪里会用到。</p>
 <div class="layout">
-<section class="panel" aria-labelledby="topic">
-<div class="focus" aria-live="polite"><div class="meta" id="location"></div><h2 id="topic"></h2><div class="status" id="status"></div><p id="hint"></p></div>
-<div class="relations">
-<section><h3>先学这些</h3><div class="nodes" id="before"></div></section>
-<section><h3>后面会用到</h3><div class="nodes" id="after"></div></section>
+<section class="panel" aria-label="知识点关系图">
+<div class="graph-tools"><div class="legend"><span><i aria-hidden="true"></i>先打基础</span><span><i class="optional" aria-hidden="true"></i>学过有帮助</span></div><button type="button" id="depth" aria-pressed="false">再往前看一层</button></div>
+<div class="graph" id="graph">
+<svg id="connections" aria-hidden="true"><defs><marker id="arrow" viewBox="0 0 8 8" markerWidth="6" markerHeight="6" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ffbe79"/></marker><marker id="arrow-optional" viewBox="0 0 8 8" markerWidth="6" markerHeight="6" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#b2c3e1"/></marker></defs><g id="arrows"></g></svg>
+<section class="graph-stage" id="earlierRow" hidden><p class="lane-label">更早的基础</p><div class="graph-nodes" id="earlier"></div></section>
+<section class="graph-stage" id="beforeRow"><p class="lane-label">先学</p><div class="graph-nodes" id="before"></div></section>
+<section class="graph-stage"><p class="lane-label">现在看的知识点</p><div class="focus-node" id="center" tabindex="-1"><span id="centerName"></span><small id="centerChapter"></small></div></section>
+<section class="graph-stage" id="afterRow"><p class="lane-label">后面会用到</p><div class="graph-nodes" id="after"></div></section>
 </div>
+<div class="focus" aria-live="polite"><div class="meta" id="location"></div><h2 id="topic"></h2><div class="status" id="status"></div><p id="example" class="example" hidden></p><p id="hint"></p></div>
 <div class="actions"><a id="lesson" class="primary" href="index.html">打开这一课</a><a id="check" href="index.html">测一测（2 题）</a></div>
 </section>
 <section class="panel" aria-labelledby="browse"><h2 id="browse">按章节找</h2><div id="groups"></div></section>
@@ -109,20 +131,74 @@ const groups=chapters.map((name,i)=>{
  entries.filter(([,t])=>t.ch===i).forEach(([id])=>nodes.appendChild(node(id)));
  group.appendChild(nodes);$('groups').appendChild(group);return group;
 });
-function showRelations(container,links,index){
- container.replaceChildren();
- if(!links.length){const p=document.createElement('span');p.className='meta';p.textContent='本站暂无关联知识点';container.appendChild(p);return;}
- for(const edge of links)container.appendChild(node(edge[index],edge[2]==='s'?'相关':'先修'));
+const chapterShort=['小学','第一章','第二章','第三章'];
+const examples={
+ cnm_005:'数轴上，−3 在 0 左边 3 格（每格是 1）。',
+ cnm_006:'−3 和 3 在 0 的两边，离 0 一样远。',
+ cnm_012:'3 − (−2) = 3 + 2。先找 −2 的相反数。',
+ cnm_019:'(−2)² 的底数是 −2，−2² 的底数是 2。',
+ cnm_029:'x = −2 时，x² = (−2)² = 4。'
+};
+const ns='http://www.w3.org/2000/svg';
+let expanded=false,connections=[];
+function graphNode(id,zone){
+ const b=node(id,chapterShort[item(id).ch]);
+ b.className='graph-node';b.id=zone+'-'+id;
+ b.onclick=()=>{location.hash=id;$('center').focus({preventScroll:true});};
+ return b;
 }
+function connect(source,target,kind){connections.push({source,target,kind});}
+function drawLines(){
+ const box=$('graph').getBoundingClientRect();
+ const group=$('arrows');
+ group.replaceChildren();
+ for(const {source,target,kind} of connections){
+  const a=$(source).getBoundingClientRect(), b=$(target).getBoundingClientRect();
+  const x1=(a.left+a.right)/2-box.left,x2=(b.left+b.right)/2-box.left;
+  const y1=a.bottom-box.top,y2=b.top-box.top-3;
+  const middle=(y1+y2)/2;
+  const edge=document.createElementNS(ns,'path');
+  edge.setAttribute('d',`M ${x1} ${y1} C ${x1} ${middle}, ${x2} ${middle}, ${x2} ${y2}`);
+  edge.setAttribute('class',kind==='s'?'edge optional':'edge');
+  edge.setAttribute('pathLength','1');
+  if(kind==='s')edge.removeAttribute('pathLength');
+  edge.setAttribute('marker-end',kind==='s'?'url(#arrow-optional)':'url(#arrow)');
+  group.appendChild(edge);
+ }
+}
+function renderGraph(id){
+ const upstream=edges.filter(([target])=>target===id);
+ const downstream=edges.filter(([,source])=>source===id);
+ const earlier=edges.filter(([target])=>upstream.some(([,source])=>source===target));
+ const earlierIds=[...new Set(earlier.map(([,source])=>source))];
+ $('depth').hidden=!earlierIds.length;
+ $('depth').setAttribute('aria-pressed',String(expanded&&earlierIds.length>0));
+ $('depth').textContent=expanded?'收起更早的基础':'再往前看一层';
+ $('centerName').textContent=item(id).nm;
+ $('centerChapter').textContent=chapterShort[item(id).ch];
+ $('before').replaceChildren(...upstream.map(([,source])=>graphNode(source,'before')));
+ $('after').replaceChildren(...downstream.map(([target])=>graphNode(target,'after')));
+ $('beforeRow').hidden=!upstream.length;
+ $('afterRow').hidden=!downstream.length;
+ $('earlierRow').hidden=!expanded||!earlierIds.length;
+ $('earlier').replaceChildren(...(expanded?earlierIds.map(key=>graphNode(key,'earlier')):[]));
+ connections=[];
+ if(expanded)earlier.forEach(([target,source,kind])=>connect('earlier-'+source,'before-'+target,kind));
+ upstream.forEach(([,source,kind])=>connect('before-'+source,'center',kind));
+ downstream.forEach(([target,,kind])=>connect('center','after-'+target,kind));
+ drawLines();
+}
+$('depth').onclick=()=>{expanded=!expanded;renderGraph(selected);};
+new ResizeObserver(drawLines).observe($('graph'));
 function render(){
  const requested=location.hash.slice(1);
- const id=Object.hasOwn(topics,requested)?requested:entries.find(([,t])=>returnToLesson&&t.ch===from&&'L'+t.L===fromLesson)?.[0]||defaults[from||1];
+ const id=Object.prototype.hasOwnProperty.call(topics,requested)?requested:entries.find(([,t])=>returnToLesson&&t.ch===from&&'L'+t.L===fromLesson)?.[0]||defaults[from||1];
  const t=item(id),status=state(id);
  $('location').textContent=chapters[t.ch]+' · '+(t.ch?t.no:t.g);
  $('topic').textContent=t.nm;$('hint').textContent=t.h;
  $('status').dataset.state=status;$('status').textContent=labels[status];
- showRelations($('before'),edges.filter(([target])=>target===id),1);
- showRelations($('after'),edges.filter(([,source])=>source===id),0);
+ $('example').hidden=!examples[id];
+ $('example').textContent=examples[id]||'';
  $('lesson').hidden=!t.ch;
  if(t.ch)$('lesson').href=pages[t.ch]+'#/L'+t.L;
  $('check').href=pages[t.ch||3]+'#/check/'+id;
@@ -132,6 +208,7 @@ function render(){
    if(button.dataset.topic===id)button.setAttribute('aria-current','true');else button.removeAttribute('aria-current');
   });
   selected=id;
+  renderGraph(id);
  }
 }
 window.addEventListener('hashchange',render);
