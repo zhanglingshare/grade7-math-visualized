@@ -1,6 +1,6 @@
 /* Shared learning navigation across V1, V2, exam review and practice bank.
    Existing route IDs are not changed. */
-.math-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:1110px;width:calc(100% - 24px);margin:0 auto;padding:6px;gap:5px;background:#fffcf8f5;border:1px solid #e7ded3;border-radius:0 0 15px 15px;box-shadow:0 5px 19px -18px #24334382;z-index:54;position:sticky;top:0}
+.math-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));max-width:1110px;width:calc(100% - 24px);margin:0 auto;padding:6px;gap:5px;background:#fffcf8f5;border:1px solid #e7ded3;border-radius:0 0 15px 15px;box-shadow:0 5px 19px -18px #24334382;z-index:54;position:sticky;top:0}
 .math-nav>a{border-radius:10px;text-align:center;white-space:nowrap;min-width:0;min-height:43px;display:flex;align-items:center;justify-content:center;padding:7px 4px;color:#526475;text-decoration:none;font-size:14px;font-weight:800;line-height:1.3}
 .math-nav>a:hover{background:#f2e9df;color:#b04e2f}
 .math-nav>a[aria-current="page"]{background:#f26b3a;color:#fff}
