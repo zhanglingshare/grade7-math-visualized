@@ -169,9 +169,9 @@ body.graph-expanded { overflow: hidden; }
   .legend { gap: 4px 8px; }
 }
 @media (max-width: 360px) {
-  .toolbar { justify-content: flex-start; }
-  .segments button { min-width: 40px; }
-  .toolbar .icon-button { min-width: 37px; }
+  .toolbar { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .depth-control .segments { width: 100%; }
+  .toolbar button { flex: 1; min-height: 44px; }
   .board:fullscreen .viewport, .board.expanded .viewport { height: max(235px, calc(100dvh - 154px)); }
 }
 

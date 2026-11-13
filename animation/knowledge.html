@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>数学知识图谱 · 小学到高中</title>
-<link rel="stylesheet" href="graph/knowledge.css?v=2">
+<link rel="stylesheet" href="graph/knowledge.css?v=3">
 <script defer src="graph/dagre.min.js"></script>
 <script defer src="graph/catalog.js?v=2"></script>
-<script defer src="graph/knowledge.js?v=2"></script>
+<script defer src="graph/knowledge.js?v=3"></script>
 </head>
 <body>
 <nav class="course-nav" aria-label="学习导航">
@@ -60,7 +60,7 @@
         <div class="canvas-tip" aria-hidden="true"><span>向下看学习顺序</span><span id="zoom-level"></span></div>
       </div>
       <aside class="edge-detail" id="edge-detail" hidden aria-live="polite">
-        <div><h2 id="edge-title"></h2><p id="edge-reason"></p><span id="edge-source"></span></div>
+        <div><h2 id="edge-title"></h2><p id="edge-reason"></p><p id="edge-example" hidden></p><span id="edge-source"></span></div>
         <button class="icon-button" type="button" id="clear-edge" aria-label="收起连线解释">×</button>
       </aside>
       </div>

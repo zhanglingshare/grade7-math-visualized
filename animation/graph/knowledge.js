@@ -26,6 +26,12 @@ const examples = {
     ['x + 3 = 2 或 −2', '直接开平方，两种可能都要算。得到 x = −1 或 −5。']
   ]
 };
+const edgeExamples = {
+  'cnm_220:cnm_221': '例如 (x + 3)² = 4。直接开平方后，x + 3 可以等于 2，也可以等于 −2。',
+  'cnm_148:cnm_221': '例如 x² + 6x。补上 9，就能用完全平方公式写成 (x + 3)²。',
+  'cnm_221:cnm_222': '给 ax² + bx + c = 0（a ≠ 0）配方，再开平方，就能推导出求根公式。',
+  'cnm_221:cnm_232': '把 y = x² + 6x + 5 改写成 y = (x + 3)² − 4，就能读出抛物线的顶点 (−3, −4)。'
+};
 const entries = Object.entries(topics);
 const upstream = new Map();
 const downstream = new Map();
@@ -204,12 +210,15 @@ function centerPoint(point, scale) {
   paintView();
 }
 function fitScale() {
-  return Math.min(1.3, (viewport.clientWidth - 28) / bounds.width, (viewport.clientHeight - 42) / bounds.height);
+  return Math.min(1.3, (viewport.clientWidth - 16) / bounds.width, (viewport.clientHeight - 42) / bounds.height);
+}
+function needsFocus(scale) {
+  return bounds.nodeCount > 5 && scale < 0.8;
 }
 function fitGraph(keepTextReadable = false) {
   if (!bounds) return;
   const scale = fitScale();
-  if (keepTextReadable && scale < 0.8) centerPoint(bounds.focus, 0.88);
+  if (keepTextReadable && needsFocus(scale)) centerPoint(bounds.focus, 0.88);
   else centerPoint({ x: bounds.width / 2, y: bounds.height / 2 }, clamp(scale, 0.085, 3));
 }
 function zoom(factor, x = viewport.clientWidth / 2, y = viewport.clientHeight / 2) {
@@ -256,10 +265,10 @@ function renderGraph() {
   $('edges').replaceChildren(linkFragment);
   $('nodes').replaceChildren(nodeFragment);
   const { width, height } = graph.graph();
-  bounds = { width, height, focus: graph.node(selected) };
+  bounds = { width, height, focus: graph.node(selected), nodeCount: ids.length };
   clearEdge();
   fitGraph(true);
-  const dense = fitScale() < .8;
+  const dense = needsFocus(fitScale());
   const layers = depth === 'all' ? '全部上游' : '往前 ' + depth + ' 层';
   $('visible-count').textContent = `${ids.length} 个知识点 · ${relations.length} 条关系 · ${layers}${dense ? ' · 已定位当前点，拖动或点适合屏幕看全图' : ''}`;
   if (!reducedMotion.matches && typeof $('nodes').animate === 'function') {
@@ -291,6 +300,9 @@ function revealEdge(edge, scroll = false) {
   for (const [id, group] of nodeElements) group.classList.toggle('neighbor', id === edge.before || id === edge.after);
   $('edge-title').textContent = `${topicName(edge.before)} → ${topicName(edge.after)}`;
   $('edge-reason').textContent = edge.reason || '这两个知识点在学习顺序上有关联。';
+  const example = edgeExamples[`${edge.before}:${edge.after}`];
+  $('edge-example').textContent = example || '';
+  $('edge-example').hidden = !example;
   $('edge-source').textContent = `${edge.kind === 's' ? '学过有帮助' : '先打基础'} · ${edge.local ? '本站课程补充' : '原图谱说明'}`;
   $('edge-detail').hidden = false;
   if (scroll) $('edge-detail').scrollIntoView({ block: 'nearest' });
@@ -337,7 +349,9 @@ function renderTopic(id) {
   const topic = topics[id];
   $('chapter-label').textContent = gradeLabel(topic) + ' · ' + topic.domain;
   $('topic-title').textContent = topicName(id);
-  $('summary').textContent = topic.summary;
+  $('summary').textContent = id === 'cnm_221'
+    ? '先让 x² 的系数变成 1，再把方程整理成 (x + m)² = n。配方时，等式两边都加上一次项系数一半的平方。'
+    : topic.summary;
   const lesson = $('lesson');
   const check = $('check');
   lesson.hidden = !topic.lesson;
