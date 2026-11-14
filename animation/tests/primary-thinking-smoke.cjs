@@ -15,7 +15,7 @@ vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-data.js'),'u
 vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-extra.js'),'utf8'),{window:win});
 vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-visuals.js'),'utf8'),{window:win});
 vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-curation.js'),'utf8'),{window:win});
-assert.equal(Object.keys(win.TM_VISUALS).length,20);
+assert.equal(Object.keys(win.TM_VISUALS).length,21);
 const M=win.TM_MISSIONS;
 assert.equal(M.length,41);
 assert.equal(new Set(M.map(x=>x.id)).size,41);
@@ -69,6 +69,9 @@ for(const [index,m] of M.entries()){
     if(m.id==='m24')assert.match(app.innerHTML,/3\/4.*1\/2/);
     if(m.id==='m54')assert.match(app.innerHTML,/千米\/小时/);
     if(m.id==='m60')assert.match(app.innerHTML,/80%/);
+    if(m.id==='m21'){assert.match(app.innerHTML,/面积：24＝24/);assert.match(app.innerHTML,/周长：20 与 22/);}
+    if(m.id==='m56'){assert.match(app.innerHTML,/16\.67%/);}
+    if(m.id==='m57'){assert.match(app.innerHTML,/第五项26/);}
     const svg={getBoundingClientRect:()=>({left:0,width:620})};
     const target={closest:()=>svg};
     events.pointerdown({target,clientX:260});
@@ -119,4 +122,4 @@ assert.match(html,/function showPrimaryLesson\(/);
 assert.match(html,/primary-thinking-extra\.js/);
 assert.match(html,/primary-thinking-visuals\.js/);
 assert.match(html,/primary-thinking-curation\.js/);
-console.log('PASS: 41 distinct missions, 19 legacy merge links, 20 enhanced visuals, math scene checks, 284 unchanged elementary nodes.');
+console.log('PASS: 41 distinct missions, 19 legacy merge links, 21 enhanced visuals, four math-scene checks, 284 unchanged elementary nodes.');
