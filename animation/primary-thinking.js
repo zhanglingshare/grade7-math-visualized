@@ -1,6 +1,7 @@
 (function installThinkingLab(){
   'use strict';
   const M = window.TM_MISSIONS || [];
+  const MERGES = window.TM_MERGES || {};
   const MOVING = window.TM_VISUALS || {};
   const SKILLS = window.TM_SKILLS || [];
   const STORE = "primary-thinking-rebuild-v1";
@@ -28,6 +29,7 @@
     if(id==="library"){renderLibrary();return;}
     if(id==="report"){renderReport();return;}
     if(lookup.has(id)){renderMission(id);return;}
+    if(MERGES[id]){renderMergedLesson(id,MERGES[id]);return;}
     renderHome();
   }
   window.renderPrimaryThinking=route;
@@ -36,11 +38,15 @@
     const el=app();
     el.innerHTML='<div class="tm-root">'+html+'</div>';
   }
+  function renderMergedLesson(id,merge){
+    const dest=lookup.get(merge.to);
+    shell('<section class="tm-complete"><p class="tm-eyebrow">学习路线优化 · 已合并</p><h1>这一场已合并到更完整的实验</h1><p>'+B(merge.why)+'</p><p>原实验编号：'+B(id.toUpperCase())+'。你的旧作答记录仍保存在当前浏览器，不会因合并而清空。</p><div class="tm-hero-actions"><a class="tm-primary-btn" href="#/train/'+B(merge.to)+'">进入 '+B(dest?dest.title:merge.to)+' →</a><a class="tm-outline-btn" href="#/train">返回精炼版首页</a></div></section>');
+  }
   function completed(){return M.filter(x=>DB.records[x.id]);}
   function card(m,number){
     const rec=DB.records[m.id];
     const status=rec?'<span class="tm-done">已完成</span>':DB.drafts[m.id]?'<span class="tm-draft">进行中</span>':'<span class="tm-open">待探索</span>';
-    return '<a class="tm-task" href="#/train/'+m.id+'"><div class="tm-task-icon">'+String(number||"↗").padStart(2,'0')+'</div><div class="tm-task-text"><span class="tm-mini">'+B("小学"+m.g+"年级 · "+SKILLS[m.s])+'</span><strong>'+B(m.title)+'</strong><small>'+B(m.q)+'</small></div><span class="tm-task-state">'+status+'<span aria-hidden="true">↗</span></span></a>';
+    return '<a class="tm-task" href="#/train/'+m.id+'"><div class="tm-task-icon">'+m.id.slice(1)+'</div><div class="tm-task-text"><span class="tm-mini">'+B("小学"+m.g+"年级 · "+SKILLS[m.s])+'</span><strong>'+B(m.title)+'</strong><small>'+B(m.q)+'</small></div><span class="tm-task-state">'+status+'<span aria-hidden="true">↗</span></span></a>';
   }
   let gradeFilter="all",skillFilter="all";
   function renderHome(){
@@ -67,7 +73,7 @@
       '<div><strong>'+readPassed+'<small> / '+finished.length+'</small></strong><span>第一次读题就看准</span></div>'+
       '<a href="#/train/library"><strong>284</strong><span>原图谱小学知识点 · 可检索</span></a></section>'+
       '<div class="tm-steps-ribbon"><span>01 先预测</span><span>02 动手改变</span><span>03 找反例</span><span>04 陌生迁移</span><span>05 自己复盘</span></div>'+
-      '<div class="tm-section-title"><div><p>不是按年级重刷，而是重建思考方式</p><h2>六种思维 · 60场实验</h2></div><a href="#/learn/L1">原有12节 Grok 动画 →</a></div>'+
+      '<div class="tm-section-title"><div><p>不是按年级重刷，而是重建思考方式</p><h2>六种思维 · 41场精选实验</h2></div><a href="#/learn/L1">原有12节 Grok 动画 →</a></div>'+
       '<div class="tm-filters"><label>按年级 <select id="tm-grade"><option value="all">全部年级</option>'+
       [1,2,3,4,5,6].map(n=>'<option value="'+n+'"'+(gradeFilter===String(n)?" selected":"")+'>小学'+n+'年级</option>').join("")+'</select></label>'+
       '<label>思维重点 <select id="tm-skill"><option value="all">全部思维</option>'+SKILLS.map((x,i)=>'<option value="'+i+'"'+(skillFilter===String(i)?" selected":"")+'>'+B(x)+'</option>').join("")+'</select></label></div>'+
@@ -210,7 +216,7 @@
     }).join("");
     shell('<section class="tm-library"><a class="tm-back" href="#/train">← 思维训练</a><p class="tm-eyebrow">知识索引 · 不等于训练量</p><h1>小学数学知识地图</h1><p>沿用原有'+all.length+'个小学知识点及先修关系。知识点列表用来定位补漏；做过一道旧自测题，不代表已经理解。</p>'+
       '<div class="tm-library-tools"><a class="tm-outline-btn" href="knowledge.html?from=primary">打开独立知识图谱</a><a class="tm-outline-btn" href="#/cat">原版完整目录</a><a class="tm-outline-btn" href="#/learn/L1">12节原版动画</a></div>'+
-      '<div class="tm-grade-list">'+groups+'</div><p class="tm-method">原知识节点、文字、原题目与先修关系的数据来源和许可沿用本站底部说明。新增60场思维实验为独立编写的教学原型。</p></section>');
+      '<div class="tm-grade-list">'+groups+'</div><p class="tm-method">原知识节点、文字、原题目与先修关系的数据来源和许可沿用本站底部说明。主线精简为41场实验，19场重复动作已归并，旧进度不清空。</p></section>');
   }
   function sceneInsight(m,v){
     if(MOVING[m.scene])return "改变一个条件，再换一种表示：哪些量变化，哪些数学关系保持不变？";
