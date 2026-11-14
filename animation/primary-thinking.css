@@ -209,3 +209,26 @@
 .tm-pred-feedback strong{font-size:15px}
 .tm-pred-feedback p{font-size:13px;line-height:1.75;margin:6px 0 0}
 @media(max-width:540px){.tm-reading-choices{grid-template-columns:1fr}.tm-reading-choices .tm-answer{flex-direction:row;align-items:center;min-height:55px}.tm-reading{padding:13px}}
+
+/* Optional single-item diagnostic of all 284 existing elementary topics. */
+.tm-knowledge-cell{display:flex;flex-direction:column;gap:4px;border:1px solid #e2e8e5;border-radius:11px;padding:5px;background:#f9faf7;min-width:0}
+.tm-knowledge-cell>a:first-child{font-weight:750;background:#f0f5f1!important;color:#315f57!important}
+.tm-knowledge-cell>a.tm-graph-mini{min-height:35px;padding:7px 10px!important;background:transparent;color:#7b664f!important;font-size:11px}
+.tm-knowledge-cell>a:hover{background:#dcece4!important}
+.tm-check{max-width:830px;margin:0 auto}
+.tm-check h1{font-size:clamp(25px,4vw,36px);line-height:1.3;margin:8px 0 9px}
+.tm-check>p:not(.tm-eyebrow){color:#667481;font-size:14px;line-height:1.75}
+.tm-check-stage{margin-top:18px;padding:clamp(18px,4vw,31px);border-radius:20px;background:#fffcf7;border:1px solid #e8d9c8}
+.tm-check-stage h2{font-size:clamp(19px,3vw,26px);line-height:1.5;margin:10px 0 21px}
+.tm-check-stage label{display:block;font-size:14px;font-weight:780;margin-bottom:8px;color:#365465}
+#tm-topic-answer{display:block;width:100%;min-height:108px;resize:vertical;font-size:16px;padding:13px;border-radius:12px;border:1.5px solid #d6d8d6;background:#fff;line-height:1.6;margin-bottom:14px;color:#2c3846}
+.tm-check-answer{padding:15px;background:#eaf5ee;border-left:4px solid #57a389;border-radius:10px;margin-top:18px;color:#245d4c}
+.tm-check-answer strong{font-size:16px;overflow-wrap:anywhere}
+.tm-check-answer p{font-size:13px;color:#5d746e;line-height:1.7;margin-top:7px}
+.tm-check-rating{border-top:1px solid #e3d9d0;margin-top:22px;padding-top:17px}
+.tm-check-rating strong{font-size:14px;color:#405663}
+.tm-check-rating>div{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.tm-check-rating button{min-height:44px;border:1px solid #d1dad6;border-radius:10px;padding:9px 12px;background:#f3f6f4;color:#346756;font-size:13px;font-weight:750}
+.tm-check-rating button:hover{background:#deede4}
+.tm-check-record{color:#8b5d45;font-size:12px;line-height:1.6;margin-top:13px}
+.tm-check-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
