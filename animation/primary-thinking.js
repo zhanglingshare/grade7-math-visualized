@@ -372,14 +372,19 @@
   function playVisual(m){
     stopPlayback();
     const id=m.id,step=m.cfg.step||1;
-    let current=m.cfg.min;
-    changeSlider(current,true);
+    let frame=0;
+    const totalFrames=Math.min(8,Math.ceil((m.cfg.max-m.cfg.min)/step));
+    changeSlider(m.cfg.min,true);
     activePlayback=setInterval(()=>{
       if(getCurrent()!==id){stopPlayback();return;}
-      current+=step;
-      if(current>m.cfg.max){stopPlayback();return;}
-      changeSlider(current,true);
-    },280);
+      frame++;
+      if(frame>totalFrames){stopPlayback();return;}
+      const progress=frame/totalFrames;
+      const raw=m.cfg.min+(m.cfg.max-m.cfg.min)*progress;
+      const value=Math.min(m.cfg.max,Math.max(m.cfg.min,Math.round(raw/step)*step));
+      changeSlider(value,true);
+      if(frame===totalFrames)stopPlayback();
+    },300);
   }
   function handleDiagramDrag(event){
     if(!activeDrag)return;
