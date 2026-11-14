@@ -804,7 +804,7 @@ function setNav(k){
 function parseH(){const h=location.hash.replace(/^#/,'')||'/train';const [p,qs]=h.split('?');return {seg:p.split('/').filter(Boolean).map(decodeURIComponent),q:new URLSearchParams(qs||'')};}
 const lv=v=>v==='a'?99:Math.max(0,Math.min(3,parseInt(v,10)||0));
 function route(){const {seg,q}=parseH();closeSearch();
- if(seg[0]==='train'){CUR='train';closeDetail();setNav('train');window.renderPrimaryThinking(seg[1]);window.scrollTo(0,0);return;}
+ if(seg[0]==='train'){CUR='train';closeDetail();setNav('train');window.renderPrimaryThinking(seg[1],seg[2]);window.scrollTo(0,0);return;}
  if(seg[0]==='learn'){closeDetail();if(seg[1]==='done')showPrimarySummary();else showPrimaryLesson(seg[1]);window.scrollTo(0,0);return;}
  if(seg[0]==='g'){const id=TOP[seg[1]]?seg[1]:DEF;const u=seg[2]!=null?lv(seg[2]):1,d=seg[3]!=null?lv(seg[3]):1;showGraph(id,Math.max(1,u),d,q);return;}
  closeDetail();
