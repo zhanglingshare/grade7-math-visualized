@@ -74,9 +74,14 @@ const params = new URLSearchParams(location.search);
 const from = /^[1-3]$/.test(params.get('from') || '') ? Number(params.get('from')) : 0;
 const fromLesson = params.get('lesson') || '';
 const priorTopic = entries.find(([, t]) => t.lesson?.[0] === from && 'L' + t.lesson[1] === fromLesson)?.[0];
-if (from) {
+if (params.get('from') === 'primary') {
+  const primaryLesson = /^L(?:[1-9]|1[0-2])$/.test(fromLesson) ? '/' + fromLesson : '';
+  $('back').href = 'K1-6.html#/learn' + primaryLesson;
+  $('back').textContent = primaryLesson ? '← 回小学补课第 ' + fromLesson.slice(1) + ' 课' : '← 回小学补课';
+  $('back').hidden = false;
+} else if (from) {
   $('back').href = chapterFiles[from - 1] + (priorTopic ? '#/' + fromLesson : '#/');
-  $('back').textContent = priorTopic ? '← 回刚才的课' : '← 回第' + '一二三'[from - 1] + '章目录';
+  $('back').textContent = priorTopic ? '← 回刚才的课' : '← 回第' + '一二三'[from - 1] + '章课节';
   $('back').hidden = false;
 }
 const firstTopic = topicId(params.get('target') || '') || priorTopic || firstTopics[from];

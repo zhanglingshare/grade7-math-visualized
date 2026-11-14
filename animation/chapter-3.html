@@ -200,16 +200,10 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none}
 .reviewDialog::backdrop{background:#2a211b99}
 .reviewDialog .reviewBar{padding:8px;border-bottom:1px solid var(--line)}
 .reviewDialog iframe{display:block;width:100%;height:calc(100% - 61px);border:0;background:var(--bg)}
-.studyNav{position:sticky;top:0;z-index:22;background:#f4eee4;border-bottom:1px solid var(--line)}
-.studyNav .in{max-width:1040px;margin:auto;padding:6px 14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
-.studyNav a{display:grid;place-items:center;min-height:42px;color:var(--ink);font-size:14px;font-weight:700;text-decoration:none;border-radius:9px;white-space:nowrap}
-.studyNav a:hover,.studyNav a:focus-visible{background:var(--paper)}
-.studyNav a[aria-current]{background:var(--or2);color:#913207}
 .top{top:55px}
-body.reviewing .studyNav{display:none}
 body.reviewing .top{top:0}
-@media(max-width:420px){.studyNav .in{padding-inline:8px}.studyNav a{font-size:13px}.top .in{padding-inline:8px;gap:4px}.top .ib{padding-inline:6px;font-size:12px}}
-</style></head><body><nav class="studyNav" aria-label="学习导航"><div class="in"><a href="index.html">第一章</a><a href="chapter-2.html">第二章</a><a href="#/" aria-current="page">第三章</a><a id="knowledgeNav" href="knowledge.html?from=3">知识图谱</a></div></nav><div id="app"></div><script>'use strict';
+@media(max-width:420px){.top .in{padding-inline:8px;gap:4px}.top .ib{padding-inline:6px;font-size:12px}}
+</style><link rel="stylesheet" href="study-navigation.css?v=1"><script src="study-directory.js?v=1"></script></head><body><nav class="studyNav" aria-label="学习导航"><div class="in"><a href="index.html" title="有理数">第一章</a><a href="chapter-2.html" title="有理数的运算">第二章</a><a href="#/" title="代数式" aria-current="page">第三章</a><a href="K1-6.html">小学补课</a><a id="knowledgeNav" class="study-map" href="knowledge.html">知识图谱</a></div></nav><div id="app"></div><script>'use strict';
 const NS='http://www.w3.org/2000/svg';
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -254,7 +248,15 @@ function toast(msg,ms){let t=$('#toast');if(!t){t=H('<div id="toast" class="toas
 const app=()=>$('#app');
 let CUR=null; // current stage
 function cleanup(){EPOCH++;CUR=null;}
-function route(){cleanup();const graphUrl=new URL("knowledge.html",location.href);graphUrl.searchParams.set("from",String(DX.CH));if(/^#\/L[1-8]$/.test(location.hash))graphUrl.searchParams.set("lesson",location.hash.slice(2));$("#knowledgeNav").href=graphUrl.href;const h=location.hash.replace(/^#/,'')||'/';const m=h.match(/^\/L(\d)$/);if(m&&LESSONS[+m[1]-1])showLesson(+m[1]-1);else if(h==='/wrong')showWrong();else if(h==='/start')DXUI.startView();else if(/^\/check\/cnm_(?:p)?\d+$/.test(h)&&DX.G[h.slice(7)])DXUI.topicCheck(h.slice(7));else showHome();window.scrollTo(0,0);}
+function setStudyLinks(hash){
+ const graph=new URL('knowledge.html',location.href);
+ graph.searchParams.set('from',String(DX.CH));
+ const lesson=hash.match(/^\/L[1-8]$/);
+ if(lesson)graph.searchParams.set('lesson',hash.slice(1));
+ if(/^\/check\/cnm_(?:p)?\d+$/.test(hash)&&DX.G[hash.slice(7)])graph.searchParams.set('target',hash.slice(7));
+ $('#knowledgeNav').href=graph.href;
+}
+function route(){cleanup();const h=location.hash.replace(/^#/,'')||'/';setStudyLinks(h);const m=h.match(/^\/L(\d)$/);if(m&&LESSONS[+m[1]-1])showLesson(+m[1]-1);else if(h==='/wrong')showWrong();else if(h==='/start')DXUI.startView();else if(/^\/check\/cnm_(?:p)?\d+$/.test(h)&&DX.G[h.slice(7)])DXUI.topicCheck(h.slice(7));else showHome();window.scrollTo(0,0);}
 window.addEventListener('hashchange',route);
 let lastT=performance.now();
 function loop(now){const dt=Math.min(.05,(now-lastT)/1000);lastT=now;if(CUR&&CUR.frame){try{CUR.frame(now,dt);}catch(e){console.error(e);CUR=null;}}requestAnimationFrame(loop);}
@@ -264,15 +266,16 @@ requestAnimationFrame(loop);
 function lessonProg(L){const md=(DB.m[L.id]||[]).filter(Boolean).length;const q=DB.q[L.id];const qd=Object.keys(DB.qd[L.id]||{}).length;return {md,mt:L.missionsCount||0,q,qd,qn:L.quiz.length};}
 function showHome(){const wcount=Object.keys(DB.w).length;const logs=DB.log;const errs={'审题没看清':0,'法则记混了':0,'算完没检查':0};let fast=0,tot=0;logs.forEach(l=>{if(errs[l.err]!=null)errs[l.err]++;fast+=l.fast||0;tot+=l.n||0;});
  const v=H(`<div><div class="view">
- <div class="hero"><h1>第三章 代数式<br><span>拖一拖、拼一拼，自己发现字母的用法</span></h1>
- <p>人教版七年级上册 · 6 节课（3.1、3.2 和数学活动）。核心一句话：<b>字母就是一个可以放任何数的空位</b>。列式时“先找运算，再圈整体”，代入时“负数要带括号”。每节课先别背，先动手玩，看它怎么变，再自己说出原理。</p>
- <div class="loop"><span><b>①</b> 先猜</span><span><b>②</b> 动手感悟</span><span><b>③</b> 说出原理</span><span><b>④</b> 先审题再刷题</span><span><b>⑤</b> 看自己错在哪</span><span><b>⑥</b> 反思</span></div></div>
+ <div class="hero"><h1>第三章 · 代数式</h1><p>七年级上册</p></div>
+ <div class="chapter-directory"><h2>本章课节</h2><span>${LESSONS.length} 课</span></div>
  <div class="lcards" id="lcs"></div>
- <h2 class="sec">复盘</h2>
+ <details class="chapter-recap">
+ <summary>本章诊断与错题</summary><div class="row" id="chapter-diagnosis"></div>
  <div class="lcards"><button class="lc" id="gowrong"><div class="no">错题本</div><h3>${wcount?wcount+' 道题等你重做':'暂时没有错题'}</h3><p>只留做错的题，重做对了才会消失。</p></button>
  <div class="lc"><div class="no">我的复盘记录</div><h3>做了 ${logs.length} 组题</h3>
  <div class="stat"><div><b>${errs['审题没看清']}</b><small>审题没看清</small></div><div><b>${errs['法则记混了']}</b><small>法则记混了</small></div><div><b>${errs['算完没检查']}</b><small>算完没检查</small></div></div>
- <p style="margin-top:8px">${tot?`不到 5 秒就作答：${fast}/${tot} 题。${fast/tot>.3?'<b style="color:#c8372d">太快了，先想一想再动笔。</b>':'保持先想后做。'}`:'做完一组题后，这里会显示你最常犯的错误。'}</p></div></div>
+ <p style="margin-top:8px">${tot?`不到 5 秒就作答：${fast}/${tot} 题。${fast/tot>.3?'<b style="color:#c8372d">太快了，先想一想再动笔。</b>':'保持先想后做。'}`:'做完一组题后，这里会显示你最常犯的错误。'}</p></div></div><div class="hero"><p>人教版七年级上册 · 6 节课（3.1、3.2 和数学活动）。核心一句话：<b>字母就是一个可以放任何数的空位</b>。列式时“先找运算，再圈整体”，代入时“负数要带括号”。每节课先别背，先动手玩，看它怎么变，再自己说出原理。</p>
+ <div class="loop"><span><b>①</b> 先猜</span><span><b>②</b> 动手感悟</span><span><b>③</b> 说出原理</span><span><b>④</b> 先审题再刷题</span><span><b>⑤</b> 看自己错在哪</span><span><b>⑥</b> 反思</span></div></div></details>
  </div></div>`);
  app().replaceChildren(v);
  const box=$('#lcs',v);
@@ -282,11 +285,19 @@ function showHome(){const wcount=Object.keys(DB.w).length;const logs=DB.log;cons
 }
 
 // ---------- lesson ----------
-function topBar(title,i){const n=LESSONS.length;return H(`<div class="top"><div class="in"><button class="ib" data-go="#/">← 目录</button><div class="tt">${title}</div>${i==null?'':`<button class="ib" ${i<=0?'disabled':''} data-go="#/L${i}">‹ 上一课</button><button class="ib" ${i>=n-1?'disabled':''} data-go="#/L${i+2}">下一课 ›</button>`}</div></div>`);}
+const CHAPTER_LABEL='第三章';
+function topBar(title,i){
+ if(i==null)return H(`<div class="top"><div class="in"><button class="ib" data-go="#/">← 本章课节</button><div class="tt">${title}</div></div></div>`);
+ return H(`<header class="chapter-lesson-head study-lesson-heading"><div><div class="chapter-lesson-place">${CHAPTER_LABEL} · 第 ${i+1} / ${LESSONS.length} 课</div><h1>${title}</h1></div><button type="button" class="study-directory" data-study-directory aria-haspopup="dialog">课节目录</button></header>`);
+}
+function chapterLessonDirectory(i){
+ const items=LESSONS.map((lesson,index)=>`<li><a href="#/${lesson.id}"${index===i?' aria-current="step"':''}><span class="study-num">${lesson.no}</span><span>${lesson.title}</span>${index===i?'<span class="study-state">当前</span>':''}</a></li>`).join('');
+ return H(`<dialog class="study-lesson-dialog" id="study-lesson-directory" aria-labelledby="study-lesson-title"><header><h2 id="study-lesson-title">${CHAPTER_LABEL} · 课节目录</h2><form method="dialog"><button class="study-directory study-close" data-study-close>关闭</button></form></header><ol class="study-list">${items}</ol><p><a class="study-graph-back" href="#/">回本章总览</a></p></dialog>`);
+}
 function bindGo(root){$$('[data-go]',root).forEach(b=>b.onclick=()=>{location.hash=b.dataset.go;});}
 
 function showLesson(i){const L=LESSONS[i];
- const root=H(`<div></div>`);root.appendChild(topBar(`<small>${L.no}</small>${L.title}`,i));
+ const root=H(`<div></div>`);
  const v=H(`<div class="view"><div class="lgrid">
   <div class="main"><div class="card" id="stagecard">
    <div class="guess" id="guess"></div>
@@ -301,9 +312,15 @@ function showLesson(i){const L=LESSONS[i];
  </div>
  <div class="card" id="rulecard"></div>
  <div class="card" id="quizcard"></div>
- <div class="row" style="justify-content:space-between"><button class="btn ghost" data-go="#/">← 回目录</button>${i<LESSONS.length-1?`<button class="btn" data-go="#/L${i+2}">下一课：${LESSONS[i+1].title} →</button>`:'<button class="btn" data-go="#/wrong">去错题本 →</button>'}</div>
+ <div class="row" style="justify-content:space-between">${i>0?`<button class="btn ghost" data-go="#/L${i}">‹ 上一课</button>`:'<button class="btn ghost" data-go="#/">← 本章课节</button>'}${i<LESSONS.length-1?`<button class="btn" data-go="#/L${i+2}">下一课 · ${LESSONS[i+1].title} →</button>`:'<button class="btn" data-go="#/wrong">去错题本 →</button>'}</div>
  </div>`);
- root.appendChild(v);app().replaceChildren(root);bindGo(root);
+ const heading=topBar(L.title,i);
+ const directory=chapterLessonDirectory(i);
+ const trigger=$('[data-study-directory]',heading);
+ v.prepend(heading);
+ root.append(v,directory);
+ app().replaceChildren(root);bindGo(root);
+ trigger.onclick=()=>showStudyDirectory(trigger);
  // guess
  renderGuess(L,$('#guess',v));
  // stage
@@ -446,7 +463,7 @@ function ask(card,q,done,record){const t0=performance.now();
 // ---------- wrong book ----------
 function showWrong(){const root=H('<div></div>');root.appendChild(topBar('错题本',null));const v=H(`<div class="view"><div class="hero"><h1>错题本</h1><p>只留做错的题。先审题，再重做；做对了它就会消失。</p></div><div id="wl"></div></div>`);root.appendChild(v);app().replaceChildren(root);bindGo(root);
  const keys=Object.keys(DB.w).filter(k=>{const [lid,qi]=k.split(':');const L=LESSONS.find(x=>x.id===lid);return L&&L.quiz[+qi];});
- const wl=$('#wl',v);if(!keys.length){wl.appendChild(H('<div class="card"><b>没有错题 🎉</b><p class="muted">去各节课刷题，做错的题会自动进来。</p><button class="btn" data-go="#/">回目录</button></div>'));bindGo(wl);return;}
+ const wl=$('#wl',v);if(!keys.length){wl.appendChild(H('<div class="card"><b>没有错题 🎉</b><p class="muted">去各节课刷题，做错的题会自动进来。</p><button class="btn" data-go="#/">回本章课节</button></div>'));bindGo(wl);return;}
  keys.forEach(k=>{const [lid,qi]=k.split(':');const L=LESSONS.find(x=>x.id===lid);const q=L.quiz[+qi];const c=H(`<div class="card wi"><div class="src">${L.no} ${L.title} · ${TN[q.t]||''} · 第 ${+qi+1} 题</div></div>`);wl.appendChild(c);
   {const dx=DB.w[k]&&DB.w[k].dx;if(dx&&dx.text)c.appendChild(H(`<div class="dxroot"><b>🔎 上次诊断：</b>${dx.text}${dx.root&&dx.root!==dx.main&&DX.T[dx.root]?` <span>建议先补「${DX.T[dx.root].nm}」</span>`:''}</div>`));}
   ask(c,q,(ok,secs,info)=>{if(ok){const tg=(DX.TAG[lid]||[])[+qi];if(tg)DX.rec('cnm_'+tg.split(',')[0],true,'quiz');delete DB.w[k];save();c.appendChild(H('<div class="fbtxt ok">已消掉 ✓ 这次答对了。</div>'));setTimeout(()=>{c.animate&&c.animate([{opacity:1},{opacity:0,transform:'scale(.97)'}],{duration:500,easing:'ease'});setTimeout(()=>c.remove(),480);},2200);}else{DB.w[k]=Object.assign(DB.w[k]||{},{t:Date.now()});save();const again=()=>{const r=H('<div class="row"><button class="btn ghost">再做一次</button></div>');r.firstChild.onclick=()=>{route();};c.appendChild(r);};const tg=(DX.TAG[lid]||[])[+qi];if(tg){const ep=EPOCH;DXUI.run(c,{lid,qi:+qi,q,info},r=>{if(ep!==EPOCH)return;if(r&&DB.w[k]){DB.w[k].dx=r.sum;save();}again();});}else again();}});});
@@ -1566,9 +1583,8 @@ DXUI.topicCheck=function(id){
  })();
 };
 DXUI.home=function(v){
- const lessons=$('#lcs',v);
- const start=H(`<div class="row"><a class="btn ghost" href="#/start" id="gostart">${ST.start[DX.CH]?'再测一次':'先测一测'} →</a></div>`);
- lessons.before(start);
+ const start=H(`<a class="btn ghost" href="#/start" id="gostart">${ST.start[DX.CH]?'重做本章诊断':'做本章诊断'} →</a>`);
+ $('#chapter-diagnosis',v).appendChild(start);
  v.querySelector('.view').appendChild(H(DXUI.footer()));
 };
 DXUI.footer=()=>`<div class="dxfoot">知识点与先修关系改编自 <a href="https://github.com/xiaoyang111222/cn-math-taxonomy" target="_blank" rel="noopener">cn-math-taxonomy</a>（作者 xiaoyang111222），采用 <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC 4.0</a> 许可。<b>已修改</b>：按人教版 2024 七上逐条审核先修关系（删去不合理的、补上课本里明确的），诊断题重新编写并用程序验算。仅供非商业使用。</div>`;

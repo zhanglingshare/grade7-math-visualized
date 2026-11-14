@@ -1,0 +1,138 @@
+.studyNav {
+  position: sticky;
+  top: 0;
+  z-index: 35;
+  background: #f5efe5;
+  border-bottom: 1px solid #e6d8c6;
+}
+.studyNav .in {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  align-items: stretch;
+  gap: 4px;
+  max-width: 1040px;
+  margin: auto;
+  padding: 5px 10px;
+}
+.studyNav a {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 44px;
+  padding: 3px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #342b23;
+  font-size: .9rem;
+  line-height: 1.2;
+  font-weight: 720;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.studyNav a:hover { background: #fff9f1; }
+.studyNav a[aria-current="page"] {
+  color: #843416;
+  background: #ffe4cd;
+  border-color: #efd0b4;
+}
+.studyNav a.study-map {
+  padding-inline: 12px;
+  border-radius: 8px;
+  background: #eaf0f8;
+  color: #2d5483;
+}
+.studyNav a.study-map:hover { background: #dce8f5; }
+.studyNav a.study-map[aria-current="page"] { border-color: #b2c8e1; background: #dce8f5; }
+.studyNav a:focus-visible, .study-directory:focus-visible, .study-lesson-dialog :focus-visible {
+  outline: 2px solid #2457a0;
+  outline-offset: 2px;
+}
+body.reviewing .studyNav { display: none; }
+.chapter-directory {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 4px 0 9px;
+  padding-inline: 4px;
+}
+.chapter-directory h2 { margin: 0; font-size: 1.02rem; }
+.chapter-directory span { color: #6c5a4a; font-size: .85rem; }
+.chapter-recap { margin-top: 15px; }
+.chapter-recap > summary {
+  display: list-item;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #e7d9c8;
+  border-radius: 10px;
+  background: #fffaf2;
+  color: #5a3e28;
+  font-weight: 720;
+  cursor: pointer;
+}
+.chapter-recap .lcards { margin-top: 9px; }
+.chapter-recap .row { margin-block: 7px; }
+.chapter-lesson-head { margin: 0 0 10px; }
+.chapter-lesson-head h1 { margin: 3px 0 0; font-size: clamp(21px, 5vw, 29px); line-height: 1.25; color: #2a211b; }
+.chapter-lesson-place { font-size: .82rem; font-weight: 700; color: #77523b; }
+.study-lesson-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px 13px; }
+.study-lesson-heading > div:first-child { min-width: 0; overflow-wrap: anywhere; }
+.study-directory {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  flex: none;
+  padding: 6px 11px;
+  border: 1px solid #dfbd9e;
+  border-radius: 9px;
+  background: #fff9f0;
+  color: #773e21;
+  font-size: .87rem;
+  font-weight: 740;
+  cursor: pointer;
+}
+.study-lesson-dialog {
+  box-sizing: border-box;
+  width: min(500px, calc(100% - 24px));
+  max-height: min(83vh, 660px);
+  max-height: min(83dvh, 660px);
+  border: 1px solid #e2d3c2;
+  border-radius: 14px;
+  padding: 12px 14px 15px;
+  background: #fffaf2;
+  color: #2a211b;
+}
+.study-lesson-dialog::backdrop { background: #1e293666; }
+.study-lesson-dialog header { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 4px; background: #fffaf2; }
+.study-lesson-dialog h2 { margin: 0; font-size: 1.08rem; line-height: 1.35; }
+.study-lesson-dialog .study-close { min-width: 44px; padding-inline: 8px; }
+.study-lesson-dialog .study-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 5px; }
+.study-lesson-dialog .study-list a {
+  display: grid;
+  grid-template-columns: minmax(2rem, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid #e7d9c8;
+  background: #fff;
+  color: #3c3026;
+  scroll-margin-block: 50px 8px;
+  text-decoration: none;
+  line-height: 1.35;
+}
+.study-lesson-dialog .study-list a:hover { background: #fff3e4; }
+.study-lesson-dialog .study-list a[aria-current="step"] { background: #ffecd9; color: #853e1c; border-color: #e8bb96; }
+.study-lesson-dialog .study-list .study-num { font-size: .83rem; color: #795637; }
+.study-lesson-dialog .study-list .study-state { color: #66513f; font-size: .8rem; white-space: nowrap; }
+.study-lesson-dialog h3 { margin: 12px 0 4px; font-size: .88rem; color: #75533a; }
+.study-graph-back { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; color: #86421e; }
+.study-graph-back[hidden] { display: none; }
+@media (max-width: 430px) {
+  .studyNav .in { padding-inline: 6px; gap: 2px; }
+  .studyNav a { font-size: .8rem; padding-inline: 1px; }
+  .studyNav a.study-map { padding-inline: 6px; }
+}

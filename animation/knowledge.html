@@ -4,21 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>数学知识图谱 · 小学到高中</title>
-<link rel="stylesheet" href="graph/knowledge.css?v=4">
+<link rel="stylesheet" href="graph/knowledge.css?v=5">
+<link rel="stylesheet" href="study-navigation.css?v=1">
 <script defer src="graph/dagre.min.js"></script>
 <script defer src="graph/catalog.js?v=2"></script>
-<script defer src="graph/knowledge.js?v=3"></script>
+<script defer src="graph/knowledge.js?v=4"></script>
 </head>
 <body>
-<nav class="course-nav" aria-label="学习导航">
-  <div><a href="index.html">第一章</a><a href="chapter-2.html">第二章</a><a href="chapter-3.html">第三章</a><a href="knowledge.html" aria-current="page">知识图谱</a><a class="primary-course" href="K1-6.html">小学补课</a></div>
-</nav>
+<nav class="studyNav" aria-label="学习导航"><div class="in"><a href="index.html" title="有理数">第一章</a><a href="chapter-2.html" title="有理数的运算">第二章</a><a href="chapter-3.html" title="代数式">第三章</a><a href="K1-6.html">小学补课</a><a id="knowledgeNav" class="study-map" href="knowledge.html" aria-current="page">知识图谱</a></div></nav>
 <main>
   <header class="page-head">
-    <div><p class="scope">小学 · 初中 · 高中</p><h1>数学知识图谱</h1></div>
+    <div><p class="scope">小学 · 初中 · 高中</p><h1>数学知识图谱</h1><a class="study-graph-back" id="back" href="index.html" hidden>← 回刚才的课</a></div>
     <button class="button directory-button" id="directory" type="button" aria-haspopup="dialog">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"></circle><path d="m15 15 4 4"></path></svg>
-      知识点目录
+      查知识点
     </button>
   </header>
   <div class="layout">
@@ -89,7 +88,6 @@
         <summary>为什么连在一起？</summary>
         <div id="relations"></div>
       </details>
-      <a class="back" id="back" href="index.html" hidden>← 回刚才的课</a>
     </aside>
   </div>
   <footer class="source">
@@ -99,7 +97,7 @@
 </main>
 <dialog id="catalog-dialog" aria-labelledby="catalog-title">
   <section class="catalog">
-    <header><div><p class="scope" id="catalog-count"></p><h2 id="catalog-title">知识点目录</h2></div><button type="button" class="icon-button" id="close-directory" aria-label="关闭目录">×</button></header>
+    <header><div><p class="scope" id="catalog-count"></p><h2 id="catalog-title">查知识点</h2></div><button type="button" class="icon-button" id="close-directory" aria-label="关闭知识点搜索">×</button></header>
     <label for="search" class="sr-only">搜索知识点</label>
     <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="搜相反数、配方法、二次函数…">
     <div id="filters" class="segments filters" role="group" aria-label="按学段筛选">

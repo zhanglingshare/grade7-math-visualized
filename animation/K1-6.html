@@ -5,14 +5,6 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--ff);ov
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 a{color:var(--or)}
-.top{position:sticky;top:0;z-index:30;background:rgba(244,238,228,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px 12px 4px}
-.top .tt{flex:1;min-width:0;font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.top .tt small{color:var(--or);font-weight:800;margin-right:4px}
-.nav{max-width:1180px;margin:0 auto;display:flex;gap:4px;padding:2px 10px 8px;overflow-x:auto;scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.nav a{flex:1 0 auto;text-align:center;text-decoration:none;color:var(--muted);font-weight:700;font-size:14.5px;padding:6px 10px;border-radius:12px;white-space:nowrap}
-.nav a.on{background:var(--or2);color:var(--or)}
 .ib{min-height:40px;min-width:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);font-size:14px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px}
 .ib:disabled{opacity:.35}
 .view{max-width:1180px;margin:0 auto;padding:12px 12px 40px}
@@ -151,21 +143,11 @@ footer{max-width:1180px;margin:0 auto;padding:6px 14px 40px;font-size:12.5px;col
 .ch7 .card{margin:0}
 .lab{font-size:12.5px;color:var(--muted);font-weight:700;margin:8px 0 4px}
 
-.nav a { min-height: 42px; display: grid; place-items: center; }
-.nav a[data-k=learn] { color: #923a18; }
-.nav a[data-k=learn].on { background: #ffe1c9; color: #8c3512; }
-.nav a.back-to-site { color: #345b8c; }
-.nav .graph-tools { display: contents; }
-.nav .graph-tools[hidden] { display: none; }
-.top .tt { display: flex; align-items: baseline; gap: 5px; }
-.top .tt span { overflow: hidden; text-overflow: ellipsis; }
 .pl { max-width: 960px; }
 .pl :focus-visible { outline: 3px solid #245fc0; outline-offset: 3px; }
 .pl-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: end; margin: 3px 0 12px; }
 .pl-head h1 { margin: 2px 0 0; font-size: clamp(24px, 5.5vw, 35px); line-height: 1.18; letter-spacing: -.03em; }
 .pl-context { color: #785a46; font-size: 13px; font-weight: 760; }
-.pl-count { color: #6e5241; font-size: 14px; white-space: nowrap; }
-.pl-count b { color: #9e471d; font-size: 19px; }
 .pl-progress { grid-column: 1 / -1; width: 100%; height: 6px; border: 0; border-radius: 8px; margin-top: 4px; accent-color: #b34b1b; }
 .pl-board { border-radius: 17px; border: 1px solid #2c465a; color: #f2f6f5; background: radial-gradient(ellipse at 40% -30%, #254b60, transparent 72%), #172734; padding: 14px clamp(10px, 3vw, 25px) 15px; }
 .pl-board h2 { font-size: 17px; line-height: 1.45; margin: 0 0 7px; color: #f7f1e4; }
@@ -180,14 +162,9 @@ footer{max-width:1180px;margin:0 auto;padding:6px 14px 40px;font-size:12.5px;col
 .pl-steps .btn:not(.ghost) { background: #ffd098; color: #36231b; }
 .pl-steps .btn.ghost { background: #223747; color: #e6edf2; border-color: #608398; }
 .pl-steps .btn:disabled { opacity: .45; cursor: default; }
-.pl-lessons { margin: 12px 0 0; }
-.pl-lessons > summary { cursor: pointer; min-height: 44px; font-weight: 760; padding: 10px 0; color: #69391f; }
-.pl-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 5px; margin: 4px 0 9px; }
-.pl-menu a { display: flex; gap: 7px; align-items: center; min-height: 44px; padding: 4px 8px; text-decoration: none; border: 1px solid #e8dac9; border-radius: 9px; font-size: 14px; color: #594331; background: #fffaf2; white-space: normal; line-height: 1.35; }
-.pl-menu a[aria-current] { background: #ffe4cc; color: #873612; font-weight: 740; border-color: #efb98e; }
-.pl-menu .pl-seen { color: #1e6b51; margin-left: auto; }
 .pl-links { border-top: 1px solid #e7d8c7; margin-top: 6px; padding-top: 10px; }
 .pl-links .tp { min-height: 40px; }
+.pl-links > summary { min-height: 44px; padding: 10px 2px; color: #70472e; font-weight: 700; cursor: pointer; }
 .pl-links p { font-size: 13px; color: #695746; margin: 5px 0 7px; }
 .pl-links .pl-jump { min-height: 44px; margin-top: 9px; }
 .pl-place { display: grid; width: min(100%, 600px); grid-template-columns: repeat(var(--slots), minmax(0, 1fr)); gap: 4px; }
@@ -232,19 +209,19 @@ footer{max-width:1180px;margin:0 auto;padding:6px 14px 40px;font-size:12.5px;col
 .pl-frame { animation: pl-in .22s ease-out; }
 @media (prefers-reduced-motion: reduce) { .pl-frame { animation: none; } }
 @media (max-width: 450px) {
-  .top .in { padding-top: 5px; }
-  .top .tt { font-size: 14px; }
-  .top .tt small { margin: 0; }
-  .nav { gap: 2px; padding-inline: 5px; }
-  .nav a { padding-inline: 5px; font-size: 13px; }
   .pl { padding-inline: 9px; }
   .pl-steps .btn { padding-inline: 8px; font-size: 14px; }
-  .pl-count { font-size: 12px; }
 }
-@media (max-width: 350px) { .nav a { padding-inline: 4px; font-size: 11.5px; } }
-</style></head><body>
-<header class="top"><div class="in"><div class="tt"><small>数学</small><span>人教版 · 补课与知识图谱</span></div><button class="ib" data-act="search" aria-label="搜索">🔍 搜索</button></div>
-<nav class="nav" aria-label="学习导航"><a href="#/learn" data-k="learn">小学补课</a><a href="#/g/cnm_012/2/1" data-k="g">知识图谱</a><span class="graph-tools" id="graph-tools" hidden><a href="#/" data-k="home">概览</a><a href="#/cat" data-k="cat">目录</a><a href="#/p" data-k="p">补课路径</a><a href="#/me" data-k="me">我的进度</a></span><a href="index.html" class="back-to-site">回七上</a></nav></header>
+.primary-graph-tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; max-width: 1040px; margin: 2px auto; padding: 0 10px; }
+.primary-graph-tools[hidden] { display: none; }
+.primary-graph-tools a, .primary-graph-tools button { display: inline-flex; align-items: center; min-height: 44px; padding: 3px 7px; color: #614c3d; font-size: .85rem; text-decoration: none; }
+.primary-graph-tools button { border: 0; border-radius: 8px; background: #fff4e5; font-weight: 750; }
+.primary-graph-tools a[aria-current] { color: #8a3f1c; font-weight: 750; text-decoration: underline; text-underline-offset: 4px; }
+</style><link rel="stylesheet" href="study-navigation.css?v=1"><script src="study-directory.js?v=1"></script></head><body>
+<nav class="studyNav" aria-label="学习导航"><div class="in"><a href="index.html" title="有理数">第一章</a><a href="chapter-2.html" title="有理数的运算">第二章</a><a href="chapter-3.html" title="代数式">第三章</a><a href="#/learn" aria-current="page">小学补课</a><a id="knowledgeNav" class="study-map" href="knowledge.html">知识图谱</a></div></nav>
+<nav class="primary-graph-tools" id="graph-tools" aria-label="图谱资料" hidden>
+  <a href="#/" data-k="home">图谱概览</a><a href="#/cat" data-k="cat">知识点目录</a><button type="button" data-act="search">查知识点</button><a href="#/p" data-k="p">补课路径</a><a href="#/me" data-k="me">我的进度</a>
+</nav>
 <main id="app"></main>
 <footer>知识点和先修关系数据来自 <a href="https://github.com/xiaoyang111222/cn-math-taxonomy" target="_blank" rel="noopener">xiaoyang111222/cn-math-taxonomy</a>（CC BY-NC 4.0，非商业使用；数据由 AI 生成，原作者提示先修关系需教师审核）。本页对数据做了重新排版和个人进度叠加，保留知识点原文，另加小学补课例子。补课和图谱可离线使用。</footer>
 <div class="sheet-bg" id="sheetbg" data-act="closedetail"></div>
@@ -551,13 +528,31 @@ function lessons(id) {
   return [...local, ...original];
 }
 
+const PRIMARY_SECTIONS = [
+  { title: '数位与小数', start: 0, end: 5 },
+  { title: '分数运算', start: 5, end: 9 },
+  { title: '运算顺序、方向与列式', start: 9, end: 12 }
+];
+
 function primaryMenu(current = '') {
-  return `<nav class="pl-menu" aria-label="小学补课目录">${PRIMARY_LESSONS.map((item, index) => `<a href="${primaryHash(item.id)}" data-pl-lesson="${item.id}"${item.id === current ? ' aria-current="step"' : ''}><span>${index + 1}. ${esc(item.title)}</span><span class="pl-seen">${primaryProgress.watched.includes(item.id) ? '✓' : ''}</span></a>`).join('')}</nav>`;
+  return PRIMARY_SECTIONS.map(({ title, start, end }) => `<section><h3>${title}</h3><ol class="study-list">${PRIMARY_LESSONS.slice(start, end).map((item, index) => `<li><a href="${primaryHash(item.id)}" data-pl-lesson="${item.id}"${item.id === current ? ' aria-current="step"' : ''}><span class="study-num">${start + index + 1}</span><span>${esc(item.title)}</span><span class="study-state">${item.id === current ? '当前' : primaryProgress.watched.includes(item.id) ? '看完' : ''}</span></a></li>`).join('')}</ol></section>`).join('');
+}
+
+function primaryDirectory(current = '') {
+  return `<dialog class="study-lesson-dialog" id="study-lesson-directory" aria-labelledby="study-lesson-title"><header><h2 id="study-lesson-title">小学补课 · 课节目录</h2><form method="dialog"><button class="study-directory study-close" data-study-close>关闭</button></form></header>${primaryMenu(current)}</dialog>`;
+}
+
+function primaryGraphLink(id, lesson) {
+  return gHash(id, 1, 1, 'return=' + lesson.id);
+}
+
+function bindPrimaryDirectory() {
+  const trigger = $('[data-study-directory]', APP);
+  trigger.onclick = () => showStudyDirectory(trigger);
 }
 
 function showPrimaryLesson(requested) {
   CUR = 'learn';
-  setNav('learn');
   const lesson = PRIMARY_BY_ID.get(requested) || PRIMARY_BY_ID.get(primaryProgress.resume);
   primaryLesson = lesson;
   primaryStep = savedPrimaryStep(lesson);
@@ -566,8 +561,8 @@ function showPrimaryLesson(requested) {
   const [bridgeId, why] = lesson.bridge;
   APP.innerHTML = `<div class="view pl" id="primary-view">
     <header class="pl-head">
-      <div><span class="pl-context">小学数学 · 第 ${number} / ${PRIMARY_LESSONS.length} 课</span><h1>${esc(lesson.title)}</h1></div>
-      <span class="pl-count">看完 <b data-pl-watched>${primaryProgress.watched.length}</b> 课</span>
+      <div><span class="pl-context">小学补课 · 第 ${number} / ${PRIMARY_LESSONS.length} 课</span><h1>${esc(lesson.title)}</h1></div>
+      <button type="button" class="study-directory" data-study-directory aria-haspopup="dialog">课节目录</button>
       <progress class="pl-progress" aria-label="已看完的课程" max="${PRIMARY_LESSONS.length}" value="${primaryProgress.watched.length}"></progress>
     </header>
     <section class="pl-board" aria-label="${esc(lesson.focus)}">
@@ -577,14 +572,13 @@ function showPrimaryLesson(requested) {
         <button type="button" class="btn" data-pl-next>下一步</button>
       </div></div>
     </section>
-    <details class="pl-lessons"><summary>${PRIMARY_LESSONS.length} 课目录</summary>
-      ${primaryMenu(lesson.id)}
+    <details class="pl-links"><summary>这课和七上有什么关系？</summary><p>${esc(why)}</p>
+      <div class="chips">${lesson.topics.map(id => chip(id, { href: primaryGraphLink(id, lesson), lab: 1 })).join('')}</div>
+      <a class="btn sm ghost pl-jump" href="${primaryGraphLink(bridgeId, lesson)}">图谱 → ${esc(TOP[bridgeId].n)}</a>
     </details>
-    <aside class="pl-links" aria-label="对应的知识图谱"><p>${esc(why)}</p>
-      <div class="chips">${lesson.topics.map(id => chip(id, { href: gHash(id, 1, 1), lab: 1 })).join('')}</div>
-      <a class="btn sm ghost pl-jump" href="${gHash(bridgeId, 1, 1)}">图谱 → ${esc(TOP[bridgeId].n)}</a>
-    </aside>
+    ${primaryDirectory(lesson.id)}
   </div>`;
+  bindPrimaryDirectory();
 
   $('[data-pl-prev]', APP).onclick = () => {
     primaryStep = Math.max(0, primaryStep - 1);
@@ -599,6 +593,7 @@ function showPrimaryLesson(requested) {
     location.hash = next ? primaryHash(next.id) : '#/learn/done';
   };
   updatePrimaryFrame();
+  setNav('learn');
 }
 
 function updatePrimaryFrame() {
@@ -609,9 +604,7 @@ function updatePrimaryFrame() {
   $('[data-pl-counter]', APP).textContent = `${primaryStep + 1} / ${primaryLesson.steps.length} 步`;
   $('[data-pl-prev]', APP).disabled = primaryStep === 0;
   $('[data-pl-next]', APP).textContent = atEnd ? (primaryLesson === PRIMARY_LESSONS.at(-1) ? '完成' : '下一课') : '下一步';
-  $('[data-pl-watched]', APP).textContent = primaryProgress.watched.length;
   $('.pl-progress', APP).value = primaryProgress.watched.length;
-  $(`[data-pl-lesson="${primaryLesson.id}"] .pl-seen`, APP).textContent = primaryProgress.watched.includes(primaryLesson.id) ? '✓' : '';
 }
 
 function showPrimarySummary() {
@@ -619,9 +612,11 @@ function showPrimarySummary() {
   setNav('learn');
   APP.innerHTML = `<div class="view pl"><div class="card"><h1>小学补课进度</h1>
     <p>已看完 ${primaryProgress.watched.length} / ${PRIMARY_LESSONS.length} 课。</p>
-    ${primaryMenu()}
-    <a class="btn" href="${gHash('cnm_012', 2, 1)}">看七上有理数图谱</a>
+    <div class="row"><button type="button" class="study-directory" data-study-directory aria-haspopup="dialog">课节目录</button>
+    <a class="btn" href="index.html">去第一章 · 有理数</a></div>
+    ${primaryDirectory()}
   </div></div>`;
+  bindPrimaryDirectory();
 }
 
 // 七上各章
@@ -786,7 +781,16 @@ const APP=$('#app');let CUR=null;const CRUMB=[];let LASTG='cnm_012',LASTU=2,LAST
 const DEF='cnm_012';
 function chip(id,opt={}){const t=TOP[id];const s=st(id);return `<a class="tp ${t.b}" href="${opt.href||gHash(id,LASTU,LASTD)}" title="${esc(t.n)}"><i class="dot ${s}"></i>${esc(t.n)}${opt.lab?` <small>${esc(t.k)}</small>`:''}${lessons(id).length?'<span class="ls">▶课</span>':''}</a>`;}
 function stPill(id){const s=st(id);const man=OW.man[id];const nm=man?({ok:'会了',weak:'薄弱',none:'未验证'}[s]+'（手动标记）'):STN[s];return `<span class="pill ${s}">${s==='ok'?'✓ ':s==='weak'?'! ':''}${nm}</span>`;}
-function setNav(k){$('#graph-tools').hidden=k==='learn';$$('.nav a').forEach(a=>{const active=a.dataset.k===k;a.classList.toggle('on',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});const g=$('.nav a[data-k=g]');if(g)g.href=gHash(LASTG,LASTU,LASTD);}
+function setNav(k){
+ const tools=$('#graph-tools');
+ tools.hidden=k==='learn';
+ $$('a',tools).forEach(a=>{if(a.dataset.k===k)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+ const graph=new URL('knowledge.html',location.href);
+ graph.searchParams.set('from','primary');
+ graph.searchParams.set('lesson',primaryProgress.resume);
+ if(k==='g'&&GR.center)graph.searchParams.set('target',GR.center);
+ $('#knowledgeNav').href=graph.href;
+}
 function parseH(){const h=location.hash.replace(/^#/,'')||'/learn';const [p,qs]=h.split('?');return {seg:p.split('/').filter(Boolean).map(decodeURIComponent),q:new URLSearchParams(qs||'')};}
 const lv=v=>v==='a'?99:Math.max(0,Math.min(3,parseInt(v,10)||0));
 function route(){const {seg,q}=parseH();closeSearch();
@@ -825,9 +829,9 @@ function srcLine(){const a=[];a.push(SRC.diag?`七上诊断版：读到 ${SRC.di
 
 // ---------- 图谱 ----------
 function segHTML(name,vals,cur){return `<div class="seg" data-seg="${name}">${vals.map(([v,l])=>`<button data-v="${v}" class="${cur===v?'on':''}">${l}</button>`).join('')}</div>`;}
-function showGraph(id,u,d,q){let from=CUR==='g'?GR.center:null;const hlq=q.get('hl')?q.toString():'';
+function showGraph(id,u,d,q){let from=CUR==='g'?GR.center:null;const hlq=(q.get('hl')||q.has('return'))?q.toString():'';
  if(CUR!=='g'){CUR='g';setNav('g');window.scrollTo(0,0);
-  APP.innerHTML=`<div class="view"><div class="crumbs" id="crumbs"></div><div class="gctl" id="gctl"></div>
+  APP.innerHTML=`<div class="view"><a class="study-graph-back" id="primary-graph-back" href="#/learn" hidden>← 回小学补课</a><div class="crumbs" id="crumbs"></div><div class="gctl" id="gctl"></div>
   <div class="gl"><div><div class="gw" id="gw"><div class="gfs-ctl" id="gfsctl"></div><div class="gbt"><button class="ib" data-act="zo" aria-label="缩小">−</button><button class="ib" data-act="zi" aria-label="放大">＋</button><button class="ib" data-act="fit" aria-label="整张图">⤢</button><button class="ib" data-act="fs" aria-label="全屏">⛶</button></div><div class="ginfo" id="ginfo"></div></div>
   <div class="cap" id="gcap"></div>
   <div class="legend"><span><i style="border-color:#12857a;background:#e0f2ef"></i>小学</span><span><i style="border-color:#2f6fd1;background:#e8effc"></i>初中</span><span><i style="border-color:#8a44c8;background:#f2e8fb"></i>高中</span><span><i style="border-color:#d45216;background:#fff0e3;border-width:3px"></i>当前</span></div>
@@ -836,12 +840,16 @@ function showGraph(id,u,d,q){let from=CUR==='g'?GR.center:null;const hlq=q.get('
   </div><div class="side" id="gside"></div></div></div>`;
   mountGraph($('#gw'));sizeGW();from=null;}
  const changedCenter=GR.center!==id;GR.center=id;GR.u=u;GR.d=d;GR.hlq=hlq;LASTG=id;LASTU=u;LASTD=d;setNav('g');
+ const returnLink=$('#primary-graph-back');
+ const returnLesson=q.get('return');
+ returnLink.hidden=!PRIMARY_BY_ID.has(returnLesson);
+ if(!returnLink.hidden){returnLink.href=primaryHash(returnLesson);returnLink.textContent='← 回小学补课第 '+returnLesson.slice(1)+' 课';}
  GR.hl=null;if(q.get('hl')==='path'){const P=computePath(id,lv(q.get('k')||'3'),q.get('s')!=='1');GR.hl=new Set(P.C);GR.hl.add(id);}
  const ix=CRUMB.indexOf(id);if(ix>=0)CRUMB.splice(ix+1);else{CRUMB.push(id);if(CRUMB.length>10)CRUMB.shift();}
  const f=v=>v>=99?'a':String(v);
  const ctl=`<span class="row" style="flex-wrap:nowrap;gap:4px"><span class="lb">先修 ↑</span>${segHTML('u',[['1','1层'],['2','2层'],['3','3层'],['a','全部']],f(u))}</span><span class="row" style="flex-wrap:nowrap;gap:4px"><span class="lb">后续 ↓</span>${segHTML('d',[['0','不看'],['1','1层'],['2','2层'],['3','3层'],['a','全部']],f(d))}</span><label class="chk"><input type="checkbox" id="allE" ${GR.all?'checked':''}> 显示全部连线</label>${GR.hl?`<a class="btn sm ghost" href="${gHash(id,u,d)}">取消高亮</a>`:''}`;
  $('#gctl').innerHTML=ctl;$('#gfsctl').innerHTML=`${segHTML('u',[['1','↑1'],['2','↑2'],['3','↑3'],['a','↑全']],f(u))}<button class="ib ex" data-act="fs">退出全屏</button>`;
- $('#crumbs').innerHTML=`<button data-act="back" aria-label="返回">← 返回</button>`+CRUMB.map((c,k)=>`${k?'<span class="sep">›</span>':''}<button data-go="${gHash(c,u,d)}" class="${c===id?'cur':''}">${esc(TOP[c].n)}</button>`).join('');
+ $('#crumbs').innerHTML=`<button data-act="back" aria-label="返回">← 返回</button>`+CRUMB.map((c,k)=>`${k?'<span class="sep">›</span>':''}<button data-go="${gHash(c,u,d,GR.hlq)}" class="${c===id?'cur':''}">${esc(TOP[c].n)}</button>`).join('');
  const cr=$('#crumbs');cr.scrollLeft=cr.scrollWidth;
  updInfo();sizeGW();const t0=performance.now();const ly=renderGraph({from:changedCenter?from&&id:null,instant:!from});GR.lastMs=performance.now()-t0;
  const G=ly.G;const nu=G.up.size,nd=G.dn.size;
