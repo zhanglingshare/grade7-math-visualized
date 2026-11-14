@@ -71,7 +71,7 @@
       '<p class="tm-method">这些题目是针对思维习惯设计的教学实验，尚未经过真实学生的难度和效度校准。答对不等于已经形成稳定能力。</p></div>');
   }
   function draft(id,m){
-    if(!DB.drafts[id])DB.drafts[id]={step:0,slider:m.cfg.v,touched:false,pred:null,counter:null,transfer:null,reflection:null,note:"",started:Date.now()};
+    if(!DB.drafts[id])DB.drafts[id]={step:0,slider:m.cfg.v,touched:false,read:null,readMisses:0,pred:null,counter:null,transfer:null,reflection:null,note:"",started:Date.now()};
     return DB.drafts[id];
   }
   function getCurrent(){
@@ -91,16 +91,16 @@
     let body="";
     if(stage===0){
       body='<section class="tm-panel"><div class="tm-panel-label">01 / 读懂再预测</div><h2>'+B(m.q)+'</h2>'+
-      '<p class="tm-hint">先确认题目问的是什么，再决定选哪个答案。这里不追求手快。</p>'+
-      '<div class="tm-choices">'+m.opts.map((x,i)=>choice("pred",i,x,d.pred===i)).join("")+'</div>'+
-      '<div class="tm-note">你的选择先暂存，不立即判对错。下一步用实验检查。</div></section>';
+      '<div class="tm-reading"><h3>第一关：这道题究竟要你求什么？</h3><div class="tm-reading-choices">'+m.readOpts.map((x,i)=>choice("read",i,x,d.read===i)).join("")+'</div>'+
+      (d.read!==null?(d.read===m.readAnswer?'<p class="tm-reading-ok">✓ 题目目标已确认。现在再想解法。</p>':'<p class="tm-reading-warning">先看清最后问的是什么、单位是什么，再选择一次。</p>'):'<p class="tm-hint">不用列式。先抓住题目真正要求的量。</p>')+'</div>'+
+      (d.read===m.readAnswer?'<div class="tm-predict"><h3>第二关：预测你的答案</h3><div class="tm-choices">'+m.opts.map((x,i)=>choice("pred",i,x,d.pred===i)).join("")+'</div><div class="tm-note">暂不公布对错，下一步用动态实验验证自己的想法。</div></div>':'')+'</section>';
     }else if(stage===1){
       body='<section class="tm-panel tm-interact"><div class="tm-panel-label">02 / 改变一个条件，看发生什么</div>'+
       '<h2>'+B(m.change)+'</h2><div class="tm-stage-scene" id="tm-scene">'+scene(m,d.slider)+'</div>'+
       '<div class="tm-slider-head"><label for="tm-range">你控制的变量</label><strong id="tm-slider-value">'+B(String(d.slider))+'</strong></div>'+
       '<input id="tm-range" class="tm-range" type="range" min="'+m.cfg.min+'" max="'+m.cfg.max+'" step="'+(m.cfg.step||1)+'" value="'+d.slider+'" />'+
       '<div class="tm-slider-actions"><button type="button" data-tm="minus">− 减少</button><button type="button" data-tm="plus">＋ 增加</button><span id="tm-explored">'+(d.touched?'已经改变条件 ✓':'请至少改变一次条件')+'</span></div>'+
-      (d.touched?'<p class="tm-discovery">观察：'+B(sceneInsight(m,d.slider))+'</p>':'<p class="tm-hint">拖动滑块或点击加减按钮，先观察再总结。</p>')+
+      (d.touched?'<p class="tm-discovery">观察：'+B(sceneInsight(m,d.slider))+'</p><div class="tm-pred-feedback"><strong>刚才的预测：'+B(m.opts[m.a])+'</strong><p>'+B(m.why)+'</p></div>':'<p class="tm-hint">拖动滑块或点击加减按钮，先观察再总结。</p>')+
       '</section>';
     }else if(stage===2){
       const chosen=d.counter;
@@ -120,13 +120,13 @@
       '<div class="tm-note">请用自己的话写至少6个字。暂时说不清也可以写“还没想明白哪里不变”。</div>'+
       '<div class="tm-summary"><span>第一次预测：'+(d.pred===m.a?'✓ 与结果一致':'需修正')+'</span><span>反例判断：'+(d.counter===m.truth?'✓':'需修正')+'</span><span>迁移新题：'+(d.transfer===m.t?'✓':'需修正')+'</span></div></section>';
     }
-    const ready = stage===0?d.pred!==null:stage===1?d.touched:stage===2?d.counter!==null:stage===3?d.transfer!==null:d.reflection!==null&&(d.note||"").trim().length>=6;
+    const ready = stage===0?d.read===m.readAnswer&&d.pred!==null:stage===1?d.touched:stage===2?d.counter!==null:stage===3?d.transfer!==null:d.reflection!==null&&(d.note||"").trim().length>=6;
     const next=M[index]||null;
-    shell('<main class="tm-lesson">'+heading+body+
+    shell('<div class="tm-lesson">'+heading+body+
       '<div class="tm-lesson-footer"><button class="tm-nav-secondary" type="button" data-tm="previous" '+(stage===0?'disabled':'')+'>上一步</button>'+
       '<button class="tm-nav-main" type="button" data-tm="next" '+(ready?"":"disabled")+'>'+(stage===4?"完成这场实验":"继续探索 →")+'</button></div>'+
       '<div class="tm-next-preview">'+(DB.records[id]?'你曾完成过这一场实验。本次重新作答不会覆盖首次迁移成绩。':'本场完成后自动保留思考记录，仅保存在当前浏览器。')+'</div>'+
-      (stage===4&&next?'<p class="tm-next-hint">下一场：'+B(next.title)+'</p>':"")+'</main>');
+      (stage===4&&next?'<p class="tm-next-hint">下一场：'+B(next.title)+'</p>':"")+'</div>');
     const ta=document.getElementById("tm-reflection-note");
     if(ta)ta.addEventListener("input",e=>{
       d.note=e.target.value;save();
@@ -143,6 +143,7 @@
     if(!DB.records[id]){
       DB.records[id]={
         date:new Date().toISOString(),
+        readCorrectFirst:(d.readMisses||0)===0,
         predictionCorrect:d.pred===m.a,
         counterCorrect:d.counter===m.truth,
         transferCorrect:d.transfer===m.t,
@@ -329,6 +330,9 @@
       let box=panel&&panel.querySelector(".tm-discovery");
       if(!box&&panel){box=document.createElement("p");box.className="tm-discovery";panel.appendChild(box);}
       if(box)box.textContent="观察："+sceneInsight(m,d.slider);
+      let prediction=panel&&panel.querySelector(".tm-pred-feedback");
+      if(!prediction&&panel){prediction=document.createElement("div");prediction.className="tm-pred-feedback";panel.appendChild(prediction);}
+      if(prediction)prediction.innerHTML="<strong>刚才的预测："+B(m.opts[m.a])+"</strong><p>"+B(m.why)+"</p>";
       const next=document.querySelector('[data-tm="next"]');if(next)next.disabled=false;
     }
   }
@@ -345,7 +349,8 @@
     if(!id)return;
     const m=lookup.get(id),d=draft(id,m);
     if(action==="minus"||action==="plus"){changeSlider(action==="minus"?-1:1);return;}
-    if(["pred","counter","transfer","reflect"].includes(action)){
+    if(["read","pred","counter","transfer","reflect"].includes(action)){
+      if(action==="read"){d.read=Number(btn.dataset.i);if(d.read!==m.readAnswer)d.readMisses=(d.readMisses||0)+1;}
       if(action==="pred")d.pred=Number(btn.dataset.i);
       if(action==="counter")d.counter=btn.dataset.v==="true";
       if(action==="transfer")d.transfer=Number(btn.dataset.i);
@@ -354,7 +359,7 @@
     }
     if(action==="previous"){d.step=Math.max(0,d.step-1);save();renderMission(id);return;}
     if(action==="next"){
-      const ready=d.step===0?d.pred!==null:d.step===1?d.touched:d.step===2?d.counter!==null:d.step===3?d.transfer!==null:d.reflection!==null&&(d.note||"").trim().length>=6;
+      const ready=d.step===0?d.read===m.readAnswer&&d.pred!==null:d.step===1?d.touched:d.step===2?d.counter!==null:d.step===3?d.transfer!==null:d.reflection!==null&&(d.note||"").trim().length>=6;
       if(!ready)return;
       if(d.step>=4){complete(id);return;}
       d.step++;save();renderMission(id);
