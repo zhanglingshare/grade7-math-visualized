@@ -199,6 +199,7 @@
       case "ratio":return "面粉"+(c.a*v)+"份，水"+(c.b*v)+"份，比例依然"+c.a+":"+c.b+"。";
       case "balance":return v+"＋"+c.plus+"＝"+(v+c.plus)+"；左右保持同一个整体。";
       case "expression":return v+"本书×"+c.unit+"元＋一次运费"+c.fee+"元＝"+(v*c.unit+c.fee)+"元。";
+      case "riseFall":return "涨幅和跌幅各"+v+"%，但第二次是按新价格计算，所以最后是"+(100*(1+v/100)*(1-v/100)).toFixed(1)+"，不是100。";
       case "percent":return v+"%表示100份里取"+v+"份。比较百分比时务必确认“整体”是谁。";
     }
     return "";
@@ -274,17 +275,17 @@
       drawing+='<path d="M 313 82 L '+end+' 82" stroke="'+(v<0?alt:fg)+'" stroke-width="9" stroke-linecap="round"/>'+rect(end-7,75,14,14,alt,7);
       drawing+=txt(35,42,"从0出发，终点 "+v,22)+txt(35,216,"位置 "+v+"  ·  距离 "+Math.abs(v),24,alt);
     }else if(m.scene==="ratio"){
-      const w=34;
+      const w=Math.min(34,500/(Math.max(c.a,c.b)*v));
       drawing+=txt(28,47,"面粉 "+c.a*v+" 份",19,fg)+rect(28,62,c.a*v*w,56,fg);
       drawing+=txt(28,157,"水 "+c.b*v+" 份",19,alt)+rect(28,172,c.b*v*w,56,alt);
       formula="面粉 : 水 = "+c.a+":"+c.b+"（共同放大"+v+"倍）";
     }else if(m.scene==="balance"){
-      const total=v+c.plus;
+      const total=v+c.plus;const token=Math.min(39,550/total);
       drawing+=txt(30,51,"左边：未知数 + "+c.plus,21);
-      for(let i=0;i<v;i++)drawing+=rect(30+i*39,78,30,30,fg,15);
-      for(let i=0;i<c.plus;i++)drawing+=rect(30+(v+i)*39,78,30,30,alt,15);
+      for(let i=0;i<v;i++)drawing+=rect(30+i*token,78,Math.min(30,token-4),30,fg,15);
+      for(let i=0;i<c.plus;i++)drawing+=rect(30+(v+i)*token,78,Math.min(30,token-4),30,alt,15);
       drawing+=txt(30,155,"右边：总数 "+total,21);
-      for(let i=0;i<total;i++)drawing+=rect(30+i*39,175,30,30,pale,15);
+      for(let i=0;i<total;i++)drawing+=rect(30+i*token,175,Math.min(30,token-4),30,pale,15);
       formula=v+" + "+c.plus+" = "+total;
     }else if(m.scene==="expression"){
       for(let i=0;i<v;i++)drawing+=rect(27+i*65,69,54,88,fg,5);
@@ -292,6 +293,15 @@
       drawing+=txt(31,48,v+" 本书，每本 "+c.unit+" 元",18);
       drawing+=txt(41,212,"运费 "+c.fee,19,"#152338");
       formula=c.unit+"×"+v+"＋"+c.fee+"＝"+(c.unit*v+c.fee)+" 元";
+    }else if(m.scene==="riseFall"){
+      const rise=v,up=100*(1+v/100),down=up*(1-v/100);
+      drawing+=txt(26,41,"相同的百分比，基数不一样",19);
+      drawing+=rect(27,68,330,46,pale)+txt(34,99,"起点 100",19,"#142a3d");
+      drawing+=rect(27,133,330*up/180,46,fg)+txt(34,164,"涨 "+rise+"% → "+up.toFixed(0),19,"#142a3d");
+      drawing+=rect(27,200,330*down/180,46,alt)+txt(34,230,"再跌 "+rise+"% → "+down.toFixed(1),19,"#142a3d");
+      drawing+=txt(398,126,"先 ×"+(1+v/100).toFixed(2),17,fg);
+      drawing+=txt(398,202,"再 ×"+(1-v/100).toFixed(2),17,alt);
+      formula="100 → "+up.toFixed(0)+" → "+down.toFixed(1)+"（不能直接抵消）";
     }else if(m.scene==="percent"){
       let on=Math.max(0,Math.min(100,v));
       for(let i=0;i<100;i++)drawing+=rect(26+(i%10)*25,16+Math.floor(i/10)*24,22,21,i<on?fg:pale,2);
