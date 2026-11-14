@@ -59,20 +59,22 @@ z+=T(35,222,isKm?`${num}米`:`${F(v/100)}米`,30,C.coral);
 }
 return wrap(m,v,k,z,isKm?`${v}千米 + ${m.cfg.extra||0}米 = ${num}米`:`${v}厘米 = ${F(v/100)}米`,"统一单位后才能直接进行加减或比较。");
 };
-scenes.motion=(m,v,k)=>{
-const unit=m.cfg.unit,dist=v*unit;
-let z=T(30,37,`速度 ${unit} 千米/小时`,20);
-if(k){
-z+=L(53,228,560,228,C.blue,3)+L(53,228,53,53,C.blue,3)+L(53,228,53+v*68,228-dist*145/(6*unit),C.mint,5)+O(53+v*68,228-dist*145/(6*unit),9,C.coral);
-z+=T(344,75,`${v}小时`,21)+T(344,117,`${dist}千米`,25,C.coral);
-}else{
-z+=R(30,178,545,30,"#3d5973",2);
-for(let j=0;j<10;j++)z+=R(36+j*56,190,28,3,C.ink,1);
-const xx=45+v*58;
-z+=R(xx,119,91,48,C.mint,9)+R(xx+19,95,50,37,C.blue,9)+O(xx+20,165,12,"#1b2d43")+O(xx+75,165,12,"#1b2d43");
-z+=T(30,84,`${v}小时 → ${dist}千米`,24,C.coral);
-}
-return wrap(m,v,k,z,`${unit}×${v}=${dist}千米`,"只在速度保持不变时，单位时间的增加量才相同。");
+scenes.motion=function updatedMotion(m,v,k){
+  const distance=m.cfg.reverse?180:v*m.cfg.unit;
+  const speed=distance/v;
+  let z=T(29,36,m.cfg.reverse?"路程固定180千米，时间变化则平均速度变化":"匀速运动：时间与路程联动",19);
+  if(k){
+    z+=L(49,222,564,222,C.blue,3)+L(49,222,49,55,C.blue,3);
+    z+=L(49,222,49+Math.min(420,62*v),92,C.mint,5)+O(49+Math.min(420,62*v),92,8,C.coral);
+    z+=T(339,73,"总路程 "+F(distance)+"千米",18)+T(339,111,"用时 "+F(v)+"小时",18)+T(339,149,"平均速度 "+F(speed),23,C.coral);
+  }else{
+    z+=R(34,173,520,26,"#43637d",3);
+    for(let i=0;i<10;i++)z+=R(42+i*50,184,24,3,C.ink,2);
+    z+=R(110+Math.min(320,v*42),116,94,50,C.mint,8)+R(126+Math.min(320,v*42),95,53,31,C.blue,8);
+    z+=T(30,81,"固定走完"+F(distance)+"千米",23,C.mint);
+    z+=T(30,225,F(v)+"小时，平均每小时"+F(speed)+"千米",22,C.coral);
+  }
+  return wrap(m,v,k,z,F(distance)+"千米 ÷ "+F(v)+"小时 = "+F(speed)+"千米/小时","固定路程时，用时越长，平均速度越慢；不能只看路程。");
 };
 scenes.sequence=(m,v,k)=>{
 const squares=!!m.cfg.squares,total=squares?v*v:v*(v+1)/2,cell=Math.min(squares?27:32,430/(v+2));
@@ -217,6 +219,38 @@ z+=`<g transform="rotate(${angle} 300 153)">`+L(97,153,502,153,C.mint,8)+R(90,10
 z+=P("285,155 315,155 300,222",C.coral)+R(251,220,98,14,C.lav);
 z+=T(34,248,difference===0?"平衡 ✓":`左右差${Math.abs(difference)}，现在不平衡`,18,difference===0?C.mint:C.coral);
 return wrap(m,v,k,z,k?`${v} 和 ${right-c.add} 对比`:`${v}+${c.add}=${left}；右边${right}`,"等式两边做同一种操作，等量关系才不会破坏。");
+};
+scenes.group100=function group100(m,v,k){
+  const groups=v,cellW=16;
+  let z=T(30,34,"每4个25合成一个100，换一种分组，积不变",19);
+  if(!k){
+    for(let j=0;j<groups;j++){
+      const x=34+j*86;
+      z+=R(x-5,69,76,106,"#304c62",8);
+      for(let p=0;p<4;p++){
+        z+=R(x+p*18,98,cellW,46,p%2?C.coral:C.mint,4)+T(x+p*18+8,125,"25",10,"#253b48","middle");
+      }
+      z+=T(x+35,199,"100",19,C.ink,"middle");
+    }
+    z+=T(32,243,(4*groups)+"个25，每4个捆成一组",20,C.coral);
+  }else{
+    for(let j=0;j<groups;j++){
+      const x=36+j*85;z+=R(x,92,70,88,j%2?C.blue:C.mint,8)+T(x+35,144,"100",21,j%2?C.ink:"#173d41","middle");
+    }
+    z+=T(31,224,groups+"组100，一共"+(100*groups),24,C.coral);
+  }
+  return wrap(m,v,k,""+z,"25×("+(4*groups)+")=(25×4)×"+groups+"=100×"+groups+"="+(100*groups),"25×16不是16个小点：实际有16个25，四个25合成100。");
+};
+scenes.fractionCompare=function fractionCompare(m,v,k){
+  let z=T(30,37,k?"分母4更大，3/4却比1/2大":"同一整体，先比较单位分数",20);
+  const bars=k?[{n:3,d:4,label:"3/4"},{n:1,d:2,label:"1/2"}]:[{n:1,d:2,label:"1/2"},{n:1,d:v,label:"1/"+v}];
+  for(let i=0;i<bars.length;i++){
+    const b=bars[i],y=79+i*101,width=465,part=b.n/b.d;
+    z+=T(32,y-10,b.label,21,i===0?C.mint:C.coral);
+    for(let c=0;c<b.d;c++)z+=R(32+c*width/b.d,y,width/b.d-2,55,c<b.n?(i===0?C.mint:C.coral):C.blue,2);
+    z+=T(515,y+34,F(part*100)+"%",15,C.ink);
+  }
+  return wrap(m,v,k,z,k?"3/4 > 1/2（分母4更大，但分数反而更大）":"1/2 "+(v===2?"=":">")+" 1/"+v,"只有同一整体的单位分数，才能直接说分母越大每份越小。");
 };
 window.TM_VISUALS=scenes;
 })();
