@@ -80,7 +80,7 @@ assert.equal(D.edges.length,D.units.reduce((n,u)=>n+u.parents.length,0));
 const power=D.units.find(u=>u.id==="c26").visual;
 assert.equal(power.a,-2,"negative base retained");
 assert.equal((-2)**4,16);
-assert.equal(-2**4,-16);
+assert.equal(-(2**4),-16);
 const ratio=D.units.find(u=>u.id==="p5").visual;
 for(let n=1;n<=4;n++)assert.equal((ratio.a*n)/(ratio.b*n),3,"ratio invariant");
 const order=D.units.find(u=>u.id==="c27").visual;
