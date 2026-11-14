@@ -70,11 +70,37 @@ case "balance":{
 }
 case "area":{
  const w=Math.round(v),h=c.height||4,size=33,xx=40,yy=64;
- for(let i=0;i<h;i++)for(let j=0;j<w;j++)z+=box(xx+j*(size+2),yy+i*(size+2),size,size,(i+j)%2?C.a:C.c,2);
- z+=path(`M ${xx-3} ${yy-3} h${w*(size+2)} v${h*(size+2)} h${-w*(size+2)} Z`,C.b,4);
- z+=text(390,100,`长 ${w} × 宽 ${h}`,22)+text(390,147,`面积 ${w*h}格`,24,C.a)+text(390,193,`周长 ${2*(w+h)}格`,23,C.b);
- if(k)z+=text(30,259,"比较：8×3面积24，周长22",18,C.muted);
- eq=`面积 ${w*h}；周长 ${2*(w+h)}`;note="绿色方格是面积；黄色边界是周长。";break;
+ if(state.spatial){
+ const depth=2,dx=35,dy=17,dz=29;
+ z+=text(30,36,"底面 → 立体：那些看不见的方块也要数",19);
+ const poly=(coords,fill)=>`<polygon points="${coords}" fill="${fill}" stroke="#254254" stroke-width="1.1"/>`;
+ const layers=k?depth:1;
+ for(let layer=0;layer<layers;layer++)for(let i=h-1;i>=0;i--)for(let j=0;j<w;j++){
+  const px=70+j*dx+i*dy,py=183-i*15+4*j-layer*dz;
+  z+=poly(`${px},${py} ${px+dx},${py+4} ${px+dx+dy},${py-11} ${px+dy},${py-15}`,layer?C.a:C.c);
+  z+=poly(`${px},${py} ${px+dx},${py+4} ${px+dx},${py+23} ${px},${py+19}`,C.a);
+  z+=poly(`${px+dx},${py+4} ${px+dx+dy},${py-11} ${px+dx+dy},${py+8} ${px+dx},${py+23}`,C.low);
+ }
+ z+=text(465,102,`底面 ${w*h} 块`,20,C.ink)+text(465,147,"堆叠 2 层",19,C.b)+text(465,194,`总体 ${w*h*depth} 块`,22,C.a);
+ z+=text(30,268,k?"两层都展示：别忘记被遮住的方块。":"只看底层时，记得还有另一层。",16,C.muted);
+ eq=`每层 ${w}×${h}=${w*h}；两层 ${w*h*2}`;
+ note="旋转视角前，先预测隐藏层有多少个小方块。";
+ }else{
+  if(k&&w===6){
+   for(let i=0;i<4;i++)for(let j=0;j<6;j++)z+=box(32+j*27,86+i*27,25,25,C.a,2);
+   for(let i=0;i<3;i++)for(let j=0;j<8;j++)z+=box(330+j*27,100+i*27,25,25,C.c,2);
+   z+=text(40,232,"6×4：周长20",17,C.b)+text(337,232,"8×3：周长22",17,C.b);
+   eq="两块面积都是24，但周长不同";
+   note="找反例：同样多的内部方格，边界长度可以不同。";
+  }else{
+   for(let i=0;i<h;i++)for(let j=0;j<w;j++)z+=box(xx+j*(size+2),yy+i*(size+2),size,size,(i+j)%2?C.a:C.c,2);
+   z+=path(`M ${xx-3} ${yy-3} h${w*(size+2)} v${h*(size+2)} h${-w*(size+2)} Z`,C.b,4);
+   z+=text(390,100,`长 ${w} × 宽 ${h}`,22)+text(390,147,`面积 ${w*h}格`,24,C.a)+text(390,193,`周长 ${2*(w+h)}格`,23,C.b);
+   eq=`面积 ${w*h}；周长 ${2*(w+h)}`;
+   note=k?"对比另一种长宽组合，面积相同可能周长不同。":"绿色方格是面积；黄色边界是周长。";
+  }
+ }
+ break;
 }
 case "machine":{
  const mul=c.mul,add=c.add,out=mul*v+add,canInvert=mul!==0;
