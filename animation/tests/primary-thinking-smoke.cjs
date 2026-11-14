@@ -14,11 +14,14 @@ const win={};
 vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-data.js'),'utf8'),{window:win});
 vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-extra.js'),'utf8'),{window:win});
 vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-visuals.js'),'utf8'),{window:win});
-assert.equal(Object.keys(win.TM_VISUALS).length,18);
+vm.runInNewContext(fs.readFileSync(path.join(base,'primary-thinking-curation.js'),'utf8'),{window:win});
+assert.equal(Object.keys(win.TM_VISUALS).length,20);
 const M=win.TM_MISSIONS;
-assert.equal(M.length,60);
-assert.equal(new Set(M.map(x=>x.id)).size,60);
-assert.deepEqual(Array.from({length:6},(_,i)=>M.filter(x=>x.s===i).length),[10,10,10,10,10,10]);
+assert.equal(M.length,41);
+assert.equal(new Set(M.map(x=>x.id)).size,41);
+assert.equal(Object.keys(win.TM_MERGES).length,19);
+assert.ok(Object.values(win.TM_MERGES).every(x=>M.some(m=>m.id===x.to)));
+assert.deepEqual(Array.from({length:6},(_,i)=>M.filter(x=>x.s===i).length),[6,6,5,7,8,9]);
 assert.ok(M.every(m=>m.readOpts.length===3&&m.opts.length===3&&m.choices.length===3&&m.readAnswer>=0&&m.readAnswer<3));
 const events={};let textareaInput=null;const app={innerHTML:''};
 const document={
@@ -45,7 +48,7 @@ function click(name,values={}){
   events.click({target:node});
 }
 win.renderPrimaryThinking();
-assert.match(app.innerHTML,/六种思维 · 60场实验/);
+assert.match(app.innerHTML,/六种思维 · 41场精选实验/);
 for(const [index,m] of M.entries()){
   location.hash='#/train/'+m.id;
   win.renderPrimaryThinking(m.id);
@@ -57,11 +60,15 @@ for(const [index,m] of M.entries()){
   click('pred',{i:String(m.a)});
   click('next');
   assert.match(app.innerHTML,/<svg/);
-  if(index>=24){
+  if(win.TM_VISUALS[m.scene]){
     assert.match(app.innerHTML,/data-tm-drag="1"/);
     assert.doesNotMatch(app.innerHTML,/NaN|Infinity/);
     click('flip');
     assert.match(app.innerHTML,/第二种表示/);
+    if(m.id==='m14')assert.match(app.innerHTML,/25×\(16\).*400/);
+    if(m.id==='m24')assert.match(app.innerHTML,/3\/4.*1\/2/);
+    if(m.id==='m54')assert.match(app.innerHTML,/千米\/小时/);
+    if(m.id==='m60')assert.match(app.innerHTML,/80%/);
     const svg={getBoundingClientRect:()=>({left:0,width:620})};
     const target={closest:()=>svg};
     events.pointerdown({target,clientX:260});
@@ -84,7 +91,15 @@ for(const [index,m] of M.entries()){
   assert.match(app.innerHTML,/完成了一场思维实验/);
 }
 const saved=JSON.parse(memory.get('primary-thinking-rebuild-v1'));
-assert.equal(Object.keys(saved.records).length,60);
+assert.equal(Object.keys(saved.records).length,41);
+const snapshot=memory.get('primary-thinking-rebuild-v1');
+for(const [oldId,merge] of Object.entries(win.TM_MERGES)){
+ location.hash='#/train/'+oldId;
+ win.renderPrimaryThinking(oldId);
+ assert.match(app.innerHTML,/已合并/);
+ assert.ok(app.innerHTML.includes('#/train/'+merge.to));
+}
+assert.equal(memory.get('primary-thinking-rebuild-v1'),snapshot,'Legacy deep links must not erase progress');
 location.hash='#/train/library';
 win.renderPrimaryThinking('library');
 assert.equal((app.innerHTML.match(/\/train\/check\/cnm_p/g)||[]).length,284);
@@ -103,4 +118,5 @@ assert.match(html,/if\(seg\[0\]==='learn'\)/);
 assert.match(html,/function showPrimaryLesson\(/);
 assert.match(html,/primary-thinking-extra\.js/);
 assert.match(html,/primary-thinking-visuals\.js/);
-console.log('PASS: 60 thought missions, 18 new animated scene families, gesture and view checks, 284 existing nodes, original animation route preserved.');
+assert.match(html,/primary-thinking-curation\.js/);
+console.log('PASS: 41 distinct missions, 19 legacy merge links, 20 enhanced visuals, math scene checks, 284 unchanged elementary nodes.');
