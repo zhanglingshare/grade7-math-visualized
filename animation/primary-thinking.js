@@ -18,9 +18,12 @@
     catch(e){return {drafts:{},records:{}};}
   }
   const DB=load();
+  DB.topicReviews=DB.topicReviews||{};
+  DB.topicDrafts=DB.topicDrafts||{};
   function save(){try{localStorage.setItem(STORE,JSON.stringify(DB));}catch(e){}}
   const lookup=new Map(M.map(m=>[m.id,m]));
-  function route(id){
+  function route(id,detail){
+    if(id==="check"){renderTopicCheck(detail);return;}
     if(id==="library"){renderLibrary();return;}
     if(id==="report"){renderReport();return;}
     if(lookup.has(id)){renderMission(id);return;}
@@ -160,6 +163,28 @@
       (n?'<a class="tm-primary-btn" href="#/train/'+n.id+'">继续下一场 →</a>':'<a class="tm-primary-btn" href="#/train/report">查看完整复盘 →</a>')+
       '<a class="tm-subtle-btn" href="#/train">回训练地图</a><a class="tm-subtle-btn" href="#/learn/'+m.old+'">复看原 Grok 动画</a></div></div>');
   }
+
+  function renderTopicCheck(id){
+    const all=typeof LIST==="undefined"?[]:LIST.filter(t=>t.b==="P");
+    const topic=all.find(t=>t.i===id);
+    if(!topic){renderLibrary();return;}
+    const rec=DB.topicReviews[id]||null;
+    const draft=DB.topicDrafts[id]||{answer:"",visible:false};
+    const next=all[(all.findIndex(t=>t.i===id)+1)%all.length];
+    shell('<section class="tm-check"><a class="tm-back" href="#/train/library">← 小学知识地图</a><p class="tm-eyebrow">小学'+topic.g+'年级 · 单点诊断，不等于完整掌握</p>'+
+      '<h1>'+B(topic.n)+'</h1><p>'+B(topic.d||"尝试解释这道题背后的数量关系。")+'</p>'+
+      '<div class="tm-check-stage"><p class="tm-panel-label">先自己想清楚，再核对</p><h2>'+B(topic.q||"你能用自己的话解释这个知识点吗？")+'</h2>'+
+      '<label for="tm-topic-answer">我的第一反应与理由</label>'+
+      '<textarea id="tm-topic-answer" placeholder="先写自己的理解，不必照抄公式。">'+B(draft.answer||"")+'</textarea>'+
+      '<button type="button" class="tm-nav-main" data-tm="reveal" '+(draft.visible?"disabled":"")+'>显示原题参考答案</button>'+
+      (draft.visible?'<div class="tm-check-answer"><strong>原题参考答案：'+B(topic.a||"原题未给出标准答案")+'</strong><p>这道旧题只有一次自测，不能单凭答对判断已经理解。试着说说为什么成立。</p></div>':"")+
+      (draft.visible?'<div class="tm-check-rating"><strong>这次你的理解状态</strong><div><button data-tm="self" data-v="understood">能解释原理</button><button data-tm="self" data-v="uncertain">模糊，还需重想</button><button data-tm="self" data-v="unknown">不知道从哪里入手</button></div></div>':"")+
+      (rec?'<p class="tm-check-record">最近一次自评：'+({understood:"能解释原理",uncertain:"模糊",unknown:"还不知道"}[rec.rating]||"未评价")+'。这只是自我观察，不计入24场思维训练的通过数。</p>':"")+'</div>'+
+      '<div class="tm-check-actions"><a class="tm-outline-btn" href="#/g/'+encodeURIComponent(topic.i)+'/1/1">查看这点的先修关系</a>'+
+      (next?'<a class="tm-outline-btn" href="#/train/check/'+encodeURIComponent(next.i)+'">下一个知识点 →</a>':"")+
+      '<a class="tm-outline-btn" href="#/train">回思维实验</a></div></section>');
+  }
+
   function renderReport(){
     const list=completed();
     const rows=SKILLS.map((s,i)=>{
@@ -178,7 +203,7 @@
     const groups=[1,2,3,4,5,6].map(g=>{
       const items=all.filter(x=>x.g===g);
       return '<details class="tm-grade-folder" '+(g===5?"open":"")+'><summary><strong>小学'+g+'年级</strong><span>'+items.length+' 个知识点</span><span aria-hidden="true">⌄</span></summary>'+
-      '<div class="tm-knowledge-links">'+items.map(t=>'<a href="#/g/'+encodeURIComponent(t.i)+'/1/1">'+B(t.n)+' ↗</a>').join("")+'</div></details>';
+      '<div class="tm-knowledge-links">'+items.map(t=>'<div class="tm-knowledge-cell"><a href="#/train/check/'+encodeURIComponent(t.i)+'">'+B(t.n)+' · 自测</a><a class="tm-graph-mini" href="#/g/'+encodeURIComponent(t.i)+'/1/1">看关系 ↗</a></div>').join("")+'</div></details>';
     }).join("");
     shell('<section class="tm-library"><a class="tm-back" href="#/train">← 思维训练</a><p class="tm-eyebrow">知识索引 · 不等于训练量</p><h1>小学数学知识地图</h1><p>沿用原有'+all.length+'个小学知识点及先修关系。知识点列表用来定位补漏；做过一道旧自测题，不代表已经理解。</p>'+
       '<div class="tm-library-tools"><a class="tm-outline-btn" href="knowledge.html?from=primary">打开独立知识图谱</a><a class="tm-outline-btn" href="#/cat">原版完整目录</a><a class="tm-outline-btn" href="#/learn/L1">12节原版动画</a></div>'+
@@ -338,6 +363,11 @@
   }
   document.addEventListener("input",e=>{
     if(e.target.id==="tm-range")changeSlider(e.target.value,true);
+    if(e.target.id==="tm-topic-answer"){
+      const id=decodeURIComponent(location.hash.split("/")[3]||"");
+      const d=DB.topicDrafts[id]||{answer:"",visible:false};
+      d.answer=e.target.value;DB.topicDrafts[id]=d;save();
+    }
   });
   document.addEventListener("change",e=>{
     if(e.target.id==="tm-grade"){gradeFilter=e.target.value;renderHome();}
@@ -346,6 +376,13 @@
   document.addEventListener("click",e=>{
     const btn=e.target.closest("[data-tm]");if(!btn)return;
     const action=btn.dataset.tm,id=getCurrent();
+    if(location.hash.startsWith("#/train/check/")){
+      const topicId=decodeURIComponent(location.hash.split("/")[3]||"");
+      const draft=DB.topicDrafts[topicId]||{answer:"",visible:false};
+      if(action==="reveal"){draft.visible=true;DB.topicDrafts[topicId]=draft;save();renderTopicCheck(topicId);}
+      if(action==="self"){DB.topicReviews[topicId]={rating:btn.dataset.v,answer:draft.answer,date:new Date().toISOString()};save();renderTopicCheck(topicId);}
+      return;
+    }
     if(!id)return;
     const m=lookup.get(id),d=draft(id,m);
     if(action==="minus"||action==="plus"){changeSlider(action==="minus"?-1:1);return;}
