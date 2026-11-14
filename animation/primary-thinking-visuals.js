@@ -70,8 +70,8 @@ scenes.motion=function updatedMotion(m,v,k){
   }else{
     z+=R(34,173,520,26,"#43637d",3);
     for(let i=0;i<10;i++)z+=R(42+i*50,184,24,3,C.ink,2);
-    z+=R(110+Math.min(320,v*42),116,94,50,C.mint,8)+R(126+Math.min(320,v*42),95,53,31,C.blue,8);
-    z+=T(30,81,"固定走完"+F(distance)+"千米",23,C.mint);
+    z+=R(421,116,94,50,C.mint,8)+R(438,95,53,31,C.blue,8);
+    z+=T(30,81,"同一终点：固定"+F(distance)+"千米",23,C.mint);
     z+=T(30,225,F(v)+"小时，平均每小时"+F(speed)+"千米",22,C.coral);
   }
   return wrap(m,v,k,z,F(distance)+"千米 ÷ "+F(v)+"小时 = "+F(speed)+"千米/小时","固定路程时，用时越长，平均速度越慢；不能只看路程。");
