@@ -110,22 +110,48 @@ z+=P(`${px+dx},${py-8} ${px+dx+18},${py-22} ${px+dx+18},${py+1} ${px+dx},${py+15
 z+=T(432,137,`${amount}块`,28,C.coral);
 return wrap(m,v,k,z,`${c.rows}×${c.cols}×${v}=${amount}`,"层数是第三个维度，体积不能只看底面。");
 };
-scenes.tree=(m,v,k)=>{
+scenes.tree=function treeScene(m,v,k){
 const c=m.cfg,coin=!!c.coin,other=c.other||2,count=coin?Math.pow(2,v):v*other;
-let z=T(31,37,coin?`${v}次二选一`:`${v}组，每组${other}条分支`,19);
+let z=T(31,37,coin?(k?"改变硬币机制：正面80%，反面20%":"公平硬币：每次正反各50%"):(v+"组，每组"+other+"条分支"),19);
+if(coin){
+ if(k){
+  for(let j=0;j<count;j++){
+    const bits=j.toString(2).padStart(v,"0");
+    const heads=[...bits].filter(x=>x==="0").length,tails=v-heads;
+    const probability=Math.pow(.8,heads)*Math.pow(.2,tails);
+    const x=30+(j%4)*136,y=55+Math.floor(j/4)*44;
+    z+=R(x,y,126,37,heads>tails?C.mint:C.blue,6);
+    z+=T(x+8,y+15,bits.replace(/0/g,"正").replace(/1/g,"反"),10,"#1c3946");
+    z+=T(x+8,y+30,"概率"+F(probability*100)+"%",11,"#183d49");
+  }
+ }else{
+  for(let level=0;level<=v;level++){
+    const n=Math.pow(2,level),x=45+level*110;
+    for(let j=0;j<n;j++){
+      const y=51+(j+.5)*180/n;
+      z+=O(x,y,level===v?5:7,level===v?C.coral:C.mint);
+      if(level<v){
+        const child=Math.pow(2,level+1);
+        for(let b=0;b<2;b++)z+=L(x+7,y,x+110-7,51+((j*2+b)+.5)*180/child,b===0?C.mint:C.coral,1.8);
+      }
+    }
+  }
+  z+=T(38,247,count+"条顺序；公平时每条概率"+F(100/count)+"%",17,C.coral);
+ }
+ return wrap(m,v,k,z,k?"结果数没有变，但各条路径概率不再相等":count+"条路径，公平且独立时各占"+F(100/count)+"%","数出路径不等于证明等可能；公平和独立性是概率判断的条件。");
+}
 if(k){
 const n=Math.min(count,32);
-for(let j=0;j<n;j++){let xx=32+(j%8)*64,yy=57+Math.floor(j/8)*43;z+=R(xx,yy,49,35,j%2?C.blue:C.mint,6)+T(xx+24,yy+23,coin?j.toString(2).padStart(v,"0"):`${Math.floor(j/other)+1}-${j%other+1}`,11,"#24364c","middle");}
+for(let j=0;j<n;j++){const x=32+(j%8)*64,y=57+Math.floor(j/8)*43;z+=R(x,y,49,35,j%2?C.blue:C.mint,6)+T(x+24,y+23,(Math.floor(j/other)+1)+"-"+(j%other+1),11,"#24364c","middle");}
 }else{
-const levels=coin?Math.min(2,v):v;
-for(let j=0;j<levels;j++){
- const yy=59+j*(158/Math.max(1,levels-1));
- z+=L(39,145,192,yy,C.mint,2)+O(192,yy,7,C.mint);
- for(let q=0;q<other;q++)z+=L(200,yy,399,yy+(q-(other-1)/2)*15,C.blue,2)+O(402,yy+(q-(other-1)/2)*15,5,C.coral);
+for(let j=0;j<v;j++){
+const y=59+j*(158/Math.max(1,v-1));
+z+=L(39,145,192,y,C.mint,2)+O(192,y,7,C.mint);
+for(let b=0;b<other;b++)z+=L(200,y,399,y+(b-(other-1)/2)*15,C.blue,2)+O(402,y+(b-(other-1)/2)*15,5,C.coral);
 }
 }
-z+=T(432,199,`${count}种`,27,C.coral);
-return wrap(m,v,k,z,coin?`2^${v}=${count}条顺序`:`${v}×${other}=${count}种`,"画出分支可以防止漏数，但等可能还需要额外条件。");
+z+=T(432,199,count+"种",27,C.coral);
+return wrap(m,v,k,z,v+"×"+other+"="+count+"种","每件物品都能和另一类每种选择搭配，组合数才是乘法。");
 };
 scenes.partwhole=(m,v,k)=>{
 const c=m.cfg,den=c.den||v,num=c.den?v:1,total=c.total,qty=total*num/den;
