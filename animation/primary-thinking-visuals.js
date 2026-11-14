@@ -21,21 +21,21 @@ if(k)z+=T(86,231,pct?`乙100%，甲${100+v}%`:`乙=甲−${v}=${b}`,24,C.coral);
 return wrap(m,v,k,z,pct?`甲=${c.total}×(1+${v}%)=${F(a)}`:`甲${c.total}−差${v}=乙${b}`,"谁是基准，比看见“多”字更重要。");
 };
 scenes.clock=(m,v,k)=>{
-const start=m.cfg.start||0,end=start+v,clock=n=>`${Math.floor((n/60)%24)}:${String(n%60).padStart(2,"0")}`;
-let z=T(31,36,"时间经过多久，要跨过几个整点？",19);
+const start=m.cfg.start||0,end=start+v,reverse=!!m.cfg.reverse,clock=n=>`${Math.floor((n/60)%24)}:${String(n%60).padStart(2,"0")}`;
+let z=T(31,36,reverse?"知道到达时间，反向倒推出发时间":"时间经过多久，要跨过几个整点？",19);
 if(k){
 z+=L(40,142,570,142,C.blue,6);
-for(let j=0;j<=5;j++){let xx=45+j*105;z+=L(xx,127,xx,157,C.lav,2)+T(xx,187,clock(start+Math.round(v*j/5)),13,C.ink,"middle");}
-z+=T(45,91,`${v}分钟`,29,C.coral);
+for(let j=0;j<=5;j++){let xx=45+j*105;z+=L(xx,127,xx,157,C.lav,2)+T(xx,187,clock(reverse?end-Math.round(v*j/5):start+Math.round(v*j/5)),13,C.ink,"middle");}
+z+=T(45,91,reverse?`向前倒推${v}分钟`:`经过${v}分钟`,25,C.coral);
 }else{
 const cx=186,cy=139;
 z+=`<circle cx="${cx}" cy="${cy}" r="88" fill="#254458" stroke="${C.mint}" stroke-width="3"/>`;
 for(let j=1;j<=12;j++){let a=j*Math.PI/6-Math.PI/2;z+=T(cx+Math.cos(a)*67,cy+Math.sin(a)*67+5,j,14,C.ink,"middle");}
 let ma=(end%60)*Math.PI/30-Math.PI/2,ha=(end%720)*Math.PI/360-Math.PI/2;
 z+=L(cx,cy,cx+60*Math.cos(ma),cy+60*Math.sin(ma),C.coral,5)+L(cx,cy,cx+42*Math.cos(ha),cy+42*Math.sin(ha),C.ink,6)+O(cx,cy,5);
-z+=T(331,103,clock(start),24)+T(331,144,`＋${v}分钟`,21,C.coral)+T(331,187,clock(end),30,C.mint);
+z+=T(331,103,clock(reverse?end:start),24)+T(331,144,`${reverse?"−":"＋"}${v}分钟`,21,C.coral)+T(331,187,clock(reverse?start:end),30,C.mint);
 }
-return wrap(m,v,k,z,`${clock(start)} → ${clock(end)}（${v}分钟）`,"时针与分针走不同速度；每小时60分钟。");
+return wrap(m,v,k,z,reverse?`${clock(end)} − ${v}分钟 = ${clock(start)}`:`${clock(start)} → ${clock(end)}（${v}分钟）`,"时针与分针走不同速度；每小时60分钟。");
 };
 scenes.price=(m,v,k)=>{
 const c=m.cfg,goods=v*c.unit,sum=goods+c.fee;
