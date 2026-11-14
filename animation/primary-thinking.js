@@ -1,6 +1,7 @@
 (function installThinkingLab(){
   'use strict';
   const M = window.TM_MISSIONS || [];
+  const MOVING = window.TM_VISUALS || {};
   const SKILLS = window.TM_SKILLS || [];
   const STORE = "primary-thinking-rebuild-v1";
   const REFLECT = [
@@ -66,7 +67,7 @@
       '<div><strong>'+readPassed+'<small> / '+finished.length+'</small></strong><span>第一次读题就看准</span></div>'+
       '<a href="#/train/library"><strong>284</strong><span>原图谱小学知识点 · 可检索</span></a></section>'+
       '<div class="tm-steps-ribbon"><span>01 先预测</span><span>02 动手改变</span><span>03 找反例</span><span>04 陌生迁移</span><span>05 自己复盘</span></div>'+
-      '<div class="tm-section-title"><div><p>不是按年级重刷，而是重建思考方式</p><h2>六种思维 · 24场实验</h2></div><a href="#/learn/L1">原有12节 Grok 动画 →</a></div>'+
+      '<div class="tm-section-title"><div><p>不是按年级重刷，而是重建思考方式</p><h2>六种思维 · 60场实验</h2></div><a href="#/learn/L1">原有12节 Grok 动画 →</a></div>'+
       '<div class="tm-filters"><label>按年级 <select id="tm-grade"><option value="all">全部年级</option>'+
       [1,2,3,4,5,6].map(n=>'<option value="'+n+'"'+(gradeFilter===String(n)?" selected":"")+'>小学'+n+'年级</option>').join("")+'</select></label>'+
       '<label>思维重点 <select id="tm-skill"><option value="all">全部思维</option>'+SKILLS.map((x,i)=>'<option value="'+i+'"'+(skillFilter===String(i)?" selected":"")+'>'+B(x)+'</option>').join("")+'</select></label></div>'+
@@ -104,6 +105,7 @@
       '<div class="tm-slider-head"><label for="tm-range">你控制的变量</label><strong id="tm-slider-value">'+B(String(d.slider))+'</strong></div>'+
       '<input id="tm-range" class="tm-range" type="range" min="'+m.cfg.min+'" max="'+m.cfg.max+'" step="'+(m.cfg.step||1)+'" value="'+d.slider+'" />'+
       '<div class="tm-slider-actions"><button type="button" data-tm="minus">− 减少</button><button type="button" data-tm="plus">＋ 增加</button><span id="tm-explored">'+(d.touched?'已经改变条件 ✓':'请至少改变一次条件')+'</span></div>'+
+      (MOVING[m.scene]?'<div class="tv-actions"><button type="button" data-tm="flip">↔ 换种表示</button><button type="button" data-tm="play">▶ 播放变化</button><span>直接拖动图形也能操作</span></div>':'')+
       (d.touched?'<p class="tm-discovery">观察：'+B(sceneInsight(m,d.slider))+'</p><div class="tm-pred-feedback"><strong>刚才的预测：'+B(m.opts[m.a])+'</strong><p>'+B(m.why)+'</p></div>':'<p class="tm-hint">拖动滑块或点击加减按钮，先观察再总结。</p>')+
       '</section>';
     }else if(stage===2){
@@ -208,9 +210,10 @@
     }).join("");
     shell('<section class="tm-library"><a class="tm-back" href="#/train">← 思维训练</a><p class="tm-eyebrow">知识索引 · 不等于训练量</p><h1>小学数学知识地图</h1><p>沿用原有'+all.length+'个小学知识点及先修关系。知识点列表用来定位补漏；做过一道旧自测题，不代表已经理解。</p>'+
       '<div class="tm-library-tools"><a class="tm-outline-btn" href="knowledge.html?from=primary">打开独立知识图谱</a><a class="tm-outline-btn" href="#/cat">原版完整目录</a><a class="tm-outline-btn" href="#/learn/L1">12节原版动画</a></div>'+
-      '<div class="tm-grade-list">'+groups+'</div><p class="tm-method">原知识节点、文字、原题目与先修关系的数据来源和许可沿用本站底部说明。新增24场思维实验为独立编写的教学原型。</p></section>');
+      '<div class="tm-grade-list">'+groups+'</div><p class="tm-method">原知识节点、文字、原题目与先修关系的数据来源和许可沿用本站底部说明。新增60场思维实验为独立编写的教学原型。</p></section>');
   }
   function sceneInsight(m,v){
+    if(MOVING[m.scene])return "改变一个条件，再换一种表示：哪些量变化，哪些数学关系保持不变？";
     const c=m.cfg;
     switch(m.scene){
       case "bars":return "甲固定"+c.total+"，相差"+v+"，乙是"+(c.total-v)+"。差距改变，未知量跟着变。";
@@ -233,6 +236,7 @@
   }
   const svg=(body,view="0 0 620 270")=>'<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+view+'" role="img" aria-label="随参数变化的数学模型">'+body+'</svg>';
   function scene(m,val){
+    if(MOVING[m.scene])return MOVING[m.scene](m,Number(val),(DB.drafts[m.id]||{}).mode||0);
     const c=m.cfg,v=Number(val);
     const rect=(x,y,w,h,color,rad=6)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+rad+'" fill="'+color+'"/>';
     const txt=(x,y,text,size=18,color="#eef5ff",weight=650)=>'<text x="'+x+'" y="'+y+'" fill="'+color+'" font-size="'+size+'" font-weight="'+weight+'">'+B(text)+'</text>';
@@ -362,6 +366,44 @@
       const next=document.querySelector('[data-tm="next"]');if(next)next.disabled=false;
     }
   }
+
+  let activeDrag=null,activePlayback=null;
+  function stopPlayback(){if(activePlayback!==null){clearInterval(activePlayback);activePlayback=null;}}
+  function playVisual(m){
+    stopPlayback();
+    const id=m.id,step=m.cfg.step||1;
+    let current=m.cfg.min;
+    changeSlider(current,true);
+    activePlayback=setInterval(()=>{
+      if(getCurrent()!==id){stopPlayback();return;}
+      current+=step;
+      if(current>m.cfg.max){stopPlayback();return;}
+      changeSlider(current,true);
+    },280);
+  }
+  function handleDiagramDrag(event){
+    if(!activeDrag)return;
+    if(getCurrent()!==activeDrag.id){activeDrag=null;return;}
+    const m=lookup.get(activeDrag.id),bounds=activeDrag.bounds;
+    const x=((event.clientX-bounds.left)/bounds.width*620-64)/492;
+    const ratio=Math.max(0,Math.min(1,x));
+    const step=m.cfg.step||1;
+    let value=m.cfg.min+(m.cfg.max-m.cfg.min)*ratio;
+    value=Math.round(value/step)*step;
+    changeSlider(Math.max(m.cfg.min,Math.min(m.cfg.max,value)),true);
+  }
+  document.addEventListener("pointerdown",event=>{
+    const svg=event.target.closest&&event.target.closest('#tm-scene svg[data-tm-drag]');
+    if(!svg)return;
+    const id=getCurrent();
+    if(!id||!MOVING[lookup.get(id).scene])return;
+    stopPlayback();
+    activeDrag={id,bounds:svg.getBoundingClientRect()};
+    handleDiagramDrag(event);
+  });
+  document.addEventListener("pointermove",event=>{if(activeDrag)handleDiagramDrag(event);});
+  document.addEventListener("pointerup",()=>{activeDrag=null;});
+  document.addEventListener("pointercancel",()=>{activeDrag=null;});
   document.addEventListener("input",e=>{
     if(e.target.id==="tm-range")changeSlider(e.target.value,true);
     if(e.target.id==="tm-topic-answer"){
@@ -387,6 +429,8 @@
     if(!id)return;
     const m=lookup.get(id),d=draft(id,m);
     if(action==="minus"||action==="plus"){changeSlider(action==="minus"?-1:1);return;}
+    if(action==="flip"&&MOVING[m.scene]){d.mode=d.mode?0:1;d.touched=true;save();renderMission(id);return;}
+    if(action==="play"&&MOVING[m.scene]){playVisual(m);return;}
     if(["read","pred","counter","transfer","reflect"].includes(action)){
       if(action==="read"){d.read=Number(btn.dataset.i);if(d.read!==m.readAnswer)d.readMisses=(d.readMisses||0)+1;}
       if(action==="pred")d.pred=Number(btn.dataset.i);
