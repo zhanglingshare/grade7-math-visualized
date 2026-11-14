@@ -173,3 +173,20 @@ body.graph-expanded { overflow: hidden; }
 .example-control { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: 5px; }
 .example-control:has(button[hidden]) { display: none; }
 .example-control button { border: 1px solid #ffd6ac; background: #ffd6ac; color: #3d2514; border-radius: 7px; min-height: 44px; padding: 5px 9px; font-weight: 720; }
+
+/* Light knowledge-map appearance polish: no layout or data logic changes. */
+.page-head { padding: 3px 2px 0; }
+.page-head h1 { color: #263548; font-weight: 850; }
+.page-head .scope { color: #8d583d; letter-spacing: .07em; }
+.board, .info, .relations { border-color: #dedbd5; border-radius: 17px; box-shadow: 0 9px 26px rgba(38,50,67,.045); }
+.board { overflow: hidden; }
+.toolbar { background: linear-gradient(180deg,#fffdfa,#f8f6f1); border-bottom: 1px solid #e4e9ed; }
+.graph-footer { border-top: 1px solid #e4e9ed; background: #fffdf9; }
+.viewport { background-color: #f6f9fc; background-image: radial-gradient(#aabdd347 1px,transparent 1px), radial-gradient(circle at 80% 18%,#e7f1ff,transparent 56%); background-size: 20px 20px,auto; }
+.topic-node.current rect { filter: drop-shadow(0 3px 4px rgba(178,76,26,.22)); }
+.info { border-top: 3px solid #abc9e5; }
+.info h2 { letter-spacing: -.025em; }
+.info .main-action { box-shadow: 0 3px 8px rgba(166,66,20,.16); }
+.relations[open] { border-color: #c8d6e1; }
+.directory-button { border-color: #c9d8ea; background: #f5f9ff; }
+@media (max-width:800px) { .board,.info,.relations { box-shadow: 0 5px 16px rgba(38,50,67,.035); } }
