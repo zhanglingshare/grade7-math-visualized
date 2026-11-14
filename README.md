@@ -1,16 +1,16 @@
-# 小学数学思维习惯重建 · 2026-11-14
+# 小学数学思维习惯重建 · 精简定稿（2026-11-14）
 
-**小学主入口：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train
+**学习主入口：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train
 
-面向“小学会做熟题、初一不会独立迁移”的学习情况，先补阅读题意、识别结构、表征转换、等价变换、逆向推理和反例检验等思维习惯，而不是从一年级起机械重刷。现在提供 **60 场原创思维实验（原有24场＋新增36场）**，每场依次经过：识别题目问什么 → 预测 → 可调 SVG 实验 → 判断规律边界 → 陌生题迁移 → 事后复盘。可视化包含原有14类展示与新增18种动态模型，包括钟表、组合树、三维积木、面积拼接、数轴运动、对称点、运算机器和天平；新增模型支持在图中直接拖动、切换两种表示和播放短动画。训练进度和自己的反思保存到当前浏览器。首次读题是否正确、迁移题是否独立答对分别记录，不将一个分数当成智力评价。
+经过逐场审核，60场小学实验有19场实际上重复了已有的思维动作。因此主线**从60场精简为41场**，不再为了六种能力每类凑10场。每场仍需经历：看清题目求什么 → 预测 → 动态操作 → 反例判断 → 陌生迁移 → 复盘。现在按真实认知目标分配：读题建模6、结构识别6、表征转换5、等价变换7、逆向推理8、反例迁移9场。
 
-**60场逐项动画重构施工图（面向开发与审查，不是孩子的学习导航）：** [可交互筛选版](https://zhanglingshare.github.io/grade7-math-visualized/animation/primary-thinking-redesign-60.html) · [逐场完整表格](animation/primary-thinking-redesign-60.md)。30场P0、20场P1、10场P2。注意：目前场景已有一定动画与数值调节，但施工图里列出的对象级拖拽、自由切拼、可旋转积木等属于**尚待实现和验收**的目标，不应与现有功能混同。
+**审计依据：** [《41场保留／19场归并的逐项理由》](animation/primary-thinking-curation-41.md)。19场重复实验退出当前运行题目列表，旧ID访问时显示并入哪个实验；**不会清空原有浏览器进度**。清理前完整60场题目与参数保存在 [历史快照](animation/archive/thinking-60-before-curation-20261114.json)。旧版60场[施工图](animation/primary-thinking-redesign-60.md)仅作历史参考，当前已经被精简方案替代。
 
-**六年知识检索：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train/library
+**本轮关键数学纠正：** M14必须真正展示25×16中的16个25如何分成4个100；M24用3/4与1/2反驳无条件比较分母；M54固定180千米，改变用时并规范速度单位；M60区分等可能与偏置硬币的路径概率。现有的动画与屏幕拖动还不等于真正抓取数学对象，三维自由旋转、可拼接三角形等仍需单独开发并验收。
 
-原有 **284 个小学知识点、284 道一次自测原题** 全部保留，现在可逐点自我解释、核对原答案并标记不确定之处；这是单点诊断，不代表已将每个知识点升级成完整的动画课，更不能据此宣称真实学习增益。原有12节 Grok 动画保留，访问 https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/learn/L1 。完整旧版备份： https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6-original-20261114.html#/learn 。
+**小学知识检索：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train/library 。原有284个小学知识点及其题目、12节Grok动画均保留。原Grok动画入口：https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/learn/L1 。改造前完整原页面备份：https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6-original-20261114.html#/learn 。
 
-**回归测试：** 在仓库根目录运行 `node animation/tests/primary-thinking-smoke.cjs`。60场互动流程已做程序级模拟回归检查，原有知识点数据保持不变；这不是已经过真实学生测量校准的题库。真实手机浏览器、GitHub Pages 缓存和孩子实际学习效果尚需验证。新增原创实验与引用的上游知识图谱数据明确分离，上游许可及署名沿用原页面。
+**回归检查：** `node animation/tests/primary-thinking-smoke.cjs`。41场交互流程、19条旧链接的去向、284个原知识点及数学专项演示经过程序级检查；但浏览器真机、GitHub Pages最新部署和孩子实际学习成效尚未独立验证。上游知识图谱的许可与署名沿用原页面，新增实验数据独立编写。
 
 ---
 
