@@ -193,3 +193,19 @@
 @media(prefers-reduced-motion:reduce){
  .tm-root *{animation:none!important;transition:none!important}
 }
+
+/* Read-the-question checkpoint added before calculation. */
+.tm-reading{background:#f1f5f3;border:1px solid #d9e8e0;border-radius:16px;padding:16px;margin-top:12px}
+.tm-reading h3,.tm-predict h3{font-size:16px;margin:0 0 13px;color:#2b4d53;line-height:1.45}
+.tm-reading-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.tm-reading-choices .tm-answer{flex-direction:column;align-items:stretch;gap:9px;min-height:116px}
+.tm-reading-choices .tm-answer>span:nth-child(2){font-size:13px;line-height:1.5}
+.tm-reading-choices .tm-answer-mark{display:none}
+.tm-reading-ok,.tm-reading-warning{font-size:13px;font-weight:780;line-height:1.65;margin:13px 0 0}
+.tm-reading-ok{color:#277763}
+.tm-reading-warning{color:#aa572b}
+.tm-predict{padding-top:24px}
+.tm-pred-feedback{background:#e9f3f8;color:#345970;border:1px solid #c9dce8;border-radius:12px;padding:14px;margin-top:15px}
+.tm-pred-feedback strong{font-size:15px}
+.tm-pred-feedback p{font-size:13px;line-height:1.75;margin:6px 0 0}
+@media(max-width:540px){.tm-reading-choices{grid-template-columns:1fr}.tm-reading-choices .tm-answer{flex-direction:row;align-items:center;min-height:55px}.tm-reading{padding:13px}}
