@@ -57,6 +57,13 @@ const tap=(attr,val)=>{
 for(const lesson of m){
  location.hash="#/play/"+lesson.id;window.MATH_ARENA_TEST.navigate();
  assert.ok(root.innerHTML.includes(lesson.q.text));
+ if(lesson.read){
+  assert.doesNotMatch(root.innerHTML,/data-act="pred"/);
+  click("read",{index:String((lesson.read.answer+1)%3)});
+  assert.match(root.innerHTML,/再看看题目的最后一句/);
+  click("read",{index:String(lesson.read.answer)});
+  assert.match(root.innerHTML,/data-act="pred"/);
+ }
  click("pred",{index:String(lesson.q.answer)});
  click("stage",{stage:"experiment"});
  assert.match(root.innerHTML,/arena-blackboard/);
@@ -91,4 +98,4 @@ assert.match(root.innerHTML,/不是分数榜/);
 assert.match(read("index.html"),/curriculum.js/);
 assert.match(read("index.html"),/visuals.js/);
 assert.match(read("index.html"),/app.js/);
-console.log("PASS: 28 complete lesson flows, 168 SVG parameter views, fraction/groups/tile/balance interactions, 3D cubes and local progress.");
+console.log("PASS: 28 complete lesson flows, 11 targeted reading gates, 168 SVG parameter views, object manipulation, 3D cubes and local progress.");
