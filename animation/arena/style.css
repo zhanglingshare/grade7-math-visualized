@@ -196,3 +196,13 @@ button{touch-action:manipulation}
 /* Optional planar-to-spatial exploration, kept separate from the core perimeter question. */
 .arena-spatial-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;min-height:48px;border:1.5px dashed #91b0cc;background:#edf4fa;color:#365d83;border-radius:11px;font-size:13px;font-weight:850}
 .arena-spatial-toggle:hover{background:#dcecf8}
+
+/* A selective reading checkpoint only for context-heavy problems, not for every experiment. */
+.arena-reading-gate{background:#eff3ef;border:1px solid #d7e7dc;border-radius:15px;padding:16px;margin:18px 0}
+.arena-reading-gate h3{font-size:15px;color:#365b54;margin:0 0 12px}
+.arena-read-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.arena-read-options button{background:#fff;border:1.5px solid #d0ded7;border-radius:11px;min-height:66px;color:#415e5c;font-size:13px;font-weight:760;line-height:1.5;padding:10px}
+.arena-read-options button.selected{border-color:#4a9f81;background:#def0e5;color:#2e6a50}
+.arena-read-ok,.arena-read-retry{font-size:12px;margin:10px 0 0;font-weight:800}
+.arena-read-ok{color:#26765f}.arena-read-retry{color:#a05c34}
+@media(max-width:560px){.arena-read-options{grid-template-columns:1fr}.arena-read-options button{min-height:45px;text-align:left}}
