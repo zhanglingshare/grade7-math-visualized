@@ -22,35 +22,48 @@ case "bars":{
  eq=`${c.total}−${v}=${left}`;note=k?"黄色部分属于甲，不属于乙。":"拖动改变黄色差值，观察乙怎样变化。";break;
 }
 case "fractions":{
- const denom=Math.max(2,Math.round(v)); const q1=6/2,q2=12/denom,step=560/denom;
+ const denom=Math.max(2,Math.round(v)); const q1=6/2,step=560/denom;
  z+=text(34,39,"整体A：6个苹果，取一半",19)+box(42,58,560,56,C.low)+box(42,58,280,56,C.a);
  z+=text(620,95,`3个`,19,C.a);
- z+=text(34,155,`整体B：12个苹果，取1/${denom}`,19);
- for(let j=0;j<denom;j++)z+=box(42+j*step,173,step-3,57,j===0?C.b:C.low,3);
- z+=text(620,211,`${nice(q2)}个`,17,C.b)+text(44,270,k?"分数不是固定数量":"总量和分割方式共同决定实际数量",17,C.muted);
- eq=`6×1/2=${nice(q1)}；12×1/${denom}=${nice(q2)}`;
+ const selected=Math.max(1,Math.min(denom,Math.round(state.selected||1))),actual=12*selected/denom;
+ z+=text(34,155,`整体B：12个苹果，取${selected}/${denom}`,19);
+ for(let j=0;j<denom;j++)z+=box(42+j*step,173,step-3,57,j<selected?C.b:C.low,3,`data-part-index="${j}"`);
+ z+=text(620,211,`${nice(actual)}个`,17,C.b)+text(44,270,k?"换个整体比较，结果可能反转。":"点击下面的分数格，改变选中的份数。",17,C.muted);
+ eq=`6×1/2=${nice(q1)}；12×${selected}/${denom}=${nice(actual)}`;
  note="同一个分数，必须先说清楚‘整体’是什么。";break;
 }
 case "groups":{
- const total=v*(c.group||1)*(c.unit||1);
- z+=text(34,35,`共有${v}组，每组${c.group||1}个${c.unit}`,20);
- if(k){
- for(let i=0;i<v;i++){const x=40+i*100;z+=box(x,80,86,99,C.a,10)+text(x+43,138,"100",24,C.dark,"middle");}
+ if(c.cut){
+ const rows=Math.round(v),cols=c.unit||4,cut=c.cut,size=Math.min(46,410/cols,165/rows);
+ z+=text(34,37,"从每一行拿走同样的部分",20);
+ for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
+ const x=38+col*(size+5)+(k&&col>=cut?20:0),y=65+row*(size+5);
+ z+=box(x,y,size,size,col<cut?C.a:C.b,3,'data-scene-action="regroup"');
+ }
+ z+=text(38,270,k?"这两块重组后，剩下的总格数不变。":"点击色块切开，观察每一行都怎样分割。",17,C.muted);
+ eq=`${rows}×(${cols}−${cut})=${rows*cols}−${rows*cut}=${rows*(cols-cut)}`;
+ note="拿掉的黄色部分也是每一行都有，不能漏乘。";
  }else{
- for(let i=0;i<v;i++)for(let j=0;j<(c.group||1);j++){
- const x=36+i*104+j*22;z+=box(x,91,19,62,j%2?C.b:C.a,3);
+ const n=c.group||4,unit=c.unit||25,total=v*n*unit;
+ z+=text(34,35,`共有${v}组，每组${n}个${unit}`,20);
+ if(k){
+ for(let i=0;i<v;i++){const x=40+i*100;z+=box(x,80,86,99,C.a,10,'data-scene-action="regroup"')+text(x+43,138,String(n*unit),24,C.dark,"middle");}
+ }else{
+ for(let i=0;i<v;i++)for(let j=0;j<n;j++){
+ const x=36+i*104+j*22;z+=box(x,91,19,62,j%2?C.b:C.a,3,'data-scene-action="regroup"');
  }
  }
- z+=text(38,241,c.cut?`每行拿走${c.cut}格，剩余部分保持比例`:"四个25能先组成一个100。",19,C.b);
- eq=c.cut?`${v}×(${c.unit}−${c.cut})=${v*(c.unit-c.cut)}`:`${v}×(4×25)=${total}`;
- note="点击‘另一种看法’，看单位如何重新分组。";break;
+ z+=text(38,241,"点击色块：四个25先组成一个100。",19,C.b);
+ eq=`${v}×(${n}×${unit})=${total}`;
+ note="重组数学对象，不需要先做竖式。";
+ }break;
 }
 case "balance":{
  const sum=v+c.add,target=m.id==="b04"?12:sum,removed=k?c.add:0;
  const left=v+c.add-removed,right=target-removed;
  const tilt=Math.max(-9,Math.min(9,(left-right)*2));
  z+=text(30,35,k?"左右各移走相同数量":"未知数＋已知数，与目标比较",19);
- z+=`<g transform="rotate(${tilt} 357 148)">`+path("M128 150 H586",C.a,9)+box(126,100,147,48,C.c)+box(436,100,147,48,C.c)+text(199,132,String(left),24,C.ink,"middle")+text(508,132,String(right),24,C.ink,"middle")+"</g>";
+ z+=`<g data-scene-action="remove" transform="rotate(${tilt} 357 148)">`+path("M128 150 H586",C.a,9)+box(126,100,147,48,C.c)+box(436,100,147,48,C.c)+text(199,132,String(left),24,C.ink,"middle")+text(508,132,String(right),24,C.ink,"middle")+"</g>";
  z+=`<polygon points="343,153 371,153 357,224" fill="${C.b}"/>`+box(308,226,98,14,C.d);
  eq=k?`${v} 与 ${target-c.add} 比较`:`${v}+${c.add} 与 ${target} 比较`;
  note=left===right?"两端平衡，等量关系成立。":"调节未知数，让天平重新达到水平。";break;
@@ -98,15 +111,15 @@ case "line":{
  }
  z+=text(35,48,c.subtract?"减去负数：分清减法与符号":c.journey?"起点＋位移＝终点":c.mirror?"相反数是0两侧的镜像":c.distance?"位置可负，距离不负":c.compare?"数轴右边更大":"方向由参照系决定",19);
  const result=c.journey||c.subtract?start+translated:phys;
- eq=c.mirror?`${nice(v)} 的相反数 = ${nice(-v)}`:c.distance?`位置 ${v}；距离 ${Math.abs(v)}`:c.subtract?`${start}−(${v})=${nice(result)}`:c.journey?`${start}+(${v})=${nice(result)}`:c.compare?`${start} 与 ${v}，右侧更大`:`位置 ${v}；${k?"正方向反转后符号变号":"向右为正"}`;
+ eq=c.mirror?`${nice(v)} 的相反数 = ${nice(-v)}`:c.distance?`位置 ${v}；距离 ${Math.abs(v)}`:c.subtract?`${start}−(${v})=${nice(result)}`:c.journey?`${start}+(${v})=${nice(result)}`:c.compare?`${start} 与 ${v}，右侧更大`:`实际位置 ${v}；${k?"向左为正，读数 "+(-v):"向右为正，读数 "+v}`;
  note=c.subtract?"减去一个量，等于加上它的相反数。":"沿数轴直接操作点，找大小、方向、距离或运算。";break;
 }
 case "signed":{
  if(m.id==="r02"){z+=text(42,48,"同样的横线，承担不同职责",20);
  z+=box(49,98,264,104,C.c,14)+box(370,98,289,104,C.a,14);
- z+=text(180,140,"−3",29,C.ink,"middle")+text(509,140,"5−3",29,C.dark,"middle");
+ z+=text(180,140,v,29,C.ink,"middle")+text(509,140,`5−(${v})`,29,C.dark,"middle");
  z+=text(180,178,"数的符号",15,C.ink,"middle")+text(509,178,"运算符号",15,C.dark,"middle");
- eq="负数符号 ≠ 减法运算符";note="先弄清楚这个符号在式子中担任什么角色。";
+ eq=`数卡：${v}；运算：5−(${v})=${5-v}`;note="数字属于什么数，与减号正在做什么，是两个问题。";
  }else{
  const positive=c.positive||5,negative=Math.abs(v),unit=39;
  z+=text(38,38,`正筹码 ${positive}个`,20,C.a)+text(38,149,`负筹码 ${negative}个`,20,C.b);
