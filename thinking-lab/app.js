@@ -43,7 +43,7 @@ if(ui.step>=1){h+='<div class="inner"><h3>数学上为什么成立？</h3><p>'+e
 h+='</div><div class="notes">本实验仅收集预测、解释、迁移等观察线索，不凭一道题给孩子贴能力标签。原版可视化动画仍可从页面右上角进入。</div></article></div>';
 return h}
 function svgWrap(s){return '<svg viewBox="0 0 600 210" role="img" aria-label="可随控制杆变化的数学图形"><defs><filter id="glow"><feGaussianBlur stdDeviation="2"/></filter></defs>'+s+'</svg>'}
-function experiment(u){var v=u.visual;var lo=(v.min===undefined?-10:v.min),hi=(v.max===undefined?10:v.max);var min=v.kind==="fraction"?0:v.kind==="grid"?1:v.kind==="ratio"?1:v.kind==="power"?1:v.kind==="line"?lo:-6;var max=v.kind==="fraction"?v.b:v.kind==="grid"?Math.max(6,v.b):v.kind==="ratio"?8:v.kind==="power"?6:v.kind==="line"?hi:8;var val=ui.slider===null?(v.kind==="line"?v.b:v.kind==="fraction"?v.a:v.kind==="grid"?v.b:v.kind==="ratio"?v.a:v.kind==="power"?v.b:2):ui.slider;
+function experiment(u){var v=u.visual;var lo=(v.min===undefined?-10:v.min),hi=(v.max===undefined?10:v.max);var min=v.kind==="fraction"?0:v.kind==="grid"?1:v.kind==="ratio"?1:v.kind==="power"?1:v.kind==="line"?lo:v.kind==="bars"?0:v.kind==="precedence"?-6:-6;var max=v.kind==="fraction"?v.b:v.kind==="grid"?Math.max(6,v.b):v.kind==="ratio"?6:v.kind==="power"?6:v.kind==="line"?hi:v.kind==="bars"?Math.ceil(Math.max(Math.abs(v.a),Math.abs(v.b))*1.5):v.kind==="precedence"?6:8;var val=ui.slider===null?(v.kind==="line"?v.b:v.kind==="fraction"?v.a:v.kind==="grid"?v.b:v.kind==="ratio"?1:v.kind==="power"?v.b:v.kind==="bars"?v.b:v.kind==="precedence"?v.c:2):ui.slider;
 val=Math.max(min,Math.min(max,val));
 var step=(v.kind==="line"&&hi-lo<=1)?0.01:1;
 var description="";
@@ -53,6 +53,7 @@ else if(v.kind==="grid")description="改变每组数量，观察整个矩阵如�
 else if(v.kind==="ratio")description="同时扩大同一配比，比较两类数量。";
 else if(v.kind==="power")description="改变相同因数出现的次数。";
 else if(v.kind==="machine")description="改变输入，观察表达式输出。";
+else if(v.kind==="precedence")description="改变最后一个因数，比较两种括号结构。";
 else description="改变对照数量，比较大小与比值。";
 return '<div class="experiment" id="experiment-canvas">'+drawVisual(u,val)+'</div><div class="exp-controls"><label for="exp-slider">'+description+'</label><input type="range" id="exp-slider" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"><output class="exp-value" id="exp-output">'+val+'</output></div><p class="notes" style="color:#a4bfd2">图形是概念探索工具，不自动证明所有数学规则。结合文字解释与反例检验。</p>'}
 function drawVisual(u,val){var v=u.visual,parts="",i,j;
@@ -73,7 +74,7 @@ for(i=0;i<rows;i++)for(j=0;j<count;j++)parts+='<rect x="'+(start+j*w+2)+'" y="'+
 parts+=label(300,195,rows+" 组 × "+count+" 个 = "+(rows*count)+" 个",16);
 }
 else if(v.kind==="ratio"){
-var water=Math.round(val),juice=Math.max(1,Math.round(water*(v.b/v.a)));
+var water=Math.round(v.a*val),juice=Math.round(v.b*val);
 for(i=0;i<Math.min(water,12);i++)parts+='<rect x="'+(45+i*43)+'" y="46" width="30" height="45" rx="6" fill="#78b9ff"/>';
 for(i=0;i<Math.min(juice,12);i++)parts+='<rect x="'+(45+i*43)+'" y="118" width="30" height="45" rx="6" fill="#ffc078"/>';
 parts+=label(440,109,water+" : "+juice,23)+label(170,33,"水",13)+label(170,193,"果汁",13);
@@ -82,6 +83,13 @@ else if(v.kind==="power"){
 var exp=Math.max(1,Math.round(val)),n=v.a;
 for(i=0;i<exp;i++){parts+='<rect x="'+(45+i*84)+'" y="55" width="66" height="66" rx="12" fill="'+(i%2?"#ff9f72":"#80b9e8")+'"/>'+label(78+i*84,97,n,24,"#1a2c40");if(i<exp-1)parts+=label(118+i*84,98,"×",18)}
 parts+=label(300,172,n+" 连乘 "+exp+" 次 = "+Math.pow(n,exp),17);
+}
+else if(v.kind==="precedence"){
+var ans1=v.a+v.b*val,ans2=(v.a+v.b)*val;
+parts+=label(300,35,"相同的数字，不同的运算结构",17);
+parts+='<rect x="45" y="60" width="245" height="100" rx="14" fill="#294763"/><rect x="310" y="60" width="245" height="100" rx="14" fill="#42516b"/>';
+parts+=label(168,97,v.a+" + "+v.b+" × ("+val+")",18)+label(168,136,"= "+ans1,24,"#78d9bb");
+parts+=label(432,97,"("+v.a+" + "+v.b+") × ("+val+")",18)+label(432,136,"= "+ans2,24,"#ffad79");
 }
 else if(v.kind==="machine"){
 var a=v.a,b=v.b,out=a*val+b;
