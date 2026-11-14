@@ -4,6 +4,8 @@
 
 面向“小学会做熟题、初一不会独立迁移”的学习情况，先补阅读题意、识别结构、表征转换、等价变换、逆向推理和反例检验等思维习惯，而不是从一年级起机械重刷。现在提供 **60 场原创思维实验（原有24场＋新增36场）**，每场依次经过：识别题目问什么 → 预测 → 可调 SVG 实验 → 判断规律边界 → 陌生题迁移 → 事后复盘。可视化包含原有14类展示与新增18种动态模型，包括钟表、组合树、三维积木、面积拼接、数轴运动、对称点、运算机器和天平；新增模型支持在图中直接拖动、切换两种表示和播放短动画。训练进度和自己的反思保存到当前浏览器。首次读题是否正确、迁移题是否独立答对分别记录，不将一个分数当成智力评价。
 
+**60场逐项动画重构施工图（面向开发与审查，不是孩子的学习导航）：** [可交互筛选版](https://zhanglingshare.github.io/grade7-math-visualized/animation/primary-thinking-redesign-60.html) · [逐场完整表格](animation/primary-thinking-redesign-60.md)。30场P0、20场P1、10场P2。注意：目前场景已有一定动画与数值调节，但施工图里列出的对象级拖拽、自由切拼、可旋转积木等属于**尚待实现和验收**的目标，不应与现有功能混同。
+
 **六年知识检索：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train/library
 
 原有 **284 个小学知识点、284 道一次自测原题** 全部保留，现在可逐点自我解释、核对原答案并标记不确定之处；这是单点诊断，不代表已将每个知识点升级成完整的动画课，更不能据此宣称真实学习增益。原有12节 Grok 动画保留，访问 https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/learn/L1 。完整旧版备份： https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6-original-20261114.html#/learn 。
