@@ -192,3 +192,7 @@ button{touch-action:manipulation}
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}*{animation:none!important;transition:none!important}
 }
+
+/* Optional planar-to-spatial exploration, kept separate from the core perimeter question. */
+.arena-spatial-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;min-height:48px;border:1.5px dashed #91b0cc;background:#edf4fa;color:#365d83;border-radius:11px;font-size:13px;font-weight:850}
+.arena-spatial-toggle:hover{background:#dcecf8}
