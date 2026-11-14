@@ -14,11 +14,19 @@ const p=(v-m.cfg.min)/(m.cfg.max-m.cfg.min);
 const track=L(64,272,556,272,C.blue,7)+L(64,272,64+p*492,272,C.coral,7)+O(64+p*492,272,11,C.coral);
 return `<div class="tm-model-visual tv-model"><div class="tv-scene-header"><span>${E(m.title)}</span><span>${mode?"第二种表示":"动态操作"}</span></div><svg data-tm-drag="1" viewBox="0 0 620 305" role="img" aria-label="${E(m.title)}，可在图上左右拖动">${body}${track}${T(64,296,"在图中左右拖动，或使用下方滑杆",11,"#aac5d4")}</svg><div class="tm-model-formula">${E(formula)}</div><p class="tm-model-caption">${E(insight)}</p></div>`;
 }
-scenes.compare=(m,v,k)=>{
-const c=m.cfg,pct=!!c.percent,b=pct?c.total:c.total-v,a=pct?c.total*(1+v/100):c.total,s=430/Math.max(a,b);
-let z=T(30,37,pct?"百分比要先确认基准":"先找数量较多的一方",20)+T(30,96,"甲",17)+R(82,63,a*s,49,C.blue)+T(94,94,F(a),20)+T(30,174,"乙",17)+R(82,141,b*s,49,C.mint)+T(94,173,F(b),20,"#1a3d42")+L(82+b*s,55,82+a*s,55,C.coral,5);
-if(k)z+=T(86,231,pct?`乙100%，甲${100+v}%`:`乙=甲−${v}=${b}`,24,C.coral);
-return wrap(m,v,k,z,pct?`甲=${c.total}×(1+${v}%)=${F(a)}`:`甲${c.total}−差${v}=乙${b}`,"谁是基准，比看见“多”字更重要。");
+scenes.compare=function compareRevised(m,v,k){
+  const c=m.cfg,pct=!!c.percent,b=pct?c.total:c.total-v,a=pct?c.total*(1+v/100):c.total,s=420/Math.max(a,b);
+  let z=T(30,37,pct?"同一个差额，换基数会换百分比":"先找数量较多的一方",19);
+  z+=T(30,96,"甲",17)+R(82,63,a*s,49,C.blue)+T(94,94,F(a),20);
+  z+=T(30,174,"乙",17)+R(82,141,b*s,49,C.mint)+T(94,173,F(b),20,"#1a3d42");
+  z+=L(82+b*s,55,82+a*s,55,C.coral,5);
+  if(pct){
+    const reverse=100*v/(100+v);
+    z+=T(87,232,k?"以甲为基准，乙少约"+F(reverse)+"%":"以乙为基准，甲多"+v+"%",20,C.coral);
+    return wrap(m,v,k,z,k?"差"+F(a-b)+" ÷ 甲"+F(a)+" ≈ "+F(reverse)+"%":"差"+F(a-b)+" ÷ 乙"+F(b)+"＝"+v+"%","比较基准决定分母。甲比乙多20%，乙并非比甲少20%。");
+  }
+  if(k)z+=T(86,231,"乙＝甲－"+v+"＝"+b,22,C.coral);
+  return wrap(m,v,k,z,"甲"+a+"－差"+v+"＝乙"+b,"先确定谁多谁少，不能只凭一个“多”字决定加法。");
 };
 scenes.clock=(m,v,k)=>{
 const start=m.cfg.start||0,end=start+v,reverse=!!m.cfg.reverse,clock=n=>`${Math.floor((n/60)%24)}:${String(n%60).padStart(2,"0")}`;
@@ -76,12 +84,22 @@ scenes.motion=function updatedMotion(m,v,k){
   }
   return wrap(m,v,k,z,F(distance)+"千米 ÷ "+F(v)+"小时 = "+F(speed)+"千米/小时","固定路程时，用时越长，平均速度越慢；不能只看路程。");
 };
-scenes.sequence=(m,v,k)=>{
-const squares=!!m.cfg.squares,total=squares?v*v:v*(v+1)/2,cell=Math.min(squares?27:32,430/(v+2));
-let z=T(29,36,squares?"每一级增加一圈，成为更大的正方形":"每一层比上一层多一块",19);
-for(let row=0;row<v;row++)for(let col=0;col<(squares?v:row+1);col++)z+=R(31+col*(cell+3),58+row*(cell+3),cell,cell,row===v-1?C.coral:C.mint,3);
-if(k)z+=T(343,126,squares?`${v}×${v}`:`1+2+…+${v}`,26,C.ink)+T(344,176,`${total}块`,31,C.coral);
-return wrap(m,v,k,z,squares?`${v}² = ${total}`:`1+2+…+${v}=${total}`,"从结构找规律，不代表几项数就能唯一确定所有后项。");
+scenes.sequence=function sequenceRevised(m,v,k){
+  const squares=!!m.cfg.squares,total=squares?v*v:v*(v+1)/2,cell=Math.min(squares?27:32,430/(v+2));
+  let z=T(29,36,squares?"规则不是由少量数据唯一决定的":"每一层比上一层多一块",19);
+  if(squares&&k){
+    const nums=[1,4,9,16];
+    for(let i=0;i<4;i++){
+      const x=31+i*125;z+=R(x,68,106,62,i%2?C.blue:C.mint,10)+T(x+53,109,String(nums[i]),27,"#213949","middle");
+    }
+    z+=L(235,148,172,181,C.mint,3)+L(235,148,400,181,C.coral,3);
+    z+=R(82,185,160,55,C.mint,8)+T(162,217,"第五项25",20,"#243d43","middle");
+    z+=R(349,185,170,55,C.coral,8)+T(434,217,"第五项26",20,"#243d43","middle");
+    return wrap(m,v,k,z,"规则A：第n项=n²；规则B：前4项相同，第5项从16加10变为26","有限几项无法唯一确定所有后项。必须说明规则，才能断定下一个数。");
+  }
+  for(let row=0;row<v;row++)for(let col=0;col<(squares?v:row+1);col++)z+=R(31+col*(cell+3),58+row*(cell+3),cell,cell,row===v-1?C.coral:C.mint,3);
+  if(k)z+=T(343,126,squares?v+"×"+v:"1+2+…+"+v,26,C.ink)+T(344,176,total+"块",31,C.coral);
+  return wrap(m,v,k,z,squares?v+"² = "+total:"1+2+…+"+v+"="+total,"先观察结构，再提出规则；只有明确规则后才能继续推算。");
 };
 scenes.tiles=(m,v,k)=>{
 const cols=m.cfg.unit,split=m.cfg.split||Math.floor(cols/2),size=Math.min(26,480/(cols+2),175/(v+1));
@@ -277,6 +295,29 @@ scenes.fractionCompare=function fractionCompare(m,v,k){
     z+=T(515,y+34,F(part*100)+"%",15,C.ink);
   }
   return wrap(m,v,k,z,k?"3/4 > 1/2（分母4更大，但分数反而更大）":"1/2 "+(v===2?"=":">")+" 1/"+v,"只有同一整体的单位分数，才能直接说分母越大每份越小。");
+};
+scenes.areaCounterexample=function equalAreaScene(m,v,k){
+  const pairs=[[1,24],[2,12],[3,8],[4,6]];
+  const [rows,cols]=pairs[Math.max(0,Math.min(3,v-1))];
+  const fixedPerimeter=20,variablePerimeter=2*(rows+cols);
+  let z=T(30,35,"两张长方形都恰好24格，但边界长度可能不同",18);
+  const drawGrid=(x,y,w,h,fill,cell)=>{
+    let out="";
+    for(let a=0;a<h;a++)for(let b=0;b<w;b++){
+      out+=R(x+b*cell,y+a*cell,cell-1,cell-1,fill,2);
+    }
+    return out;
+  };
+  const fixedSize=23,variableSize=Math.min(24,250/cols,114/rows);
+  z+=drawGrid(33,79,6,4,C.mint,fixedSize);
+  z+=drawGrid(300,79,cols,rows,C.coral,variableSize);
+  z+=T(34,69,"6×4＝24格",18,C.ink)+T(300,69,cols+"×"+rows+"＝24格",18,C.ink);
+  z+=T(34,225,"周长："+fixedPerimeter+"格",17,C.mint);
+  z+=T(300,225,"周长："+variablePerimeter+"格",17,C.coral);
+  if(k){
+    z+=T(33,249,"面积始终24，周长有时相同、有时不同",15,C.ink);
+  }
+  return wrap(m,v,k,z,"面积：24＝24；周长："+fixedPerimeter+" 与 "+variablePerimeter,"同样的面积可以有不同的外边界：面积不能决定唯一的周长。");
 };
 window.TM_VISUALS=scenes;
 })();
