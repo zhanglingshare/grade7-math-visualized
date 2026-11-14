@@ -1,3 +1,17 @@
+# 小学数学思维习惯重建 · 2026-11-14
+
+**小学主入口：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train
+
+面向“小学会做熟题、初一不会独立迁移”的学习情况，先补阅读题意、识别结构、表征转换、等价变换、逆向推理和反例检验等思维习惯，而不是从一年级起机械重刷。现在提供 **24 场原创深度互动实验**，每场依次经过：识别题目问什么 → 预测 → 可调 SVG 实验 → 判断规律边界 → 陌生题迁移 → 事后复盘。训练进度和自己的反思保存到当前浏览器。首次读题是否正确、迁移题是否独立答对分别记录，不将一个分数当成智力评价。
+
+**六年知识检索：** https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/train/library
+
+原有 **284 个小学知识点、284 道一次自测原题** 全部保留，现在可逐点自我解释、核对原答案并标记不确定之处；这是单点诊断，不代表已将每个知识点升级成完整的动画课，更不能据此宣称真实学习增益。原有12节 Grok 动画保留，访问 https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6.html#/learn/L1 。完整旧版备份： https://zhanglingshare.github.io/grade7-math-visualized/animation/K1-6-original-20261114.html#/learn 。
+
+**回归测试：** 在仓库根目录运行 `node animation/tests/primary-thinking-smoke.cjs`。数据内容及互动流程已执行程序检查，真实手机浏览器、GitHub Pages 缓存和孩子实际学习效果尚需验证。新增原创实验与引用的上游知识图谱数据明确分离，上游许可及署名沿用原页面。
+
+---
+
 # 七年级数学 · 统一学习导航
 
 > 导航按章节确定对应关系：第一章课程→第一章252道分层专项，第二章课程→第二章156题；第二章还有独立的84题课内练习。原卷23题只属于第二章。旧版实验跨现行教材章节，作为历史入口保留，原深链接未改。
