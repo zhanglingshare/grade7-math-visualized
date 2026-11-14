@@ -46,6 +46,7 @@
     const finished=completed();
     const tPassed=finished.filter(m=>DB.records[m.id].transferCorrect).length;
     const cPassed=finished.filter(m=>DB.records[m.id].counterCorrect).length;
+    const readPassed=finished.filter(m=>DB.records[m.id].readCorrectFirst).length;
     const list=M.filter(m=>(gradeFilter==="all"||m.g===Number(gradeFilter))&&(skillFilter==="all"||m.s===Number(skillFilter)));
     const elements=SKILLS.map((skill,i)=>{
       const group=list.filter(m=>m.s===i);
@@ -62,7 +63,7 @@
       '<div class="tm-hero-visual" aria-hidden="true"><div class="tm-scene-prompt">25 × 16 = ?</div><div class="tm-scene-transform">25 × <b>(4 × 4)</b></div><div class="tm-scene-result"><span>100</span> × 4</div><div class="tm-scene-caption">改变看法，不改变数学关系。</div></div></section>'+
       '<section class="tm-metrics" aria-label="我的进度"><div><strong>'+finished.length+'<small>/ '+M.length+'</small></strong><span>完整思维实验</span></div>'+
       '<div><strong>'+tPassed+'<small> / '+finished.length+'</small></strong><span>首次迁移正确</span></div>'+
-      '<div><strong>'+cPassed+'<small> / '+finished.length+'</small></strong><span>反例判断正确</span></div>'+
+      '<div><strong>'+readPassed+'<small> / '+finished.length+'</small></strong><span>第一次读题就看准</span></div>'+
       '<a href="#/train/library"><strong>284</strong><span>原图谱小学知识点 · 可检索</span></a></section>'+
       '<div class="tm-steps-ribbon"><span>01 先预测</span><span>02 动手改变</span><span>03 找反例</span><span>04 陌生迁移</span><span>05 自己复盘</span></div>'+
       '<div class="tm-section-title"><div><p>不是按年级重刷，而是重建思考方式</p><h2>六种思维 · 24场实验</h2></div><a href="#/learn/L1">原有12节 Grok 动画 →</a></div>'+
