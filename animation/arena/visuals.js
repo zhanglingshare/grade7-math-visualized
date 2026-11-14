@@ -72,7 +72,7 @@ case "area":{
  const w=Math.round(v),h=c.height||4,size=33,xx=40,yy=64;
  if(state.spatial){
  const depth=2,dx=35,dy=17,dz=29;
- z+=text(30,36,"底面 → 立体：那些看不见的方块也要数",19);
+ z+=text(30,36,"立体积木：看不见的方块也要数",19);
  const poly=(coords,fill)=>`<polygon points="${coords}" fill="${fill}" stroke="#254254" stroke-width="1.1"/>`;
  const layers=k?depth:1;
  for(let layer=0;layer<layers;layer++)for(let i=h-1;i>=0;i--)for(let j=0;j<w;j++){
