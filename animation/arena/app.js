@@ -8,7 +8,7 @@
  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(memory));}catch(e){}};
  const stop=()=>{if(playing!==null){clearInterval(playing);playing=null;}};
  function draft(m){
-  if(!memory.drafts[m.id])memory.drafts[m.id]={stage:"predict",value:m.cfg.v,mode:0,pred:null,transfer:null,expert:false,changed:false,reflection:"",note:"",parent:false,parentChallenge:""};
+  if(!memory.drafts[m.id])memory.drafts[m.id]={stage:"predict",value:m.cfg.v,mode:0,pred:null,read:null,readMisses:0,transfer:null,expert:false,changed:false,reflection:"",note:"",parent:false,parentChallenge:""};
   return memory.drafts[m.id];
  }
  const tr=id=>T.find(x=>x.id===id);
@@ -36,7 +36,11 @@
   const s=draft(m),stages=[["predict","先出手"],["experiment","动手实验"],["transfer","换招再战"],["reflect","自己复盘"]];
   const header=`<a class="arena-back" href="#/track/${m.track}">← ${E(tr(m.track).label)}</a><header class="arena-lesson-heading"><span class="arena-kicker">${E(m.sec)}</span><h1>${E(m.title)}</h1><p>${E(m.goal)}</p></header><nav class="arena-step-nav" aria-label="挑战环节">${stages.map(([id,name],i)=>`<button data-act="stage" data-stage="${id}" class="${s.stage===id?"active":""}"><small>0${i+1}</small><b>${name}</b></button>`).join("")}</nav>`;
   let body="";
-  if(s.stage==="predict")body=`<section class="arena-paper"><span class="arena-section-kicker">第01步 · 先自己判断</span><h2>${E(m.q.text)}</h2><p>读清楚问题再选。不要追求快，第一次答错也没有关系。</p>${choices(m.q,s.pred,"pred")}${hint(m.q,s.pred,false)}<div class="arena-footer-actions"><button class="arena-next" data-act="stage" data-stage="experiment">亲自验证 →</button></div></section>`;
+  if(s.stage==="predict"){
+   const understood=!m.read||s.read===m.read.answer;
+   const reading=m.read?`<div class="arena-reading-gate"><h3>先确认：这一题究竟要求什么？</h3><div class="arena-read-options">${m.read.opts.map((x,i)=>`<button type="button" data-act="read" data-index="${i}" class="${s.read===i?"selected":""}">${E(x)}</button>`).join("")}</div>${s.read!==null&&s.read!==undefined?(understood?'<p class="arena-read-ok">✓ 已找到问题目标，再选择你的办法。</p>':'<p class="arena-read-retry">再看看题目的最后一句，找真正要求的量。</p>'):""}</div>`:"";
+   body=`<section class="arena-paper"><span class="arena-section-kicker">第01步 · 先自己判断</span><h2>${E(m.q.text)}</h2><p>读清楚问题再选。不要追求快，第一次答错也没有关系。</p>${reading}${understood?choices(m.q,s.pred,"pred")+hint(m.q,s.pred,false):""}<div class="arena-footer-actions"><button class="arena-next" data-act="stage" data-stage="experiment">亲自验证 →</button></div></section>`;
+  }
   else if(s.stage==="experiment")body=`<section class="arena-experiment"><div class="arena-stage-head"><span class="arena-section-kicker">第02步 · 你来操纵数学对象</span><h2>${E(m.action)}</h2></div><div class="arena-blackboard">${V.render(m,s)}</div><div class="arena-controls"><label for="arena-range">改变一个条件 <strong id="arena-value">${E(s.value)}</strong></label><input id="arena-range" type="range" min="${m.cfg.min}" max="${m.cfg.max}" step="1" value="${s.value}"><div class="arena-controls-row"><button data-act="adjust" data-n="-1">− 减少</button><button data-act="adjust" data-n="1">＋ 增加</button><button data-act="flip">↔ 换种看法</button><button data-act="play">▶ 演示变化</button></div>${m.id==="b05"?`<button class="arena-spatial-toggle" data-act="spatial">${s.spatial?"← 回到平面网格":"▧ 看看同样底面如何叠成立体积木"}</button>`:""}<p>也可以直接在黑板图上左右拖动。试试不同的条件，再总结变化。</p></div><div class="arena-expert"><div class="arena-expert-head"><div><strong>观察高手的思路</strong><small>想自己研究就先不打开，没有惩罚。</small></div><button data-act="expert">${s.expert?"收起":"看另一种方法"}</button></div>${s.expert?`<div class="arena-expert-body"><p>${E(m.goal)}</p><p>${E(m.q.reason)}</p><b>${E(m.coach)}</b></div>`:""}</div><div class="arena-footer-actions"><button class="arena-secondary" data-act="stage" data-stage="predict">重新判断</button><button class="arena-next" data-act="stage" data-stage="transfer">换道题试试 →</button></div></section>`;
   else if(s.stage==="transfer")body=`<section class="arena-paper"><span class="arena-section-kicker">第03步 · 换了数字，还能看见同一结构吗</span><h2>${E(m.transfer.text)}</h2><p>先独立试，再去实验室重新观察。</p>${choices(m.transfer,s.transfer,"transfer")}${hint(m.transfer,s.transfer,true)}<div class="arena-footer-actions"><button class="arena-secondary" data-act="stage" data-stage="experiment">回去验证</button><button class="arena-next" data-act="stage" data-stage="reflect">复盘这次发现 →</button></div></section>`;
   else body=`<section class="arena-paper arena-reflection"><span class="arena-section-kicker">第04步 · 记住发现，不是记住分数</span><h2>刚才你学到了什么？</h2><p>真实地记录自己现在的状态，不要求全部答对。</p><div class="arena-reflection-options">${[["understood","我想明白一个原理"],["retry","我还想换种方法"],["uncertain","还没完全弄明白"]].map(([k,v])=>`<button data-act="reflect" data-value="${k}" class="${s.reflection===k?"selected":""}">${v}</button>`).join("")}</div><label for="arena-reflection-text">我自己的话（可选）</label><textarea id="arena-reflection-text" maxlength="240" placeholder="例如：我发现减号和负号不是同一种工作。">${E(s.note||"")}</textarea><div class="arena-parent"><button data-act="parent">${s.parent?"收起父子挑战":"我来出题考爸爸 ↗"}</button>${s.parent?`<div><p>${E(m.coach)}</p><textarea id="arena-parent-text" maxlength="160" placeholder="你来编题，爸爸来想……">${E(s.parentChallenge||"")}</textarea></div>`:""}</div><div class="arena-footer-actions"><button class="arena-secondary" data-act="stage" data-stage="experiment">还想再试</button><button class="arena-next" data-act="complete">保存我的发现 ✓</button></div></section>`;
@@ -51,7 +55,7 @@
   page(`<div class="arena-journal"><a class="arena-back" href="#/">← 返回数学训练场</a><span class="arena-kicker">自己留下的思考</span><h1>不是分数榜，是新发现。</h1><p>无连胜、排名和限时任务。错题也能留下有价值的复盘。</p>${seen.length?`<div class="arena-journal-list">${seen.map(m=>{const r=memory.records[m.id];return `<article><small>${E(tr(m.track).label)} · ${E(r.date.slice(0,10))}</small><h2>${E(m.title)}</h2><p>${E(r.note||"这一次完成了一场探索。")}</p><a href="${playUrl(m.id)}">再挑战 ↗</a></article>`;}).join("")}</div>`:`<div class="arena-empty">还没有复盘。选一场挑战开始研究吧。</div>`}</div>`);
  }
  function complete(m,s){
-  memory.records[m.id]={date:new Date().toISOString(),pred:s.pred,transfer:s.transfer,transferCorrect:s.transfer===m.transfer.answer,changed:s.changed,expert:s.expert,reflection:s.reflection||"uncertain",note:s.note||"",parent:s.parentChallenge||""};
+  memory.records[m.id]={date:new Date().toISOString(),pred:s.pred,readFirst:m.read?(s.readMisses||0)===0:null,transfer:s.transfer,transferCorrect:s.transfer===m.transfer.answer,changed:s.changed,expert:s.expert,reflection:s.reflection||"uncertain",note:s.note||"",parent:s.parentChallenge||""};
   save();
   page(`<div class="arena-finished"><span class="arena-finished-star">✦</span><span class="arena-kicker">一次有价值的探索</span><h1>你留下了一项发现。</h1><p>不用为了答对所有题才可以结束。下次可以回来继续研究。</p><blockquote>${E(s.note||"我发现数学可以用新的方法来尝试。")}</blockquote><div class="arena-finished-actions"><a href="#/track/${m.track}" class="arena-primary">回到本章</a><a href="#/journal" class="arena-outline">我的复盘</a></div></div>`);
  }
@@ -99,7 +103,8 @@
   const btn=e.target.closest?.("[data-act]");if(!btn||!current)return;
   const m=byId.get(current),s=draft(m),act=btn.dataset.act;
   if(act==="stage"){s.stage=btn.dataset.stage;save();lesson(m);}
-  else if(act==="pred"){s.pred=Number(btn.dataset.index);save();lesson(m);}
+  else if(act==="read"){s.read=Number(btn.dataset.index);if(m.read&&s.read!==m.read.answer)s.readMisses=(s.readMisses||0)+1;save();lesson(m);}
+  else if(act==="pred"){if(m.read&&s.read!==m.read.answer)return;s.pred=Number(btn.dataset.index);save();lesson(m);}
   else if(act==="transfer"){s.transfer=Number(btn.dataset.index);save();lesson(m);}
   else if(act==="adjust")change(m,btn.dataset.n,false);
   else if(act==="flip"){s.mode=s.mode?0:1;s.changed=true;save();lesson(m);}
