@@ -127,16 +127,16 @@ return wrap(m,v,k,z,coin?`2^${v}=${count}条顺序`:`${v}×${other}=${count}种`
 };
 scenes.partwhole=(m,v,k)=>{
 const c=m.cfg,den=c.den||v,num=c.den?v:1,total=c.total,qty=total*num/den;
-let z=T(32,37,`整体${total}，其中${num}/${den}`,20);
-if(k&&m.id==="m58"){
- z+=T(30,74,"6的一半",18)+R(30,91,420,49,C.blue)+R(30,91,210,49,C.mint)+T(465,126,"3",22,C.coral);
- z+=T(30,173,"12的三分之一",18)+R(30,186,420,49,C.blue)+R(30,186,140,49,C.coral)+T(465,220,"4",22,C.coral);
+let z=T(32,37,m.id==="m58"?"相同分数不能脱离整体来比较":`整体${total}，其中${num}/${den}`,20);
+if(m.id==="m58"){
+ z+=T(30,74,"整体6，取一半",18)+R(30,91,420,49,C.blue)+R(30,91,210,49,C.mint)+T(465,126,"3",22,C.coral);
+ z+=T(30,173,`整体12，取1/${v}`,18)+R(30,186,420,49,C.blue)+R(30,186,420/v,49,C.coral)+T(465,220,F(12/v),22,C.coral);
 }else{
 const unit=515/den;
 for(let j=0;j<den;j++)z+=R(30+j*unit,93,unit-2,91,j<num?C.mint:C.blue,0);
 z+=T(32,231,`这部分有${F(qty)}`,25,C.coral);
 }
-return wrap(m,v,k,z,`${total}×${num}/${den}=${F(qty)}`,"每次比较份量前，都要确认整体是谁。");
+return wrap(m,v,k,z,m.id==="m58"?`6×1/2=3；12×1/${v}=${F(12/v)}`:`${total}×${num}/${den}=${F(qty)}`,"每次比较份量前，都要确认整体是谁。");
 };
 scenes.scale=(m,v,k)=>{
 const c=m.cfg,b=c.base,w=Math.min(185,v*25),w0=Math.min(185,b*25);
