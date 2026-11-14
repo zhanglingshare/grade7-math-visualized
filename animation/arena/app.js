@@ -75,6 +75,18 @@
   playing=setInterval(()=>{if(current!==id){stop();return;}i++;change(m,min+Math.round((max-min)*i/frames),true);if(i>=frames)stop();},330);
  }
  root.addEventListener("click",e=>{
+  const sceneAction=e.target.closest?.("[data-scene-action]");
+  if(sceneAction&&current){
+   const m=byId.get(current),d=draft(m);
+   if(sceneAction.dataset.sceneAction==="regroup"||sceneAction.dataset.sceneAction==="remove"){
+    d.mode=d.mode?0:1;d.changed=true;save();lesson(m);return;
+   }
+  }
+  const slice=e.target.closest?.("[data-part-index]");
+  if(slice&&current){
+   const m=byId.get(current),d=draft(m);
+   if(m.scene==="fractions"){d.selected=Number(slice.dataset.partIndex)+1;d.changed=true;save();lesson(m);return;}
+  }
   const sceneItem=e.target.closest?.("[data-choice-index]");
   if(sceneItem&&current){change(byId.get(current),Number(sceneItem.dataset.choiceIndex),true);return;}
   const btn=e.target.closest?.("[data-act]");if(!btn||!current)return;
