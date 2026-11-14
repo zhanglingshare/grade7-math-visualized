@@ -67,7 +67,14 @@
   if(!Number.isFinite(num))return;
   const final=Math.min(m.cfg.max,Math.max(m.cfg.min,Math.round(num)));
   if(final===s.value)return;
-  s.value=final;s.changed=true;save();lesson(m);
+  s.value=final;s.changed=true;save();
+  const board=root.querySelector?root.querySelector(".arena-blackboard"):null;
+  if(s.stage==="experiment"&&board){
+   board.innerHTML=V.render(m,s);
+   const label=root.querySelector("#arena-value"),range=root.querySelector("#arena-range");
+   if(label)label.textContent=String(s.value);
+   if(range)range.value=String(s.value);
+  }else lesson(m);
  }
  function animation(m){
   stop();const id=m.id,frames=Math.min(8,m.cfg.max-m.cfg.min),min=m.cfg.min,max=m.cfg.max;let i=0;
