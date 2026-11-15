@@ -15,10 +15,44 @@
  const go=(path)=>"#/"+path;
  const playUrl=id=>go("play/"+id);
  function page(s){root.innerHTML=s;}
+
  function home(){
-  const done=ALL.filter(x=>memory.records[x.id]).length;
-  const resume=byId.has(memory.last)?memory.last:ALL[0].id;
-  page(`<div class="arena-home"><section class="arena-hero"><div class="arena-hero-main"><span class="arena-kicker">数学 · 自己出招</span><h1>数学也有<br><em>值得研究的招式。</em></h1><p>不急着做对。像在球场上一样，观察、尝试、换招、再战。你是自己学习的主教练。</p><div class="arena-hero-actions"><a class="arena-primary" href="${playUrl(resume)}"> ${memory.last?"继续上次挑战":"开始第一场挑战"} →</a><a class="arena-hero-secondary" href="#/track/bridge">自己挑一场</a></div></div><div class="arena-hero-demo" aria-hidden="true"><small>换种看法</small><strong>25 × 16</strong><span>25 × (4 × 4)</span><b>100 × 4</b><small>不改变结果，改变思路</small></div></section><div class="arena-stats"><div><b>${done}</b><span>已留下复盘的实验</span></div><div><b>${ALL.length}</b><span>原创核心挑战</span></div><div><b>4</b><span>小学桥梁＋初一前三章</span></div><a href="#/journal">查看我的发现 ↗</a></div><div class="arena-block-head"><span>自主选择</span><h2>今天想研究什么？</h2></div><div class="arena-track-grid">${T.map(t=>{const ls=ALL.filter(m=>m.track===t.id),n=ls.filter(m=>memory.records[m.id]).length,next=ls.find(m=>!memory.records[m.id])||ls[0];return `<article class="arena-track-card arena-${t.id}"><small>${n} / ${ls.length} 次复盘</small><h3>${E(t.label)}</h3><p>${E(t.sub)}</p><div><a href="#/track/${t.id}">看挑战目录 ↗</a><a href="${playUrl(next.id)}">直接出手 →</a></div></article>`;}).join("")}</div><div class="arena-parent-blurb"><strong>给陪练的爸爸</strong><p>不是检查孩子会不会，而是和他共同研究怎么想。做错可以停下来观察，想不明白也可以保留问题。没有强制倒计时、排名和连胜奖励。</p></div><p class="arena-disclaimer">课程内容为原创互动原型。不能用单次作答判断能力，也不再使用旧开源知识图谱作为课程内核。</p></div>`);
+  const chapterInfo={
+   c1:{
+    name:"数轴冒险",prompt:"负号到底是什么意思？去数轴上找答案！",
+    topics:["正数与负数","数轴","比较大小"],
+    art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="数轴上的负数、零和正数"><path d="M24 70 H277" stroke="#476a92" stroke-width="3" stroke-linecap="round"/><path d="M270 64 L280 70 L270 76" fill="none" stroke="#476a92" stroke-width="3"/><g stroke="#6987aa" stroke-width="2"><path d="M52 59 V81 M100 59 V81 M150 59 V81 M200 59 V81 M248 59 V81"/></g><text x="100" y="110" class="arena-art-text">−3</text><text x="150" y="110" class="arena-art-text">0</text><text x="248" y="110" class="arena-art-text">+3</text><path d="M99 52 Q175 -5 249 52" class="arena-arc" fill="none" stroke="#e99154" stroke-width="4" stroke-dasharray="6 7"/><circle cx="100" cy="70" r="12" fill="#e99154" class="arena-float-dot"/><circle cx="150" cy="70" r="7" fill="#4e9bb2"/><circle cx="248" cy="70" r="12" fill="#4bbba1"/></svg>'
+   },
+   c2:{
+    name:"运算高手训练营",prompt:"加减乘除和乘方，换个方法就能看懂！",
+    topics:["正负数运算","乘除规律","乘方"],
+    art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="3加负5，三对正负筹码抵消后剩负2"><text x="18" y="24" class="arena-art-formula">3 + (−5)</text><g class="arena-op-positive"><circle cx="44" cy="61" r="15"/><circle cx="86" cy="61" r="15"/><circle cx="128" cy="61" r="15"/><text x="44" y="67">+</text><text x="86" y="67">+</text><text x="128" y="67">+</text></g><g class="arena-op-negative"><circle cx="44" cy="105" r="15"/><circle cx="86" cy="105" r="15"/><circle cx="128" cy="105" r="15"/><circle cx="170" cy="105" r="15"/><circle cx="212" cy="105" r="15"/><text x="44" y="111">−</text><text x="86" y="111">−</text><text x="128" y="111">−</text><text x="170" y="111">−</text><text x="212" y="111">−</text></g><g stroke="#a9b8bb" stroke-width="2" stroke-dasharray="4 4"><path d="M44 77 V88 M86 77 V88 M128 77 V88"/></g><text x="265" y="105" class="arena-art-result">−2</text></svg>'
+   },
+   c3:{
+    name:"字母魔法实验室",prompt:"让 a 动起来，看公式怎样藏着一个规律。",
+    topics:["字母表示数","列代数式","代入求值"],
+    art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="正方形边长a，周长4a，面积为a的平方"><rect x="22" y="28" width="85" height="85" rx="7" fill="#cbb0f2" stroke="#835ab8" stroke-width="3" class="arena-algebra-shape"/><g stroke="#9f81ce" stroke-width="1"><path d="M50 28 V113 M78 28 V113 M22 56 H107 M22 85 H107"/></g><text x="65" y="75" class="arena-art-square">a²</text><text x="65" y="21" class="arena-art-small">a</text><text x="138" y="64" class="arena-art-algebra">周长 = 4a</text><text x="138" y="100" class="arena-art-algebra">面积 = a²</text></svg>'
+   }
+  };
+  const chapterCard=t=>{
+   const info=chapterInfo[t.id],lessons=ALL.filter(m=>m.track===t.id);
+   const completed=lessons.filter(m=>memory.records[m.id]).length;
+   const chips=info.topics.map(item=>'<span>'+E(item)+'</span>').join("");
+   return '<a href="#/track/'+t.id+'" class="arena-chapter-card arena-chapter-'+t.id+'" aria-label="'+E(t.label)+'，'+E(info.name)+'，进入这一章">'+
+    '<div class="arena-chapter-top"><span class="arena-chapter-index">'+E(t.label)+'</span><span class="arena-chapter-total">'+lessons.length+' 个实验</span></div>'+
+    '<div class="arena-chapter-visual">'+info.art+'</div>'+
+    '<div class="arena-chapter-content"><h3>'+E(info.name)+'</h3><p>'+E(info.prompt)+'</p><div class="arena-chapter-chips">'+chips+'</div></div>'+
+    '<div class="arena-chapter-bottom"><span>'+(completed?'已探索 '+completed+' 场，可随时重试':'从好奇心开始')+'</span><strong>进入挑战 <i aria-hidden="true">→</i></strong></div></a>';
+  };
+  const resume=byId.has(memory.last)?memory.last:null;
+  const bridgeCount=ALL.filter(m=>m.track==="bridge").length;
+  page('<div class="arena-home arena-kid-home">'+
+    '<header class="arena-kid-intro"><div class="arena-kid-eyebrow">✦ 我的数学挑战场</div><h1>今天，你想<span>挑战哪一章？</span></h1><p>不用抢快，也不用怕错。自己选一张卡片，试试看能发现什么新招！</p><div class="arena-kid-steps" aria-label="挑战玩法"><span>先想一想</span><i>→</i><span>动手试试</span><i>→</i><span>换题再战</span><i>→</i><span>说说发现</span></div></header>'+
+    '<section class="arena-kid-chapters" aria-label="三张章节卡片"><div class="arena-kid-chapter-title"><h2>选一张，开始玩</h2><span>三张卡片，三种新本领</span></div><div class="arena-chapter-grid">'+T.filter(t=>t.id!=="bridge").map(chapterCard).join("")+'</div></section>'+
+    '<section class="arena-bridge-strip" aria-label="小学数学基础训练"><div class="arena-bridge-icon" aria-hidden="true">🧩</div><div class="arena-bridge-copy"><span>小学数学 · 基础训练区</span><h2>有些数学招式还不熟？来这里练练！</h2><p>审题、分数、空间拼搭、逆向思考 · '+bridgeCount+' 个基础实验</p></div><a href="#/track/bridge" class="arena-bridge-link">去练基础 <span aria-hidden="true">→</span></a></section>'+
+    '<div class="arena-kid-footer"><p>🌱 每次认真研究一个问题就有收获。做错不扣分，累了就休息。</p><div>'+(resume?'<a href="'+playUrl(resume)+'">继续上次挑战 ↗</a>':'')+'<a href="#/journal">看看我的发现 ↗</a></div></div>'+
+    '<details class="arena-parent-guide"><summary>给爸爸看的陪练小提示</summary><p>先听孩子讲自己的猜测。可以问：“你刚才是怎么想的？”“换个办法试试？”不要责骂，不用奖励连胜，也不要拿打球时间交换数学练习。</p></details>'+
+   '</div>');
  }
  function trackPage(id){
   const t=tr(id),ls=ALL.filter(x=>x.track===id),groups=[...new Set(ls.map(x=>x.sec))];
