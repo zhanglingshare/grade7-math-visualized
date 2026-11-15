@@ -65,7 +65,7 @@
    b+=text(47,101,"原式",18,K.dark)+text(399,100,"化简式",18,K.dark);
    b+=text(47,137,`2(${x*x}−3×${x})−(${x*x}−6×${x}+1)`,15,K.dark)+text(400,140,`${x}²−1`,24,K.dark);
    b+=text(182,184,String(result),29,K.dark,"middle")+text(536,184,String(result),29,K.dark,"middle");
-   b+=line(338,139,381,139,K.peach,4);
+   b+=line(338,139,381,139,K.peach,4)+`<g data-ch4-action="expand" data-index="0" role="button" tabindex="0" aria-label="查看化简时抵消的项">${box(338,111,46,63,"transparent",9)}${text(361,146,"↔",23,K.peach,"middle")}</g>`;
    b+=mode?text(39,255,"2x²−6x−x²+6x−1",23,K.peach)+text(39,287,"−6x和+6x抵消，只留下x²−1",17,K.mint):text(39,264,"改变x，两条路线始终跑向同一个结果。",19,K.dim);
    eq=`x=${x}：原式=${result}，化简式=${result}`;
    note="改变x检验等值，再切换视角找到被抵消的项。";
