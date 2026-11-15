@@ -326,3 +326,16 @@ button{touch-action:manipulation}
 .arena-ch4-svg [data-ch4-action]:focus{outline:none;filter:drop-shadow(0 0 8px #ffcf9d)}
 .arena-ch4-svg [data-ch4-action]:hover{filter:brightness(1.09)}
 @media(max-width:900px){.arena-kid-home .arena-chapter-grid{grid-template-columns:1fr}}
+
+
+/* Deep practice is optional: not another required navigation layer. */
+.arena-track-legacy{margin:19px 0 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:1px solid #d5e6da;border-radius:13px;padding:14px 16px;background:#edf6ef;color:#496c5e;font-size:13px}
+.arena-track-legacy a{font-weight:850;color:#986042;white-space:nowrap}
+.arena-track-legacy a:hover{text-decoration:underline}
+/* Preserve legible algebra symbols on a phone rather than shrinking 720 SVG units into 300px. */
+.arena-blackboard{overflow-x:auto}
+@media(max-width:700px){
+ .arena-blackboard svg.arena-ch4-svg{width:585px;min-width:585px;max-height:none;touch-action:pan-x;cursor:default}
+ .arena-ch4-svg [data-ch4-action]{touch-action:manipulation}
+ .arena-blackboard{overscroll-behavior-x:contain}
+}
