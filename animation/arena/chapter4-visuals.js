@@ -7,7 +7,7 @@
  const box=(x,y,w,h,color,r=9,attr="")=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${color}" ${attr}/>`;
  const line=(x1,y1,x2,y2,color=K.dim,width=2)=>`<path d="M${x1} ${y1} L${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round"/>`;
  const signed=n=>n>=0?"+"+n:String(n);
- const wrap=(m,b,eq,note)=>`<svg class="arena-svg arena-ch4-svg" data-drag="1" viewBox="0 0 720 320" role="img" aria-label="${esc(m.title)}">${b}</svg><div class="arena-equation" aria-live="polite">${esc(eq)}</div><div class="arena-scene-note">${esc(note)}</div>`;
+ const wrap=(m,b,eq,note)=>`<svg class="arena-svg arena-ch4-svg" data-drag="0" viewBox="0 0 720 320" role="img" aria-label="${esc(m.title)}">${b}</svg><div class="arena-equation" aria-live="polite">${esc(eq)}</div><div class="arena-scene-note">${esc(note)}</div>`;
  const chip=(x,y,w,h,label,color,i,selected,act="inspect")=>`<g data-ch4-action="${act}" data-index="${i}" role="button" tabindex="0" aria-label="${esc(label)}">${box(x,y,w,h,color,12,`stroke="${selected?"#fff":"#ffffff2b"}" stroke-width="${selected?3:1}`)}${text(x+w/2,y+h/2+7,label,Math.min(25,w/4.8),K.dark,"middle")}</g>`;
  function render(m,s){
   if(m.track!=="c4")return prev(m,s);
@@ -73,8 +73,8 @@
    const x=v,a=x*x+x,z=2*x*x,width=Math.max(1,Math.abs(a),Math.abs(z)),wa=Math.round(430*Math.abs(a)/width),wz=Math.round(430*Math.abs(z)/width);
    b+=text(31,34,"两个式子某次相等，不代表每次都一样",20);
    b+=text(32,81,`当前 x=${x}`,23,K.peach);
-   b+=text(31,126,"x²+x",20,K.mint)+box(171,103,wa,35,K.mint,7,'data-ch4-action="counter" data-index="2"')+text(648,127,String(a),23,K.ink,"middle");
-   b+=text(31,190,"2x²",20,K.peach)+box(171,167,wz,35,K.peach,7,'data-ch4-action="counter" data-index="2"')+text(648,192,String(z),23,K.ink,"middle");
+   b+=text(31,126,"x²+x",20,K.mint)+box(171,103,wa,35,K.mint,7,'data-ch4-action="counter" data-index="2" role="button" tabindex="0" aria-label="把x改成2寻找反例"')+text(648,127,String(a),23,K.ink,"middle");
+   b+=text(31,190,"2x²",20,K.peach)+box(171,167,wz,35,K.peach,7,'data-ch4-action="counter" data-index="2" role="button" tabindex="0" aria-label="把x改成2寻找反例"')+text(648,192,String(z),23,K.ink,"middle");
    b+=text(31,266,a===z?"这一次相等。点击柱子试x=2找反例！":"发现反例：两条路线跑出了不同结果。",21,a===z?K.peach:K.mint);
    eq=`x=${x}：x²+x=${a}；2x²=${z}`;
    note="点击柱子立即换到x=2，也可拖动滑杆寻找反例。";
