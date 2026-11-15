@@ -203,7 +203,7 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none}
 .top{top:55px}
 body.reviewing .top{top:0}
 @media(max-width:420px){.top .in{padding-inline:8px;gap:4px}.top .ib{padding-inline:6px;font-size:12px}}
-</style><link rel="stylesheet" href="study-navigation.css?v=2"><script src="study-directory.js?v=1"></script></head><body><nav class="studyNav" aria-label="学习导航"><div class="in"><a href="K1-6.html">小学补基</a><a href="index.html" title="有理数">第一章</a><a href="chapter-2.html" title="有理数的运算">第二章</a><a href="#/" title="代数式" aria-current="page">第三章</a><a id="knowledgeNav" class="study-map" href="knowledge.html">知识图谱</a></div></nav><div id="app"></div><script>'use strict';
+</style><link rel="stylesheet" href="study-navigation.css?v=2"><script src="study-directory.js?v=1"></script></head><body><nav class="studyNav" aria-label="学习导航"><div class="in"><a href="K1-6.html">小学补基</a><a href="index.html" title="有理数">第一章</a><a href="chapter-2.html" title="有理数的运算">第二章</a><a href="#/" title="代数式" aria-current="page">第三章</a><a href="chapter-4.html" title="整式的加减">第四章</a><a id="knowledgeNav" class="study-map" href="knowledge.html">知识图谱</a></div></nav><div id="app"></div><script>'use strict';
 const NS='http://www.w3.org/2000/svg';
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -1479,9 +1479,9 @@ DX.startHere=function(){const S=shown();const weak=[...S].filter(id=>DX.state(id
 // 课的链接
 DX.link=function(id){const t=T(id);if(t.ch===0)return {txt:`小学${t.g}「${t.nm}」`,href:null};
  const ttl=`${t.no} ${t.nm}`;if(t.ch===DX.CH)return {txt:`重学 ${ttl}`,href:'#/L'+t.L};
- const files={1:'index.html',2:'chapter-2.html',3:'chapter-3.html'};
- return {txt:`回第${['','一','二','三'][t.ch]}章 ${ttl} 重学`,href:`${files[t.ch]}#/L${t.L}`,ext:true};};
-const CHN={1:'第一章',2:'第二章',3:'第三章'};DX.CHN=CHN;
+ const files={1:'index.html',2:'chapter-2.html',3:'chapter-3.html',4:'chapter-4.html'};
+ return {txt:`回第${['','一','二','三','四'][t.ch]}章 ${ttl} 重学`,href:`${files[t.ch]}#/L${t.L}`,ext:true};};
+const CHN={1:'第一章',2:'第二章',3:'第三章',4:'第四章'};DX.CHN=CHN;
 
 // ---- 诊断流程（与界面无关，可在 node 里用脚本答题测试）----
 DX.MAXD=3;
