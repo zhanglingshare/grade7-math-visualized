@@ -130,6 +130,7 @@
    const m=byId.get(current),d=draft(m),ix=Number(ch4.dataset.index);
    if(m.track==="c4"){
     if(ch4.dataset.ch4Action==="counter"){change(m,2,true);return;}
+    if(ch4.dataset.ch4Action==="expand"){d.mode=d.mode?0:1;d.changed=true;save();lesson(m);return;}
     if(ch4.dataset.ch4Action==="inspect"&&Number.isInteger(ix)){
      d.ch4Selected=ix;d.changed=true;
      if(m.scene==="ch4-brackets"){if(!Array.isArray(d.ch4Revealed))d.ch4Revealed=[];d.ch4Revealed=d.ch4Revealed.includes(ix)?d.ch4Revealed.filter(z=>z!==ix):[...d.ch4Revealed,ix];}
