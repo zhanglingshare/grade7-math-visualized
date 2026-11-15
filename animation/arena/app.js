@@ -32,6 +32,11 @@
     name:"字母魔法实验室",prompt:"让 a 动起来，看公式怎样藏着一个规律。",
     topics:["字母表示数","列代数式","代入求值"],
     art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="正方形边长a，周长4a，面积为a的平方"><rect x="22" y="28" width="85" height="85" rx="7" fill="#cbb0f2" stroke="#835ab8" stroke-width="3" class="arena-algebra-shape"/><g stroke="#9f81ce" stroke-width="1"><path d="M50 28 V113 M78 28 V113 M22 56 H107 M22 85 H107"/></g><text x="65" y="75" class="arena-art-square">a²</text><text x="65" y="21" class="arena-art-small">a</text><text x="138" y="64" class="arena-art-algebra">周长 = 4a</text><text x="138" y="100" class="arena-art-algebra">面积 = a²</text></svg>'
+   },
+   c4:{
+    name:"代数砖实验室",prompt:"同类才能合并，负号会让整个括号翻转！",
+    topics:["单项式","同类项","去括号","化简"],
+    art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="两个平方块与一个长条代表不同代数项"><rect x="30" y="19" width="72" height="72" rx="9" fill="#84d7bb" stroke="#328d76" stroke-width="3"/><text x="66" y="61" font-size="22" font-weight="900" text-anchor="middle" fill="#255c50">x²</text><rect x="119" y="19" width="72" height="72" rx="9" fill="#7bafe1" stroke="#4780b5" stroke-width="3"/><text x="155" y="61" font-size="22" font-weight="900" text-anchor="middle" fill="#264d7d">x²</text><rect x="214" y="24" width="32" height="64" rx="8" fill="#f1b784" stroke="#cf874c" stroke-width="3"/><text x="230" y="63" font-size="18" font-weight="900" text-anchor="middle" fill="#8e552d">x</text><text x="72" y="115" font-size="15" text-anchor="middle" fill="#4a8271">同类</text><text x="231" y="115" font-size="15" text-anchor="middle" fill="#aa7045">不同类</text></svg>'
    }
   };
   const chapterCard=t=>{
@@ -48,7 +53,7 @@
   const bridgeCount=ALL.filter(m=>m.track==="bridge").length;
   page('<div class="arena-home arena-kid-home">'+
     '<header class="arena-kid-intro"><div class="arena-kid-eyebrow">✦ 我的数学挑战场</div><h1>今天，你想<span>挑战哪一章？</span></h1><p>不用抢快，也不用怕错。自己选一张卡片，试试看能发现什么新招！</p><div class="arena-kid-steps" aria-label="挑战玩法"><span>先想一想</span><i>→</i><span>动手试试</span><i>→</i><span>换题再战</span><i>→</i><span>说说发现</span></div></header>'+
-    '<section class="arena-kid-chapters" aria-label="三张章节卡片"><div class="arena-kid-chapter-title"><h2>选一张，开始玩</h2><span>三张卡片，三种新本领</span></div><div class="arena-chapter-grid">'+T.filter(t=>t.id!=="bridge").map(chapterCard).join("")+'</div></section>'+
+    '<section class="arena-kid-chapters" aria-label="四张章节卡片"><div class="arena-kid-chapter-title"><h2>选一张，开始玩</h2><span>四张卡片，四种新本领</span></div><div class="arena-chapter-grid">'+T.filter(t=>t.id!=="bridge").map(chapterCard).join("")+'</div></section>'+
     '<section class="arena-bridge-strip" aria-label="小学数学基础训练"><div class="arena-bridge-icon" aria-hidden="true">🧩</div><div class="arena-bridge-copy"><span>小学数学 · 基础训练区</span><h2>有些数学招式还不熟？来这里练练！</h2><p>审题、分数、空间拼搭、逆向思考 · '+bridgeCount+' 个基础实验</p></div><a href="#/track/bridge" class="arena-bridge-link">去练基础 <span aria-hidden="true">→</span></a></section>'+
     '<div class="arena-kid-footer"><p>🌱 每次认真研究一个问题就有收获。做错不扣分，累了就休息。</p><div>'+(resume?'<a href="'+playUrl(resume)+'">继续上次挑战 ↗</a>':'')+'<a href="#/journal">看看我的发现 ↗</a></div></div>'+
     '<details class="arena-parent-guide"><summary>给爸爸看的陪练小提示</summary><p>先听孩子讲自己的猜测。可以问：“你刚才是怎么想的？”“换个办法试试？”不要责骂，不用奖励连胜，也不要拿打球时间交换数学练习。</p></details>'+
@@ -120,6 +125,18 @@
   playing=setInterval(()=>{if(current!==id){stop();return;}i++;change(m,min+Math.round((max-min)*i/frames),true);if(i>=frames)stop();},330);
  }
  root.addEventListener("click",e=>{
+  const ch4=e.target.closest?.("[data-ch4-action]");
+  if(ch4&&current){
+   const m=byId.get(current),d=draft(m),ix=Number(ch4.dataset.index);
+   if(m.track==="c4"){
+    if(ch4.dataset.ch4Action==="counter"){change(m,2,true);return;}
+    if(ch4.dataset.ch4Action==="inspect"&&Number.isInteger(ix)){
+     d.ch4Selected=ix;d.changed=true;
+     if(m.scene==="ch4-brackets"){if(!Array.isArray(d.ch4Revealed))d.ch4Revealed=[];d.ch4Revealed=d.ch4Revealed.includes(ix)?d.ch4Revealed.filter(z=>z!==ix):[...d.ch4Revealed,ix];}
+     save();lesson(m);return;
+    }
+   }
+  }
   const sceneAction=e.target.closest?.("[data-scene-action]");
   if(sceneAction&&current){
    const m=byId.get(current),d=draft(m);
@@ -151,9 +168,17 @@
  });
  root.addEventListener("input",e=>{if(e.target.id==="arena-range"&&current)change(byId.get(current),e.target.value,true);});
  root.addEventListener("pointerdown",e=>{
+  if(e.target.closest?.("[data-ch4-action]"))return;
   const svg=e.target.closest?.('svg[data-drag="1"]');
   if(!svg||!current||draft(byId.get(current)).stage!=="experiment")return;
   stop();drag={id:current,rect:svg.getBoundingClientRect()};
+ });
+ root.addEventListener("keydown",e=>{
+  if(e.key!=="Enter"&&e.key!==" ")return;
+  const target=e.target.closest?.("[data-ch4-action]");
+  if(!target)return;
+  e.preventDefault();
+  target.dispatchEvent(new MouseEvent("click",{bubbles:true}));
  });
  document.addEventListener("pointermove",e=>{
   if(!drag||drag.id!==current||!drag.rect.width)return;
