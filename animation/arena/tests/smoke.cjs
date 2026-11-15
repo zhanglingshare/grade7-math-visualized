@@ -7,10 +7,11 @@ const window={listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},scrollT
 const run=(name,env)=>vm.runInNewContext(read(name),env);
 run("curriculum.js",{window});
 run("visuals.js",{window});
+run("chapter4-visuals.js",{window});
 const m=window.MATH_ARENA.lessons;
-assert.equal(m.length,28);
-assert.equal(new Set(m.map(x=>x.id)).size,28);
-assert.deepEqual(["bridge","c1","c2","c3"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6]);
+assert.equal(m.length,36);
+assert.equal(new Set(m.map(x=>x.id)).size,36);
+assert.deepEqual(["bridge","c1","c2","c3","c4"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8]);
 for(const mission of m){
  for(const test of [mission.q,mission.transfer]){
   assert.equal(test.opts.length,3);
@@ -44,14 +45,15 @@ const document={listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},getEl
 const location={hash:"#/"};
 run("app.js",{window,document,localStorage,location,Date,setInterval:()=>1,clearInterval:()=>{}});
 assert.match(root.innerHTML,/今天，你想/);
-assert.equal((root.innerHTML.match(/class="arena-chapter-card arena-chapter-c[123]"/g)||[]).length,3);
-for(const id of ["c1","c2","c3"])assert.match(root.innerHTML,new RegExp('href="#/track/'+id+'"'));
+assert.equal((root.innerHTML.match(/class="arena-chapter-card arena-chapter-c[1234]"/g)||[]).length,4);
+for(const id of ["c1","c2","c3","c4"])assert.match(root.innerHTML,new RegExp('href="#/track/'+id+'"'));
 assert.equal((root.innerHTML.match(/href="#\/track\/bridge"/g)||[]).length,1);
 assert.match(root.innerHTML,/数轴冒险/);
 assert.match(root.innerHTML,/运算高手训练营/);
 assert.match(root.innerHTML,/字母魔法实验室/);
+assert.match(root.innerHTML,/代数砖实验室/);
 assert.match(root.innerHTML,/M60 52 Q150 -5 240 52/);
-assert.equal(window.MATH_ARENA_TEST.count,28);
+assert.equal(window.MATH_ARENA_TEST.count,36);
 const click=(act,values={})=>{
  const target={dataset:{act,...values},closest(s){return s==="[data-act]"?target:null;}};
  root.listeners.click({target});
@@ -75,6 +77,19 @@ for(const lesson of m){
  click("stage",{stage:"experiment"});
  assert.match(root.innerHTML,/arena-blackboard/);
  click("flip");
+ if(lesson.track==="c4"){
+  const svg=window.ARENA_VISUALS.render(lesson,{value:lesson.cfg.v,mode:0,ch4Selected:1});
+  assert.match(svg,/data-ch4-action/);
+  const element={dataset:{ch4Action:"inspect",index:"1"}};
+  root.listeners.click({target:{closest:query=>query==="[data-ch4-action]"?element:null}});
+  assert.equal(window.MATH_ARENA_TEST.getDraft(lesson.id).ch4Selected,1);
+  if(lesson.id==="f04")assert.deepEqual(Array.from(window.MATH_ARENA_TEST.getDraft(lesson.id).ch4Revealed),[1]);
+  if(lesson.id==="f07"){
+   const btn={dataset:{ch4Action:"counter",index:"2"}};
+   root.listeners.click({target:{closest:query=>query==="[data-ch4-action]"?btn:null}});
+   assert.equal(window.MATH_ARENA_TEST.getDraft(lesson.id).value,2);
+  }
+ }
  if(lesson.id==="b02"){
   tap("partIndex","1");
   assert.equal(window.MATH_ARENA_TEST.getDraft(lesson.id).selected,2);
@@ -105,4 +120,5 @@ assert.match(root.innerHTML,/不是分数榜/);
 assert.match(read("index.html"),/curriculum.js/);
 assert.match(read("index.html"),/visuals.js/);
 assert.match(read("index.html"),/app.js/);
-console.log("PASS: 3 chapter cards + 1 elementary bridge; 28 lesson flows, 11 reading gates, 168 SVG views, object manipulation and saved progress.");
+assert.match(read("index.html"),/chapter4-visuals.js/);
+console.log("PASS: 4 chapter cards + 1 elementary bridge; 36 lesson flows, 11 reading gates, 216 SVG views, fourth-chapter algebra object interactions and saved progress.");
