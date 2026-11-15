@@ -48,7 +48,7 @@
    b+=text(676,125,")",28,K.dim);
    out.forEach((term,i)=>{const x=184+i*165,show=mode||(Array.isArray(s.ch4Revealed)&&s.ch4Revealed.includes(i));b+=box(x,216,141,53,show?[K.mint,K.peach,K.blue][i]:K.low);b+=text(x+70,250,show?term:"？",21,show?K.dark:K.ink,"middle");});
    b+=text(29,296,"点开每一张卡：不能只乘第一个。",16,K.dim);
-   eq=mode?`${k}(x−2y+3) = ${k}x${signed(-2*k)}y${signed(3*k)}`:`${k}(x−2y+3) → 逐项展开`;
+   eq=mode?`${k}(x−2y+3) = ${out.join("")}`:`${k}(x−2y+3) → 逐项展开`;
    note="点击括号内三个项，观察每一项乘完后会变成什么。";
   }else if(m.scene==="ch4-subtract"){
    const x=v,A=3*x*x-2*x+1,B=x*x-5*x+4,result=mode?A+B:A-B,coef=mode?[4,-7,5]:[2,3,-3],labels=mode?["x²","−5x","+4"]:["−x²","+5x","−4"];
