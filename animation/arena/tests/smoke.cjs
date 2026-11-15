@@ -11,6 +11,7 @@ run("chapter4-visuals.js",{window});
 const m=window.MATH_ARENA.lessons;
 assert.equal(m.length,36);
 assert.equal(new Set(m.map(x=>x.id)).size,36);
+assert.equal(m.filter(x=>x.read).length,13);
 assert.deepEqual(["bridge","c1","c2","c3","c4"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8]);
 for(const mission of m){
  for(const test of [mission.q,mission.transfer]){
@@ -121,4 +122,4 @@ assert.match(read("index.html"),/curriculum.js/);
 assert.match(read("index.html"),/visuals.js/);
 assert.match(read("index.html"),/app.js/);
 assert.match(read("index.html"),/chapter4-visuals.js/);
-console.log("PASS: 4 chapter cards + 1 elementary bridge; 36 lesson flows, 11 reading gates, 216 SVG views, fourth-chapter algebra object interactions and saved progress.");
+console.log("PASS: 4 chapter cards + 1 elementary bridge; 36 lesson flows, 13 reading gates, 216 SVG views, fourth-chapter algebra object interactions and saved progress.");
