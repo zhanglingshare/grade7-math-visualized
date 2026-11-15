@@ -255,7 +255,7 @@ button{touch-action:manipulation}
 .arena-chapter-bottom strong{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--chapter-ink);font-weight:850;white-space:nowrap}
 .arena-chapter-bottom i{font-style:normal;font-size:19px;display:inline-block;transition:transform .2s}
 .arena-chapter-card:hover .arena-chapter-bottom i,.arena-chapter-card:focus-visible .arena-chapter-bottom i{transform:translateX(5px)}
-.arena-chapter-card:hover .arena-float-dot,.arena-chapter-card:focus-visible .arena-float-dot{animation:arena-dot-pulse 1.3s ease-in-out infinite alternate;transform-origin:100px 70px}
+.arena-chapter-card:hover .arena-float-dot,.arena-chapter-card:focus-visible .arena-float-dot{animation:arena-dot-pulse 1.3s ease-in-out infinite alternate;transform-origin:60px 70px}
 .arena-chapter-card:hover .arena-op-positive,.arena-chapter-card:focus-visible .arena-op-positive{animation:arena-ops-rise .8s ease-in-out infinite alternate}
 .arena-chapter-card:hover .arena-algebra-shape,.arena-chapter-card:focus-visible .arena-algebra-shape{animation:arena-square-grow 1.25s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
 @keyframes arena-dot-pulse{to{transform:translateX(10px) scale(1.07)}}
