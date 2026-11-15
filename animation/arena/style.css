@@ -223,7 +223,7 @@ button{touch-action:manipulation}
 .arena-kid-chapter-title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:0 2px 12px}
 .arena-kid-chapter-title h2{font-size:23px;letter-spacing:-.035em;margin:0}
 .arena-kid-chapter-title span{font-size:12px;color:#7e898f}
-.arena-kid-home .arena-chapter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.arena-kid-home .arena-chapter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
 .arena-kid-home .arena-chapter-card{display:flex;flex-direction:column;min-width:0;border:1.5px solid var(--chapter-border);border-radius:21px;background:var(--chapter-bg);color:#2e3b49;box-shadow:0 12px 20px #3c46550b;overflow:hidden;position:relative;transition:transform .22s,box-shadow .22s,border-color .22s}
 .arena-kid-home .arena-chapter-card:hover{transform:translateY(-5px);box-shadow:0 23px 35px #35435719}
 .arena-kid-home .arena-chapter-card:focus-visible{outline:3px solid #d98145;outline-offset:4px}
@@ -317,3 +317,12 @@ button{touch-action:manipulation}
  .arena-chapter-card:hover .arena-algebra-shape,.arena-chapter-card:focus-visible .arena-algebra-shape{animation:none!important}
  .arena-kid-home .arena-chapter-card,.arena-chapter-bottom i{transition:none}
 }
+
+
+/* Fourth chapter: real algebra tiles, same card language and mobile behavior. */
+.arena-chapter-c4{--chapter-border:#b4d8ce;--chapter-bg:linear-gradient(145deg,#e8f7ee,#fffdf8 78%);--chapter-ink:#387b68;--chapter-sheen:#d9efe4}
+.arena-chapter-c4 .arena-chapter-visual{background:radial-gradient(circle at 25% 25%,#fff8e994,transparent 45%),var(--chapter-sheen)}
+.arena-ch4-svg [data-ch4-action]{cursor:pointer;touch-action:manipulation}
+.arena-ch4-svg [data-ch4-action]:focus{outline:none;filter:drop-shadow(0 0 8px #ffcf9d)}
+.arena-ch4-svg [data-ch4-action]:hover{filter:brightness(1.09)}
+@media(max-width:900px){.arena-kid-home .arena-chapter-grid{grid-template-columns:1fr}}
