@@ -7,7 +7,7 @@ const B=window.C5_QUESTION_BANK;
 assert.equal(B.length,500);
 assert.equal(new Set(B.map(q=>q.id)).size,500);
 assert.deepEqual(["5.1","5.2","5.3"].map(s=>B.filter(q=>q.section===s).length),[100,200,200]);
-assert.ok(new Set(B.map(q=>q.stem)).size>=450,"problem stems should not collapse into a tiny set");
+assert.ok(new Set(B.map(q=>q.stem)).size>=480,"problem stems should not collapse into a tiny set");
 assert.equal(new Set(B.map(q=>q.topic)).size,50);
 for(const q of B){
  assert.ok(q.id&&q.section&&q.topic&&q.stem&&q.solution);
@@ -49,6 +49,7 @@ for(const q of B.filter(q=>q.section!=="5.1")){
  }
  if(q.audit)assert.ok(Math.abs(q.audit.left-q.audit.right)<1e-7,q.id+" audit values differ");
 }
+for(const q of B.filter(q=>q.section==="5.1"&&q.audit&&q.topic!=="检验方程的解"))assert.ok(Math.abs(q.audit.left-q.audit.right)<1e-7,q.id+" 5.1 substitution audit differs");
 for(const q of B.filter(q=>q.topic==="检验方程的解")){
  const left=q.audit.left,right=q.audit.right,said=q.steps[0].options[q.steps[0].answer];
  assert.equal(said,left===right?"是":"不是",q.id+" root check mismatch");
