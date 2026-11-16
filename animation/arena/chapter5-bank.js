@@ -260,7 +260,7 @@
  }
  for(let i=0;i<10;i++){
   const x=i%4+1,t1=3+i,t2=4+i%3,extra=1+i%2,total=t1*x+t2*(x+extra);
-  model("分段工作量","整理一批资料，先安排 x 人工作 "+t1+" 小时，再增加 "+extra+" 人一起工作 "+t2+" 小时，刚好完成全部任务。每人效率相同，最初安排多少人？","设最初安排的人数为 x","设增加人员后的总人数为 x+"+extra,t1+"x+"+t2+"(x+"+extra+")="+total,[""+t1+"x+"+t2+"x="+total,""+t1+"(x+"+extra+")+"+t2+"x="+total],x,"人","把总工作量看成 "+total+" 个相同的“人·小时”单位，列式 "+t1+"x+"+t2+"(x+"+extra+")="+total+"，解得 x="+x+"。",i,{left:t1*x+t2*(x+extra),right:total});
+  model("分段工作量","整理一批资料，先安排若干人工作 "+t1+" 小时，再增加 "+extra+" 人一起工作 "+t2+" 小时，刚好完成全部任务。每人效率相同，最初安排多少人？","设最初安排的人数为 x","设增加人员后的总人数为 x+"+extra,t1+"x+"+t2+"(x+"+extra+")="+total,[""+t1+"x+"+t2+"x="+total,""+t1+"(x+"+extra+")+"+t2+"x="+total],x,"人","把总工作量看成 "+total+" 个相同的“人·小时”单位，列式 "+t1+"x+"+t2+"(x+"+extra+")="+total+"，解得 x="+x+"。",i,{left:t1*x+t2*(x+extra),right:total});
  }
  for(let i=0;i<10;i++){
   const k=i+1,a=3*k,b=6*k,x=2*k;
