@@ -2,7 +2,9 @@
 
 **新版统一入口：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/
 
-**第五章课程入口：** [第五章 · 一元一次方程（11场互动探索）](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c5)\n\n**第五章500题：** [分层题库与电子解题过程](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html)
+**第五章课程入口：** [第五章 · 一元一次方程（11场互动探索）](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c5)
+
+**第五章500题：** [分层题库与电子解题过程](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html)
 
 **新版内容：** 独立原创课程，不使用开源 `cn-math-taxonomy` 的说明、题库或先修关系作为教学内核。小学桥梁7场、第一章6场、第二章9场、第三章6场、第四章8场、第五章11场，共 **47场互动数学实验＋47道独立迁移题**。第五章另有11道先行判断题，共22道经过计算核验的核心题目。课程训练自主选择、亲手操作数学对象、迁移验证与自主复盘，不以刷题总量考核，不惩罚错误。
 
@@ -11,6 +13,7 @@
 **旧版第四章：** 已依据用户提供的 Grok bot `4.html` 修改后纳入 `animation/chapter-4.html`，保留6课、180道分层固定题以及随机生成题；修复错误的跨章节回查链接，加入第一至第四章统一导航。原始 Grok 文件归档在 [archive](animation/archive/chapter-4-grok-original-20261115.html)。旧版可能涉及原开源图谱许可，署名及授权提示保留，不混进新版原创内容。
 
 **质量门：**
+- `node animation/arena/tests/chapter5-bank-smoke.cjs`：500题数量、章节配比、50类题型、步骤结构与400道解方程／建模题的等式检验。
 - `node animation/arena/tests/smoke.cjs`：新版47场完整流程、16处选择性审题检查、282种SVG参数和视角组合以及第四章代数对象交互。
 - `node animation/arena/tests/chapter5-smoke.cjs`：第五章11场、22道核心题、11种专用可视化场景、关键等式和实际问题计算检查。
 - `node animation/tests/chapter-4-grok-smoke.cjs`：旧版6课、180道固定题、1080道随机题抽样、标准答案判定和回查链接。
