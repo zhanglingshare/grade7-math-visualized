@@ -339,3 +339,9 @@ button{touch-action:manipulation}
  .arena-ch4-svg [data-ch4-action]{touch-action:manipulation}
  .arena-blackboard{overscroll-behavior-x:contain}
 }
+
+/* Chapter 5: equation laboratory */
+.arena-topic-header.arena-c5{background:radial-gradient(circle at 85% 20%,#f0b77d44,transparent 36%),linear-gradient(115deg,#20384b,#397f70)}
+.arena-chapter-c5 .arena-chapter-index{color:#9b5b35}
+.arena-chapter-c5 .arena-chapter-visual{background:linear-gradient(135deg,#eef4ef,#f9eadc)}
+.arena-chapter-c5 .arena-chapter-art{display:block;width:100%;height:auto;max-height:132px}
