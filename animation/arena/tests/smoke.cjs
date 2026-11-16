@@ -11,10 +11,10 @@ run("chapter4-visuals.js",{window});
 run("chapter5-extension.js",{window});
 run("chapter5-visuals.js",{window});
 const m=window.MATH_ARENA.lessons;
-assert.equal(m.length,45);
-assert.equal(new Set(m.map(x=>x.id)).size,45);
+assert.equal(m.length,47);
+assert.equal(new Set(m.map(x=>x.id)).size,47);
 assert.equal(m.filter(x=>x.read).length,16);
-assert.deepEqual(["bridge","c1","c2","c3","c4","c5"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8,9]);
+assert.deepEqual(["bridge","c1","c2","c3","c4","c5"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8,11]);
 for(const mission of m){
  for(const test of [mission.q,mission.transfer]){
   assert.equal(test.opts.length,3);
@@ -56,7 +56,7 @@ assert.match(root.innerHTML,/运算高手训练营/);
 assert.match(root.innerHTML,/字母魔法实验室/);
 assert.match(root.innerHTML,/代数砖实验室/);
 assert.match(root.innerHTML,/M60 52 Q150 -5 240 52/);
-assert.equal(window.MATH_ARENA_TEST.count,45);
+assert.equal(window.MATH_ARENA_TEST.count,47);
 const click=(act,values={})=>{
  const target={dataset:{act,...values},closest(s){return s==="[data-act]"?target:null;}};
  root.listeners.click({target});
@@ -124,4 +124,4 @@ assert.match(read("index.html"),/curriculum.js/);
 assert.match(read("index.html"),/visuals.js/);
 assert.match(read("index.html"),/app.js/);
 assert.match(read("index.html"),/chapter4-visuals.js/);
-console.log("PASS: 5 chapter cards + 1 elementary bridge; 45 lesson flows, 16 reading gates, 270 SVG views, fourth-chapter algebra object interactions and saved progress.");
+console.log("PASS: 5 chapter cards + 1 elementary bridge; 47 lesson flows, 16 reading gates, 282 SVG views, fourth-chapter algebra object interactions and saved progress.");
