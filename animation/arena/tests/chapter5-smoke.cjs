@@ -11,7 +11,7 @@ assert.deepEqual(lessons.map(x=>x.id),["e01","e02","e03","e04","e05","e06","e07"
 for(const m of lessons){
  for(const q of [m.q,m.transfer]){assert.equal(q.opts.length,3);assert.ok(q.answer>=0&&q.answer<3);assert.ok(q.reason);}
  assert.ok(m.goal&&m.action&&m.coach);
- for(const value of [m.cfg.min,m.cfg.v,m.cfg.max]){const svg=window.ARENA_VISUALS.render(m,{value,mode:0});assert.match(svg,/<svg/);assert.match(svg,/<\\/svg>/);assert.doesNotMatch(svg,/NaN|Infinity|undefined/);}
+ for(const value of [m.cfg.min,m.cfg.v,m.cfg.max]){const svg=window.ARENA_VISUALS.render(m,{value,mode:0});assert.match(svg,/<svg/);assert.ok(svg.includes("</svg>"));assert.doesNotMatch(svg,/NaN|Infinity|undefined/);}
 }
 assert.equal(lessons[0].q.answer,1);assert.equal(lessons[1].transfer.answer,0);
 assert.equal(lessons[2].transfer.answer,1);assert.equal(lessons[3].transfer.answer,1);
