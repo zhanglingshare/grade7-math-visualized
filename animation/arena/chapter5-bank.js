@@ -299,12 +299,22 @@
   model("列车过灯与过隧道","一列火车匀速行驶，通过一盏灯需要10秒，通过一条长 "+tunnel+" 米的隧道需要20秒。火车长多少米？","设火车长度为 x 米","设火车通过隧道的速度为 x 米/秒","x/10=(x+"+tunnel+")/20",["x/20=(x+"+tunnel+")/10","x/10=(x−"+tunnel+")/20"],length,"米","过灯时火车走过自身长度x，过隧道时走过x+"+tunnel+"米。速度相同，x/10=(x+"+tunnel+")/20，解得车长 "+length+" 米。",i,{left:length/10,right:(length+tunnel)/20});
  }
  for(let i=0;i<10;i++){
-  const sale=60+3*i,x=sale/0.75;
-  model("销售盈亏与百分率","一件衣服售价 "+sale+" 元，卖出时亏损25%。这件衣服的进价是多少元？","设这件衣服的进价为 x 元","设这件衣服的售价为 x 元","0.75x="+sale,["1.25x="+sale,"x−0.25="+sale],x,"元","亏损25%意味着售价是进价的75%，所以0.75x="+sale+"，进价为 "+fmt(x)+" 元。",i,{left:0.75*x,right:sale});
+  const sale=60+15*i,profitCost=sale/1.25,lossCost=sale/0.75,loss=profitCost+lossCost-2*sale;
+  const firstEq=equation("根据进价加利润等于售价，列出盈利那件衣服的方程。","1.25x="+sale,"盈利25%，售价是进价的1.25倍。","把利润率25%转成1.25倍。");firstEq.checkAt=profitCost;
+  const secondEq=equation("再设另一件衣服进价为 x，列出亏损那件的方程。","0.75x="+sale,"亏损25%，售价是进价的0.75倍。","售价是进价的75%，不是进价的125%。");secondEq.checkAt=lossCost;
+  add("5.3","销售中的盈亏","建模推理","商店以每件 "+sale+" 元卖出两件衣服，一件盈利25%，另一件亏损25%。这笔生意合计盈利还是亏损？金额是多少？",[
+   choice("先设哪个量为 x？","设盈利25%那件衣服的进价为 x 元",["设亏损25%那件衣服的进价为 x 元","设两件衣服的总售价为 x 元"],i,"先分别求出两件衣服的进价，才能比较总进价与总售价。"),
+   firstEq,
+   number("盈利那件衣服的进价 x 是多少元？",profitCost,"1.25x="+sale+"，所以 x="+fmt(profitCost)+" 元。"),
+   choice("接下来应该怎样处理另一件衣服？","重新设亏损25%那件衣服的进价为 x 元",["沿用第一件衣服的进价","把售价直接当成进价"],i+1,"两件衣服的进价不同，要分别设未知数、分别列方程。"),
+   secondEq,
+   number("亏损那件衣服的进价是多少元？",lossCost,"0.75x="+sale+"，所以 x="+fmt(lossCost)+" 元。"),
+   number("两件衣服合计亏损多少元？",loss,"总进价="+fmt(profitCost)+"+"+fmt(lossCost)+"="+fmt(profitCost+lossCost)+"元；总售价="+(2*sale)+"元，差额为"+fmt(loss)+"元。")
+  ],"盈利那件进价"+fmt(profitCost)+"元，亏损那件进价"+fmt(lossCost)+"元。两件总进价"+fmt(profitCost+lossCost)+"元，总售价"+(2*sale)+"元，所以合计亏损"+fmt(loss)+"元。",i%3+1,{left:profitCost+lossCost,right:2*sale+loss});
  }
  for(let i=0;i<10;i++){
-  const x=100*(i+1),sale=1.08*x;
-  model("先提价再打折","一件商品成本为 x 元，先按成本提高20%标价，再按标价打九折，最后售价为 "+sale+" 元。成本是多少？","设商品成本为 x 元","设商品最后的售价为 x 元","1.2x×0.9="+sale,["1.2x+0.9="+sale,"0.2x×0.1="+sale],x,"元","先提价得到1.2x，再打九折得到1.08x，所以1.08x="+sale+"，成本为 "+x+" 元。",i,{left:1.08*x,right:sale});
+  const x=150+10*i,sale=0.96*x;
+  model("先提价再打折","一件商品按成本提高20%标价，再打八折销售，售价为 "+fmt(sale)+" 元。商品成本是多少？","设商品成本为 x 元","设商品最后的售价为 x 元","1.2x×0.8="+fmt(sale),["1.2x×0.2="+fmt(sale),"0.8x="+fmt(sale)],x,"元","提价后标价1.2x，再打八折，售价为1.2x×0.8=0.96x。解得成本 "+x+" 元。",i,{left:1.2*x*0.8,right:sale});
  }
  for(let i=0;i<10;i++){
   const games=[14,16,17,19,20,22,23,25,26,28][i],x=games/3,ans=fraction(games,3);
