@@ -8,9 +8,11 @@ const run=(name,env)=>vm.runInNewContext(read(name),env);
 run("curriculum.js",{window});
 run("visuals.js",{window});
 run("chapter4-visuals.js",{window});
+run("chapter5-extension.js",{window});
+run("chapter5-visuals.js",{window});
 const m=window.MATH_ARENA.lessons;
 assert.equal(m.length,45);
-assert.equal(new Set(m.map(x=>x.id)).size,36);
+assert.equal(new Set(m.map(x=>x.id)).size,45);
 assert.equal(m.filter(x=>x.read).length,13);
 assert.deepEqual(["bridge","c1","c2","c3","c4","c5"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8,9]);
 for(const mission of m){
@@ -46,7 +48,7 @@ const document={listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},getEl
 const location={hash:"#/"};
 run("app.js",{window,document,localStorage,location,Date,setInterval:()=>1,clearInterval:()=>{}});
 assert.match(root.innerHTML,/今天，你想/);
-assert.equal((root.innerHTML.match(/class="arena-chapter-card arena-chapter-c[1234]"/g)||[]).length,5);
+assert.equal((root.innerHTML.match(/class="arena-chapter-card arena-chapter-c[12345]"/g)||[]).length,5);
 for(const id of ["c1","c2","c3","c4","c5"])assert.match(root.innerHTML,new RegExp('href="#/track/'+id+'"'));
 assert.equal((root.innerHTML.match(/href="#\/track\/bridge"/g)||[]).length,1);
 assert.match(root.innerHTML,/数轴冒险/);
