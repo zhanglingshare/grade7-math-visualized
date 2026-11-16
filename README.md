@@ -1,24 +1,22 @@
-# 数学思维训练场 · 新版四章 + 小学桥梁
+# 数学思维训练场 · 新版五章 + 小学桥梁
 
 **新版统一入口：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/
 
-**新增第四章独立入口：**
-- [新版第四章 · 8场动手实验](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c4)
-- [旧版第四章 · Grok 原稿修改整合版](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-4.html)
+**第五章独立入口：** [第五章 · 一元一次方程（11场互动探索）](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c5)
 
-**新版内容：** 独立原创课程，不使用开源 `cn-math-taxonomy` 的说明、题库或先修关系作为教学内核。小学桥梁7场、第一章6场、第二章9场、第三章6场、第四章8场，共 **36场互动数学实验＋36道独立迁移题**。配合孩子在球场上已体现的主动观察、挑战、复盘习惯，训练自主选择、亲手操作数学对象、迁移验证与自主复盘，不以刷题总量考核，不惩罚错误。
+**新版内容：** 独立原创课程，不使用开源 `cn-math-taxonomy` 的说明、题库或先修关系作为教学内核。小学桥梁7场、第一章6场、第二章9场、第三章6场、第四章8场、第五章11场，共 **47场互动数学实验＋47道独立迁移题**。第五章另有11道先行判断题，共22道经过计算核验的核心题目。课程训练自主选择、亲手操作数学对象、迁移验证与自主复盘，不以刷题总量考核，不惩罚错误。
+
+**第五章教材对齐：** 人教版七年级上册《一元一次方程》，覆盖5.1方程、5.2解一元一次方程、5.3实际问题与一元一次方程，并加入“无限循环小数化分数”探究。专门展示移项为何变号、多步等价变形、追及、生产配套和工作效率。500题分层题库尚未完成，不将首批22题冒充完整题库。
 
 **旧版第四章：** 已依据用户提供的 Grok bot `4.html` 修改后纳入 `animation/chapter-4.html`，保留6课、180道分层固定题以及随机生成题；修复错误的跨章节回查链接，加入第一至第四章统一导航。原始 Grok 文件归档在 [archive](animation/archive/chapter-4-grok-original-20261115.html)。旧版可能涉及原开源图谱许可，署名及授权提示保留，不混进新版原创内容。
 
 **质量门：**
-- `node animation/arena/tests/smoke.cjs`：新版36场完整流程、13处选择性审题检查、216种SVG参数和视角组合以及第四章代数对象交互。
+- `node animation/arena/tests/smoke.cjs`：新版47场完整流程、16处选择性审题检查、282种SVG参数和视角组合以及第四章代数对象交互。
+- `node animation/arena/tests/chapter5-smoke.cjs`：第五章11场、22道核心题、11种专用可视化场景、关键等式和实际问题计算检查。
 - `node animation/tests/chapter-4-grok-smoke.cjs`：旧版6课、180道固定题、1080道随机题抽样、标准答案判定和回查链接。
-- 当前为程序回归测试，**尚不能证明孩子已掌握，也不等于手机／平板真机验收完成**。
+- 当前增加的是程序级回归检查，**尚未在此会话中实际运行 Node 测试，也不等于手机／平板真机验收或孩子学习效果验证**。
 
 **设计与维护细节：** [新版原创课程说明](animation/arena/README.md)。其他旧版课程、分层题库、小学思维图谱以及孩子的历史学习记录全部保留。
-
-
-以下为**旧版和历史资料**，为了保护已完成的动画、数据与个人记录，暂未删除或覆盖。
 
 ---
 
