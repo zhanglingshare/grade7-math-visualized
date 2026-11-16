@@ -44,7 +44,7 @@
     form='<div class="c5p-choice-grid">'+s.options.map((v,j)=>'<button type="button" class="c5p-choice" data-bank-choice="'+i+'" data-index="'+j+'" aria-pressed="'+(chosen===String(j))+'">'+E(v)+'</button>').join("")+'</div>';
    }else{
     const ph=s.kind==="equation"?"例如：3x+5=11，也可以写 x=2":"例如：12、−3 或 3/4";
-    form='<div class="c5p-input-row"><input class="c5p-answer-input" type="text" autocomplete="off" inputmode="'+(s.kind==="number"?"decimal":"text")+'" data-bank-input="'+i+'" value="'+E(chosen)+'" placeholder="'+ph+'" aria-label="第'+(i+1)+'步答案"/><button type="button" class="c5p-check" data-bank-check="'+i+'">检查这一步</button></div>';
+    form='<div class="c5p-input-row"><input class="c5p-answer-input" type="text" autocomplete="off" inputmode="text" data-bank-input="'+i+'" value="'+E(chosen)+'" placeholder="'+ph+'" aria-label="第'+(i+1)+'步答案"/><button type="button" class="c5p-check" data-bank-check="'+i+'">检查这一步</button></div>';
    }
    if(s.kind==="choice")form+='<div class="c5p-input-row"><button type="button" class="c5p-check" data-bank-check="'+i+'" '+(chosen===""?"disabled":"")+'>确认选择</button></div>';
   }
