@@ -22,21 +22,21 @@ for(const q of B){
 function numeric(v){
  if(typeof v==="number")return v;
  const s=String(v).trim();
- if(/^-?\\d+(?:\\.\\d+)?\\/-?\\d+(?:\\.\\d+)?$/.test(s)){const [a,b]=s.split("/").map(Number);return a/b;}
+ if(/^-?\d+(?:\.\d+)?\/-?\d+(?:\.\d+)?$/.test(s)){const [a,b]=s.split("/").map(Number);return a/b;}
  return Number(s);
 }
 function evaluateLinear(s,x){
  s=String(s).replace(/[−－]/g,"-").replace(/[＋]/g,"+").replace(/[×·]/g,"*").replace(/[÷]/g,"/");
- const raw=s.match(/\\d+(?:\\.\\d+)?|x|[()+\\-*/]/gi);assert.ok(raw,"unreadable expression: "+s);
+ const raw=s.match(/\d+(?:\.\d+)?|x|[()+\-*/]/gi);assert.ok(raw,"unreadable expression: "+s);
  const t=[];
  for(let i=0;i<raw.length;i++){
   const cur=raw[i],next=raw[i+1];t.push(cur);
-  if(next&&(/^\\d/.test(cur)||cur==="x"||cur===")")&&(next==="x"||next==="("))t.push("*");
+  if(next&&(/^\d/.test(cur)||cur==="x"||cur===")")&&(next==="x"||next==="("))t.push("*");
  }
  let p=0;
  function expression(){let v=term();while(t[p]==="+"||t[p]==="-"){const op=t[p++],w=term();v=op==="+"?[v[0]+w[0],v[1]+w[1]]:[v[0]-w[0],v[1]-w[1]];}return v;}
  function term(){let v=unary();while(t[p]==="*"||t[p]==="/"){const op=t[p++],w=unary();if(op==="*"){assert.ok(!(v[0]!==0&&w[0]!==0),"nonlinear expression "+s);v=[v[0]*w[1]+w[0]*v[1],v[1]*w[1]];}else{assert.equal(w[0],0,"non-constant divisor "+s);assert.notEqual(w[1],0);v=[v[0]/w[1],v[1]/w[1]];}}return v;}
- function unary(){if(t[p]==="+"){p++;return unary();}if(t[p]==="-"){p++;const v=unary();return[-v[0],-v[1]];}if(t[p]==="("){p++;const v=expression();assert.equal(t[p++],")");return v;}const z=t[p++];if(z==="x")return[1,0];if(/^\\d/.test(z))return[0,Number(z)];throw Error("bad token "+z);}
+ function unary(){if(t[p]==="+"){p++;return unary();}if(t[p]==="-"){p++;const v=unary();return[-v[0],-v[1]];}if(t[p]==="("){p++;const v=expression();assert.equal(t[p++],")");return v;}const z=t[p++];if(z==="x")return[1,0];if(/^\d/.test(z))return[0,Number(z)];throw Error("bad token "+z);}
  const v=expression();assert.equal(p,t.length,"unparsed tokens in "+s);return v[0]*x+v[1];
 }
 for(const q of B.filter(q=>q.section!=="5.1")){
