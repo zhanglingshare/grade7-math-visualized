@@ -13,7 +13,7 @@ run("chapter5-visuals.js",{window});
 const m=window.MATH_ARENA.lessons;
 assert.equal(m.length,45);
 assert.equal(new Set(m.map(x=>x.id)).size,45);
-assert.equal(m.filter(x=>x.read).length,13);
+assert.equal(m.filter(x=>x.read).length,16);
 assert.deepEqual(["bridge","c1","c2","c3","c4","c5"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8,9]);
 for(const mission of m){
  for(const test of [mission.q,mission.transfer]){
