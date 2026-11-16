@@ -9,10 +9,10 @@ run("curriculum.js",{window});
 run("visuals.js",{window});
 run("chapter4-visuals.js",{window});
 const m=window.MATH_ARENA.lessons;
-assert.equal(m.length,36);
+assert.equal(m.length,45);
 assert.equal(new Set(m.map(x=>x.id)).size,36);
 assert.equal(m.filter(x=>x.read).length,13);
-assert.deepEqual(["bridge","c1","c2","c3","c4"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8]);
+assert.deepEqual(["bridge","c1","c2","c3","c4","c5"].map(id=>m.filter(x=>x.track===id).length),[7,6,9,6,8,9]);
 for(const mission of m){
  for(const test of [mission.q,mission.transfer]){
   assert.equal(test.opts.length,3);
@@ -46,15 +46,15 @@ const document={listeners:{},addEventListener(k,fn){this.listeners[k]=fn;},getEl
 const location={hash:"#/"};
 run("app.js",{window,document,localStorage,location,Date,setInterval:()=>1,clearInterval:()=>{}});
 assert.match(root.innerHTML,/今天，你想/);
-assert.equal((root.innerHTML.match(/class="arena-chapter-card arena-chapter-c[1234]"/g)||[]).length,4);
-for(const id of ["c1","c2","c3","c4"])assert.match(root.innerHTML,new RegExp('href="#/track/'+id+'"'));
+assert.equal((root.innerHTML.match(/class="arena-chapter-card arena-chapter-c[1234]"/g)||[]).length,5);
+for(const id of ["c1","c2","c3","c4","c5"])assert.match(root.innerHTML,new RegExp('href="#/track/'+id+'"'));
 assert.equal((root.innerHTML.match(/href="#\/track\/bridge"/g)||[]).length,1);
 assert.match(root.innerHTML,/数轴冒险/);
 assert.match(root.innerHTML,/运算高手训练营/);
 assert.match(root.innerHTML,/字母魔法实验室/);
 assert.match(root.innerHTML,/代数砖实验室/);
 assert.match(root.innerHTML,/M60 52 Q150 -5 240 52/);
-assert.equal(window.MATH_ARENA_TEST.count,36);
+assert.equal(window.MATH_ARENA_TEST.count,45);
 const click=(act,values={})=>{
  const target={dataset:{act,...values},closest(s){return s==="[data-act]"?target:null;}};
  root.listeners.click({target});
