@@ -78,6 +78,14 @@
    body+=tx(360,300,"时间 "+t+" 小时",18,"#d7e4ee");
    eq="甲：1.2×"+t+"+1="+a.toFixed(1)+"；乙：0.8×"+t+"+3="+b.toFixed(1);
    note=t===5?"两队位置相同，甲追上乙。":"继续调整时间，寻找两条路程相等的时刻。";
+  }else if(m.scene==="c5-repeating"){
+   const n=v,decimal=(n/9).toFixed(3);
+   body+=tx(360,40,"把循环小数设成 x，再整体乘10",20);
+   body+=rect(100,78,520,64,"#47627f")+tx(360,119,"x = 0."+String(n).repeat(3)+"…",27);
+   body+=line(360,145,360,188,"#ffc18b",3);
+   body+=rect(100,194,520,66,"#398875")+tx(360,235,"10x − x = "+n,25);
+   eq="9x = "+n+"，所以 x = "+n+"/9";
+   note="循环部分错开一位后相减，重复的小数尾巴抵消。";
   }
   return '<svg class="arena-svg" data-drag="1" viewBox="0 0 720 320" role="img" aria-label="'+esc(m.title)+'互动图">'+body+'</svg><div class="arena-equation" aria-live="polite">'+esc(eq)+'</div><div class="arena-scene-note">'+esc(note)+'</div>';
  }
