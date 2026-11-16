@@ -255,7 +255,7 @@
   model("百分率与总量","灌溉三块同样大的田地：第一块用漫灌，第二块用水量是第一块的25%，第三块是第一块的15%。三块田共用水 "+total+" 吨。第一块田用了多少吨？","设第一块漫灌田的用水量为 x 吨","设三块田的总用水量为 x 吨","x+0.25x+0.15x="+fmt(total),["x+25+15="+fmt(total),"0.25x+0.15x="+fmt(total)],x,"吨","三块田用水量分别为x、0.25x、0.15x，总量为1.4x="+fmt(total)+"，解得 x="+x+" 吨。",i,{left:1.4*x,right:total});
  }
  for(let i=0;i<10;i++){
-  const k=i+1,total=11*k,x=5*k,left=2000*(total-x),right=2400*x;
+  const k=i+2,total=11*k,x=5*k,left=2000*(total-x),right=2400*x;
   model("生产配套","一个车间有 "+total+" 名工人。每人每天生产1200个螺栓或2000个螺母，1个螺栓配2个螺母。应安排多少人生产螺栓？","设生产螺栓的工人数为 x","设生产螺母的工人数为 x","2000("+total+"−x)=2400x",["2000x=1200("+total+"−x)","1200x=2000x","2000("+total+"−x)=1200x"],x,"名","螺母总数要等于螺栓总数的2倍：2000("+total+"−x)=2400x，解得 x="+x+"。",i,{left,right});
  }
  for(let i=0;i<10;i++){
@@ -263,15 +263,15 @@
   model("分段工作量","整理一批资料，先安排若干人工作 "+t1+" 小时，再增加 "+extra+" 人一起工作 "+t2+" 小时，刚好完成全部任务。每人效率相同，最初安排多少人？","设最初安排的人数为 x","设增加人员后的总人数为 x+"+extra,t1+"x+"+t2+"(x+"+extra+")="+total,[""+t1+"x+"+t2+"x="+total,""+t1+"(x+"+extra+")+"+t2+"x="+total],x,"人","把总工作量看成 "+total+" 个相同的“人·小时”单位，列式 "+t1+"x+"+t2+"(x+"+extra+")="+total+"，解得 x="+x+"。",i,{left:t1*x+t2*(x+extra),right:total});
  }
  for(let i=0;i<10;i++){
-  const k=i+1,a=3*k,b=6*k,x=2*k;
+  const a=12+3*i,b=2*a,x=2*a/3;
   model("合作工程","甲单独完成一项工作需要 "+a+" 天，乙单独完成需要 "+b+" 天。两人合作完成需要多少天？","设两人合作需要 x 天","设甲单独完成这项工作需要 x 天","x/"+a+"+x/"+b+"=1",["x/"+a+"−x/"+b+"=1","x+"+a+"+"+b+"=1"],x,"天","甲每天完成1/"+a+"，乙每天完成1/"+b+"；合作 x 天的工作量之和为1，解得 x="+x+" 天。",i,{left:x/a+x/b,right:1});
  }
  for(let i=0;i<10;i++){
-  const x=i+2,gap=2*x;
-  model("年龄关系","父亲比孩子大 "+gap+" 岁，现在父亲的年龄是孩子的3倍。孩子现在多少岁？","设孩子现在的年龄为 x 岁","设父亲现在的年龄为 x 岁","3x=x+"+gap,["3(x+"+gap+")=x","3x+"+gap+"=x"],x,"岁","父亲年龄既是3x，也是x+"+gap+"，所以3x=x+"+gap+"，解得孩子 "+x+" 岁。",i,{left:3*x,right:x+gap});
+  const total=64+2*i,blue=26+i,black=total-blue,cost=8*blue+9*black;
+  model("两种布料的总价","买蓝布和黑布共 "+total+" 米，花费 "+cost+" 元。蓝布每米8元，黑布每米9元。蓝布和黑布各买多少米？","设蓝布买了 x 米","设黑布买了 x 米","8x+9("+total+"−x)="+cost,["9x+8("+total+"−x)="+cost,"8x+9x="+cost],blue,"米","黑布买了"+(total-blue)+"米，蓝布买了"+blue+"米；总价8×"+blue+"+9×"+(total-blue)+"="+cost+"元。",i,{left:8*blue+9*black,right:cost});
  }
  for(let i=0;i<10;i++){
-  const x=10+i,length=1.5*x,perimeter=2*(x+length);
+  const x=12+i,length=1.5*x,perimeter=2*(x+length);
   model("周长与倍数关系","用一根 "+perimeter+" 米长的绳子围成一个长方形，长是宽的1.5倍。这个长方形的宽是多少米？","设长方形的宽为 x 米","设长方形的长为 x 米","2(x+1.5x)="+fmt(perimeter),["x+1.5x="+fmt(perimeter),"2(x−1.5x)="+fmt(perimeter)],x,"米","长为1.5x，周长是2(x+1.5x)，所以宽 x="+x+" 米。",i,{left:2*(x+length),right:perimeter});
  }
  for(let i=0;i<10;i++){
@@ -279,19 +279,19 @@
   model("人数与余缺问题","一批树苗分给若干人。如果每人种10棵，还剩 "+x+" 棵；如果每人种12棵，就缺 "+x+" 棵。参加种树的有多少人？","设参加种树的人数为 x","设树苗总数为 x","10x+"+x+"=12x−"+x,["10x−"+x+"=12x+"+x,"10(x+"+x+")=12x"],x,"人","树苗总数既是10x+"+x+"，也是12x−"+x+"，列方程解得人数 "+x+" 人。",i,{left:10*x+x,right:12*x-x});
  }
  for(let i=0;i<10;i++){
-  const m=[2,3,4,2,3,4,2,3,4,2][i],d=[1,2,1,2,1,2,1,2,1,2][i],x=[2,1,1,3,2,1,4,2,2,1][i],tens=m*x+d,sum=(m+1)*x+d;
+  const m=[3,2,4,3,2,4,3,2,4,3][i],d=[1,2,1,2,1,2,1,2,1,2][i],x=[2,1,1,2,3,1,2,2,2,2][i],tens=m*x+d,sum=(m+1)*x+d;
   model("数字问题","一个两位数，个位数字为 x，十位数字是个位数字的 "+m+" 倍再加 "+d+"，两个数字之和为 "+sum+"。个位数字是多少？","设个位上的数字为 x","设十位上的数字为 x","x+("+m+"x+"+d+")="+sum,["10x+("+m+"x+"+d+")="+sum,"x+("+m+"x−"+d+")="+sum],x,"","个位数字是 x，十位数字是"+m+"x+"+d+"，数字和为"+sum+"，解得 x="+x+"。",i,{left:x+tens,right:sum});
  }
  for(let i=0;i<10;i++){
-  const z=8+i%4,l=z+2+i%3,k=i+3,lead=(l-z)*k,time=l*k,height=z*time;
+  const z=10+i,l=z+5+i%3,k=6+i,lead=(l-z)*k,time=l*k,height=z*time;
   model("登山先后出发","张华先出发登山，平均每分钟登高 "+z+" 米；李明每分钟登高 "+l+" 米，比张华晚出发 "+lead+" 分钟。两人同时到达山顶。张华登山用了多少分钟？","设张华登山用了 x 分钟","设李明登山用了 x 分钟",""+z+"x="+l+"(x−"+lead+")",[""+l+"x="+z+"(x−"+lead+")",""+z+"x="+l+"(x+"+lead+")"],time,"分钟","同时到达山顶，登高路程相等：张华"+z+"x米，李明"+l+"(x−"+lead+")米，解得 x="+time+" 分钟。",i,{left:z*time,right:l*(time-lead)});
  }
  for(let i=0;i<10;i++){
-  const slow=70+2*i,fast=slow+20,distance=slow+10;
+  const slow=74+2*i,fast=slow+20,distance=slow+10;
   model("相向行驶与速度差","甲、乙两辆汽车从相距 "+distance+" 千米的两地同时相向出发，半小时后相遇。甲比乙每小时快20千米。乙车速度是多少？","设乙车速度为 x 千米/时","设甲车速度为 x 千米/时","0.5x+0.5(x+20)="+distance,["0.5x+0.5(x−20)="+distance,"x+(x+20)="+distance],slow,"千米/时","两车各行驶0.5小时，路程和等于"+distance+"千米，解得乙车速度 "+slow+" 千米/时。",i,{left:0.5*slow+0.5*fast,right:distance});
  }
  for(let i=0;i<10;i++){
-  const wind=20+2*i,down=2.8,up=3,still=wind*(down+up)/(up-down),distance=down*(still+wind);
+  const wind=24+2*i,down=2.8,up=3,still=wind*(down+up)/(up-down),distance=down*(still+wind);
   model("顺风逆风与相同航程","飞机在风速 "+wind+" 千米/时的条件下，顺风飞行一条航线用2.8小时，逆风飞行同一航线用3小时。飞机无风时的平均航速是多少？","设飞机无风时的平均航速为 x 千米/时","设飞机顺风时的速度为 x 千米/时","2.8(x+"+wind+")=3(x−"+wind+")",["2.8(x−"+wind+")=3(x+"+wind+")","2.8x+3x="+wind],still,"千米/时","顺风速度为x+"+wind+"，逆风速度为x−"+wind+"，两段航程相同，解得无风航速 "+fmt(still)+" 千米/时。",i,{left:down*(still+wind),right:up*(still-wind)});
  }
  for(let i=0;i<10;i++){
@@ -320,7 +320,7 @@
   model("日历中的等差关系","某月日历中，同一列相邻三行的日期依次相差7天。若这三个日期之和为 "+total+"，最上面的日期是多少？","设最上面的日期为 x","设中间的日期为 x","x+(x+7)+(x+14)="+total,["x+(x+1)+(x+2)="+total,"x+(x+7)+(x+21)="+total],x,"日","同一列三行日期是x、x+7、x+14，列式解得最上面的日期为 "+x+" 日。",i,{left:x+(x+7)+(x+14),right:total});
  }
  for(let i=0;i<10;i++){
-  const t=i+2,diff=40+10*i,pB=2500+100*i,kA=320,kB=kA+diff,pA=pB+diff*t;
+  const t=i+5,diff=80+10*i,pB=2600+100*i,kA=320,kB=kA+diff,pA=pB+diff*t;
   model("能效与长期费用","高能效空调售价 "+pA+" 元，每年电费 "+kA+" 元；普通空调售价 "+pB+" 元，每年电费 "+kB+" 元。使用多少年后两者总费用相同？","设使用年数为 x","设高能效空调每年的电费为 x 元",pA+"+"+kA+"x="+pB+"+"+kB+"x",[""+pA+"−"+kA+"x="+pB+"+"+kB+"x",pA+"+"+kB+"x="+pB+"+"+kA+"x"],t,"年","总费用=售价+每年电费×年数。列方程并移项，解得 x="+t+" 年。",i,{left:pA+kA*t,right:pB+kB*t});
  }
  for(let i=0;i<10;i++){
@@ -328,7 +328,7 @@
   model("分段收费与临界点","甲复印店前 "+n+" 页每页0.12元，超过部分每页0.09元；乙店每页0.10元。复印多少页时两店收费相同？","设总复印页数为 x 页","设超过起步页数后的页数为 x 页","0.12×"+n+"+0.09(x−"+n+")=0.10x",["0.12x+0.09x=0.10x","0.12×"+n+"+0.10(x−"+n+")=0.09x"],pages,"页","甲店费用为0.12×"+n+"+0.09(x−"+n+")，乙店为0.10x，解得总页数 "+pages+" 页。",i,{left:0.12*n+0.09*(pages-n),right:0.10*pages});
  }
  for(let i=0;i<10;i++){
-  const base=200+5*i,k=2+i%4,other=base+25*k,trips=10+k;
+  const base=200+5*i,k=4+i%3,other=base+25*k,trips=10+k;
   model("月票费用比较","机场线月票A售价 "+base+" 元，含10次；月票B售价 "+other+" 元，含20次。超出次数后每次另付25元。乘坐多少次时，A的总费用与B相同？","设每月乘坐次数为 x 次","设月票A的票价为 x 元",""+base+"+25(x−10)="+other,[""+base+"+25x="+other,""+base+"+25(x−20)="+other],trips,"次","在10至20次区间，A的费用为"+base+"+25(x−10)，与B的"+other+"元相等，解得 x="+trips+" 次。",i,{left:base+25*(trips-10),right:other});
  }
 
