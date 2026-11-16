@@ -124,4 +124,4 @@ assert.match(read("index.html"),/curriculum.js/);
 assert.match(read("index.html"),/visuals.js/);
 assert.match(read("index.html"),/app.js/);
 assert.match(read("index.html"),/chapter4-visuals.js/);
-console.log("PASS: 4 chapter cards + 1 elementary bridge; 36 lesson flows, 13 reading gates, 216 SVG views, fourth-chapter algebra object interactions and saved progress.");
+console.log("PASS: 5 chapter cards + 1 elementary bridge; 45 lesson flows, 16 reading gates, 270 SVG views, fourth-chapter algebra object interactions and saved progress.");
