@@ -4,7 +4,8 @@
 - **代码位置：** `animation/arena/`
 - **本次新增：** 人教版七年级上册第五章《一元一次方程》11场独立互动探索。
 - **课程结构：** 小学思维桥梁7场；七年级上册第一章6场、第二章9场、第三章6场、第四章8场、第五章11场，共47场互动探索。
-- **第五章课程：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c5\n- **第五章500题电子练习：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html
+- **第五章课程：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c5
+- **第五章500题电子练习：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html
 
 ## 第五章覆盖
 
@@ -21,6 +22,9 @@
 新增文件：
 - `chapter5-extension.js`：独立增加第五章课程数据，不改写前四章原始课程数据。
 - `chapter5-visuals.js`：仅接管第五章11种专用场景，其余章节继续使用原可视化渲染器。
+- `chapter5-bank.js`：生成500道分层练习，50类问题结构，100/200/200章节配比。
+- `chapter5-practice.html`、`chapter5-practice.js`、`chapter5-practice.css`：独立电子练习页，支持逐步解锁、等式输入、分数输入、提示、错题复练和本地进度。
+- `tests/chapter5-bank-smoke.cjs`：检查500题结构和等式计算。
 - `tests/chapter5-smoke.cjs`：检查课程数量、题目结构、关键方程结果和页面脚本接入。
 - 原有 `tests/smoke.cjs`：更新新版训练场总课程数和第五章入口预期。
 
@@ -28,6 +32,7 @@
 ```sh
 node animation/arena/tests/smoke.cjs
 node animation/arena/tests/chapter5-smoke.cjs
+node animation/arena/tests/chapter5-bank-smoke.cjs
 ```
 
 ## 设计原则
