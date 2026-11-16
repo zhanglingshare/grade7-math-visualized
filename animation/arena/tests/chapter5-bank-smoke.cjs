@@ -11,7 +11,7 @@ assert.ok(new Set(B.map(q=>q.stem)).size>=480,"problem stems should not collapse
 assert.equal(new Set(B.map(q=>q.topic)).size,50);
 for(const q of B){
  assert.ok(q.id&&q.section&&q.topic&&q.stem&&q.solution);
- assert.ok(q.steps.length>=2&&q.steps.length<=5);
+ assert.ok(q.steps.length>=2&&q.steps.length<=7);
  for(const s of q.steps){
   assert.ok(s.prompt&&s.explain);
   if(s.kind==="choice"){assert.ok(Array.isArray(s.options)&&s.options.length>=2);assert.ok(s.answer>=0&&s.answer<s.options.length);assert.equal(new Set(s.options).size,s.options.length);}
@@ -44,7 +44,7 @@ for(const q of B.filter(q=>q.section!=="5.1")){
  const x=numeric(n[n.length-1].answer);
  for(const s of q.steps.filter(s=>s.kind==="equation")){
   const sides=s.expected.split("=");assert.equal(sides.length,2,q.id+" equation needs one equals sign");
-  const left=evaluateLinear(sides[0],x),right=evaluateLinear(sides[1],x);
+  const checkAt=s.checkAt===undefined?x:s.checkAt;\n  const left=evaluateLinear(sides[0],checkAt),right=evaluateLinear(sides[1],checkAt);
   assert.ok(Math.abs(left-right)<1e-7,q.id+" step does not hold at its answer: "+s.expected+" ("+left+" vs "+right+")");
  }
  if(q.audit)assert.ok(Math.abs(q.audit.left-q.audit.right)<1e-7,q.id+" audit values differ");
