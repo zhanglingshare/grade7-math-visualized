@@ -345,3 +345,13 @@ button{touch-action:manipulation}
 .arena-chapter-c5 .arena-chapter-index{color:#9b5b35}
 .arena-chapter-c5 .arena-chapter-visual{background:linear-gradient(135deg,#eef4ef,#f9eadc)}
 .arena-chapter-c5 .arena-chapter-art{display:block;width:100%;height:auto;max-height:132px}
+
+/* Chapter 5 deep practice entry: one clear bridge from experiments to independent solving. */
+.arena-c5-practice-launch{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:16px 0 22px;padding:18px 20px;border:1px solid #c7dfd4;border-radius:16px;background:radial-gradient(circle at 88% 0%,#f2c38b55,transparent 32%),linear-gradient(110deg,#edf7f0,#fff8ee);box-shadow:0 8px 20px #365c4b0b}
+.arena-c5-practice-launch>div{min-width:0}
+.arena-c5-practice-launch span{display:block;color:#3f866d;font-size:11px;font-weight:900;letter-spacing:.08em}
+.arena-c5-practice-launch strong{display:block;margin:3px 0;color:#294457;font-size:19px;font-weight:900;letter-spacing:-.03em}
+.arena-c5-practice-launch p{margin:0;color:#6b7f7d;font-size:12px;line-height:1.7}
+.arena-c5-practice-launch a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:10px 16px;border-radius:11px;background:#29485b;color:#fff;font-size:13px;font-weight:850}
+.arena-c5-practice-launch a:hover{background:#3a6575}
+@media(max-width:600px){.arena-c5-practice-launch{align-items:stretch;flex-direction:column;padding:15px}.arena-c5-practice-launch strong{font-size:17px}.arena-c5-practice-launch a{width:100%}}
