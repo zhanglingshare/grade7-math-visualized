@@ -29,13 +29,15 @@
    eq=k?"x = "+(12-5)+"；两边都减5":"当前试放 x="+v+"；只有x=7时两边相等";
    note="这不是把数字随便搬家，而是等式两边同时做相同的操作。";
   }else if(m.scene==="c5-machine"){
-   const out=3*v+2;
-   const labels=[String(v),"× 3",String(3*v),"+ 2",String(out)];
-   for(let i=0;i<5;i++){const x=20+i*140;body+=rect(x+4,90,112,92,i%2?"#536f91":i===4?"#3c927a":"#426b83",12)+tx(x+60,145,labels[i],25);}
-   body+=line(80,205,640,205,"#b8c9d8",2,"7 7");
-   body+=tx(360,252,k?"倒着撤销：先 −2，再 ÷3":"正向：先 ×3，再 +2",19,"#ffc18b");
-   eq="正向：x → 3x → 3x+2；倒推：先减2，再除3";
-   note="逆向操作的顺序与原来的操作顺序相反。";
+   const left=3*v+5,right=2*v-1,balanced=left===right;
+   body+=tx(360,38,"检验：等号两边必须相等",20);
+   body+=rect(45,85,285,92,balanced?"#398875":"#47627f")+rect(390,85,285,92,balanced?"#398875":"#47627f");
+   body+=tx(187,123,"左边 3x+5",18)+tx(187,157,String(left),25,"#ffc18b");
+   body+=tx(532,123,"右边 2x−1",18)+tx(532,157,String(right),25,"#b7f0d9");
+   body+=line(330,130,390,130,"#ffc18b",3);
+   body+=tx(360,228,"两边同时减去 2x，再减去 5",19,"#ffc18b");
+   eq="3x+5=2x−1 → x+5=−1 → x=−6；当前试x="+v;
+   note=balanced?"两边相等，这个x就是方程的解。":"滑动x观察左右两边，只有x=−6时相等。移项来自两边同时做相同运算。";
   }else if(m.scene==="c5-combine"){
    body+=tx(360,38,"把相同的 x 项放在一起",20);
    const terms=[["2x","#62bda2"],["3x","#62bda2"],["−4","#e8ad72"]];
@@ -82,6 +84,22 @@
    body+=tx(360,300,"时间 "+t+" 小时",18,"#d7e4ee");
    eq="甲：1.2×"+t+"+1="+a.toFixed(1)+"；乙：0.8×"+t+"+3="+b.toFixed(1);
    note=t===5?"两队位置相同，甲追上乙。":"继续调整时间，寻找两条路程相等的时刻。";
+  }else if(m.scene==="c5-steps"){
+   body+=tx(360,38,"先去分母，再去括号，再移项",20);
+   const stages=[["原方程","(x+1)/3 − (x−2)/2 = 1/6"],["同乘6","2(x+1) − 3(x−2) = 1"],["去括号","2x+2 − 3x+6 = 1"],["合并移项","−x = −7"],["得到答案","x = 7"]];
+   stages.forEach((row,i)=>{const y=62+i*48;body+=rect(36,y,142,37,i===4?"#398875":"#47627f",8)+tx(107,y+25,row[0],15)+tx(420,y+25,row[1],17,i===4?"#8ce2bf":"#f4f7fa","middle");});
+   eq="(x+1)/3−(x−2)/2=1/6 → 2(x+1)−3(x−2)=1 → x=7";
+   note="每一步都要保持等式等价。去分母时分子整体加括号，不能漏乘。";
+  }else if(m.scene==="c5-work"){
+   const x=v,first=4*x/40,second=8*(x+2)/40,total=first+second;
+   body+=tx(360,38,"总工作量 = 第一段 + 第二段",20);
+   body+=rect(55,85,270,72,"#47627f")+rect(395,85,270,72,"#327f70");
+   body+=tx(190,115,"前4小时",18)+tx(190,143,x+" 人 · "+first.toFixed(2),18,"#ffc18b");
+   body+=tx(530,115,"后8小时",18)+tx(530,143,(x+2)+" 人 · "+second.toFixed(2),18,"#b7f0d9");
+   body+=line(325,120,395,120,"#ffc18b",3);
+   body+=rect(155,205,410,62,Math.abs(total-1)<1e-9?"#398875":"#47627f")+tx(360,244,"完成比例 "+total.toFixed(2)+" / 1",22);
+   eq="4×"+x+"/40 + 8×("+x+"+2)/40 = "+total.toFixed(2);
+   note=Math.abs(total-1)<1e-9?"总工作量刚好等于1，最初安排2人。":"拖动人数，观察两段工作量之和何时等于1。";
   }else if(m.scene==="c5-repeating"){
    const n=v,decimal=(n/9).toFixed(3);
    body+=tx(360,40,"把循环小数设成 x，再整体乘10",20);
