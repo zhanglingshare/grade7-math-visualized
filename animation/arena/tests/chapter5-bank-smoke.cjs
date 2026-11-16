@@ -44,7 +44,8 @@ for(const q of B.filter(q=>q.section!=="5.1")){
  const x=numeric(n[n.length-1].answer);
  for(const s of q.steps.filter(s=>s.kind==="equation")){
   const sides=s.expected.split("=");assert.equal(sides.length,2,q.id+" equation needs one equals sign");
-  const checkAt=s.checkAt===undefined?x:s.checkAt;\n  const left=evaluateLinear(sides[0],checkAt),right=evaluateLinear(sides[1],checkAt);
+  const checkAt=s.checkAt===undefined?x:s.checkAt;
+  const left=evaluateLinear(sides[0],checkAt),right=evaluateLinear(sides[1],checkAt);
   assert.ok(Math.abs(left-right)<1e-7,q.id+" step does not hold at its answer: "+s.expected+" ("+left+" vs "+right+")");
  }
  if(q.audit)assert.ok(Math.abs(q.audit.left-q.audit.right)<1e-7,q.id+" audit values differ");
