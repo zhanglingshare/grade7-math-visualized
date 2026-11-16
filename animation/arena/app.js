@@ -40,7 +40,7 @@
    },
    c5:{
     name:"方程破案实验室",prompt:"把未知数找出来，让等式自己说出答案。",
-    topics:["认识方程","天平与等式","移项与化简","去括号与分数","现实建模","追及与配套"],
+    topics:["认识方程","天平与等式","移项与化简","去括号与分数","循环小数","追及、配套与工效"],
     art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="天平两端相等，未知数x逐步被解出"><path d="M42 43 H258" stroke="#526b83" stroke-width="7" stroke-linecap="round"/><circle cx="150" cy="43" r="9" fill="#e6ad70"/><path d="M150 52 L129 111 H171 Z" fill="#7a9eb6"/><path d="M75 44 V82 M225 44 V82" stroke="#8aa2b6" stroke-width="3"/><path d="M45 83 Q75 112 105 83 M195 83 Q225 112 255 83" fill="none" stroke="#8aa2b6" stroke-width="4"/><rect x="48" y="66" width="48" height="18" rx="6" fill="#78c9aa"/><text x="72" y="80" font-size="13" text-anchor="middle" fill="#203849" font-weight="900">x+5</text><rect x="204" y="66" width="42" height="18" rx="6" fill="#e8ad72"/><text x="225" y="80" font-size="13" text-anchor="middle" fill="#493321" font-weight="900">12</text><text x="150" y="127" class="arena-art-algebra" text-anchor="middle">x = ?</text></svg>'
    }
   };
