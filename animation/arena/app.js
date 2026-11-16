@@ -37,6 +37,11 @@
     name:"代数砖实验室",prompt:"同类才能合并，负号会让整个括号翻转！",
     topics:["单项式","同类项","去括号","化简"],
     art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="两个平方块与一个长条代表不同代数项"><rect x="30" y="19" width="72" height="72" rx="9" fill="#84d7bb" stroke="#328d76" stroke-width="3"/><text x="66" y="61" font-size="22" font-weight="900" text-anchor="middle" fill="#255c50">x²</text><rect x="119" y="19" width="72" height="72" rx="9" fill="#7bafe1" stroke="#4780b5" stroke-width="3"/><text x="155" y="61" font-size="22" font-weight="900" text-anchor="middle" fill="#264d7d">x²</text><rect x="214" y="24" width="32" height="64" rx="8" fill="#f1b784" stroke="#cf874c" stroke-width="3"/><text x="230" y="63" font-size="18" font-weight="900" text-anchor="middle" fill="#8e552d">x</text><text x="72" y="115" font-size="15" text-anchor="middle" fill="#4a8271">同类</text><text x="231" y="115" font-size="15" text-anchor="middle" fill="#aa7045">不同类</text></svg>'
+   },
+   c5:{
+    name:"方程破案实验室",prompt:"把未知数找出来，让等式自己说出答案。",
+    topics:["认识方程","天平与等式","移项与化简","去括号与分数","现实建模","追及与配套"],
+    art:'<svg viewBox="0 0 300 132" class="arena-chapter-art" role="img" aria-label="天平两端相等，未知数x逐步被解出"><path d="M42 43 H258" stroke="#526b83" stroke-width="7" stroke-linecap="round"/><circle cx="150" cy="43" r="9" fill="#e6ad70"/><path d="M150 52 L129 111 H171 Z" fill="#7a9eb6"/><path d="M75 44 V82 M225 44 V82" stroke="#8aa2b6" stroke-width="3"/><path d="M45 83 Q75 112 105 83 M195 83 Q225 112 255 83" fill="none" stroke="#8aa2b6" stroke-width="4"/><rect x="48" y="66" width="48" height="18" rx="6" fill="#78c9aa"/><text x="72" y="80" font-size="13" text-anchor="middle" fill="#203849" font-weight="900">x+5</text><rect x="204" y="66" width="42" height="18" rx="6" fill="#e8ad72"/><text x="225" y="80" font-size="13" text-anchor="middle" fill="#493321" font-weight="900">12</text><text x="150" y="127" class="arena-art-algebra" text-anchor="middle">x = ?</text></svg>'
    }
   };
   const chapterCard=t=>{
@@ -53,7 +58,7 @@
   const bridgeCount=ALL.filter(m=>m.track==="bridge").length;
   page('<div class="arena-home arena-kid-home">'+
     '<header class="arena-kid-intro"><div class="arena-kid-eyebrow">✦ 我的数学挑战场</div><h1>今天，你想<span>挑战哪一章？</span></h1><p>不用抢快，也不用怕错。自己选一张卡片，试试看能发现什么新招！</p><div class="arena-kid-steps" aria-label="挑战玩法"><span>先想一想</span><i>→</i><span>动手试试</span><i>→</i><span>换题再战</span><i>→</i><span>说说发现</span></div></header>'+
-    '<section class="arena-kid-chapters" aria-label="四张章节卡片"><div class="arena-kid-chapter-title"><h2>选一张，开始玩</h2><span>四张卡片，四种新本领</span></div><div class="arena-chapter-grid">'+T.filter(t=>t.id!=="bridge").map(chapterCard).join("")+'</div></section>'+
+    '<section class="arena-kid-chapters" aria-label="五张章节卡片"><div class="arena-kid-chapter-title"><h2>选一张，开始玩</h2><span>五张卡片，五种新本领</span></div><div class="arena-chapter-grid">'+T.filter(t=>t.id!=="bridge").map(chapterCard).join("")+'</div></section>'+
     '<section class="arena-bridge-strip" aria-label="小学数学基础训练"><div class="arena-bridge-icon" aria-hidden="true">🧩</div><div class="arena-bridge-copy"><span>小学数学 · 基础训练区</span><h2>有些数学招式还不熟？来这里练练！</h2><p>审题、分数、空间拼搭、逆向思考 · '+bridgeCount+' 个基础实验</p></div><a href="#/track/bridge" class="arena-bridge-link">去练基础 <span aria-hidden="true">→</span></a></section>'+
     '<div class="arena-kid-footer"><p>🌱 每次认真研究一个问题就有收获。做错不扣分，累了就休息。</p><div>'+(resume?'<a href="'+playUrl(resume)+'">继续上次挑战 ↗</a>':'')+'<a href="#/journal">看看我的发现 ↗</a></div></div>'+
     '<details class="arena-parent-guide"><summary>给爸爸看的陪练小提示</summary><p>先听孩子讲自己的猜测。可以问：“你刚才是怎么想的？”“换个办法试试？”不要责骂，不用奖励连胜，也不要拿打球时间交换数学练习。</p></details>'+
