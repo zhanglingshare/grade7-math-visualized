@@ -186,8 +186,9 @@
   ]);
  }
  for(let i=0;i<10;i++){
-  const a=2+i%3,b=3+i%4,k=i+1,x=a*b*k,c=(a+b)*k,rhs=a*b*c;
-  solve("多个分数项去分母","解方程 x/"+a+"+x/"+b+"="+c+"。","两个分母的最小公倍数是多少？",""+(a*b),[String(a+b),String(a*b+1),String(a*b*2)],"分母互质时，最小公倍数是它们的乘积 "+(a*b)+"。","两边同乘最小公倍数后，写出方程。",b+"x+"+a+"x="+rhs,"两边乘 "+(a*b)+"，左边两项分别变成 "+b+"x 和 "+a+"x。",x,"合并同类项得 "+(a+b)+"x="+rhs+"，所以 x="+x+"。",i,{left:x/a+x/b,right:c},[
+  const pairs=[[2,3],[3,4],[4,5],[5,6],[3,5],[4,7],[5,8],[2,7],[3,8],[5,9]];
+  const a=pairs[i][0],b=pairs[i][1],k=i+1,x=a*b*k,c=(a+b)*k,rhs=a*b*c;
+  solve("多个分数项去分母","解方程 x/"+a+"+x/"+b+"="+c+"。","两个分母的最小公倍数是多少？",""+(a*b),[String(a+b),String(a*b+1),String(a*b*2)],"这组分母互质，最小公倍数是它们的乘积 "+(a*b)+"。","两边同乘最小公倍数后，写出方程。",b+"x+"+a+"x="+rhs,"两边乘 "+(a*b)+"，左边两项分别变成 "+b+"x 和 "+a+"x。",x,"合并同类项得 "+(a+b)+"x="+rhs+"，所以 x="+x+"。",i,{left:x/a+x/b,right:c},[
    equation("合并同类项后写出方程。",(a+b)+"x="+rhs,"把 "+b+"x 与 "+a+"x 合并。")
   ]);
  }
@@ -238,7 +239,7 @@
   if(i<5){n=i+1;period=1;expected="9x="+n;den=9;numValue=n;}
   else{n=[12,23,34,45,56][i-5];period=2;expected="99x="+n;den=99;numValue=n;}
   const ans=fraction(numValue,den),mult=period===1?10:100;
-  solve("无限循环小数化分数","把无限循环小数 0."+String(n).padStart(period,"0")+"… 化成最简分数。","循环节有 "+period+" 位，小数点向右移动几位后，循环部分会对齐？","乘以 "+mult,["乘以 10","乘以 1000","乘以 10000"].filter(x=>x!=="乘以 "+mult),"循环节有几位，就把小数点向右移动几位：一位乘10，两位乘100。","两式相减后，得到哪个方程？",expected,"相减后循环部分抵消，得到 "+expected+"。",ans,"解得 x="+ans+"，所以原循环小数等于 "+ans+"。",i,{left:numValue,right:den*(numValue/den)},[
+  solve("无限循环小数化分数","把无限循环小数 0."+String(n).repeat(3)+"… 化成最简分数。","循环节有 "+period+" 位，小数点向右移动几位后，循环部分会对齐？","乘以 "+mult,["乘以 10","乘以 1000","乘以 10000"].filter(x=>x!=="乘以 "+mult),"循环节有几位，就把小数点向右移动几位：一位乘10，两位乘100。","两式相减后，得到哪个方程？",expected,"相减后循环部分抵消，得到 "+expected+"。",ans,"解得 x="+ans+"，所以原循环小数等于 "+ans+"。",i,{left:numValue,right:den*(numValue/den)},[
    equation("把方程化成 x = 分数。","x="+ans,"两边同除以 "+den+"，得到 x="+ans)
   ]);
  }
@@ -305,8 +306,13 @@
   model("先提价再打折","一件商品成本为 x 元，先按成本提高20%标价，再按标价打九折，最后售价为 "+sale+" 元。成本是多少？","设商品成本为 x 元","设商品最后的售价为 x 元","1.2x×0.9="+sale,["1.2x+0.9="+sale,"0.2x×0.1="+sale],x,"元","先提价得到1.2x，再打九折得到1.08x，所以1.08x="+sale+"，成本为 "+x+" 元。",i,{left:1.08*x,right:sale});
  }
  for(let i=0;i<10;i++){
-  const games=14+i,wins=i+2,points=games+wins;
-  model("球赛积分与整数检验","一支球队参加 "+games+" 场比赛，胜一场得2分、负一场得1分，总积分为 "+points+" 分。它胜了多少场？","设胜场数为 x","设负场数为 x","2x+("+games+"−x)="+points,["2x+"+games+"="+points,"x+("+games+"−x)="+points],wins,"场","胜场 x，负场 "+games+"−x，总分为2x+("+games+"−x)，解得胜 "+wins+" 场。",i,{left:2*wins+(games-wins),right:points});
+  const games=[14,16,17,19,20,22,23,25,26,28][i],x=games/3,ans=fraction(games,3);
+  add("5.3","球赛积分与整数检验","建模推理","某队参加 "+games+" 场比赛，胜一场得2分、负一场得1分。如果胜场总积分恰好等于负场总积分，这种情况可能发生吗？",[
+   choice("先设哪个量为 x？","设胜场数为 x",["设负场数为 x","设总积分为 x"],i,"胜场积分是2x，负场数是"+games+"−x，负场积分就是"+games+"−x。"),
+   equation("根据“胜场总积分=负场总积分”列方程。","2x="+games+"−x","胜场积分2x，负场积分"+games+"−x。"),
+   number("解方程，得到 x = ?（可以填分数）",ans,"移项得3x="+games+"，所以x="+ans+"。"),
+   choice("胜场数必须是整数。这个结果符合实际吗？","不可以",["可以"],i+1,"胜场数不能是分数，所以这个方程的数值解不符合比赛实际。")
+  ],"方程解为 x="+ans+"，但胜场数必须是整数。因此这种积分相等的情况不可能发生。",3,{left:2*x,right:games-x});
  }
  for(let i=0;i<10;i++){
   const x=10000+500*i,d=500+100*i,total=6*x+6*(x-d);
