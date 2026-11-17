@@ -146,3 +146,10 @@ body.reviewing .studyNav { display: none; }
 .studyNav a.study-map[aria-current="page"] { box-shadow: inset 0 -2px 0 #5475a5; }
 @media (max-width:430px) { .studyNav .in { gap: 2px; padding: 5px; } .studyNav a { font-size: .76rem; letter-spacing: -.02em; min-height: 44px; padding-inline: 1px; } .studyNav a.study-map { padding-inline: 1px; } }
 @media (prefers-reduced-motion:reduce) { .studyNav a { transition: none; } }
+
+/* Five chapters + elementary bridge + optional knowledge map. Keep a single scrollable row on phones. */
+.studyNav .in{grid-template-columns:repeat(7,minmax(0,1fr))}
+@media(max-width:620px){
+ .studyNav .in{grid-template-columns:repeat(7,minmax(49px,1fr));overflow-x:auto;scrollbar-width:thin}
+ .studyNav a{white-space:nowrap}
+}
