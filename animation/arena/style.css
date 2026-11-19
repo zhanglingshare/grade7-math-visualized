@@ -355,3 +355,14 @@ button{touch-action:manipulation}
 .arena-c5-practice-launch a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:10px 16px;border-radius:11px;background:#29485b;color:#fff;font-size:13px;font-weight:850}
 .arena-c5-practice-launch a:hover{background:#3a6575}
 @media(max-width:600px){.arena-c5-practice-launch{align-items:stretch;flex-direction:column;padding:15px}.arena-c5-practice-launch strong{font-size:17px}.arena-c5-practice-launch a{width:100%}}
+
+/* Optional learning-method video, kept outside the five chapter cards. */
+.arena-memory-strip{display:flex;align-items:center;gap:16px;margin:15px 0 18px;padding:16px 20px;border:1px solid #beddd9;border-radius:16px;background:radial-gradient(circle at 95% 10%,#eacb9655,transparent 35%),linear-gradient(120deg,#eaf6f0,#f5fafb);box-shadow:0 9px 22px #3856650b}
+.arena-memory-icon{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:14px;background:#213f50;font-size:24px}
+.arena-memory-copy{flex:1;min-width:0}
+.arena-memory-copy span{display:block;color:#397d72;font-size:11px;font-weight:900;letter-spacing:.07em}
+.arena-memory-copy h2{margin:3px 0 2px;color:#253f4b;font-size:19px;font-weight:900;letter-spacing:-.025em}
+.arena-memory-copy p{margin:0;color:#68817c;font-size:12px;line-height:1.65}
+.arena-memory-link{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:10px 14px;border:0;border-radius:10px;background:#254b53;color:#fff;font-size:12px;text-decoration:none;font-weight:900}
+.arena-memory-link:hover{background:#39646d}
+@media(max-width:650px){.arena-memory-strip{flex-wrap:wrap;padding:14px;gap:9px}.arena-memory-icon{width:43px;height:43px}.arena-memory-copy h2{font-size:16px}.arena-memory-link{flex-basis:100%}}
