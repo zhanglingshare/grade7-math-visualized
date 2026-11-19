@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5efe5">
+<meta name="description" content="初一数学511七天学习实验：5天短练、1天自由休息、1天独立复盘。避免题海，重在先想再写、解释原理和迁移检验。">
+<title>511学习实验室 · 五天挑战、一天休息、一天复盘</title>
+<style>
+:root{--paper:#fffaf1;--bg:#f5eee2;--line:#e9dacc;--text:#2f2c2a;--muted:#796d62;--orange:#d65e29;--green:#29816e;--dark:#142436;--cream:#f8ead7}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft Yahei",sans-serif;background-color:var(--bg);background-image:linear-gradient(#d7c9b927 1px,transparent 1px),linear-gradient(90deg,#d7c9b927 1px,transparent 1px);background-size:28px 28px}
+button,input,textarea{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{opacity:.48;cursor:not-allowed}
+a{color:var(--orange)}.top{position:sticky;top:0;z-index:20;padding:9px 18px;background:#fffbf0eb;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.topin{max-width:1080px;margin:auto;display:flex;justify-content:space-between;gap:12px;align-items:center}.topin a{font-size:12px;font-weight:750;text-decoration:none}.topin strong{font-size:13px}
+.wrap{max-width:1050px;margin:auto;padding:21px 17px 70px}.hero{background:linear-gradient(110deg,#182b40,#215157);color:#fff;border-radius:22px;padding:27px 27px 23px;position:relative;overflow:hidden}
+.hero:after{position:absolute;right:-33px;top:-74px;content:"511";font-size:175px;font-weight:950;opacity:.06;letter-spacing:-.1em;transform:rotate(-14deg)}
+.eyebrow{color:#8fdfc8;font-size:11px;letter-spacing:.14em;font-weight:850}.hero h1{font-size:clamp(27px,5vw,42px);margin:11px 0 5px;line-height:1.2;letter-spacing:-.05em}.hero h1 span{color:#9bedd6}.hero p{font-size:13px;color:#d5e6e3;margin:0 0 14px;max-width:700px}.hero-chips{display:flex;gap:7px;flex-wrap:wrap}.hero-chips span{border-radius:99px;padding:5px 10px;font-size:11px;background:#ffffff16;border:1px solid #ffffff24;color:#d6f3eb}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:16px 0 11px}
+.day{position:relative;text-align:center;border-radius:14px;background:#fffdf8;border:1px solid #eadfcc;padding:12px 4px;min-height:110px}
+.day small{display:block;font-size:10px;color:#93857b;font-weight:750}.day strong{display:block;font-size:27px;line-height:1.3;color:#33465c}.day span{font-size:12px;font-weight:830;color:#8c6e4c}.day.done{border-color:#84c7ab;background:#eff9f1}.day.done strong{color:var(--green)}.day.done:after{content:"✓";position:absolute;right:8px;top:5px;color:var(--green);font-size:12px;font-weight:900}.day.active{border:2px solid #d36d38;box-shadow:0 0 0 3px #dd81442c;background:#fff6ed}.day.rest{background:#f2f0fa}.day.review{background:#eaf4f0}
+.progress{display:flex;gap:10px;align-items:center;margin:0 2px 18px}.track{flex:1;height:9px;background:#dfd7cb;border-radius:20px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#2c907a,#dd9856);width:0;transition:width .25s}.progress small{font-size:11px;color:#807468;white-space:nowrap}
+.grid{display:grid;grid-template-columns:1fr 310px;align-items:start;gap:16px}
+.board{background:#14273a;color:#eff8f4;border-radius:20px;padding:24px 23px;min-height:510px;box-shadow:0 15px 28px #2f3d4718;border:1px solid #29455a;position:relative;overflow:hidden}
+.board:before{position:absolute;content:"";width:170px;height:170px;right:-65px;bottom:-60px;border:2px dashed #74b19d26;border-radius:100%;pointer-events:none}
+.board .label{font-size:11px;font-weight:850;color:#8cdec2;letter-spacing:.13em}.board h2{font-size:clamp(23px,3.2vw,30px);line-height:1.35;margin:9px 0 12px}.board .sub{color:#afc4ce;font-size:13px;line-height:1.7;margin:0 0 20px}
+.math{font:900 clamp(28px,5vw,45px)/1.6 Georgia,serif;letter-spacing:.03em;text-align:center;background:#213e50;border:1px solid #45687c;border-radius:17px;padding:19px 10px;margin:18px 0;color:#fff;word-break:break-word}
+.question{font-size:15px;font-weight:800;margin:13px 0 9px}.answers{display:grid;gap:8px;grid-template-columns:1fr 1fr}.answers button{min-height:56px;padding:10px 12px;border:1px solid #587387;border-radius:12px;color:#eff8ff;background:#224052;font-size:13px;text-align:left}.answers button.selected{border-color:#a5e9cc;background:#315c5c}.answers button.good{border-color:#97d9be;background:#1c5f53}.answers button.bad{border-color:#faaf95;background:#68474c}
+.numrow{display:flex;gap:8px;margin:10px 0}.numrow input{min-width:0;flex:1;border:1px solid #4f7785;border-radius:11px;background:#1d4050;color:#fff;font-size:21px;padding:11px 12px}.numrow input:focus{outline:2px solid #f6ad7f}.btn{border:0;border-radius:11px;background:#efb17f;color:#422f2a;font-size:13px;font-weight:900;padding:11px 18px;min-height:46px}.btn.secondary{background:#27586a;color:#e7f6f6;border:1px solid #4e8390}.btn.ghost{background:transparent;border:1px solid #537386;color:#d5edec}
+.buttons{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.tip{border-radius:11px;border:1px dashed #5f9f8d;background:#224f50;padding:11px 13px;margin:12px 0;color:#d0f1e3;font-size:13px}.tip.warn{border-color:#b58f65;background:#4c3e3c;color:#ffddba}.tip strong{color:#a6f3cc}
+.sidecard{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:12px}.sidecard h3{font-size:16px;margin:0 0 10px}.sidecard p{margin:6px 0;color:#746b65;font-size:12px;line-height:1.75}
+.sidecard ul{list-style:none;margin:0;padding:0}.sidecard li{font-size:12px;padding:9px 0;border-bottom:1px solid #ebe1d5;color:#675e55}.sidecard li:last-child{border:0}.sidecard li b{display:block;color:#3b5660;margin-bottom:2px}
+.sidecard a{display:inline-block;padding:9px 0;font-size:12px;font-weight:800}.notice{font-size:11px;color:#8b7e72;margin:15px 4px;line-height:1.8}
+.reflection{width:100%;min-height:82px;background:#234354;border:1px solid #57818b;border-radius:12px;color:#fff;padding:12px;resize:vertical}.reflection::placeholder{color:#a8bbc2}
+.statline{display:flex;gap:10px;flex-wrap:wrap}.statline span{padding:7px 10px;border:1px solid #48677a;border-radius:10px;font-size:12px;color:#d9e8e6}.statline b{color:#96e7c7}
+@media(max-width:740px){.grid{display:block}.sidecard{margin-top:12px}.week{grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}.day{min-height:85px;padding:8px 2px;border-radius:10px}.day strong{font-size:20px}.day small{font-size:9px}.day span{font-size:10px}.wrap{padding:13px 10px 50px}.hero{padding:21px 17px}.board{padding:21px 15px;min-height:420px}.math{font-size:31px}.answers{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.fill{transition:none}}
+</style></head>
+<body><nav class="top"><div class="topin"><a href="index.html">← 数学训练场</a><strong>511 · 七天思维实验</strong><a href="memory-lab.html">7个记忆习惯</a></div></nav>
+<main class="wrap">
+<section class="hero">
+<div class="eyebrow">5 LEARN · 1 REST · 1 REVIEW</div>
+<h1>学习五天，<span>休息一天，复盘一天。</span></h1>
+<p>每天一小段高质量思考，比硬刷许多题更值得试。这里是学习安排实验，不是记忆力或成绩暴涨的承诺。</p>
+<div class="hero-chips"><span>每天建议10～15分钟</span><span>先想再动笔</span><span>休息不是奖励</span><span>第七天换题验证</span></div>
+</section>
+<section class="week" id="week" aria-label="七天学习任务"></section>
+<div class="progress"><div class="track"><div class="fill" id="fill"></div></div><small id="progress">0 / 7 自主完成</small></div>
+<div class="grid"><section class="board" id="board" aria-live="polite"></section><aside>
+<div class="sidecard"><h3>你不是来打卡的</h3><p>这个实验只关心三件事：能否在下笔前做判断、能否解释等式如何变化、隔一天能否独立做出来。</p><ul>
+<li><b>五个学习日</b>每天只做一题，留下一个“为什么”。</li>
+<li><b>第六天</b>自由打球、休息、玩耍，不布置额外题目。</li>
+<li><b>第七天</b>先不看笔记，用一道新题检验能否迁移。</li>
+</ul></div>
+<div class="sidecard"><h3>观看原创新视频</h3><p>《511学习法到底在学什么？》63秒竖屏中文旁白短片。这里提供同主题的可交互学习实验。</p><a href="index.html#/track/c5">进入第五章的方程动画 →</a></div>
+<div class="sidecard"><h3>给爸爸看的</h3><p>孩子如果回答错了，先问“你想用什么办法验证？”，不要立刻给答案。七天完成数量不是学习效果，真正的线索是第七天有没有独立迁移。</p></div>
+</aside></div>
+<p class="notice">本地进度保存在这台设备的浏览器中。可以选择任意一天重做、跳过或调整顺序；七天结构是学习安排建议，不是经过临床或教育实验验证的最优比例。</p>
+</main>
+<script>
+(function(){
+"use strict";
+var KEY="math-511-week-v1",questions=[
+ {eq:"x + 7 = 12",choices:["两边同时减7","只从左边减7","两边同时加7"],correct:0,value:5,why:"等号两边同时减7，才能保持左右相等。"},
+ {eq:"2x + 3 = 15",choices:["两边同时减3","把左边的3直接删去","两边同时加3"],correct:0,value:6,why:"先两边减3得2x=12，再同时除以2。"},
+ {eq:"5x − 4 = 21",choices:["两边同时加4","两边同时减4","把5x直接变成x"],correct:0,value:5,why:"先两边加4，再两边除以5。"},
+ {eq:"3(x + 2) = 18",choices:["先两边除以3","只把x乘3","把括号去掉不乘3"],correct:0,value:4,why:"先同时除以3，得到x+2=6，随后两边减2。"},
+ {eq:"x/3 + 4 = 9",choices:["先两边减4","直接把3移到等号右边加3","两边同时加4"],correct:0,value:15,why:"先同时减4，得到x/3=5，再同时乘3。"},
+ {eq:"4x + 2 = 22",choices:["两边减2再除以4","两边加2再除以4","只把左边的2擦掉"],correct:0,value:5,why:"先两边减2，得4x=20，再除以4，x=5。"}
+];
+var day=0,selected=-1,phase="choose",hint=false;
+var state={completed:{},notes:{},results:{},weekStarted:""};
+try{var p=JSON.parse(localStorage.getItem(KEY)||"{}");if(p&&typeof p==="object")state={...state,...p,completed:p.completed||{},notes:p.notes||{},results:p.results||{}};}catch(e){}
+var week=document.getElementById("week"),board=document.getElementById("board"),fill=document.getElementById("fill"),progress=document.getElementById("progress");
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+function total(){return Object.keys(state.completed).filter(function(k){return state.completed[k];}).length}
+function nav(){week.innerHTML=Array.from({length:7},function(_,i){var type=i<5?"学":i===5?"休":"盘";var cls=(state.completed[i]?" done":"")+(day===i?" active":"")+(i===5?" rest":i===6?" review":"");return '<button class="day'+cls+'" data-day="'+i+'" aria-pressed="'+(day===i)+'"><small>第'+(i+1)+'天</small><strong>'+type+'</strong><span>'+(state.completed[i]?"已完成":i<5?"练一题":i===5?"放松":"检验")+'</span></button>';}).join("");fill.style.width=(total()/7*100)+"%";progress.textContent=total()+" / 7 自主完成";}
+function completedNote(){return '<div class="tip"><strong>已经记录这一日。</strong> 继续别急，过段时间再来看看自己是否还能独立解出。</div>';}
+function startTask(){var q=questions[day===6?5:day];var done=!!state.completed[day];var intro=day===6?"这是陌生迁移题。先不看前五天的答案。":"请先看清等式，选一个有依据的操作。";
+board.innerHTML='<div class="label">'+(day===6?"DAY 07 · TRANSFER TEST":"DAY "+String(day+1).padStart(2,"0")+" · MATH EXPERIMENT")+'</div><h2>'+(day===6?"合上书，再解一道新题":"先判断，再动笔")+'</h2><p class="sub">'+intro+'</p><div class="math">'+esc(q.eq)+'</div><p class="question">第一步：你会先怎样变形？</p><div class="answers">'+q.choices.map(function(v,i){return '<button data-choice="'+i+'" class="'+(selected===i?"selected":"")+'">'+esc(v)+'</button>';}).join("")+'</div><div class="buttons"><button class="btn" id="confirm" '+(selected<0?"disabled":"")+'>确认我的判断</button></div>'+(done?completedNote():"")+'<div id="feedback"></div>';
+if(phase==="answer")showNumber();
+}
+function showNumber(){var q=questions[day===6?5:day];var answerPart='<div class="tip"><strong>这一步正确。</strong> '+esc(q.why)+'</div><p class="question">第二步：完整解出 x 等于多少？</p><div class="numrow"><input id="number" type="text" inputmode="decimal" placeholder="写出 x 的值" aria-label="x 的值"><button class="btn" id="check">检查</button></div><div id="attempt"></div>';board.insertAdjacentHTML("beforeend",answerPart);}
+function finish(result){state.completed[day]=true;state.results[day]=result;save();phase="done";render();}
+function render(){nav();selected=-1;phase="choose";hint=false;
+if(day===5){board.innerHTML='<div class="label">DAY 06 · REST</div><h2>今天的挑战：自由休息</h2><p class="sub">运动不需要用成绩来换。今天不用解方程，不必完成任何“补课任务”。</p><div class="math" aria-label="运动日">🏓　休息日</div><div class="tip"><strong>你可以：</strong>打一场球、散步、读喜欢的书，或者只是休息。没有计时，也没有积分。</div><div class="buttons"><button class="btn" id="rest">'+(state.completed[5]?"已记录休息 ✓":"记录今天休息了")+'</button></div>';return;}
+startTask();
+}
+week.addEventListener("click",function(e){var b=e.target.closest("[data-day]");if(!b)return;day=Number(b.dataset.day);render();});
+board.addEventListener("click",function(e){
+if(e.target.closest("#rest")){state.completed[5]=true;save();render();return;}
+var c=e.target.closest("[data-choice]");if(c){selected=Number(c.dataset.choice);board.querySelectorAll("[data-choice]").forEach(function(b){b.classList.toggle("selected",Number(b.dataset.choice)===selected);});board.querySelector("#confirm").disabled=false;return;}
+if(e.target.closest("#confirm")){
+ if(selected<0)return;var q=questions[day===6?5:day],feedback=board.querySelector("#feedback");
+ if(selected!==q.correct){feedback.innerHTML='<div class="tip warn">这个操作会让等式两边发生什么变化？如果等号两边没一起变，还是相等吗？请再试一次。</div>';state.results[day]="first-attempt-error";save();return;}
+ feedback.innerHTML="";phase="answer";board.querySelector("#confirm").disabled=true;board.querySelectorAll("[data-choice]").forEach(function(b){b.disabled=true});showNumber();return;
+}
+if(e.target.closest("#check")){
+ var q=questions[day===6?5:day],v=board.querySelector("#number").value.trim().replace(/−/g,"-"),test=Number(v),feedback=board.querySelector("#attempt");
+ if(!v||!Number.isFinite(test)){feedback.innerHTML='<div class="tip warn">请填一个数值。</div>';return;}
+ if(Math.abs(test-q.value)>1e-7){feedback.innerHTML='<div class="tip warn">还没对。把这个值代回最初的等式试试看，左右两边相等吗？</div>';state.results[day]="retry";save();return;}
+ feedback.innerHTML='<div class="tip"><strong>解出来了！</strong> '+esc(q.why)+'</div><div class="buttons"><button class="btn" id="reflect">记下我的发现</button></div>';board.querySelector("#number").disabled=true;board.querySelector("#check").disabled=true;return;
+}
+if(e.target.closest("#reflect")){phase="reflect";var box=board.querySelector("#attempt");box.innerHTML='<div class="tip"><strong>最后一步：</strong>下次遇到新题，你会先检查什么？</div><textarea class="reflection" id="reflection" maxlength="240" placeholder="例如：我先看等号两边是不是同时做了相同的运算。"></textarea><div class="buttons"><button class="btn" id="saveReflection">记录这一天</button></div>';return;}
+if(e.target.closest("#saveReflection")){var txt=board.querySelector("#reflection").value.trim();if(txt.length<5){board.querySelector("#reflection").focus();return;}state.notes[day]=txt;finish("solved");return;}
+});
+board.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.matches("#number")){e.preventDefault();board.querySelector("#check")?.click();}});
+nav();render();
+})();
+</script></body></html>
