@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101d2d">
+<meta name="description" content="511学习法原创短片：5天学习、1天休息、1天复盘，可验证的数学学习实验。">
+<title>511学习法 · 原创中文旁白动画</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1727;--card:#172638;--ink:#f2fbff;--muted:#a9c1cb;--teal:#76efcd;--orange:#ffbd83}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 82% 13%,#173f49 0%,transparent 28%),linear-gradient(160deg,#0b1727,#13243a 63%,#111d2b);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+a{color:inherit}
+button{font:inherit;cursor:pointer;touch-action:manipulation}
+.top{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px}
+.top a{text-decoration:none;font-size:13px;font-weight:770;color:#a7ded6}
+.top strong{font-size:14px}
+.layout{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:minmax(270px,470px) minmax(260px,1fr);align-items:start;gap:23px;padding:8px 18px 60px}
+.screen{position:relative;width:100%;aspect-ratio:9/16;max-height:80vh;border:1px solid #346575;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 85% 20%,#24575a75,transparent 39%),linear-gradient(145deg,#102035,#152939 70%,#11223a);box-shadow:0 22px 60px #0005}
+.screen::before{content:"";position:absolute;inset:0;opacity:.27;background-image:linear-gradient(90deg,#6194ab16 1px,transparent 1px),linear-gradient(#6194ab16 1px,transparent 1px);background-size:31px 31px;pointer-events:none}
+.progress{position:absolute;z-index:5;top:15px;left:18px;right:18px;height:5px;border-radius:99px;background:#355163;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),#fff0a0);transition:width .4s}
+.brand{position:absolute;z-index:2;top:34px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center;color:#89c1c6;letter-spacing:.09em;font-size:10px;font-weight:900}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-start;padding:17% 7% 4%;transition:opacity .36s,transform .45s}
+.scene.enter{animation:sceneIn .45s both}
+@keyframes sceneIn{from{opacity:.3;transform:translateX(14px)}to{opacity:1;transform:none}}
+.scene-index{font-size:11px;color:var(--teal);font-weight:850;letter-spacing:.13em}
+.headline{font-size:clamp(23px,4.6vw,40px);font-weight:900;letter-spacing:-.045em;line-height:1.28;margin:8px 0 4px;text-wrap:balance}
+.headline .special{color:var(--teal)}
+.subtitle{font-size:clamp(12px,1.7vw,17px);line-height:1.65;color:#b6d0d9;margin:11px 0 6px}
+.visual{flex:1;min-height:175px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin:3% 0}
+.action{border:1px solid #3d716f;background:#204648ad;border-radius:16px;padding:11px 13px;min-height:75px}
+.action small{display:block;color:var(--teal);font-size:10px;letter-spacing:.08em;font-weight:850}
+.action strong{display:block;font-size:clamp(12px,1.5vw,17px);line-height:1.48;margin-top:2px}
+.footer-meta{display:flex;justify-content:space-between;margin-top:12px;font-size:10px;color:#90acb6}
+.tiles{display:flex;gap:6px;width:100%;justify-content:center}
+.tile{display:grid;place-items:center;border:1px solid #4d7478;background:#1c3d51;border-radius:13px;color:#e8f8ff;font-size:clamp(12px,2vw,19px);font-weight:850;padding:10px;min-height:67px;flex:1;box-shadow:0 8px 25px #0002}
+.tile.orange{color:var(--orange);background:#4b3840}
+.tile.teal{color:var(--teal)}
+.tile.fall{animation:fall 1.2s 1s both}
+@keyframes fall{from{transform:translateY(-6px);opacity:0}to{opacity:1}}
+.recall{width:89%;min-height:160px;border:1px solid #527a82;background:#1d3a4c;border-radius:20px;padding:19px;text-align:center}
+.recall strong{font-size:21px;color:var(--orange)}
+.word-row{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.word-row i{display:grid;place-items:center;border:2px solid var(--teal);width:48px;height:48px;border-radius:50%;font-style:normal;font-size:21px;font-weight:800;background:#235458;animation:flash .5s both}
+.word-row i:nth-child(2){animation-delay:.35s}.word-row i:nth-child(3){animation-delay:.7s}
+@keyframes flash{from{transform:scale(.5);opacity:0}}
+.timeline{display:flex;align-items:center;justify-content:space-around;width:100%;gap:4px;border-top:4px solid #437079;padding-top:22px;position:relative}
+.timeline span{display:grid;place-items:center;font-size:12px;color:#b6ece0;background:#1e444d;border-radius:12px;padding:9px 4px;min-width:53px;font-weight:850}
+.timeline b{color:var(--orange)}
+.error-cards{display:grid;gap:12px;width:100%}
+.error-cards div{background:#214352;border:1px solid #447078;border-radius:12px;display:flex;justify-content:space-between;padding:12px 18px;font-weight:850}
+.error-cards span{color:var(--orange)}
+.equation{font-size:clamp(28px,5vw,49px);font-weight:900;line-height:2.2;text-align:center;color:#fff}
+.equation b{color:var(--teal)}
+.moon{font-size:105px;filter:drop-shadow(0 0 30px #ffd09f77);animation:moonFloat 3s ease-in-out infinite alternate}
+@keyframes moonFloat{to{transform:translateY(-13px)}}
+.exam{padding:22px 24px;text-align:center;border:2px solid #497b87;background:#214457;border-radius:15px;font-size:30px;font-weight:900}
+.exam span{font-size:15px;color:var(--teal)}
+.finalsteps{display:grid;gap:11px;width:100%}
+.finalsteps div{background:#1f4a51;border:1px solid #4d8e89;border-radius:14px;padding:11px 14px;font-size:18px;font-weight:830;color:#e6fff5}
+.control-panel{padding:13px 0}
+.overline{color:var(--teal);font-size:11px;letter-spacing:.15em;font-weight:900}
+.control-panel h1{font-size:clamp(23px,3vw,34px);line-height:1.27;letter-spacing:-.035em;margin:10px 0}
+.control-panel p{color:var(--muted);font-size:13px;line-height:1.8}
+.controls{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0}
+.controls button{border:1px solid #56717f;background:#1c3549;color:#d7edef;border-radius:11px;padding:10px 13px;min-height:44px;font-size:13px;font-weight:800}
+.controls button.primary{color:#133e40;background:var(--teal);border-color:var(--teal)}
+.controls button:disabled{opacity:.4}
+.controls button:focus-visible,.scene-list button:focus-visible{outline:3px solid var(--orange)}
+.status{font-size:12px;color:#b0ced0;min-height:36px}
+.scene-list{display:grid;gap:5px}
+.scene-list button{background:#182c3c;border:1px solid #304a5b;color:#b5ccd0;border-radius:12px;padding:9px 12px;display:grid;grid-template-columns:28px 1fr;gap:10px;text-align:left;align-items:center;min-height:47px}
+.scene-list button[aria-current="step"]{background:#1f444a;border-color:#70bdaa;color:white}
+.scene-list button span{color:var(--teal);font-weight:900;font-variant-numeric:tabular-nums}
+.scene-list button strong{font-size:12px}
+.notes{margin:17px 0 0;border-top:1px solid #335065;padding-top:10px}
+.notes summary{font-size:12px;cursor:pointer;color:#b6d6cf}
+.notes p{margin-top:8px;font-size:12px}
+.linkout{display:inline-flex;border:1px solid #3c6877;border-radius:11px;padding:9px 13px;margin:11px 8px 0 0;text-decoration:none;font-size:12px;color:#b8ece1;font-weight:800}
+@media(max-width:780px){.layout{display:block;max-width:530px}.screen{height:min(750px,75vh);aspect-ratio:auto}.control-panel{padding:23px 0}.scene{padding-top:13%}.brand{top:32px}.headline{font-size:clamp(26px,7vw,36px)}.subtitle{font-size:14px}.action strong{font-size:15px}.visual{min-height:150px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<nav class="top"><a href="index.html">← 返回数学训练场</a><strong>511学习法 · 原创短片</strong></nav>
+<main class="layout">
+<section class="screen" aria-label="511学习法的动画短片">
+ <div class="progress" aria-hidden="true"><div id="progress" class="progress-fill"></div></div>
+ <div class="brand"><span>5 + 1 + 1 / MATH LAB</span><span id="shot">01 / 08</span></div>
+ <div id="stage" class="scene"></div>
+</section>
+<section class="control-panel">
+ <div class="overline">63秒故事板 · 中文旁白 · 互动观看</div>
+ <h1>511真的有效吗？<br>先做一周实验。</h1>
+ <p>按“播放并朗读”，手机会用普通话讲述8幕原创动画。把五天学习、一天休息、一天复盘做成自己可验证的实验。</p>
+ <div class="controls">
+  <button id="play" class="primary" type="button">▶ 播放并朗读</button>
+  <button id="prev" type="button">← 上一幕</button>
+  <button id="next" type="button">下一幕 →</button>
+  <button id="mute" type="button" aria-pressed="false">🔊 旁白开启</button>
+ </div>
+ <div id="status" class="status" role="status">点击播放后开始中文旁白。声音由手机或电脑自带的语音引擎生成。</div>
+ <div class="scene-list" id="sceneList" aria-label="短片章节"></div>
+ <a class="linkout" href="511-week.html">立即开启511七天实验 →</a>
+ <a class="linkout" href="index.html#/track/c5">返回第五章方程实验 →</a>
+ <details class="notes">
+  <summary>给孩子和家长的一句话说明</summary>
+  <p>511的天数比例不是经过实验确认的唯一最优安排。五天学习不代表五天过度刷题。以隔天独立解题和解释原理作为检验。设备语音质量不同，也可以逐幕静音看。</p>
+ </details>
+</section>
+</main>
+<script>
+(function(){
+"use strict";
+var items=[
+ {tag:"511是什么",title:"511不是记忆力神药",sub:"一周分成三个阶段：学习、休息、复盘。",action:"先区分学习建议与神奇提分承诺。",speak:"听说五一一学习法很厉害？其实它不是记忆力神药。它只是把一周分成三个阶段。",kind:0},
+ {tag:"5 + 1 + 1",title:"五天学习 · 一天休息 · 一天复盘",sub:"五天不是指熬夜刷题，时间安排可以调整。",action:"把一周安排成三个阶段。",speak:"五，代表五个学习日。一，代表一天休息。最后一个一，代表一天复盘。但五天不是每天熬夜猛刷。",kind:1},
+ {tag:"学习日01—05",title:"每天15分钟，先想再写",sub:"3分钟预测、8分钟动手、4分钟解释。",action:"重点是思考的质量，而不是题量。",speak:"每天拿十五分钟做一次数学挑战。先想三分钟，再解八分钟，最后用四分钟讲清楚为什么。",kind:2},
+ {tag:"方程实验",title:"3x + 5 = 17，不要马上写",sub:"先问：等号两边要怎样同时变形？",action:"先两边同时减5，再同时除以3。",speak:"例如，三倍的艾克斯加五等于十七。不要立刻写答案。先问，想让艾克斯留下来，两边该怎样变？",kind:3},
+ {tag:"休息日06",title:"休息不是奖励，也不是偷懒",sub:"打球、散步、玩耍、睡够觉。",action:"不拿快乐交换学习表现。",speak:"第六天，好好休息。打球、玩耍、睡够觉。休息不是偷懒，也不需要用成绩来换。",kind:4},
+ {tag:"复盘日07",title:"合上书，回答三个问题",sub:"原理会讲吗？新题能解吗？错在哪里？",action:"复盘是找下一步，不是抄答案。",speak:"第七天，先合上书。说出一个原理，独立解一道新题，再看看上周哪里想错了。不会的地方，才是下周的线索。",kind:5},
+ {tag:"检验效果",title:"刷30题不等于真的会",sub:"隔两天，换题仍然独立会做吗？",action:"用陌生迁移检验，不用打卡代替学习。",speak:"别把打卡当成绩。刷了三十题不一定真会。隔两天，换个数字再做一次，才更接近真实掌握。",kind:6},
+ {tag:"今晚开始",title:"511，从一个小实验开始",sub:"先想再解、明天换题、周末休息与复盘。",action:"跑完一周，再判断它适不适合你。",speak:"今晚就试试：先想，再解一道方程。明天换题再做。周末留一天休息，一天复盘。方法合不合适，自己用结果来判断。",kind:7}
+];
+var stage=document.getElementById("stage"),shot=document.getElementById("shot"),list=document.getElementById("sceneList"),progress=document.getElementById("progress"),status=document.getElementById("status");
+var play=document.getElementById("play"),mute=document.getElementById("mute"),nxt=document.getElementById("next"),prev=document.getElementById("prev");
+var index=0,playing=false,silent=false,seq=0,pending=null;
+var supported=("speechSynthesis" in window)&&("SpeechSynthesisUtterance" in window);
+function art(i){
+ switch(i){
+ case 0:return '<div class="recall"><strong>5 + 1 + 1</strong><div class="word-row"><i>学</i><i>休</i><i>盘</i></div><p>一周安排，不是提分公式</p></div>';
+ case 1:return '<div class="timeline"><span>周一学</span><span>周二学</span><span>周三学</span><span>周四学</span><span>周五学</span><span>周六休</span><span>周日盘</span></div>';
+ case 2:return '<div class="finalsteps"><div>3分钟：先想</div><div>8分钟：动手</div><div>4分钟：解释</div></div>';
+ case 3:return '<div class="equation">3x + 5 = 17<br><b>3x = 12</b><br>x = 4</div>';
+ case 4:return '<div class="moon" aria-label="打球和休息">🏓</div>';
+ case 5:return '<div class="finalsteps"><div>① 合书讲原理</div><div>② 新题独立解</div><div>③ 找到第一处错因</div></div>';
+ case 6:return '<div class="recall"><strong>刷30题 ≠ 掌握</strong><p>隔两天不看答案还会吗？</p></div>';
+ case 7:return '<div class="exam"><span>开启七天实验</span><br>5 学 + 1 休 + 1 盘<br><span>自己验证是否有效</span></div>';
+ }return "";
+}
+function clear(){
+ if(pending){clearTimeout(pending);pending=null;}
+ if(supported)try{window.speechSynthesis.cancel();}catch(e){}
+}
+function show(i){
+ index=Math.max(0,Math.min(items.length-1,i));
+ var x=items[index];
+ stage.classList.remove("enter");void stage.offsetWidth;stage.classList.add("enter");
+ stage.innerHTML='<div class="scene-index">'+x.tag+'</div><h2 class="headline">'+x.title+'</h2><p class="subtitle">'+x.sub+'</p><div class="visual">'+art(x.kind)+'</div><div class="action"><small>今晚可以这样做</small><strong>'+x.action+'</strong></div><div class="footer-meta"><span>学会记住 · 原创学习实验</span><span>0'+(index+1)+' / 09</span></div>';
+ shot.textContent=String(index+1).padStart(2,"0")+" / 09";
+ progress.style.width=((index+1)/items.length*100)+"%";
+ Array.from(list.children).forEach(function(btn,j){if(j===index)btn.setAttribute("aria-current","step");else btn.removeAttribute("aria-current");});
+ prev.disabled=index===0;
+ nxt.disabled=index===items.length-1;
+}
+function setPlaying(on){playing=on;play.textContent=on?"■ 停止朗读":"▶ 播放并朗读";}
+function stop(){seq++;clear();setPlaying(false);status.textContent="已停止。可以选择任意一幕，再次开始。";}
+function nextScene(token){
+ if(!playing||token!==seq)return;
+ if(index===items.length-1){setPlaying(false);status.textContent="八幕播放完成。现在开始一周实验。";return;}
+ show(index+1);readScene();
+}
+function readScene(){
+ if(!playing)return;
+ clear();
+ var token=++seq,x=items[index],start=Date.now(),minimum=index===0?6200:7200;
+ status.textContent="正在播放第 "+(index+1)+" 幕："+x.tag;
+ function complete(){
+  if(token!==seq||!playing)return;
+  var remain=Math.max(350,minimum-(Date.now()-start));
+  pending=setTimeout(function(){nextScene(token);},remain);
+ }
+ if(silent||!supported){pending=setTimeout(function(){nextScene(token);},index===0?7000:8000);return;}
+ try{
+  var u=new SpeechSynthesisUtterance(x.speak);
+  u.lang="zh-CN";u.rate=1.08;u.pitch=1.02;u.volume=1.0;
+  var voices=window.speechSynthesis.getVoices();
+  var voice=voices.find(function(v){return /^zh[-_]CN/i.test(v.lang);})||voices.find(function(v){return /^zh/i.test(v.lang);});
+  if(voice)u.voice=voice;
+  u.onend=complete;
+  u.onerror=function(){status.textContent="设备语音朗读不可用，正在播放静音动画。";if(token===seq){pending=setTimeout(function(){nextScene(token);},8000);}};
+  window.speechSynthesis.speak(u);
+  if(window.speechSynthesis.paused)window.speechSynthesis.resume();
+ }catch(e){status.textContent="设备不支持语音朗读，正在播放静音动画。";pending=setTimeout(function(){nextScene(token);},8000);}
+}
+play.addEventListener("click",function(){if(playing){stop();return;}setPlaying(true);readScene();});
+nxt.addEventListener("click",function(){var on=playing;clear();seq++;show(index+1);if(on)readScene();else status.textContent="第 "+(index+1)+" 幕已就绪。";});
+prev.addEventListener("click",function(){var on=playing;clear();seq++;show(index-1);if(on)readScene();else status.textContent="第 "+(index+1)+" 幕已就绪。";});
+mute.addEventListener("click",function(){silent=!silent;mute.setAttribute("aria-pressed",String(silent));mute.textContent=silent?"🔇 静音播放":"🔊 旁白开启";if(playing){clear();seq++;readScene();}});
+items.forEach(function(x,i){var b=document.createElement("button");b.type="button";b.innerHTML='<span>'+String(i+1).padStart(2,"0")+'</span><strong>'+x.tag+" · "+x.title+'</strong>';b.addEventListener("click",function(){var on=playing;clear();seq++;show(i);if(on)readScene();});list.appendChild(b);});
+window.addEventListener("pagehide",stop);
+show(0);
+if(!supported)status.textContent="此浏览器没有中文语音合成功能，可通过下一幕观看文字动画。";
+})();
+</script>
+</body>
+</html>
