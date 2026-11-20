@@ -6,6 +6,8 @@
 
 **第五章500题：** [分层题库与电子解题过程](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html)
 
+**第一章单元测试（已接入）：** [打开有理数单元试卷](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-1-unit-test.html#/exam)。来自用户上传的独立 HTML 文件，20题、120分（客观题90分，主观过程题30分），含60分钟模拟/不限时练习、错因复盘和历史答卷。该文件是隔离的完整考试页面，**没有覆盖原始第一章课堂或题库**，考试记录单独保存在浏览器。现有第一章旧版导航和新版第一章训练页均已添加入口。程序脚本已通过语法检查，题目配分结构和总分经核对；尚未逐题完成全部人工教学验收。
+
 **511七天数学实验：** [打开七天练习](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/511-week.html)。保留互动练习；511视频因质量未达到要求已撤下，不再展示或推荐。\n\n**学习方法短片（中文旁白）：** [记忆力实验室｜7个习惯·9幕动画](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/memory-lab.html)。独立加入新版首页，不占用五章课程位置；页面支持浏览器内置中文朗读、静音观看和逐幕跳转。视频的固定中文配音 MP4 在本次对话中另行交付；**MP4 文件本身尚未托管到 GitHub Pages，网站使用设备语音合成，不依赖云端接口**。没有改变原始数学练习记录。
 
 **新版内容：** 独立原创课程，不使用开源 `cn-math-taxonomy` 的说明、题库或先修关系作为教学内核。小学桥梁7场、第一章6场、第二章9场、第三章6场、第四章8场、第五章11场，共 **47场互动数学实验＋47道独立迁移题**。第五章另有11道先行判断题，共22道经过计算核验的核心题目。课程训练自主选择、亲手操作数学对象、迁移验证与自主复盘，不以刷题总量考核，不惩罚错误。
