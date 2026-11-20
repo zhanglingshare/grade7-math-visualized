@@ -6,6 +6,8 @@
 
 **第五章500题：** [分层题库与电子解题过程](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html)
 
+**第二、三章单元测试（已接入）：** [第二章·有理数的运算](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-2-unit-test.html#/exam) · [第三章·代数式](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-3-unit-test.html#/exam)。两份均来自本次上传的原始HTML，均为20题120分，支持60分钟模拟与不限时练习、客观题自动判定与过程题人工自评、历史答卷和错因复盘。试卷作为独立文件接入，各自使用独立答卷标识，不覆盖旧版课程、原有数学实验和已保存的练习进度。原题答案与教学解释仍需逐题人工复核；未进行真机或 GitHub Pages 部署验收。
+
 **第一章单元测试（已接入）：** [打开有理数单元试卷](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-1-unit-test.html#/exam)。来自用户上传的独立 HTML 文件，20题、120分（客观题90分，主观过程题30分），含60分钟模拟/不限时练习、错因复盘和历史答卷。该文件是隔离的完整考试页面，**没有覆盖原始第一章课堂或题库**，考试记录单独保存在浏览器。现有第一章旧版导航和新版第一章训练页均已添加入口。程序脚本已通过语法检查，题目配分结构和总分经核对；尚未逐题完成全部人工教学验收。
 
 **511七天数学实验：** [打开七天练习](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/511-week.html)。保留互动练习；511视频因质量未达到要求已撤下，不再展示或推荐。\n\n**学习方法短片（中文旁白）：** [记忆力实验室｜7个习惯·9幕动画](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/memory-lab.html)。独立加入新版首页，不占用五章课程位置；页面支持浏览器内置中文朗读、静音观看和逐幕跳转。视频的固定中文配音 MP4 在本次对话中另行交付；**MP4 文件本身尚未托管到 GitHub Pages，网站使用设备语音合成，不依赖云端接口**。没有改变原始数学练习记录。
