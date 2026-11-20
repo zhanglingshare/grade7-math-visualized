@@ -6,9 +6,7 @@
 
 **第五章500题：** [分层题库与电子解题过程](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html)
 
-**511学习实验（新增）：** [观看8幕中文朗读动画](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/511-video.html) · [开启511七天数学训练](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/511-week.html)。针对抖音“511学习法”重新创作，采用5天短练、1天自由休息、1天复盘的可调整安排，电子练习包含先选等价变形、独立解方程、写出自己的方法、最后一道陌生迁移题。原创63秒中文旁白MP4已在本次对话提供下载，**MP4文件尚未托管在GitHub Pages**；站内动画使用设备自带的中文语音合成。并未核实“央视强推”说法，因此不采用该宣传表述。
-
-**学习方法短片（中文旁白）：** [记忆力实验室｜7个习惯·9幕动画](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/memory-lab.html)。独立加入新版首页，不占用五章课程位置；页面支持浏览器内置中文朗读、静音观看和逐幕跳转。视频的固定中文配音 MP4 在本次对话中另行交付；**MP4 文件本身尚未托管到 GitHub Pages，网站使用设备语音合成，不依赖云端接口**。没有改变原始数学练习记录。
+**511七天数学实验：** [打开七天练习](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/511-week.html)。保留互动练习；511视频因质量未达到要求已撤下，不再展示或推荐。\n\n**学习方法短片（中文旁白）：** [记忆力实验室｜7个习惯·9幕动画](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/memory-lab.html)。独立加入新版首页，不占用五章课程位置；页面支持浏览器内置中文朗读、静音观看和逐幕跳转。视频的固定中文配音 MP4 在本次对话中另行交付；**MP4 文件本身尚未托管到 GitHub Pages，网站使用设备语音合成，不依赖云端接口**。没有改变原始数学练习记录。
 
 **新版内容：** 独立原创课程，不使用开源 `cn-math-taxonomy` 的说明、题库或先修关系作为教学内核。小学桥梁7场、第一章6场、第二章9场、第三章6场、第四章8场、第五章11场，共 **47场互动数学实验＋47道独立迁移题**。第五章另有11道先行判断题，共22道经过计算核验的核心题目。课程训练自主选择、亲手操作数学对象、迁移验证与自主复盘，不以刷题总量考核，不惩罚错误。
 
@@ -21,7 +19,6 @@
 **旧版第四章：** 已依据用户提供的 Grok bot `4.html` 修改后纳入 `animation/chapter-4.html`，保留6课、180道分层固定题以及随机生成题；修复错误的跨章节回查链接，加入第一至第四章统一导航。原始 Grok 文件归档在 [archive](animation/archive/chapter-4-grok-original-20261115.html)。旧版可能涉及原开源图谱许可，署名及授权提示保留，不混进新版原创内容。
 
 **质量门：**
-- `node animation/arena/tests/511-smoke.cjs`：511动画8幕、7天操作、初一六道方程题、主页入口及中文语音朗读。
 - `node animation/arena/tests/memory-lab-smoke.cjs`：9幕动画、中文朗读调用、按钮交互与首页入口。
 - `node animation/tests/chapter-5-grok-smoke.cjs`：第5章旧版8课、240道固定题、4000道随机题抽样、标准答案解析与导航版权信息。
 - `node animation/arena/tests/chapter5-bank-smoke.cjs`：500题数量、章节配比、50类题型、步骤结构与400道解方程／建模题的等式检验。
