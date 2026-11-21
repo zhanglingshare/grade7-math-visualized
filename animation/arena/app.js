@@ -117,7 +117,7 @@
   stop();drag=null;
   const parts=(location.hash.slice(1)||"/").split("/").filter(Boolean);
   if(parts[0]==="play"&&byId.has(parts[1])){current=parts[1];memory.last=current;save();lesson(byId.get(current));}
-  else{current=null;if(parts[0]==="track"&&tr(parts[1]))trackPage(parts[1]);else if(parts[0]==="journal")journal();else home();}
+  else{current=null;if(parts[0]==="track"&&tr(parts[1])){trackTab="learn";trackPage(parts[1]);}else if(parts[0]==="journal")journal();else home();}
   if(typeof window.scrollTo==="function")window.scrollTo(0,0);
  }
  function change(m,value,absolute){
