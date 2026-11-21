@@ -3,7 +3,7 @@
  const D=window.MATH_ARENA,V=window.ARENA_VISUALS,ALL=D.lessons,T=D.tracks;
  const byId=new Map(ALL.map(x=>[x.id,x])),root=document.getElementById("arena-app"),KEY="math-arena-original-v1";
  const E=s=>String(s==null?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
- let memory={drafts:{},records:{},last:""},current=null,drag=null,playing=null;
+ let memory={drafts:{},records:{},last:""},current=null,drag=null,playing=null,trackTab="learn";
  try{const val=JSON.parse(localStorage.getItem(KEY)||"{}");if(val&&typeof val==="object")memory={drafts:val.drafts||{},records:val.records||{},last:val.last||""};}catch(e){}
  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(memory));}catch(e){}};
  const stop=()=>{if(playing!==null){clearInterval(playing);playing=null;}};
@@ -66,8 +66,18 @@
  }
  function trackPage(id){
   const t=tr(id),ls=ALL.filter(x=>x.track===id),groups=[...new Set(ls.map(x=>x.sec))];
-  page(`<div class="arena-track-page"><a class="arena-back" href="#/">← 回到数学训练场</a><header class="arena-topic-header arena-${t.id}"><span>自己选择要挑战的课题</span><h1>${E(t.label)}</h1><p>${E(t.sub)}</p></header><p class="arena-trust">可以跳着学，也可以做过后回来重试。这里不是按顺序通关的题海。</p>${id==="c1"?'<section class="arena-c5-practice-launch"><div><span>第一章·独立检测 · 20题 / 120分</span><strong>有理数单元测试</strong><p>可以限时60分钟，也可以不限时作答；交卷后看解析、错因与复盘。</p></div><a href="../chapter-1-unit-test.html#/exam">进入单元测试 →</a></section>':""}${id==="c2"?'<section class="arena-c5-practice-launch"><div><span>第二章 · 独立检测 · 20题 / 120分</span><strong>有理数运算单元测试</strong><p>运算法则、负数、乘方与科学记数法；交卷后复盘。</p></div><a href="../chapter-2-unit-test.html#/exam">进入单元测试 →</a></section>':""}${id==="c3"?'<section class="arena-c5-practice-launch"><div><span>第三章 · 独立检测 · 20题 / 120分</span><strong>代数式单元测试</strong><p>字母表示数、代数式建模、规律与几何应用；交卷后复盘。</p></div><a href="../chapter-3-unit-test.html#/exam">进入单元测试 →</a></section>':""}${id==="c5"?'<section class="arena-c5-practice-launch"><div><span>进阶训练 · 500道分层题</span><strong>从“看懂”走到“自己会解”</strong><p>逐步设未知数、列方程、写变形、解答和检验。每一步都要亲手完成。</p></div><a href="chapter5-practice.html">进入解题训练 →</a></section>':""}${groups.map((g,i)=>`<section class="arena-module"><h2><small>0${i+1}</small>${E(g)}</h2><div class="arena-module-list">${ls.filter(m=>m.sec===g).map(m=>`<a class="arena-module-lesson" href="${playUrl(m.id)}"><span class="arena-module-mark">${m.scene==="line"?"↔":m.scene==="fractions"?"½":m.scene==="powers"?"²":"✳"}</span><span><strong>${E(m.title)}</strong><small>${E(m.goal)}</small></span><em>${memory.records[m.id]?"已复盘":memory.drafts[m.id]?"可继续":"去试试"} ↗</em></a>`).join("")}</div></section>`).join("")}${id==="c4"?'<div class="arena-track-legacy"><span>还想做分层练习？旧版第四章有6节互动课和180道专项题。</span><a href="../chapter-4.html">去旧版完整练习 ↗</a></div>':""}</div>`);
- }
+  const legacy={c1:"../index.html",c2:"../chapter-2.html",c3:"../chapter-3.html",c4:"../chapter-4.html",c5:"../chapter-5.html"};
+  const exams={c1:"../chapter-1-unit-test.html#/exam",c2:"../chapter-2-unit-test.html#/exam",c3:"../chapter-3-unit-test.html#/exam"};
+  const examUrl=exams[id];
+  const practices={c1:legacy.c1,c2:legacy.c2,c3:legacy.c3,c4:legacy.c4,c5:"chapter5-practice.html"};
+  const practiceName=id==="c5"?"500道方程专项题":id==="c4"?"整式加减 · 分层训练":"本章分层练习与错题诊断";
+  if(!["learn","practice","exam"].includes(trackTab)||(trackTab==="exam"&&!examUrl))trackTab="learn";
+  const lessonHtml=groups.map((g,i)=>`<section class="arena-module"><h2><small>0${i+1}</small>${E(g)}</h2><div class="arena-module-list">${ls.filter(m=>m.sec===g).map(m=>`<a class="arena-module-lesson" href="${playUrl(m.id)}"><span class="arena-module-mark">${m.scene==="line"?"↔":m.scene==="fractions"?"½":m.scene==="powers"?"²":"✳"}</span><span><strong>${E(m.title)}</strong><small>${E(m.goal)}</small></span><em>${memory.records[m.id]?"已复盘":memory.drafts[m.id]?"可继续":"去试试"} ↗</em></a>`).join("")}</div></section>`).join("");
+  const practiceHtml=`<section class="arena-track-gateway"><span>专项训练</span><h2>${E(practiceName)}</h2><p>${id==="c5"?"500题按知识族组织，支持逐步输入和错因回顾。":"旧版课程保留原有分层题库、动画演示和错题诊断。它是补充训练，不会替换这边的思维实验。"}</p><a href="${practices[id]}" class="arena-primary">进入本章专项练习 →</a></section>`;
+  const examHtml=examUrl?`<section class="arena-track-gateway"><span>本章检测 · 20题 / 120分</span><h2>试着独立完成一张试卷</h2><p>可选60分钟模拟或不限时练习；客观题按答案评分，过程题需自己依标准核对。考完先看错在哪。</p><a href="${examUrl}" class="arena-primary">开始第${id.slice(1)}章单元测试 →</a></section>`:"";
+  const tabs=[["learn","① 思维实验"],["practice","② 专项练习"],["exam","③ 单元测试"]];
+  page(`<div class="arena-track-page"><a class="arena-back" href="#/">← 所有章节</a><header class="arena-topic-header arena-${t.id}"><span>本章学习区</span><h1>${E(t.label)}</h1><p>${E(t.sub)}</p></header><nav class="arena-track-tabs" aria-label="本章学习方式">${tabs.map(([key,label])=>key==="exam"&&!examUrl?`<span class="arena-tab-disabled" title="本章单元测试尚未接入">${E(label)} · 待接入</span>`:`<button type="button" data-track-tab="${key}" data-track-id="${id}" class="${trackTab===key?"active":""}" aria-pressed="${trackTab===key}">${E(label)}</button>`).join("")}</nav><div class="arena-track-panel">${trackTab==="learn"?`<p class="arena-trust">先想，再动手，看清原理。想跳过某节，可以直接选。</p>${lessonHtml}`:trackTab==="practice"?practiceHtml:examHtml}</div><div class="arena-track-bottom"><a href="#/">← 换一章</a><details><summary>其他资料（旧版与知识图谱）</summary><div><a href="${legacy[id]}">本章旧版课程</a><a href="../knowledge.html">旧版知识图谱</a></div></details></div></div>`);
+}
  function choices(q,selected,action){
   return `<div class="arena-choices">${q.opts.map((v,i)=>`<button type="button" data-act="${action}" data-index="${i}" class="arena-choice ${selected===i?"selected":""}" aria-pressed="${selected===i}"><span>${"ABC"[i]}</span><b>${E(v)}</b><i>${selected===i?"✓":""}</i></button>`).join("")}</div>`;
  }
@@ -130,6 +140,8 @@
   playing=setInterval(()=>{if(current!==id){stop();return;}i++;change(m,min+Math.round((max-min)*i/frames),true);if(i>=frames)stop();},330);
  }
  root.addEventListener("click",e=>{
+  const tab=e.target.closest?.("[data-track-tab]");
+  if(tab){trackTab=tab.dataset.trackTab;trackPage(tab.dataset.trackId);return;}
   const ch4=e.target.closest?.("[data-ch4-action]");
   if(ch4&&current){
    const m=byId.get(current),d=draft(m),ix=Number(ch4.dataset.index);
