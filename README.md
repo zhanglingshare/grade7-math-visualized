@@ -6,6 +6,8 @@
 
 **第五章500题：** [分层题库与电子解题过程](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/chapter5-practice.html)
 
+**第一至三章考后答案与逐题讲评：** [家长参考 · 60题详细解析](https://zhanglingshare.github.io/grade7-math-visualized/animation/unit-exams-answers.html)。逐题与三份已接入试卷核对，60题题干完全一致；源稿91处旧文件名引用已替换为项目真实页面。答案默认折叠并有交卷确认提示，**不会读取或改写实际答卷分数**，也不代表已经完成全部数学推导的独立复核。入口在新版第一至三章底部“其他资料”中，不挤占孩子主导航。
+
 **第二、三章单元测试（已接入）：** [第二章·有理数的运算](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-2-unit-test.html#/exam) · [第三章·代数式](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-3-unit-test.html#/exam)。两份均来自本次上传的原始HTML，均为20题120分，支持60分钟模拟与不限时练习、客观题自动判定与过程题人工自评、历史答卷和错因复盘。试卷作为独立文件接入，各自使用独立答卷标识，不覆盖旧版课程、原有数学实验和已保存的练习进度。原题答案与教学解释仍需逐题人工复核；未进行真机或 GitHub Pages 部署验收。
 
 **第一章单元测试（已接入）：** [打开有理数单元试卷](https://zhanglingshare.github.io/grade7-math-visualized/animation/chapter-1-unit-test.html#/exam)。来自用户上传的独立 HTML 文件，20题、120分（客观题90分，主观过程题30分），含60分钟模拟/不限时练习、错因复盘和历史答卷。该文件是隔离的完整考试页面，**没有覆盖原始第一章课堂或题库**，考试记录单独保存在浏览器。现有第一章旧版导航和新版第一章训练页均已添加入口。程序脚本已通过语法检查，题目配分结构和总分经核对；尚未逐题完成全部人工教学验收。
