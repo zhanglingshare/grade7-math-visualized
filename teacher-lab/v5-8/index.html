@@ -300,8 +300,8 @@ if(role==="solver")s=student+"，我请解题高手上场，他准备了"+l.meth
 if(role==="thinking")s=student+"，我请思维高手来问一问。思维高手不是让你学超纲公式，而是教你发现题目里值得注意的关系。";
 if(role==="checker")s=student+"，现在请验算高手上场。真正的高手做完还会验算。这些问题你试着自己核对。";
 speech(s,role==="reader"?"listen":role==="thinking"?"think":"explain",false)}
-function openLesson(i){closeRocket();stop();active=i;stepIndex=0;expertPart=0;role="reader";method=0;frame=0;cueIndex=0;trying=false;renderNav();render();expertEnter(role);guideExpertPart(0,false,false);speech(student+"，这道题我请"+EXPERT_CAST[role].name+"来带你做。","listen",false);expertStart()}
-function selectRole(r){if(!invitedExperts().includes(r))return;stop();role=r;expertPart=0;if(r==="thinking")method=2;else if(r==="solver")method=0;render();expertEnter(r);guideExpertPart(0,false,false);renderCoach();expertStart()}
+function openLesson(i){closeRocket();stop();active=i;stepIndex=0;expertPart=0;role="reader";method=0;frame=0;cueIndex=0;trying=false;renderNav();render();expertEnter(role);guideExpertPart(0,false,false);speech(student+"，这道题我请"+EXPERT_CAST[role].name+"来带你做。","listen",false);expertStart(true)}
+function selectRole(r){if(!invitedExperts().includes(r))return;stop();role=r;expertPart=0;if(r==="thinking")method=2;else if(r==="solver")method=0;render();expertEnter(r);guideExpertPart(0,false,false);renderCoach();expertStart(true)}
 
 function methodBox(){var l=lesson();var tabs='<div class="methodTabs">'+l.methods.map(function(m,i){return '<button data-method="'+i+'" class="'+(method===i?"active":"")+'">'+escape(m.name)+'</button>'}).join("")+'</div>';var m=l.methods[method];var cards='<div class="methodCards">'+m.steps.map(function(s,i){return '<div class="methodStep '+(i<=cueIndex?"visited":"")+'"><small>思路 '+(i+1)+' · '+escape(m.type)+'</small><strong>'+escape(s)+'</strong></div>'}).join("")+'</div>';return tabs+cards+'<p class="methodFoot">把文字解法与上面的数学实验和关系图一一对应，卷面写七年级规范方法。</p>'}
 function methodMarkup(){var l=lesson();
@@ -327,11 +327,11 @@ function grade(){var l=lesson(),task=STEP_TASKS[l.id][stepIndex],key=l.id+":"+st
  $("graded").classList.toggle("error",!ok);
  if(ok){
    completedSteps[key]=true;$("graded").textContent="✓ 做对了！"+task.why;$("grade").disabled=true;$("guess").disabled=true;$("nextStep").disabled=false;
-   expertNarrate("做对了！"+task.why+"。接下来你获得了一次火箭机会。你自己选择发射，或者继续下一道题。");setMood("celebrate");
+   expertNarrate("做对了！"+task.why+"。接下来你获得了一次火箭机会。你自己选择发射，或者继续下一道题。",!audioUserMuted);setMood("celebrate");
    offerRocket(key);
  }else{
    $("graded").textContent="先别急着改。线索："+task.hint;
-   expertNarrate("这一问还没对上。我们先找原因："+task.hint+"。慢慢检查，再试一次。");setMood("think");
+   expertNarrate("这一问还没对上。我们先找原因："+task.hint+"。慢慢检查，再试一次。",!audioUserMuted);setMood("think");
  }
 }
 function nextChallenge(){
@@ -340,7 +340,7 @@ function nextChallenge(){
  if(stepIndex<tasks.length-1)stepIndex++;else{active=(active+1)%data.length;stepIndex=0;method=0;cueIndex=0;frame=0;nextLesson=true;renderNav();}
  role=nextLesson?"reader":STEP_TASKS[lesson().id][stepIndex].role;ensureGuest();
  if(role==="thinking")method=2;else if(role==="solver")method=0;
- render();expertEnter(role);expertPart=0;guideExpertPart(0,false,false);renderCoach();expertStart();
+ render();expertEnter(role);expertPart=0;guideExpertPart(0,false,false);renderCoach();expertStart(true);
  speech(student+"，现在进入下一问。跟着高手看高亮文字，再自己完成计算。","listen",false)
 }
 
@@ -365,14 +365,14 @@ view.innerHTML=html;if($("range"))$("range").value=String(Math.round(frame/(l.ki
 function play(){stop();if(cueIndex<CUES[lesson().id].length-1)showCue(cueIndex+1,true,true);else speech(student+"，这道题的动画已经看完。现在尝试自己验证吧。","listen",true)}
 $("lessonbar").addEventListener("click",function(e){var b=e.target.closest("[data-lesson]");if(b)openLesson(Number(b.dataset.lesson))});
 $("experts").addEventListener("click",function(e){var b=e.target.closest("[data-role]");if(b)selectRole(b.dataset.role)});
-$("content").addEventListener("click",function(e){var m=e.target.closest("[data-method]");if(m){method=Number(m.dataset.method);render();expertNarrate("我们换成"+lesson().methods[method].name+"。第一步："+lesson().methods[method].steps[0]+"。你可以边看上面的数学图边听我解释。");return}
+$("content").addEventListener("click",function(e){var m=e.target.closest("[data-method]");if(m){method=Number(m.dataset.method);render();expertNarrate("我们换成"+lesson().methods[method].name+"。第一步："+lesson().methods[method].steps[0]+"。你可以边看上面的数学图边听我解释。",!audioUserMuted);return}
 var id=e.target.id;if(id==="grade")grade();if(id==="nextStep")nextChallenge();if(id==="askStepExpert")selectRole(STEP_TASKS[lesson().id][stepIndex].role)});
 $("content").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="guess")grade()});
 
 $("cueNext").onclick=function(){stop();if(cueIndex+1<CUES[lesson().id].length)showCue(cueIndex+1,true,true)};
 $("cuePrev").onclick=function(){stop();if(cueIndex>0)showCue(cueIndex-1,true,true)};
 $("cueRepeat").onclick=function(){expertCueNarration()};
-$("cueSlider").oninput=function(){stop();showCue(Number(this.value),false,false);expertNarrate("你把动画调到了："+CUES[lesson().id][cueIndex][0]+"。"+CUES[lesson().id][cueIndex][2])};
+$("cueSlider").oninput=function(){stop();showCue(Number(this.value),false,false);expertNarrate("你把动画调到了："+CUES[lesson().id][cueIndex][0]+"。"+CUES[lesson().id][cueIndex][2],!audioUserMuted)};
 $("cuePace").onchange=function(){cuePace=Number(this.value)};
 $("cueAuto").onclick=function(){if(cueAuto){stop();return}cueAuto=true;cueGeneration++;$("cueAuto").textContent="Ⅱ 关闭自动讲解";showCue(cueIndex,true,false)};
 
@@ -390,7 +390,7 @@ function clearRocketTimers(){rocketTimers.forEach(clearTimeout);rocketTimers=[]}
 function offerRocket(id){if(rocketClaimed[id])return;rocketClaimed[id]=true;clearRocketTimers();rocketBusy=false;$("rocketWorld").classList.remove("launched");$("rocketCount").textContent="";$("rocketMessage").textContent="发射由你自己决定，不影响过关。";$("rocketLaunch").disabled=false;$("rocketLaunch").textContent="🚀 我来发射";$("rocketReward").hidden=false}
 function closeRocket(){clearRocketTimers();$("rocketReward").hidden=true;rocketBusy=false}
 function launchRocket(){if(rocketBusy)return;rocketBusy=true;$("rocketLaunch").disabled=true;var n=3;$("rocketCount").textContent=n;
-function countdown(){if(n>1){n--;$("rocketCount").textContent=n;rocketTimers.push(setTimeout(countdown,650))}else{$("rocketCount").textContent="发射！";$("rocketWorld").classList.add("launched");speech(student+"，火箭升空啦！这是你自己解开难题赢来的。想好了就继续挑战下一题。","celebrate",true);rocketTimers.push(setTimeout(function(){$("rocketCount").textContent="升空成功！";$("rocketMessage").textContent="发射完成。可以继续下一道挑战。";$("rocketLaunch").textContent="✓ 已发射"},3200))}}countdown()}
+function countdown(){if(n>1){n--;$("rocketCount").textContent=n;rocketTimers.push(setTimeout(countdown,650))}else{$("rocketCount").textContent="发射！";$("rocketWorld").classList.add("launched");expertNarrate("火箭点火，升空啦！这是你通过自己的努力赢得的发射。接下来，我们继续挑战数学。",!audioUserMuted);setMood("celebrate");rocketTimers.push(setTimeout(function(){$("rocketCount").textContent="升空成功！";$("rocketMessage").textContent="发射完成。可以继续下一道挑战。";$("rocketLaunch").textContent="✓ 已发射"},3200))}}countdown()}
 $("rocketLaunch").onclick=launchRocket;$("rocketSkip").onclick=closeRocket;$("rocketClose").onclick=closeRocket;
 
 
@@ -428,8 +428,8 @@ function guideExpertPart(i,voiceOn,announce){
  showCue(p.at,false,false);$("cueSpeech").textContent=p.detail;
  if(voiceOn) speakExpertPair(announce?(student+"，我请"+EXPERT_CAST[role].name+"来。你跟着屏幕上高亮的文字和动画看。"):"",p.big+"。"+p.detail,role);
 }
-$("expertNext").onclick=function(){guideExpertPart(expertPart+1,false,false);expertNarrate($("focusBig").textContent+"。"+$("focusDetails").textContent)};
-$("expertPrev").onclick=function(){guideExpertPart(expertPart-1,false,false);expertNarrate($("focusBig").textContent+"。"+$("focusDetails").textContent)};
+$("expertNext").onclick=function(){guideExpertPart(expertPart+1,false,false);expertNarrate($("focusBig").textContent+"。"+$("focusDetails").textContent,!audioUserMuted)};
+$("expertPrev").onclick=function(){guideExpertPart(expertPart-1,false,false);expertNarrate($("focusBig").textContent+"。"+$("focusDetails").textContent,!audioUserMuted)};
 
 
 /* Every problem has a child's actionable concept decision before the numeric challenge. */
@@ -476,10 +476,10 @@ function expertNarrate(message,force){
  $("voiceStage").textContent=speakNow?"🔊 高手正在带你学":"安静思考 · 可点击重听";
  if(speakNow)speakExpertPair("",words,role);
 }
-function expertStart(){expertNarrate("你好，我是"+EXPERT_CAST[role].name+"。这一步，我想先问你："+coachingQuestion()[0]+"。请先观察图形，再选择一个答案。")}
+function expertStart(fromTap){expertNarrate("你好，我是"+EXPERT_CAST[role].name+"。这一步，我想先问你："+coachingQuestion()[0]+"。请先观察图形，再选择一个答案。",!!fromTap&&!audioUserMuted)}
 function expertCueNarration(){
  var c=CUES[lesson().id][cueIndex];
- expertNarrate("看到这一步了吗？"+c[0]+"。"+c[2]+"。小心："+c[3]+"。我问你："+c[4]);
+ expertNarrate("看到这一步了吗？"+c[0]+"。"+c[2]+"。小心："+c[3]+"。我问你："+c[4],!audioUserMuted);
 }
 
 /* Separate teacher/guest voice turns; never cancel the guest after the command. */
