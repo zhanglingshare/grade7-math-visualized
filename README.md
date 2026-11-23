@@ -1,5 +1,7 @@
 # 数学思维训练场 · 新版五章 + 小学桥梁
 
+**考试后错漏补缺（2026秋期中卷专项）：** [进入互动训练](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/exam-repair.html)。基于本次提供的期中试卷第10、18、19、21、22、23题构建6个专题、25步独立判断与计算，其中6道原创迁移题必须**自己输入数值/分数**，不提供选择题猜测通关；第23题包含拖动时间、双动点数轴运动与相遇后距离变化动画。题目答案均按原卷定义复核，含进出库净变−12吨、运费1720元，二项式条件m−n=−2、新运算与分支分类等。浏览器单独保存训练进度（`math-exam-repair-2026-v1`），不读取旧学习记录，也不收集学生姓名、考号或卷面照片。新训练仅在新版五章卡片下面设**一个入口**，保留旧版[原卷复盘](https://zhanglingshare.github.io/grade7-math-visualized/exam-labs.html)不覆盖。
+
 **新版统一入口：** https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/
 
 **第五章课程入口：** [第五章 · 一元一次方程（11场互动探索）](https://zhanglingshare.github.io/grade7-math-visualized/animation/arena/#/track/c5)
