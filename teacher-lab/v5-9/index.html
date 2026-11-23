@@ -376,7 +376,7 @@ function challengeBox(){var l=lesson(),tasks=STEP_TASKS[l.id],q=tasks[stepIndex]
 }
 function render(){showLineup();renderCoach();var l=lesson();$("topic").textContent="期中第"+l.id+"题 / "+l.badge;$("title").textContent=l.name+" · "+roles[role];$("origin").textContent=l.origin;
 Array.prototype.forEach.call($("experts").querySelectorAll("button"),function(b){b.classList.toggle("active",b.dataset.role===role)});
-$("content").innerHTML=methodMarkup();$("missionBox").innerHTML=challengeBox();draw();drawRelations();syncFocusUI()}
+$("content").innerHTML=methodMarkup();$("missionBox").innerHTML=challengeBox();$("view").classList.remove("react");draw();drawRelations();syncFocusUI()}
 function parseAnswer(s){return s.replace(/[−–﹣]/g,"-").replace(/[，、；;\s]+/g,",").split(",").filter(Boolean).map(function(x){var m=x.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:\/([+-]?\d+(?:\.\d+)?))?$/);if(!m)return NaN;var den=m[2]===undefined?1:Number(m[2]);return den?Number(m[1])/den:NaN})}
 function grade(){var l=lesson(),task=STEP_TASKS[l.id][stepIndex],key=l.id+":"+stepIndex;
  if(completedSteps[key])return;
@@ -405,10 +405,10 @@ function nextChallenge(){
 function draw(){var l=lesson(),view=$("view");if(!view)return;var n=frame,html="";
 if(l.kind==="line"){var X=function(v){return 35+(v+4)*35};var p=-2+3*n,q=8-2*n;
 var ticks=[];for(var k=-4;k<=12;k+=2){ticks.push('<line x1="'+X(k)+'" x2="'+X(k)+'" y1="114" y2="126" stroke="#acdcf2"/><text x="'+X(k)+'" y="149" fill="#b0ddeb" font-size="13" text-anchor="middle">'+k+'</text>')}
-html='<svg viewBox="0 0 650 205"><line x1="24" y1="120" x2="630" y2="120" stroke="#99dbed" stroke-width="3"/>'+ticks.join("")+'<circle cx="'+X(p)+'" cy="116" r="10" fill="#72e8ff"/><circle cx="'+X(q)+'" cy="116" r="10" fill="#ff9dbb"/><text x="'+X(p)+'" y="89" text-anchor="middle" fill="#8cedfa" font-size="19" font-weight="bold">P='+p.toFixed(1)+'</text><text x="'+X(q)+'" y="184" text-anchor="middle" fill="#ffb4c8" font-size="19" font-weight="bold">Q='+q.toFixed(1)+'</text><text x="325" y="31" text-anchor="middle" fill="#ffda91" font-size="23" font-weight="bold">相距 '+Math.abs(p-q).toFixed(1)+' 格</text></svg>'}
+html='<svg viewBox="0 0 650 205"><line x1="24" y1="120" x2="630" y2="120" stroke="#99dbed" stroke-width="3"/>'+ticks.join("")+'<line x1="'+X(p)+'" y1="63" x2="'+X(q)+'" y2="63" stroke="'+(Math.abs(p-q)===5?"#a1f6c4":"#ffe2a0")+'" stroke-width="5" stroke-linecap="round" opacity=".88"/><text x="'+((X(p)+X(q))/2)+'" y="55" text-anchor="middle" fill="#fff5d7" font-size="12">两点之间</text><circle cx="'+X(p)+'" cy="116" r="10" fill="#72e8ff"/><circle cx="'+X(q)+'" cy="116" r="10" fill="#ff9dbb"/><text x="'+X(p)+'" y="89" text-anchor="middle" fill="#8cedfa" font-size="19" font-weight="bold">P='+p.toFixed(1)+'</text><text x="'+X(q)+'" y="184" text-anchor="middle" fill="#ffb4c8" font-size="19" font-weight="bold">Q='+q.toFixed(1)+'</text><text x="325" y="31" text-anchor="middle" fill="#ffda91" font-size="23" font-weight="bold">相距 '+Math.abs(p-q).toFixed(1)+' 格</text></svg>'}
 else if(l.kind==="matrix"){var k=Math.min(3,Math.floor(n)),last=cueIndex>=4,val=last?["−3m+1","3","−n","−1"]:["−1","2","−3","4"];
 html='<div><div style="display:grid;grid-template-columns:repeat(2,110px);gap:7px">'+val.map(function(v,i){return '<div style="padding:18px 9px;text-align:center;border-radius:10px;background:'+(k===1&&(i===0||i===3)?"#78624d":k===2&&(i===1||i===2)?"#207b85":"#184763")+';border:1px solid #73b6c0;font-size:'+(last?19:24)+'px">'+v+'</div>'}).join("")+'</div><div class="previewSub">'+(last?"第三问：3m+3n−1 = 3(m+n)−1 = −1":(["先确定四格的位置","第一条：左上×右下","第二条：右上×左下","最后用第一条减第二条"][k]))+'</div></div>'}
-else if(l.kind==="area"){var k=Math.min(3,Math.floor(n));html='<svg viewBox="0 0 600 250"><rect x="100" y="20" width="400" height="200" fill="#8bb888" stroke="#efffd4" stroke-width="2"/><rect x="100" y="110" width="400" height="25" fill="'+(k>=1?"#edd8a4":"#8bb888")+'"/><rect x="314" y="20" width="25" height="200" fill="'+(k>=2?"#f0d59a":"#8bb888")+'"/><rect x="314" y="110" width="25" height="25" fill="'+(k>=3?"#d87b4f":"#e7d9ab")+'"/><text x="300" y="245" text-anchor="middle" fill="#ddedfd">长 a · 宽 b · 两条路都宽 1</text>'+(k>=3?'<text x="382" y="105" fill="#ffd693" font-size="17">交叉处加回1</text>':"")+'</svg>'}
+else if(l.kind==="area"){var k=Math.min(3,Math.floor(n));html='<svg viewBox="0 0 600 250"><rect x="100" y="20" width="400" height="200" fill="#8bb888" stroke="#efffd4" stroke-width="2"/><rect x="100" y="110" width="400" height="25" fill="'+(k>=1?"#edd8a4":"#e0c999a8")+'"/><rect x="314" y="20" width="25" height="200" fill="'+(k>=2?"#f0d59a":"#e0c999a8")+'"/><rect x="314" y="110" width="25" height="25" fill="'+(k>=3?"#d87b4f":"#e7d9ab")+'"/><text x="300" y="245" text-anchor="middle" fill="#ddedfd">长 a · 宽 b · 两条路都宽 1</text>'+(k>=3?'<text x="382" y="105" fill="#ffd693" font-size="17">交叉处加回1</text>':"")+'</svg>'}
 else if(l.kind==="powers"){var k=Math.min(3,Math.floor(n));var display=[
 '<div class="powerViz"><div class="powerFactors"><span>−1</span></div><b>一个负一：结果 −1</b><small>观察负号与括号</small></div>',
 '<div class="powerViz"><div class="powerFactors"><span>−1</span><em>×</em><span>−1</span><em>=</em><span class="positive">+1</span></div><b>负负得正</b><small>偶数个负数可以两两配对</small></div>',
@@ -511,7 +511,7 @@ function coachRespond(i){
  }else{
    coachFailed[key]=(coachFailed[key]||0)+1;
    var hint=coachFailed[key]>=2?STEP_TASKS[lesson().id][stepIndex].hint:"先看看图上的关键条件。";
-   $("coachFeedback").textContent="再想一下："+hint;
+   $("coachFeedback").textContent="你选了"+("ABC"[i])+" · "+q[1][i]+"。再看图想想："+hint;
    $("coachChoices").querySelectorAll("[data-pick]").forEach(function(b,j){b.classList.toggle("incorrect",j===i)});
    coachSay("先不用着急，"+hint+"。你再选一次。",!audioUserMuted);
  }
@@ -547,7 +547,8 @@ function syncFocusUI(){
  var labels={respond:"请看图，再选一个答案",feedback:"答对了！看图怎么变化，再决定下一步",solve:"轮到你：请在下方输入算出来的答案",finish:"这一问过关，继续或者发射火箭"};
  $("stageLead").textContent=labels[phase];
  $("stageLookLabel").textContent=phase==="respond"?"👀 看这幅数学图":phase==="feedback"?"✨ 图正在回应你":phase==="solve"?"✍️ 轮到你计算":"🚀 完成这一步";
- $("stageLookText").textContent=phase==="respond"?"答案就在图正下方":phase==="feedback"?"下一步：自己计算":phase==="solve"?"下方就是独立题":"火箭由你选择";
+ var pointers={"23":"请看蓝色P和粉色Q之间的亮线","22":"看四格内两条交叉对角线","20":"盯住两条道路的交叉小方格","19":"看看两个负一能否配成一对","18":"看中间项与字母指数","21":"正柱是入库，负柱是出库","10":"输入与每次输出的序号要对齐"};
+ $("stageLookText").textContent=phase==="respond"?pointers[lesson().id]:phase==="feedback"?"发亮的部分正在表达这一问的关系":phase==="solve"?"现在自己填写数字":"自己选择是否发射";
  var seq=["respond","feedback","solve","finish"],pos=seq.indexOf(phase);
  Array.prototype.forEach.call($("stageRail").querySelectorAll("[data-stage]"),function(node){var p=seq.indexOf(node.dataset.stage);node.classList.toggle("current",p===pos);node.classList.toggle("done",p<pos)});
  $("coachToSolve").hidden=!passed||open;$("coachDirect").hidden=open;$("coachBack").hidden=!open;$("missionDock").hidden=!open;
