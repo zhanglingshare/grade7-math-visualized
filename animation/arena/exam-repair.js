@@ -50,7 +50,7 @@ try{const parsed=JSON.parse(localStorage.getItem(KEY)||"{}");if(parsed&&typeof p
 let active=byId[(location.hash||"").replace("#","")]?(location.hash||"").replace("#",""):store.last;
 let selected=null,typed="",verified=false,feedback="",bad=false,time=0,playing=null;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
-function stopMovie(){if(playing){clearInterval(playing);playing=null;}}
+function stopMovie(){if(playing){clearInterval(playing);playing=null;}window.EXAM_REPAIR_VISUALS?.stop();}
 function doneCount(){return missions.filter(m=>store.done[m.id]).length}
 function renderMap(){
  const n=doneCount();el.stat.textContent=n+" / "+missions.length+" 个实验通过";el.fill.style.width=(100*n/missions.length)+"%";
