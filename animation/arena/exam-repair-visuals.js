@@ -71,7 +71,7 @@ function q21(){
  '<div class="viz-ledger-bars">'+bars+'</div><div class="viz-metrics">'+
  '<span>净变化 <b class="'+(total<0?"viz-negative":"viz-good")+'">'+(total>0?"+":"")+total+' 吨</b></span>'+
  '<span>运进 <b>'+incoming+' 吨</b></span><span>运出 <b>'+outgoing+' 吨</b></span></div>'+
- '<div class="viz-message '+(p===5?"pass":"")+'">'+(p===0?"每一栏的数先乘次数，再沿正负方向累加。":p===5?"五笔完成。净变化 −12 吨；费用按实际搬运量：8×40+20×'+outwardFee+'='+(8*40+20*outwardFee)+' 元。":"已处理 "+p+" 笔；下一笔是："+labels[p])+'</div>'+controls();
+ '<div class="viz-message '+(p===5?"pass":"")+'">'+(p===0?"每一栏的数先乘次数，再沿正负方向累加。":p===5?`五笔完成。净变化 −12 吨；费用按实际搬运量：8×40+20×${outwardFee}=${8*40+20*outwardFee} 元。`:"已处理 "+p+" 笔；下一笔是："+labels[p])+'</div>'+controls();
 }
 function q10(){
  const p=state.frame,nums=state.step>=2?[96,48,24,12,6,3,6,3,6,3,6]:[48,24,12,6,3,6,3,6,3,6,3],x=nums[p],next=p<10?nums[p+1]:nums[9];
