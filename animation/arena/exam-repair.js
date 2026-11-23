@@ -60,8 +60,9 @@ function renderMap(){
  }).join("");
 }
 function sceneHTML(m){
+ if(m.id!=="q23" && window.EXAM_REPAIR_VISUALS)return window.EXAM_REPAIR_VISUALS.render(m.id,store.steps[m.id]||0);
  if(m.id==="q23"){
-  return '<div class="timeline"><svg class="line-svg" id="line-svg" viewBox="0 0 620 200" role="img" aria-label="两动点运动数轴"><line x1="32" y1="89" x2="592" y2="89" stroke="#9babb3" stroke-width="3" stroke-linecap="round"/><path d="M592 89 L580 81 L580 97 Z" fill="#9babb3"/><g id="ticks"></g><line id="distance" y1="59" y2="59" x1="0" x2="0" stroke="#f4c696" stroke-width="2" stroke-dasharray="5 4"/><circle id="pointP" r="10" cy="89" cx="0" fill="#ffac76" stroke="#112c3d" stroke-width="2"/><circle id="pointQ" r="10" cy="89" cx="0" fill="#7ee7cd" stroke="#112c3d" stroke-width="2"/><text id="nameP" y="49" text-anchor="middle" font-size="18" font-weight="850" fill="#ffbf8e">P</text><text id="nameQ" y="139" text-anchor="middle" font-size="18" font-weight="850" fill="#92f1d8">Q</text><text id="posP" y="31" text-anchor="middle" font-size="13" fill="#ffdab6"></text><text id="posQ" y="161" text-anchor="middle" font-size="13" fill="#baf5e4"></text><text x="310" y="194" text-anchor="middle" font-size="12" fill="#95b4bb">原点、方向和单位不变</text></svg><div class="timecontrols"><label><b>拖动时间，亲眼验证</b><span id="timeval">0.0 秒</span></label><input type="range" id="timerange" min="0" max="4" step="0.1" value="'+time+'" '+((store.steps[m.id]||0)<2?"disabled":"")+' aria-label="模拟时间"><div class="time-actions"><button id="playmove" type="button" '+((store.steps[m.id]||0)<2?"disabled":"")+'>▶ 演示运动</button><small id="distancetext">距离：10单位</small></div></div></div>';
+  return '<div class="timeline"><svg class="line-svg" id="line-svg" viewBox="0 0 620 200" role="img" aria-label="两动点运动数轴"><line x1="32" y1="89" x2="592" y2="89" stroke="#9babb3" stroke-width="3" stroke-linecap="round"/><path d="M592 89 L580 81 L580 97 Z" fill="#9babb3"/><g id="ticks"></g><line id="distance" y1="59" y2="59" x1="0" x2="0" stroke="#f4c696" stroke-width="2" stroke-dasharray="5 4"/><circle id="pointP" r="10" cy="89" cx="0" fill="#ffac76" stroke="#112c3d" stroke-width="2"/><circle id="pointQ" r="10" cy="89" cx="0" fill="#7ee7cd" stroke="#112c3d" stroke-width="2"/><text id="nameP" y="49" text-anchor="middle" font-size="18" font-weight="850" fill="#ffbf8e">P</text><text id="nameQ" y="139" text-anchor="middle" font-size="18" font-weight="850" fill="#92f1d8">Q</text><text id="posP" y="31" text-anchor="middle" font-size="13" fill="#ffdab6"></text><text id="posQ" y="161" text-anchor="middle" font-size="13" fill="#baf5e4"></text><text x="310" y="194" text-anchor="middle" font-size="12" fill="#95b4bb">原点、方向和单位不变</text></svg><div class="timecontrols"><label><b>拖动时间，亲眼验证</b><span id="timeval">0.0 秒</span></label><input type="range" id="timerange" min="0" max="4" step="0.1" value="'+time+'" aria-label="模拟时间"><div class="time-actions"><button id="playmove" type="button">▶ 演示运动</button><small id="distancetext">距离：10单位</small></div></div></div>';
  }
  if(m.id==="q22"){
   const s=store.steps[m.id]||0;
@@ -93,7 +94,7 @@ function redrawNumberLine(){
  $("posP").textContent="P="+fmt(P);$("posQ").textContent="Q="+fmt(Q);
  $("distance").setAttribute("x1",pxP);$("distance").setAttribute("x2",pxQ);
  $("timeval").textContent=time.toFixed(1)+" 秒";
- $("distancetext").textContent="距离："+fmt(Math.abs(P-Q))+"单位";
+ $("distancetext").textContent="距离："+fmt(Math.abs(P-Q))+"单位"+(Math.abs(P-Q)<0.05?" · 相遇！":Math.abs(Math.abs(P-Q)-5)<0.05?" · 相距原来的半程":"");
 }
 function paint(){
  const m=byId[active];if(!m)return;stopMovie();renderMap();
@@ -110,6 +111,7 @@ function paint(){
    '<div class="actions">'+(verified?'<button class="btn dark" data-action="advance">'+(n===m.steps.length-1?"完成本关":"进入下一步 →")+'</button>':'<button class="btn" data-action="check" '+((step.free?!typed.trim():selected===null)?"disabled":"")+'>验证我的判断</button>')+'<button class="btn secondary" data-action="reset-step">重新想</button></div><p class="task-tip">错了可以再试，没有扣分。最后一道是换条件、独立写出数值的新题。</p>';
  }
  if(m.id==="q23")redrawNumberLine();
+ else window.EXAM_REPAIR_VISUALS?.mount(m.id,store.steps[m.id]||0);
 }
 function openMission(id){
  if(!byId[id])return;active=id;store.last=id;selected=null;typed="";verified=false;bad=false;feedback="";time=0;stopMovie();save();paint();
@@ -160,12 +162,12 @@ el.task.addEventListener("click",e=>{
 el.task.addEventListener("input",e=>{if(e.target.id==="free-answer"){typed=e.target.value;const b=el.task.querySelector('[data-action="check"]');if(b)b.disabled=!typed.trim();}});
 el.task.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="free-answer"){e.preventDefault();verify();}});
 el.scene.addEventListener("input",e=>{if(e.target.id==="timerange"){stopMovie();time=Number(e.target.value);redrawNumberLine();}});
-el.scene.addEventListener("click",e=>{if(e.target.closest("#playmove")){if((store.steps.q23||0)<2)return;
- if(playing){stopMovie();e.target.textContent="▶ 演示运动";return;}
+el.scene.addEventListener("click",e=>{if(e.target.closest("#playmove")){if(playing){stopMovie();e.target.textContent="▶ 演示运动";return;}
  time=0;redrawNumberLine();const b=e.target;b.textContent="■ 暂停";
  playing=setInterval(()=>{time=Math.min(4,Math.round((time+.1)*10)/10);const range=$("timerange");if(range)range.value=String(time);redrawNumberLine();if(time>=4){stopMovie();const now=$("playmove");if(now)now.textContent="▶ 重新播放";}},100);}});
 window.addEventListener("pagehide",stopMovie);
 window.addEventListener("hashchange",()=>{const id=(location.hash||"").slice(1);if(byId[id]&&id!==active)openMission(id);});
+window.EXAM_REPAIR_VISUALS?.init();
 window.EXAM_REPAIR_TEST={missions,openMission,progress:()=>({done:doneCount(),step:{...store.steps},attempts:{...store.attempts}}),correctStep:()=>{const m=byId[active];if(!m)return;const step=m.steps[store.steps[active]||0];if(step.free)typed=step.expected.join(",");else selected=step.answer;verify();},advance};
 openMission(active);
 })();
