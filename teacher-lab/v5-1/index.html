@@ -144,7 +144,25 @@ function speech(text,pose,auto){lastWords=text;$("speech").textContent=text;setM
 function setMood(pose){["listen","explain","think","celebrate"].forEach(function(m){$("m"+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle("show",m===pose)});$("portraitStage").dataset.mood=pose;$("moodChip").textContent={listen:"认真倾听",explain:"引导讲解",think:"陪你思考",celebrate:"为你高兴"}[pose];if(moodTimer)clearTimeout(moodTimer);if(pose==="celebrate")moodTimer=setTimeout(function(){setMood("listen")},5200)}
 function voice(text){if(!window.speechSynthesis||!window.SpeechSynthesisUtterance)return;try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="zh-CN";u.rate=rate;u.pitch=1.07;var vs=speechSynthesis.getVoices();u.voice=vs.find(function(x){return /^zh/i.test(x.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei|yaoyao/i.test(x.name)})||vs.find(function(x){return /^zh/i.test(x.lang)})||null;u.onstart=function(){$("portraitStage").classList.add("speaking")};u.onend=u.onerror=function(){$("portraitStage").classList.remove("speaking")};speechSynthesis.speak(u)}catch(e){$("portraitStage").classList.remove("speaking")}}
 function lesson(){return data[active]}
-function stop(){if(timer){clearInterval(timer);timer=null}playing=false}
+
+function stopMotion(){if(frameMotion!==null){cancelAnimationFrame(frameMotion);frameMotion=null}}
+function stop(){if(timer){clearInterval(timer);timer=null}playing=false;stopMotion();cueAuto=false;cueGeneration++;if(cueTimer){clearTimeout(cueTimer);cueTimer=null}if($("cueAuto"))$("cueAuto").textContent="▶ 自动讲解：关"}
+function moveFrame(target,animate){stopMotion();if(!animate||Math.abs(frame-target)<.01){frame=target;draw();return}var from=frame,start=performance.now(),duration=1300;function tick(now){var x=Math.min(1,(now-start)/duration),t=x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;frame=from+(target-from)*t;draw();if(x<1)frameMotion=requestAnimationFrame(tick);else{frame=target;frameMotion=null;draw()}}frameMotion=requestAnimationFrame(tick)}
+function drawRelations(){var nodes=RELATIONS[lesson().id],focus=Math.min(nodes.length-1,Math.floor(cueIndex*nodes.length/CUES[lesson().id].length));$("relationFlow").innerHTML=nodes.map(function(n,i){return (i?'<span class="relationArrow" aria-hidden="true">›</span>':'')+'<div class="relationNode '+(i===focus?"focus":"")+'"><b>'+escape(n[0])+'</b><small>'+escape(n[1])+'</small></div>'}).join("")}
+function showCue(i,read,animated){
+ var items=CUES[lesson().id];cueIndex=Math.max(0,Math.min(items.length-1,i));var c=items[cueIndex];
+ $("cueCount").textContent="关键步骤 "+(cueIndex+1)+" / "+items.length;
+ $("cueSlider").max=String(items.length-1);$("cueSlider").value=String(cueIndex);
+ $("cueBadge").textContent=cueIndex===0?"先观察":cueIndex===items.length-1?"独立核验":"关键停顿";
+ $("cueTitle").textContent=c[0];$("cueSpeech").textContent=c[2];$("cuePredict").textContent="💭 先思考："+c[4];
+ $("cueMistake").textContent="⚠ 易错提醒："+c[3];
+ $("cuePrev").disabled=cueIndex===0;$("cueNext").disabled=cueIndex===items.length-1;
+ $("cueNext").textContent=cueIndex===items.length-1?"演示结束 ✓":"下一步 →";
+ moveFrame(c[1],animated);drawRelations();
+ document.querySelectorAll(".methodStep").forEach(function(el,k){el.classList.toggle("visited",k<=cueIndex)});
+ if(read){speech(c[2],cueIndex===items.length-1?"celebrate":"explain",true);if(cueAuto){var v=cueGeneration,delay=Math.max(cuePace,Math.min(16000,c[2].length*205));cueTimer=setTimeout(function advance(){if(!cueAuto||v!==cueGeneration)return;if(window.speechSynthesis&&speechSynthesis.speaking){cueTimer=setTimeout(advance,1200);return}if(cueIndex<items.length-1)showCue(cueIndex+1,true,true);else stop()},delay)}}
+}
+
 function renderNav(){$("lessonbar").innerHTML=data.map(function(x,i){return '<button data-lesson="'+i+'" class="'+(i===active?"active":"")+'"><small>期中第'+x.id+'题 · '+x.badge+'</small>'+x.name+'</button>'}).join("")}
 
 var EXPERT_CAST={"reader":{"name":"审题高手·宁老师","skin":"#f1c5a4","hair":"#393149","coat":"#4a9ea4","line":"我先把已知条件、所求问题、容易遗漏的限制找出来。","intro":"审题"},"visual":{"name":"动画高手·乐乐","skin":"#efb998","hair":"#4a3529","coat":"#d59c65","line":"我把抽象的变化做成动画；关键点停下来让你先预测。","intro":"演示"},"solver":{"name":"解题高手·周老师","skin":"#edc3a0","hair":"#252f44","coat":"#7f88c2","line":"一题可以有三条思路，但作答计算一定按七年级的方法。","intro":"规范书写"},"thinking":{"name":"思维高手·小航","skin":"#f0bb9e","hair":"#313b4e","coat":"#397cb1","line":"我会追问为什么、还有没有另一种情况，绝不偷用超纲公式。","intro":"发现规律"},"checker":{"name":"验算高手·沈老师","skin":"#f1c6a9","hair":"#3c4649","coat":"#7ca27a","line":"把答案代回去核对，看是否忘了一个条件或少写一种情况。","intro":"检查"}};
@@ -167,19 +185,22 @@ if(role==="solver")s=student+"，我请解题高手上场，他准备了"+l.meth
 if(role==="thinking")s=student+"，我请思维高手来问一问。思维高手不是让你学超纲公式，而是教你发现题目里值得注意的关系。";
 if(role==="checker")s=student+"，现在请验算高手上场。真正的高手做完还会验算。这些问题你试着自己核对。";
 speech(s,role==="reader"?"listen":role==="thinking"?"think":"explain",true)}
-function openLesson(i){stop();active=i;role="reader";method=0;frame=0;trying=false;renderNav();render();speech(student+"，我们来研究期中第"+lesson().id+"题。先读清条件，再请高手演示，不着急抄答案。","listen",true)}
-function selectRole(r){stop();role=r;if(r==="thinking")method=2;else if(r==="solver")method=0;render();expertEnter(r);sayRole();if(r==="visual")setTimeout(function(){if(role==="visual")speech(student+"，我已经请演示高手就位。现在先看第一步，想清楚再继续。","explain",true)},350)}
-function methodBox(){var l=lesson();var b='<div class="methodTabs">'+l.methods.map(function(m,i){return '<button data-method="'+i+'" class="'+(method===i?"active":"")+'">'+escape(m.name)+'</button>'}).join("")+'</div>';var m=l.methods[method];b+='<div class="ruleBox"><div class="topic">'+escape(m.type)+'</div><ol>'+m.steps.map(function(t){return '<li>'+escape(t)+'</li>'}).join("")+'</ol></div>';return b}
-function methodMarkup(){var l=lesson();if(role==="reader")return '<div class="ruleBox"><p><strong>审题高手提炼：</strong>'+escape(l.read)+'</p><p class="hintline">最容易踩的坑：'+escape(l.focus)+'</p></div><div class="higher">高手先问三个问题：哪些量已知？题目最终要求什么？有哪些条件容易遗漏？</div>';
-if(role==="visual")return '<div class="view" id="view"></div><div class="democtrl"><button id="play">▶ 动画演示</button><button id="pause">Ⅱ 暂停</button><button id="replay">↺ 从头看</button><input type="range" min="0" max="100" value="0" id="range" aria-label="动画进度"><span id="vtime"></span></div><div class="previewSub">'+escape(l.visual)+'</div><div class="higher">看完动画，请先自己描述变化，而不是直接抄后面的解法。</div>';
-if(role==="solver")return methodBox()+'<div class="higher">可以查看'+l.methods.length+'种不同思路。真正写在七年级试卷上时，优先采用第一种规范解法。</div>';
-if(role==="thinking")return '<div class="ruleBox"><p><strong>思维高手看的是“为什么”： </strong>'+escape(l.focus)+'</p></div>'+methodBox()+'<div class="higher">“思维超前”只训练观察、结构、反例与分情况，正式答案仍用当前学段允许的计算。</div>';
-if(role==="checker")return '<div class="ruleBox"><ol>'+l.check.split("；").map(function(x){return '<li>'+escape(x)+'</li>'}).join("")+'</ol></div><div class="higher">验算高手提醒：对的答案也要能解释从哪里来；错的答案先检查条件是否遗漏。</div>';
+function openLesson(i){stop();active=i;role="reader";method=0;frame=0;cueIndex=0;trying=false;renderNav();render();expertEnter(role);showCue(0,false,false);speech(student+"，我们来研究期中第"+lesson().id+"题。我先请审题高手上场，再让动画高手演示。关键步骤都会停下来。","listen",true)}
+function selectRole(r){stop();role=r;if(r==="thinking")method=2;else if(r==="solver")method=0;render();expertEnter(r);showCue(cueIndex,false,false);sayRole();if(r==="visual")setTimeout(function(){if(role==="visual")speech(student+"，演示高手已经就位。我们先看这一帧，想清楚再点下一步；不用着急。","explain",true)},350)}
+
+function methodBox(){var l=lesson();var tabs='<div class="methodTabs">'+l.methods.map(function(m,i){return '<button data-method="'+i+'" class="'+(method===i?"active":"")+'">'+escape(m.name)+'</button>'}).join("")+'</div>';var m=l.methods[method];var cards='<div class="methodCards">'+m.steps.map(function(s,i){return '<div class="methodStep '+(i<=cueIndex?"visited":"")+'"><small>思路 '+(i+1)+' · '+escape(m.type)+'</small><strong>'+escape(s)+'</strong></div>'}).join("")+'</div>';return tabs+cards+'<p class="methodFoot">把文字解法与上面的数学实验和关系图一一对应，卷面写七年级规范方法。</p>'}
+function methodMarkup(){var l=lesson();
+if(role==="reader")return '<div class="ruleBox"><p><strong>审题高手：</strong>'+escape(l.read)+'</p><p class="hintline">特别留意：'+escape(l.focus)+'</p></div><div class="higher">观察上面的关系图，弄清已知、变化与所求，再往下走。</div>';
+if(role==="visual")return '<div class="ruleBox"><p>请使用上面的“下一步”，观察真正发生的数学变化，关键点停下来预测。需要时可开启自动讲解。</p></div>';
+if(role==="solver")return methodBox();
+if(role==="thinking")return '<div class="ruleBox"><p><b>思维高手问：</b>'+escape(l.focus)+'</p></div>'+methodBox()+'<div class="higher">只提升观察、分类、验证方式，计算和正式书写仍不超纲。</div>';
+if(role==="checker")return '<div class="ruleBox"><p><b>验算高手：</b>'+escape(l.check)+'</p></div><div class="higher">答题之后别急着结束：代回去核对，并检查有没有漏掉另一种情况。</div>';
 return ""}
+
 function challengeBox(){var l=lesson();return '<div class="quest"><div class="topic">独立过关 · 新数字 / 新条件</div><h3>'+escape(l.challenge)+'</h3><div class="inputRow"><input id="guess" autocomplete="off" placeholder="写下答案；两项用逗号隔开"><button class="gold" id="grade">检查答案</button></div><div id="graded" class="result"></div><p class="previewSub">请先自己尝试。答错时只给线索；想看完整解答，再切换“解题高手”。</p></div>'}
-function render(){var l=lesson();$("topic").textContent="期中第"+l.id+"题 / "+l.chapter;$("title").textContent=l.name+" · "+roles[role];$("origin").textContent=l.origin;
+function render(){var l=lesson();$("topic").textContent="期中第"+l.id+"题 / "+l.badge;$("title").textContent=l.name+" · "+roles[role];$("origin").textContent=l.origin;
 Array.prototype.forEach.call($("experts").querySelectorAll("button"),function(b){b.classList.toggle("active",b.dataset.role===role)});
-$("content").innerHTML=methodMarkup()+challengeBox();if(role==="visual")draw()}
+$("content").innerHTML=methodMarkup()+challengeBox();draw();drawRelations()}
 function parseAnswer(s){return s.replace(/[−–﹣]/g,"-").replace(/[，、；;\s]+/g,",").split(",").filter(Boolean).map(function(x){var m=x.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:\/([+-]?\d+(?:\.\d+)?))?$/);if(!m)return NaN;var den=m[2]===undefined?1:Number(m[2]);return den?Number(m[1])/den:NaN})}
 function grade(){var l=lesson(),raw=$("guess").value,ans=parseAnswer(raw);var key=l.answer.slice().sort(function(a,b){return a-b});var ok=ans.length===key.length&&ans.every(function(a){return isFinite(a)})&&ans.sort(function(a,b){return a-b}).every(function(x,i){return Math.abs(x-key[i])<1e-6});$("graded").classList.toggle("error",!ok);$("graded").textContent=ok?"✓ 正确！"+l.proof:"还没对。"+l.hint+" 先自己再试一次。";speech(ok?student+"，漂亮！这是你自己想出来的。你获得一次火箭发射机会，发不发射由你决定。":student+"，这次没对上。先看一个关键线索："+l.hint+"，你再试试。",ok?"celebrate":"think",true);if(ok&&!rocketClaimed[l.id])setTimeout(function(){offerRocket()},550)}
 function draw(){var l=lesson(),view=$("view");if(!view)return;var n=frame,html="";
@@ -193,13 +214,20 @@ else if(l.kind==="terms"){var k=Math.min(3,Math.floor(n));html='<div style="text
 else if(l.kind==="warehouse"){var xs=[-8,5,-6,3,-6],k=Math.min(5,Math.floor(n));var sum=xs.slice(0,k).reduce(function(a,b){return a+b},0);html='<div><div style="display:flex;align-items:flex-end;gap:8px;height:150px">'+xs.map(function(v,i){return '<div style="height:'+(30+Math.abs(v)*11)+'px;width:49px;opacity:'+(i<k?1:.19)+';background:'+(v<0?"#c28170":"#58baa7")+';border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;font-weight:bold">'+(v>0?"+":"")+v+'</div>'}).join("")+'</div><div class="previewSub">已计算 '+k+' 笔，库存净变化 '+sum+' 吨</div></div>'}
 else {var seq=[48,24,12,6,3,6,3,6,3,6],k=Math.min(9,Math.floor(n));html='<div><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">'+seq.slice(0,k+1).map(function(v,i){return '<span style="padding:14px;background:'+(i===k?"#327e78":"#1c4c71")+';border:1px solid #59a2ab;border-radius:8px;font-size:23px">'+v+'</span>'}).join("")+'</div><div class="previewSub">第'+k+'次输出（第0项是输入起点）</div></div>'}
 view.innerHTML=html;if($("range"))$("range").value=String(Math.round(frame/(l.kind==="line"?4:l.kind==="warehouse"?5:l.kind==="sequence"?9:3)*100));if($("vtime"))$("vtime").textContent=l.kind==="line"?n.toFixed(1)+"秒":"第"+Math.floor(n)+"步"}
-function play(){stop();var l=lesson();frame=0;draw();playing=true;var max=l.kind==="line"?4:l.kind==="warehouse"?5:l.kind==="sequence"?9:3;timer=setInterval(function(){frame=Math.min(max,frame+(l.kind==="line"?.1:1));draw();if(frame>=max){stop();speech(student+"，演示看完了。先试着自己解释这道题，或者点验算高手检查。","listen",true)}},l.kind==="line"?140:850)}
+function play(){stop();if(cueIndex<CUES[lesson().id].length-1)showCue(cueIndex+1,true,true);else speech(student+"，这道题的动画已经看完。现在尝试自己验证吧。","listen",true)}
 $("lessonbar").addEventListener("click",function(e){var b=e.target.closest("[data-lesson]");if(b)openLesson(Number(b.dataset.lesson))});
 $("experts").addEventListener("click",function(e){var b=e.target.closest("[data-role]");if(b)selectRole(b.dataset.role)});
 $("content").addEventListener("click",function(e){var m=e.target.closest("[data-method]");if(m){method=Number(m.dataset.method);render();speech(student+"，我们切换到"+lesson().methods[method].name+"。你要比较的不是谁的公式更高级，而是哪种思路更容易看清题目。","explain",true);return}
-var id=e.target.id;if(id==="grade")grade();if(id==="play")play();if(id==="pause")stop();if(id==="replay")play()});
+var id=e.target.id;if(id==="grade")grade()});
 $("content").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="guess")grade()});
-$("content").addEventListener("input",function(e){if(e.target.id==="range"){stop();frame=Number(e.target.value)/100*(lesson().kind==="line"?4:lesson().kind==="warehouse"?5:lesson().kind==="sequence"?9:3);draw()}});
+
+$("cueNext").onclick=function(){stop();if(cueIndex+1<CUES[lesson().id].length)showCue(cueIndex+1,true,true)};
+$("cuePrev").onclick=function(){stop();if(cueIndex>0)showCue(cueIndex-1,true,true)};
+$("cueRepeat").onclick=function(){speech(CUES[lesson().id][cueIndex][2],"explain",true)};
+$("cueSlider").oninput=function(){stop();showCue(Number(this.value),true,false)};
+$("cuePace").onchange=function(){cuePace=Number(this.value)};
+$("cueAuto").onclick=function(){if(cueAuto){stop();return}cueAuto=true;cueGeneration++;$("cueAuto").textContent="Ⅱ 关闭自动讲解";showCue(cueIndex,true,false)};
+
 $("sound").onclick=function(){muted=!muted;$("sound").textContent=muted?"🔊 开启林老师声音":"🔈 关闭林老师声音";speech(student+"，你好！林老师会在选题、启动演示、切换解题高手以及答题反馈时陪你说话。","explain",true);if(muted&&window.speechSynthesis)speechSynthesis.cancel()};
 $("quiet").onclick=function(){stop();if(window.speechSynthesis)speechSynthesis.cancel();speech(student+"，好的。现在先由你独立思考，我安静地陪你。","listen",false)};
 $("repeat").onclick=function(){voice(lastWords||$("speech").textContent)};
@@ -207,7 +235,7 @@ $("slower").onclick=function(){rate=rate===.88?.73:.88;speech(student+"，我现
 $("hint").onclick=function(){speech(student+"，我只给你一个关键线索："+lesson().challenge.split("：")[0]+"。"+lesson().hint,"think",true)};
 $("myTurn").onclick=function(){selectRole("checker");speech(student+"，轮到你了。试着先写下结果，再用自己的方法检查。","listen",true)};
 $("changeName").onclick=function(){var x=prompt("林老师应该怎样称呼你？",student);if(x!==null){student=x.trim().slice(0,12)||"同学";try{localStorage.setItem(storeKey,student)}catch(e){}$("welcome").textContent=student+"，今天我们练高手的解题方法。";speech("你好，"+student+"，接下来我们继续挑战。","celebrate",true)}};
-$("welcome").textContent=student+"，今天我们练高手的解题方法。";renderNav();render();expertEnter(role);speech("你好，"+student+"。我是林老师。今天有五位解题高手陪你研究期中考试难题。先找思路，再看动画，最后自己过关。","listen",false);
+$("welcome").textContent=student+"，今天我们练高手的解题方法。";renderNav();render();expertEnter(role);showCue(0,false,false);speech("你好，"+student+"。我是林老师。今天有五位解题高手陪你研究期中考试难题。先找思路，再看动画，最后自己过关。","listen",false);
 
 var rocketClaimed=Object.create(null),rocketTimers=[],rocketBusy=false;
 function clearRocketTimers(){rocketTimers.forEach(clearTimeout);rocketTimers=[]}
