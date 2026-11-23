@@ -314,7 +314,7 @@ function showCue(i,read,animated){
 
 /* Five teachers in the library, only 1–3 are invited for each question. */
 var COACH_QUESTIONS={"10":[["48是起始输入，第1次输出是什么？",["48","24","12"],1,"第一步48÷2得到24。",1],["从第3次起，奇数次输出什么数？",["6","3","48"],0,"第3次6、第4次3、第5次6。",3],["起点换成96后应该怎样判断第2025次？",["照搬旧周期位置","重新列前几项","永远不循环"],1,"改变起点时要重新确认周期从第几次开始。",4]],"18":[["要变成二项式，哪一项需要消失？",["2xᵐy²","(n−3)x","常数1"],1,"令n−3=0，消掉中间项。",1],["单项式xᵐy²次数怎样计算？",["只看m","只看2","m+2"],2,"单项式的次数是所有字母指数之和。",2],["求出m和n后，题目最后要求什么？",["m−n","m+n","只求m"],0,"不要停在参数，要继续计算m−n。",3]],"19":[["(−1)²⁰²⁶的结果是正还是负？",["正","负","无法判断"],0,"负一的偶次幂等于正一。",2],["|n|=2意味着n可以是什么？",["只有2","只有−2","2和−2"],2,"距离0为2的数有正负两个。",3],["如果|n|=3，应该怎样代入？",["只代3","分别代3和−3","把m改3"],1,"绝对值等于3也有正负两种。",3]],"20":[["横路和竖路交叉的小方格被减掉几次？",["1次","2次","3次"],1,"计算两条道路面积时，重叠格被减掉了两次。",3],["剩余绿地面积的式子是哪一个？",["ab−a−b−1","ab−a−b+1","ab−1"],1,"多减掉一次重叠格，所以要加回1。",3],["把两条道路移到边缘，余下长宽是多少？",["a和b","a+1和b+1","a−1和b−1"],2,"余下的长宽分别减少1米。",4]],"21":[["出库的库存变化记什么符号？",["正","负","不写"],1,"库存减少记负数。",1],["计算运费应该使用哪个数量？",["净变化","实际运输吨数","只算入库"],1,"进出分别按实际运输量计费。",5],["出库20吨，每吨涨10元，多多少运费？",["200元","80元","120元"],0,"20×10=200元。",5]],"22":[["按ad−bc，首先相乘的是哪两个位置？",["左上×右下","左上×右上","左下×右下"],0,"主对角线：左上a乘右下d。",1],["四格中的3x和2相乘后，按规则应当怎样处理？",["加6x","减6x","减3x"],1,"副对角线的积是6x，应当减去。",2],["m和n互为相反数，哪一个等式成立？",["m+n=0","m−n=0","m=n=1"],0,"互为相反数的两个数和为0。",4]],"23":[["两点从−2和8出发，相距多少格？",["6格","10格","−10格"],1,"8−(−2)=10格。",0],["相向运动，每秒靠近多少格？",["1格","5格","6格"],1,"相向运动，每秒距离减少3+2=5格。",2],["两点距离再次等于5格，可能发生在哪些时段？",["只有相遇前","只有相遇后","相遇前和相遇后"],2,"相遇后两点继续运动，距离再次增大到5格。",3]]};
-var coachPassed=Object.create(null),coachFailed=Object.create(null),audioUserMuted=false;
+var coachPassed=Object.create(null),coachFailed=Object.create(null),audioUserMuted=false,solveOpened=Object.create(null),stageMode="respond";
 var GURU_ICONS={reader:"🔍",visual:"🎬",solver:"✍️",thinking:"🧠",checker:"✅"};
 function invitedExperts(){
  var l=lesson(),step=stepIndex,task=STEP_TASKS[l.id][step],lead=task.role;
@@ -376,7 +376,7 @@ function challengeBox(){var l=lesson(),tasks=STEP_TASKS[l.id],q=tasks[stepIndex]
 }
 function render(){showLineup();renderCoach();var l=lesson();$("topic").textContent="期中第"+l.id+"题 / "+l.badge;$("title").textContent=l.name+" · "+roles[role];$("origin").textContent=l.origin;
 Array.prototype.forEach.call($("experts").querySelectorAll("button"),function(b){b.classList.toggle("active",b.dataset.role===role)});
-$("content").innerHTML=methodMarkup()+challengeBox();draw();drawRelations()}
+$("content").innerHTML=methodMarkup();$("missionBox").innerHTML=challengeBox();draw();drawRelations();syncFocusUI()}
 function parseAnswer(s){return s.replace(/[−–﹣]/g,"-").replace(/[，、；;\s]+/g,",").split(",").filter(Boolean).map(function(x){var m=x.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:\/([+-]?\d+(?:\.\d+)?))?$/);if(!m)return NaN;var den=m[2]===undefined?1:Number(m[2]);return den?Number(m[1])/den:NaN})}
 function grade(){var l=lesson(),task=STEP_TASKS[l.id][stepIndex],key=l.id+":"+stepIndex;
  if(completedSteps[key])return;
@@ -384,7 +384,7 @@ function grade(){var l=lesson(),task=STEP_TASKS[l.id][stepIndex],key=l.id+":"+st
  var ok=ans.length===correct.length&&ans.every(Number.isFinite)&&ans.sort(function(a,b){return a-b}).every(function(a,i){return Math.abs(a-correct[i])<1e-6});
  $("graded").classList.toggle("error",!ok);
  if(ok){
-   completedSteps[key]=true;$("graded").textContent="✓ 做对了！"+task.why;$("grade").disabled=true;$("guess").disabled=true;$("nextStep").disabled=false;
+   completedSteps[key]=true;syncFocusUI();$("graded").textContent="✓ 做对了！"+task.why;$("grade").disabled=true;$("guess").disabled=true;$("nextStep").disabled=false;
    expertNarrate("做对了！"+task.why+"。接下来你获得了一次火箭机会。你自己选择发射，或者继续下一道题。",!audioUserMuted);setMood("celebrate");
    offerRocket(key);
  }else{
@@ -423,9 +423,9 @@ view.innerHTML=html;if($("range"))$("range").value=String(Math.round(frame/(l.ki
 function play(){stop();if(cueIndex<CUES[lesson().id].length-1)showCue(cueIndex+1,true,true);else speech(student+"，这道题的动画已经看完。现在尝试自己验证吧。","listen",true)}
 $("lessonbar").addEventListener("click",function(e){var b=e.target.closest("[data-lesson]");if(b)openLesson(Number(b.dataset.lesson))});
 $("experts").addEventListener("click",function(e){var b=e.target.closest("[data-role]");if(b)selectRole(b.dataset.role)});
-$("content").addEventListener("click",function(e){var m=e.target.closest("[data-method]");if(m){method=Number(m.dataset.method);render();expertNarrate("我们换成"+lesson().methods[method].name+"。第一步："+lesson().methods[method].steps[0]+"。你可以边看上面的数学图边听我解释。",!audioUserMuted);return}
-var id=e.target.id;if(id==="grade")grade();if(id==="nextStep")nextChallenge();if(id==="askStepExpert")selectRole(STEP_TASKS[lesson().id][stepIndex].role)});
-$("content").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="guess")grade()});
+$("content").addEventListener("click",function(e){var m=e.target.closest("[data-method]");if(m){method=Number(m.dataset.method);render();expertNarrate("我们换成"+lesson().methods[method].name+"。先看第一步："+lesson().methods[method].steps[0],!audioUserMuted)}});
+$("missionBox").addEventListener("click",function(e){var id=e.target.id;if(id==="grade")grade();if(id==="nextStep")nextChallenge();if(id==="askStepExpert")selectRole(STEP_TASKS[lesson().id][stepIndex].role)});
+$("missionBox").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="guess")grade()});
 
 $("cueNext").onclick=function(){stop();if(cueIndex+1<CUES[lesson().id].length)showCue(cueIndex+1,true,true)};
 $("cuePrev").onclick=function(){stop();if(cueIndex>0)showCue(cueIndex-1,true,true)};
@@ -506,8 +506,8 @@ function coachRespond(i){
  var q=coachingQuestion(),key=coachKey(),correct=i===q[2];
  if(coachPassed[key])return;
  if(correct){
-   coachPassed[key]=true;showCue(q[4],false,true);renderCoach();
-   coachSay("答对了。"+q[3]+" 现在请跟着动画自己完成下方这道数学题。",!audioUserMuted);
+   coachPassed[key]=true;showCue(q[4],false,true);renderCoach();syncFocusUI();$("view").classList.add("react");
+   coachSay("你选对了！"+q[3]+"。请看动画发生了什么变化，再点我来计算。",!audioUserMuted);
  }else{
    coachFailed[key]=(coachFailed[key]||0)+1;
    var hint=coachFailed[key]>=2?STEP_TASKS[lesson().id][stepIndex].hint:"先看看图上的关键条件。";
@@ -539,6 +539,29 @@ function expertCueNarration(){
  var c=CUES[lesson().id][cueIndex];
  expertNarrate("看到这一步了吗？"+c[0]+"。"+c[2]+"。小心："+c[3]+"。我问你："+c[4],!audioUserMuted);
 }
+
+
+function syncFocusUI(){
+ var key=coachKey(),passed=!!coachPassed[key],finished=!!completedSteps[key],open=!!solveOpened[key];
+ var phase=finished?"finish":open?"solve":passed?"feedback":"respond";stageMode=phase;
+ var labels={respond:"请看图，再选一个答案",feedback:"答对了！看图怎么变化，再决定下一步",solve:"轮到你：请在下方输入算出来的答案",finish:"这一问过关，继续或者发射火箭"};
+ $("stageLead").textContent=labels[phase];
+ $("stageLookLabel").textContent=phase==="respond"?"👀 看这幅数学图":phase==="feedback"?"✨ 图正在回应你":phase==="solve"?"✍️ 轮到你计算":"🚀 完成这一步";
+ $("stageLookText").textContent=phase==="respond"?"答案就在图正下方":phase==="feedback"?"下一步：自己计算":phase==="solve"?"下方就是独立题":"火箭由你选择";
+ var seq=["respond","feedback","solve","finish"],pos=seq.indexOf(phase);
+ Array.prototype.forEach.call($("stageRail").querySelectorAll("[data-stage]"),function(node){var p=seq.indexOf(node.dataset.stage);node.classList.toggle("current",p===pos);node.classList.toggle("done",p<pos)});
+ $("coachToSolve").hidden=!passed||open;$("coachDirect").hidden=open;$("coachBack").hidden=!open;$("missionDock").hidden=!open;
+ $("coachWho").textContent="🎙 "+EXPERT_CAST[role].name+(open?"正在陪你计算":"正在等你回应");
+ var panel=$("coachQuestion").closest(".coachBox");if(panel)panel.classList.toggle("solving",open);
+}
+function revealMath(){
+ solveOpened[coachKey()]=true;syncFocusUI();expertNarrate("现在你亲自来算。盯着刚才的图，先理清关系，再做七年级的计算。",!audioUserMuted);
+ if($("missionDock").scrollIntoView)try{$("missionDock").scrollIntoView({behavior:"smooth",block:"nearest"})}catch(e){}
+}
+function reviewGraph(){solveOpened[coachKey()]=false;syncFocusUI();expertNarrate("回到图上找一找，哪个条件最重要？再看一次。",!audioUserMuted)}
+$("coachToSolve").onclick=revealMath;
+$("coachDirect").onclick=revealMath;
+$("coachBack").onclick=reviewGraph;
 
 /* Separate teacher/guest voice turns; never cancel the guest after the command. */
 var activeVoiceTurn=0,expertVoiceObject=null;
