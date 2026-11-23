@@ -55,9 +55,21 @@ nodes.scene.handlers.input({target:{id:"timerange",value:"2"}});
 assert.match(nodes.distancetext.textContent,/相遇/);
 nodes.scene.handlers.input({target:{id:"timerange",value:"3"}});
 assert.match(nodes.distancetext.textContent,/半程/);
+// Every visualization must reflect the changed mathematical parameters of the transfer problem.
+function progressTo(id,n){app.openMission(id);for(let i=0;i<n;i++){app.correctStep();app.advance();}}
+progressTo("q18",3);assert.match(nodes["repair-visual"].innerHTML,/5x/);
+progressTo("q19",3);assert.match(nodes["repair-visual"].innerHTML,/2024/);
+progressTo("q21",3);for(let i=0;i<5;i++)click("next");
+assert.match(nodes["repair-visual"].innerHTML,/1920 元/);
+progressTo("q10",2);assert.match(nodes["repair-visual"].innerHTML,/viz-machine-input">96/);
+progressTo("q23",4);assert.match(nodes.scene.innerHTML,/max="6"/);
+nodes.scene.handlers.input({target:{id:"timerange",value:"5"}});
+assert.match(nodes.distancetext.textContent,/半程/);
 for(const mission of app.missions){
  app.openMission(mission.id);
- for(const step of mission.steps){app.correctStep();assert.match(nodes.task.innerHTML,/data-action="advance"/);app.advance();}
+ for(let i=app.progress().step[mission.id]||0;i<mission.steps.length;i++){
+  app.correctStep();assert.match(nodes.task.innerHTML,/data-action="advance"/);app.advance();
+ }
 }
 assert.equal(app.progress().done,6);
 assert.ok(localStorage.data["math-exam-repair-2026-v1"],"progress not persisted");
