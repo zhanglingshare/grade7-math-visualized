@@ -23,7 +23,7 @@ const openers=[
 '高手关来了！新条件、新数字，刚才的方法还管用吗？这次我先不提示。'
 ];
 function resetWatch(){lastPromptAt=Date.now();if(silenceTimer)clearTimeout(silenceTimer);silenceTimer=setTimeout(()=>{
- if(document.visibilityState==='visible'&&!verified&&!speechSynthesis?.speaking)teacher(student()+'，这道题有点难度。你可以继续安静地想，也可以叫我给一点线索。别着急，我在。');
+ if(document.visibilityState==='visible'&&!verified&&(!('speechSynthesis'in window)||!speechSynthesis.speaking))teacher(student()+'，这道题有点难度。你可以继续安静地想，也可以叫我给一点线索。别着急，我在。');
 },65000)}
 function stageTalk(){teacher(student()+'，'+openers[idx()]);resetWatch()}
 function reinforce(){return [
@@ -82,7 +82,7 @@ $('saveName').onclick=()=>{let n=$('nick').value.trim().slice(0,12);saved.nick=n
 $('visual').addEventListener('input',e=>{if(e.target.id==='timeRange'){seconds=+e.target.value;drawVisual()}});
 $('visual').addEventListener('click',e=>{if(e.target.id==='showRule')teacher(student()+'，先令n等于3消掉中间项，再令m等于1让指数之和等于3。');if(e.target.id==='play'){seconds=(seconds+.5)%4.5;drawVisual()}});
 $('auto').textContent='主动陪练语音：'+(saved.auto?'开':'关');
-render();teacher('峰玮，你好！我是林老师。今天我们像练球一样练数学：先观察，再选择打法，失误了就找原因。我们一起向高手进阶！',false);resetWatch();
+render();teacher(student()+'，你好！我是林老师。今天我们像练球一样练数学：先观察，再选择打法，失误了就找原因。我们一起向高手进阶！',false);resetWatch();
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if(silenceTimer)clearTimeout(silenceTimer)}else resetWatch()});
 })();
 </script>
