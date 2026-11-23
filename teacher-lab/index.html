@@ -60,7 +60,7 @@ $('auto').textContent='自动语音：'+(saved.auto?'开':'关');
 render();teacher('你好，'+student()+'。我是林老师。今天不比谁算得快。你先试，我陪你找出每一步的理由。',false);
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js" onerror="document.querySelector('.chip').textContent='林老师 · 静态陪练'"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" onerror="document.querySelector('.chip').textContent='林老师 · 静态陪练'"></script>
 <script>
 (function(){if(!window.THREE)return;let host=document.getElementById('teacherStage'),fallback=document.getElementById('fallback');try{
 const S=THREE,scene=new S.Scene(),camera=new S.PerspectiveCamera(32,host.clientWidth/host.clientHeight,.1,100);camera.position.set(0,1.55,6.6);camera.lookAt(0,1.45,0);
