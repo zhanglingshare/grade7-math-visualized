@@ -93,6 +93,9 @@ function redrawNumberLine(){
  for(const id of ["nameQ","posQ"])$(id).setAttribute("x",pxQ);
  $("posP").textContent="P="+fmt(P);$("posQ").textContent="Q="+fmt(Q);
  $("distance").setAttribute("x1",pxP);$("distance").setAttribute("x2",pxQ);
+ const meeting=Math.abs(P-Q)<0.05,half=Math.abs(Math.abs(P-Q)-5)<0.05;
+ $("pointP").setAttribute("r",meeting?14:10);$("pointQ").setAttribute("r",meeting?14:10);
+ $("distance").setAttribute("stroke",meeting?"#8dffe1":half?"#ffd59c":"#f4c696");
  $("timeval").textContent=time.toFixed(1)+" 秒";
  $("distancetext").textContent="距离："+fmt(Math.abs(P-Q))+"单位"+(Math.abs(P-Q)<0.05?" · 相遇！":Math.abs(Math.abs(P-Q)-5)<0.05?" · 相距原来的半程":"");
 }
