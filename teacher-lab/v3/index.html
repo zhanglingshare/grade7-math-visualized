@@ -2,7 +2,7 @@
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06152d"><title>林老师 · 数学高手训练室 V3</title>
 <style>
 :root{--bg:#07162c;--paper:#0c2545;--sky:#8cdbff;--aqua:#61e6dc;--gold:#ffd28e;--muted:#96b4cd;--white:#eaf7ff;--border:#5893d644;--glass:#0b294ad9;--shadow:#0009}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 50% 40% at 48% 0%,#1d4d7b,transparent 87%),linear-gradient(#07162c,#061222);color:var(--white);font-family:Inter,'PingFang SC','Microsoft YaHei',system-ui,sans-serif;min-width:970px}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #ffe7b6;outline-offset:2px}button{color:inherit}button:disabled{opacity:.45;cursor:default}.app{max-width:1800px;margin:auto;padding:15px clamp(15px,1.8vw,32px) 22px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 50% 40% at 48% 0%,#1d4d7b,transparent 87%),linear-gradient(#07162c,#061222);color:var(--white);font-family:Inter,'PingFang SC','Microsoft YaHei',system-ui,sans-serif;min-width:0;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #ffe7b6;outline-offset:2px}button{color:inherit}button:disabled{opacity:.45;cursor:default}.app{max-width:1800px;margin:auto;padding:15px clamp(15px,1.8vw,32px) 22px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:57px;padding:5px 13px 14px;border-bottom:1px solid #539cd146}.logo{display:flex;align-items:center;gap:12px;font-size:17px;letter-spacing:.03em;font-weight:800}.logoMark{display:grid;place-items:center;width:39px;height:39px;border-radius:12px;background:linear-gradient(135deg,#72e1f4,#436aaf);color:#0b2747;box-shadow:0 0 30px #42b4ec50;font-size:26px}.logo small{display:block;font-size:10px;color:var(--muted);letter-spacing:.14em;font-weight:500;margin-top:3px}.headline{color:#d1edff;font-size:clamp(14px,1.4vw,22px);letter-spacing:.08em;text-align:center}.headRight{display:flex;gap:8px;align-items:center}.headRight button,.subtle{border:1px solid #509cd879;border-radius:10px;background:#16426a;padding:10px 13px;font-size:12px}.headRight button:hover,.subtle:hover{background:#1e658d}.profile{display:flex;gap:8px;align-items:center;padding:8px 13px;border-radius:99px;border:1px solid #5c9fba6e;background:#123457;color:#e6f5ff;font-size:12px}
 .session{display:flex;align-items:center;gap:13px;margin:15px 0 12px;padding:12px 17px;background:linear-gradient(100deg,#123d68ba,#0b2746a8);border:1px solid #3a779e8f;border-radius:13px}.online{width:9px;height:9px;background:#6afbd3;box-shadow:0 0 16px #60f8c6;border-radius:99px;flex:none}.session strong{font-size:13px}.session .meta{color:#93bdd1;font-size:12px}.spacer{flex:1}.session small{color:#91bad2;font-size:11px}.chapters{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:0 0 13px}.chapter{display:flex;align-items:center;justify-content:space-between;gap:6px;text-align:left;min-height:62px;border:1px solid #3a7099;background:linear-gradient(155deg,#153656,#0b2543);border-radius:12px;padding:10px 13px;font-weight:780;font-size:13px;transition:.2s}.chapter small{display:block;font-size:10px;margin-bottom:6px;color:#8eb9d0}.chapter:hover{transform:translateY(-2px);border-color:#72cdfd}.chapter.active{background:linear-gradient(110deg,#19639a,#0e4a7f);border-color:#84d6ff;box-shadow:0 0 22px #2faee547}.chapter.done:after{content:'✓';color:#8ff7bf;font-size:18px}
 .stage{display:grid;grid-template-columns:minmax(325px,36fr) minmax(370px,39fr) minmax(260px,25fr);gap:13px;min-height:615px}.glass{border:1px solid var(--border);background:linear-gradient(145deg,#12365bd9,#081e3cd9 80%);border-radius:19px;box-shadow:0 17px 48px #010a1b9c,inset 0 1px #8ce8ff16;overflow:hidden;min-width:0}.teacher{position:relative;display:flex;flex-direction:column;min-height:615px;background:linear-gradient(#112f52,#0a2241)}.scene{height:390px;min-height:390px;position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 80% 75% at 48% 60%,#3c89a6a0,#173863 68%,#0b1e3c);border-bottom:1px solid #439fd38a}.scene:before{position:absolute;content:'';inset:0;background:linear-gradient(90deg,#83bee00b 1px,transparent 1px),linear-gradient(#83bee00b 1px,transparent 1px);background-size:39px 39px;mask-image:linear-gradient(#0007,transparent 80%)}.scene:after{content:'';position:absolute;inset:0;box-shadow:inset 0 -37px 60px #082342b8;pointer-events:none;z-index:4}.portrait{position:absolute;width:113%;height:auto;left:-6%;bottom:-18px;display:block;object-fit:contain;filter:drop-shadow(0 16px 27px #00152c8e);animation:breath 5s ease-in-out infinite;transform-origin:45% 82%;will-change:transform}.scene.talking .portrait{animation:breath 3.5s ease-in-out infinite,respond .9s ease-in-out infinite alternate}.scene.waiting .portrait{animation:breath 7s ease-in-out infinite}@keyframes breath{0%,100%{transform:translateY(1px) scale(1)}50%{transform:translateY(-4px) scale(1.009)}}@keyframes respond{to{filter:brightness(1.05) drop-shadow(0 14px 23px #00152c8e)}}.mentorTag{position:absolute;left:14px;top:14px;z-index:5;padding:9px 12px;border:1px solid #7cd5ec93;border-radius:24px;background:#092b4cdd;font-size:11px;color:#bcf6ff;backdrop-filter:blur(9px)}.personStatus{position:absolute;right:13px;top:14px;z-index:5;text-align:right;font-size:10px;color:#d3f3ff;line-height:1.7;opacity:.92}.sceneLabel{position:absolute;bottom:15px;left:16px;z-index:6;background:#0b294cdd;border:1px solid #7ac5eb70;border-radius:13px;padding:10px 13px}.sceneLabel b{display:block;font-size:13px}.sceneLabel small{display:block;color:#93c9e3;font-size:11px;margin-top:4px}.teacherCopy{padding:16px 19px 13px;flex:1;display:flex;flex-direction:column}.teacherCopy .speaker{font-size:12px;color:#7edbff;font-weight:800;letter-spacing:.06em}.speech{font-size:17px;line-height:1.75;letter-spacing:.015em;font-weight:580;min-height:98px;margin:7px 0 10px}.voiceTips{font-size:10px;color:#91b3c4;line-height:1.6}.voiceRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto;padding-top:12px}.voiceRow button{border:1px solid #508abd;background:#15416b;border-radius:10px;padding:10px 12px;font-weight:700;font-size:12px}.voiceRow button.primary{background:linear-gradient(120deg,#42a6ed,#50cbd4);color:#062d46;border-color:transparent}.voiceRow button.on{border-color:#83edce;background:#185b59}
@@ -11,10 +11,85 @@
 .shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:13px 0}.shortcuts button{background:linear-gradient(110deg,#123d68,#0f2e52);padding:14px 10px;border:1px solid #398abd;border-radius:13px;box-shadow:inset 0 1px #77d0fa20;font-weight:760;font-size:13px}.shortcuts button:hover{background:#19608a}.shortcuts button.main{background:linear-gradient(120deg,#146fa5,#1497b8);border-color:#83d7ff}.shortcuts button span{font-size:16px;margin-right:9px}.team{display:grid;grid-template-columns:180px repeat(5,minmax(0,1fr));gap:9px;align-items:stretch;padding:11px;background:linear-gradient(120deg,#0d3154,#0b2442);border:1px solid #397ead88;border-radius:14px}.teamTitle{display:flex;flex-direction:column;justify-content:center;padding:4px 10px}.teamTitle b{font-size:13px}.teamTitle small{color:#84aec6;font-size:10px;line-height:1.5;margin-top:5px}.agent{display:flex;gap:9px;align-items:center;border:1px solid #377aa655;background:#133959ae;border-radius:10px;padding:10px}.agent i{font-style:normal;font-size:22px}.agent b{display:block;font-size:11px}.agent small{display:block;font-size:10px;color:#92bbd0;margin-top:4px}.agent.active{border-color:#7ce4db;box-shadow:0 0 24px #4ff7d022}.agent.active small{color:#72edc4}.fineprint{color:#7493ab;font-size:10px;text-align:center;margin-top:12px;line-height:1.7}
 @media(max-width:1260px){.stage{grid-template-columns:minmax(310px,35fr) minmax(330px,40fr) minmax(230px,25fr)}.app{padding-left:12px;padding-right:12px}.teacherCopy{padding:14px}.scene{height:340px;min-height:340px}.teacher{min-height:580px}.chapter{padding:10px 9px;font-size:12px}.lab{padding:15px}.team{grid-template-columns:repeat(3,1fr)}.teamTitle{grid-column:span 3}.headRight button:nth-child(2){display:none}}
 @media(min-width:970px) and (max-width:1110px){.stage{grid-template-columns: minmax(290px,36fr) minmax(340px,41fr) minmax(225px,23fr);gap:8px}.scene{height:330px;min-height:330px}.portrait{width:117%;left:-9%}.challenge{padding:12px}.labControls button{padding:9px}.headline{display:none}}
-@media(max-width:969px){.app{display:none}.desktopOnly{display:flex!important}}.desktopOnly{display:none;position:fixed;inset:0;background:#08182c;color:white;align-items:center;justify-content:center;padding:30px;text-align:center;font-size:19px;line-height:1.8;z-index:99}
+
+
+/* Fluid layout: same classroom and all functions across phones, tablets, laptops and desktops */
+.app{width:100%;max-width:1800px;min-width:0;margin-inline:auto}
+.top,.headRight,.session,.labTop,.labControls,.voiceRow,.challengeActions{min-width:0}
+.stage,.glass,.lab,.challenge,.teacher,.demopane,#vis{min-width:0}
+.chapter,.agent,.shortcuts button,.choices button{overflow-wrap:anywhere}
+@media(max-width:1199px){
+ .stage{grid-template-columns:minmax(290px,.94fr) minmax(0,1.06fr);align-items:stretch;min-height:0}
+ .teacher{min-height:0}.lab{min-height:575px}.challenge{grid-column:1/-1;min-height:0}
+ .teacherCopy{padding:17px}.scene{height:355px;min-height:355px}
+ .chapters{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .headline{font-size:14px}.headRight button:nth-child(2){display:inline-block}
+ .challenge h3{margin:10px 0 12px}
+ .choices{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .reflection{margin-top:16px}
+}
+@media(max-width:800px){
+ .top{flex-wrap:wrap;gap:11px}.logo{font-size:15px}
+ .headline{order:3;flex-basis:100%;text-align:left;font-size:13px}
+ .headRight{margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+ .session{flex-wrap:wrap;row-gap:7px}
+ .session .spacer{display:none}.session small{margin-left:auto}
+ .stage{grid-template-columns:1fr;gap:12px}
+ .teacher,.lab,.challenge{grid-column:1;min-height:0}
+ .teacher{display:grid;grid-template-columns:minmax(220px,.86fr) minmax(0,1.14fr)}
+ .scene{height:320px;min-height:320px;border-bottom:0;border-right:1px solid #439fd38a}
+ .portrait{width:109%;left:-4%;bottom:-24px}
+ .teacherCopy{min-height:320px;padding:17px}
+ .speech{min-height:110px}
+ .lab{padding:17px}
+ .demopane{min-height:290px}
+ .challenge{padding:18px}.team{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .shortcuts{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+ .app{padding:10px 10px calc(20px + env(safe-area-inset-bottom,0px))}
+ .top{padding:6px 2px 12px}
+ .logo{font-size:13px;gap:7px}.logoMark{height:34px;width:34px;font-size:20px}.logo small{font-size:9px}
+ .headRight{width:100%;justify-content:flex-start;gap:6px}
+ .profile{font-size:11px;padding:7px 10px}.headRight button{font-size:11px;padding:8px}
+ .headline{display:none}
+ .session{padding:10px;font-size:12px;margin:11px 0 10px}
+ .session .meta{flex-basis:100%;order:3;font-size:11px}
+ .chapters{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .chapter{min-width:0;padding:10px 9px;font-size:12px;min-height:57px}
+ .stage{gap:10px}
+ .teacher{display:flex;flex-direction:column}
+ .scene{height:320px;min-height:320px;border-right:0;border-bottom:1px solid #439fd38a}
+ .portrait{width:min(108%,470px);left:50%;transform:translateX(-50%);bottom:-25px;animation:none}
+ .scene.talking .portrait,.scene.waiting .portrait{animation:none}
+ .mentorTag{font-size:10px;padding:7px 10px}.personStatus{font-size:9px}
+ .sceneLabel{padding:8px 9px;bottom:11px;left:11px}.sceneLabel b{font-size:12px}
+ .teacherCopy{min-height:0;padding:15px}
+ .speech{font-size:16px;min-height:0;margin:9px 0 12px}
+ .voiceRow{gap:6px;margin-top:7px}
+ .voiceRow button{font-size:12px;padding:10px 9px;flex:1 1 auto}
+ .lab{padding:14px}.lab h2{font-size:25px;margin:12px 0 9px}
+ .labTop{flex-wrap:wrap}.problem{font-size:12px}
+ .demopane{min-height:230px;margin:9px 0}
+ #vis{min-height:200px;padding:6px}
+ .visualSvg{max-height:205px}.visualBig{font-size:clamp(19px,5vw,26px)}
+ .labControls button{font-size:11px;padding:9px}
+ .labControls input{flex-basis:100%;order:4}
+ .challenge{padding:15px}.challenge h3{font-size:17px}
+ .choices{grid-template-columns:1fr}.choices button{padding:12px;font-size:13px}
+ .shortcuts{gap:7px;margin:10px 0}.shortcuts button{font-size:12px;padding:12px 7px}
+ .shortcuts button span{margin-right:4px}
+ .team{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:9px}
+ .teamTitle{grid-column:1/-1}.agent{padding:9px;gap:6px}.agent i{font-size:18px}
+ .fineprint{font-size:10px;line-height:1.8}
+}
+@media(max-width:360px){
+ .chapter{font-size:11px}.scene{height:278px;min-height:278px}
+ .portrait{width:115%;bottom:-27px}
+ .team{grid-template-columns:1fr}.agent{padding:8px}
+}
 @media(prefers-reduced-motion:reduce){.portrait,.scene.talking .portrait{animation:none!important}*{scroll-behavior:auto!important;transition:none!important}}
 </style></head><body>
-<div class="desktopOnly">请使用电脑或将平板横屏后打开<br>林老师数学高手训练室为大屏专门设计。</div>
 <div class="app">
 <header class="top"><div class="logo"><span class="logoMark">✦</span><span>林老师数学高手训练室<small>AI 伴学 · 思维挑战 · 自主成长</small></span></div><div class="headline">和林老师一起，把难题变成自己的本领</div><div class="headRight"><span class="profile" id="nickStatus">✧ 峰玮 · 七年级</span><button id="settings">称呼设置</button><button id="voice">🔊 开启语音</button></div></header>
 <section class="session"><span class="online"></span><strong>专属学习空间已就绪</strong><span class="meta" id="sessionLabel">先观察，再判断；遇到难题，林老师陪你拆解。</span><span class="spacer"></span><small id="clock">本次训练 00:00</small></section>
@@ -26,7 +101,7 @@
 </main>
 <div class="shortcuts"><button class="main" id="sayIdea"><span>◉</span>我有自己的想法</button><button id="askHow"><span>?</span>换个方法讲</button><button id="retry"><span>↻</span>我想重新试</button><button id="harder"><span>⚡</span>挑战更难的题</button></div>
 <section class="team"><div class="teamTitle"><b>AI 教学团队</b><small>后台分工 · 教学任务接力<br>当前为本地规则模拟</small></div><div class="agent active" data-agent="observe"><i>🧠</i><div><b>思维观察</b><small>引导读题</small></div></div><div class="agent" data-agent="strategy"><i>🧭</i><div><b>教学策略</b><small>调整提示</small></div></div><div class="agent" data-agent="animation"><i>🎞️</i><div><b>动画实验</b><small>展示变化</small></div></div><div class="agent" data-agent="habit"><i>⏱️</i><div><b>习惯教练</b><small>自主计划</small></div></div><div class="agent" data-agent="exam"><i>🏅</i><div><b>过关验证</b><small>陌生题迁移</small></div></div></section>
-<div class="fineprint">独立实验版 · 平板横屏 / 电脑版 · 免费体验 · 不需要注册 · 姓名与学习记录仅保存在本地浏览器 · 目前为预设教学逻辑，非真实多智能体 AI 服务 · 人物为高质量预渲染数字人肖像，非可自由转身的实时3D模型</div>
+<div class="fineprint">独立实验版 · 自适应电脑 / 平板 / 手机 · 免费体验 · 不需要注册 · 姓名与学习记录仅保存在本地浏览器 · 目前为预设教学逻辑，非真实多智能体 AI 服务 · 人物为高质量预渲染数字人肖像，非可自由转身的实时3D模型</div>
 </div>
 <script>
 (function(){'use strict';
