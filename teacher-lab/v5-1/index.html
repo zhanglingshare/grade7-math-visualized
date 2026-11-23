@@ -47,6 +47,24 @@ button{background:#184465;border:1px solid #5286a4;border-radius:10px;color:var(
 @media(max-width:760px){.shell{padding:13px 10px 40px}.main{gap:9px}.mentor{display:block}.portraitStage{height:355px}.speechbox{padding:15px}.speech{min-height:0;font-size:17px}.lessonbar{grid-template-columns:repeat(3,1fr)}.experts{grid-template-columns:repeat(3,1fr)}.workpane{padding:13px}.view{height:220px}.hero{display:block}.tagline{display:inline-block;margin-top:13px}}
 @media(max-width:430px){.lessonbar{grid-template-columns:repeat(2,1fr)}.experts{grid-template-columns:repeat(2,1fr)}.portraitStage{height:310px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+.rocketReward[hidden]{display:none!important}.rocketReward{position:fixed;inset:0;z-index:999;background:#021027dd;display:grid;place-items:center;padding:15px;backdrop-filter:blur(9px)}
+.rocketCard{width:min(96vw,520px);position:relative;background:radial-gradient(ellipse at 50% 0%,#29658c,#092943 68%);border:1px solid #85dccf;border-radius:24px;padding:22px;text-align:center;box-shadow:0 25px 90px #000a}
+.rocketClose{position:absolute;right:12px;top:9px;font-size:26px;background:transparent;border:0;color:#b8d9df}
+.rocketCard small{font-size:10px;color:#a9ecca;letter-spacing:.17em}.rocketCard h2{font-size:24px;margin:11px 0}
+.rocketCard p{font-size:12px;color:#bdd4de;line-height:1.75;margin:0}
+.rocketWorld{height:225px;position:relative;overflow:hidden;margin:16px 0;background:linear-gradient(#081629,#123c61);border-radius:13px;border:1px solid #4b829a}
+.rocketStars{position:absolute;inset:0;background-image:radial-gradient(#edffff 1px,transparent 1.5px),radial-gradient(#a6e8fa 1px,transparent 1.5px);background-size:74px 66px,113px 94px;opacity:.65}
+#rocketSVG{position:absolute;bottom:17px;left:50%;width:108px;height:157px;transform:translateX(-50%);z-index:2;will-change:transform}
+.rocketWorld.launched #rocketSVG{animation:rocketLift 3.1s cubic-bezier(.2,.7,.4,1) forwards}
+.rocketWorld.launched .rocketStars{animation:rocketStars 1.2s linear infinite}
+.rocketWorld.launched #rocketFlame{animation:rocketFlame .17s infinite alternate}
+.rocketPlatform{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:177px;height:8px;border-radius:80%;background:#78b4c3;box-shadow:0 0 22px #81e5d9}
+.rocketCount{position:absolute;z-index:5;top:14px;left:0;right:0;font-size:30px;color:#ffe6ad;font-weight:900;text-shadow:0 0 15px #ffb672}
+.rocketActions{display:flex;flex-wrap:wrap;gap:8px}.rocketActions button{flex:1 1 160px}.rocketMessage{font-size:11px;color:#a6d8d6;margin-top:11px}
+@keyframes rocketLift{0%{transform:translateX(-50%) translateY(0)}16%{transform:translateX(-50%) translateY(-12px)}100%{transform:translateX(-50%) translateY(-470px) scale(.6);opacity:.12}}
+@keyframes rocketStars{to{background-position:0 90px,0 105px}}@keyframes rocketFlame{from{opacity:.4;transform:scaleY(.8)}to{opacity:1;transform:scaleY(1.2)}}
+@media(prefers-reduced-motion:reduce){.rocketWorld.launched #rocketSVG{animation:none;transform:translateX(-50%) translateY(-470px)}}
 </style></head><body><div class="shell">
 <header class="top"><div class="logo"><b>✦</b> 林老师 · 高手陪练 V5.1<small>林老师指挥 · 高手亮相 · 慢速动画 · 火箭发射</small></div><div class="right"><button id="changeName">✎ 更改称呼</button><button id="sound">🔊 开启林老师声音</button><button id="quiet">先让我自己想</button></div></header>
 <section class="hero"><div><div class="eyebrow">MATH MASTERY · JUNIOR ONE</div><h1 id="welcome">峰玮，今天我们练高手的解题方法。</h1><p>根据期中原卷重点失分题重建：原题、动画、七年级规范解法、直观思路、思维进阶与独立变式。<br>没有数据采集员，没有复杂分析后台。选一位高手，就能看到他真正怎样解题。</p></div><span class="tagline">思路可超前 · 运算不超纲</span></section>
@@ -97,7 +115,7 @@ function render(){var l=lesson();$("topic").textContent="期中第"+l.id+"题 / 
 Array.prototype.forEach.call($("experts").querySelectorAll("button"),function(b){b.classList.toggle("active",b.dataset.role===role)});
 $("content").innerHTML=methodMarkup()+challengeBox();if(role==="visual")draw()}
 function parseAnswer(s){return s.replace(/[−–﹣]/g,"-").replace(/[，、；;\s]+/g,",").split(",").filter(Boolean).map(function(x){var m=x.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:\/([+-]?\d+(?:\.\d+)?))?$/);if(!m)return NaN;var den=m[2]===undefined?1:Number(m[2]);return den?Number(m[1])/den:NaN})}
-function grade(){var l=lesson(),raw=$("guess").value,ans=parseAnswer(raw);var key=l.answer.slice().sort(function(a,b){return a-b});var ok=ans.length===key.length&&ans.every(function(a){return isFinite(a)})&&ans.sort(function(a,b){return a-b}).every(function(x,i){return Math.abs(x-key[i])<1e-6});$("graded").classList.toggle("error",!ok);$("graded").textContent=ok?"✓ 正确！"+l.proof:"还没对。"+l.hint+" 先自己再试一次。";speech(ok?student+"，漂亮！这是你自己想出来的。现在试着讲给我听：为什么这样算？":student+"，这次没对上。先看一个关键线索："+l.hint+"，你再试试。",ok?"celebrate":"think",true)}
+function grade(){var l=lesson(),raw=$("guess").value,ans=parseAnswer(raw);var key=l.answer.slice().sort(function(a,b){return a-b});var ok=ans.length===key.length&&ans.every(function(a){return isFinite(a)})&&ans.sort(function(a,b){return a-b}).every(function(x,i){return Math.abs(x-key[i])<1e-6});$("graded").classList.toggle("error",!ok);$("graded").textContent=ok?"✓ 正确！"+l.proof:"还没对。"+l.hint+" 先自己再试一次。";speech(ok?student+"，漂亮！这是你自己想出来的。你获得一次火箭发射机会，发不发射由你决定。":student+"，这次没对上。先看一个关键线索："+l.hint+"，你再试试。",ok?"celebrate":"think",true);if(ok&&!rocketClaimed[l.id])setTimeout(function(){offerRocket()},550)}
 function draw(){var l=lesson(),view=$("view");if(!view)return;var n=frame,html="";
 if(l.kind==="line"){var X=function(v){return 35+(v+4)*35};var p=-2+3*n,q=8-2*n;
 var ticks=[];for(var k=-4;k<=12;k+=2){ticks.push('<line x1="'+X(k)+'" x2="'+X(k)+'" y1="114" y2="126" stroke="#acdcf2"/><text x="'+X(k)+'" y="149" fill="#b0ddeb" font-size="13" text-anchor="middle">'+k+'</text>')}
@@ -124,6 +142,26 @@ $("hint").onclick=function(){speech(student+"，我只给你一个关键线索�
 $("myTurn").onclick=function(){selectRole("checker");speech(student+"，轮到你了。试着先写下结果，再用自己的方法检查。","listen",true)};
 $("changeName").onclick=function(){var x=prompt("林老师应该怎样称呼你？",student);if(x!==null){student=x.trim().slice(0,12)||"同学";try{localStorage.setItem(storeKey,student)}catch(e){}$("welcome").textContent=student+"，今天我们练高手的解题方法。";speech("你好，"+student+"，接下来我们继续挑战。","celebrate",true)}};
 $("welcome").textContent=student+"，今天我们练高手的解题方法。";renderNav();render();speech("你好，"+student+"。我是林老师。今天有五位解题高手陪你研究期中考试难题。先找思路，再看动画，最后自己过关。","listen",false);
+
+var rocketClaimed=Object.create(null),rocketTimers=[],rocketBusy=false;
+function clearRocketTimers(){rocketTimers.forEach(clearTimeout);rocketTimers=[]}
+function offerRocket(){if(rocketClaimed[lesson().id])return;rocketClaimed[lesson().id]=true;clearRocketTimers();rocketBusy=false;$("rocketWorld").classList.remove("launched");$("rocketCount").textContent="";$("rocketMessage").textContent="发射由你自己决定，不影响过关。";$("rocketLaunch").disabled=false;$("rocketLaunch").textContent="🚀 我来发射";$("rocketReward").hidden=false}
+function closeRocket(){clearRocketTimers();$("rocketReward").hidden=true;rocketBusy=false}
+function launchRocket(){if(rocketBusy)return;rocketBusy=true;$("rocketLaunch").disabled=true;var n=3;$("rocketCount").textContent=n;
+function countdown(){if(n>1){n--;$("rocketCount").textContent=n;rocketTimers.push(setTimeout(countdown,650))}else{$("rocketCount").textContent="发射！";$("rocketWorld").classList.add("launched");speech(student+"，火箭升空啦！这是你自己解开难题赢来的。想好了就继续挑战下一题。","celebrate",true);rocketTimers.push(setTimeout(function(){$("rocketCount").textContent="升空成功！";$("rocketMessage").textContent="发射完成。可以继续下一道挑战。";$("rocketLaunch").textContent="✓ 已发射"},3200))}}countdown()}
+$("rocketLaunch").onclick=launchRocket;$("rocketSkip").onclick=closeRocket;$("rocketClose").onclick=closeRocket;
+
 window.LIN_V5={lessons:data,go:openLesson,selectRole:selectRole,method:function(i){method=i;render()},answer:parseAnswer};
 })();
-</script></body></html>
+</script><section id="rocketReward" class="rocketReward" hidden aria-label="答对奖励发射火箭"><div class="rocketCard">
+<button id="rocketClose" class="rocketClose" aria-label="跳过火箭">×</button><small>MISSION CLEARED · 可选奖励</small>
+<h2>答对了！火箭准备发射</h2><p>你获得一次发射机会。想玩就亲手点击发射，不想玩就直接继续解题。</p>
+<div id="rocketWorld" class="rocketWorld"><div class="rocketStars"></div><div id="rocketCount" class="rocketCount"></div>
+<svg id="rocketSVG" viewBox="0 0 120 175" role="img" aria-label="待发射的火箭">
+<path d="M25 119L10 147L39 139M95 119L111 147L81 139" fill="#e48e73"/>
+<path d="M60 13C35 42 29 93 35 139Q60 153 85 139C91 93 85 42 60 13Z" fill="#edf8ff" stroke="#9bcfe2" stroke-width="3"/>
+<path d="M60 13Q45 28 41 49H79Q75 28 60 13Z" fill="#f4ac80"/>
+<circle cx="60" cy="86" r="20" fill="#2a6c9b" stroke="#b6e7f0" stroke-width="4"/><circle cx="60" cy="86" r="11" fill="#83ead8"/>
+<path d="M47 144H73V158H47Z" fill="#6d91ac"/><path id="rocketFlame" d="M45 158Q51 175 60 175Q72 174 75 158Z" fill="#ffdb87"/>
+</svg><div class="rocketPlatform"></div></div>
+<div class="rocketActions"><button id="rocketLaunch" class="gold">🚀 我来发射</button><button id="rocketSkip">不发射 · 继续解题</button></div><div id="rocketMessage" class="rocketMessage">发不发射，不影响过关。</div></div></section></body></html>
