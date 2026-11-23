@@ -140,6 +140,12 @@ button{background:#184465;border:1px solid #5286a4;border-radius:10px;color:var(
 .challengeDots span.lit{background:linear-gradient(90deg,#52c7d9,#94f1c8)}
 .challengeActions{margin:10px 0;display:flex;gap:6px}.challengeActions button{width:100%;font-size:12px}
 @media(max-width:560px){.rocketWorld{height:127px}.rocketCard{padding:10px}}
+
+.taskCaptain{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:7px;padding:9px 10px;background:#163954;border:1px solid #3c8692;border-radius:10px;margin:8px 0}
+.taskCaptain span{font-size:11px;color:#abebd9}.taskCaptain button{padding:7px 9px;font-size:11px;border-color:#77c9bd;background:#206461}
+.expertEntrance.speaking .expertAvatar{animation:expertSpeaking .95s ease-in-out infinite alternate}
+@keyframes expertSpeaking{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+.expertSpeechActions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.expertSpeechActions button{font-size:11px;padding:8px 10px}
 </style></head><body><div class="shell">
 <header class="top"><div class="logo"><b>✦</b> 林老师 · 真实错题高手接力 V5.3<small>林老师指挥 · 高手亮相 · 慢速动画 · 火箭发射</small></div><div class="right"><button id="changeName">✎ 更改称呼</button><button id="sound">🔊 开启林老师声音</button><button id="quiet">先让我自己想</button></div></header>
 <section class="hero"><div><div class="eyebrow">MATH MASTERY · JUNIOR ONE</div><h1 id="welcome">峰玮，今天我们练高手的解题方法。</h1><p>根据期中原卷重点失分题重建：原题、动画、七年级规范解法、直观思路、思维进阶与独立变式。<br>没有数据采集员，没有复杂分析后台。选一位高手，就能看到他真正怎样解题。</p></div><span class="tagline">思路可超前 · 运算不超纲</span></section>
@@ -151,7 +157,7 @@ button{background:#184465;border:1px solid #5286a4;border-radius:10px;color:var(
 <button data-role="solver"><span>✍️</span>解题高手</button>
 <button data-role="thinking"><span>🧠</span>思维高手</button>
 <button data-role="checker"><span>✅</span>验算高手</button>
-</div><section class="workpane"><div class="commanderBar"><span>✦ 林老师 · 指挥官</span><strong id="commanderStatus">请审题高手上场</strong></div><div class="expertEntrance" id="expertEntrance"><div id="expertAvatar" class="expertAvatar"></div><div class="expertSummary"><strong id="expertName">审题高手</strong><p id="expertMessage">先把条件理清楚</p><small id="expertStatus">● 等待林老师指令</small></div></div><div class="topic" id="topic"></div><h2 id="title"></h2><p class="origin" id="origin"></p><div class="visualStudio" id="visualStudio"><div class="visualTop"><b>可视化实验台 · 高手的思路</b><span id="cueCount">关键步骤 1</span></div>
+</div><section class="workpane"><div class="commanderBar"><span>✦ 林老师 · 指挥官</span><strong id="commanderStatus">请审题高手上场</strong></div><div class="expertEntrance" id="expertEntrance"><div id="expertAvatar" class="expertAvatar"></div><div class="expertSummary"><strong id="expertName">审题高手</strong><p id="expertMessage">先把条件理清楚</p><small id="expertStatus">● 等待林老师指令</small></div></div><div class="expertSpeechActions"><button id="expertExplain">🔊 听这位高手讲</button><button id="expertShow">看这位高手的思路图</button></div><div class="topic" id="topic"></div><h2 id="title"></h2><p class="origin" id="origin"></p><div class="visualStudio" id="visualStudio"><div class="visualTop"><b>可视化实验台 · 高手的思路</b><span id="cueCount">关键步骤 1</span></div>
 <div class="view" id="view" aria-label="数学动画与关系可视化"></div><div class="relationFlow" id="relationFlow"></div>
 <div class="cuePanel" aria-live="polite"><div class="cueBadge" id="cueBadge">先观察</div><h3 id="cueTitle">先看条件</h3><p id="cueSpeech"></p><div id="cuePredict" class="cuePredict"></div><div id="cueMistake" class="cueMistake"></div></div>
 <div class="cueControls"><button id="cuePrev">← 上一步</button><button id="cueNext" class="primary">下一步 →</button><button id="cueRepeat">🔊 重听这一关</button><button id="cueAuto">▶ 自动讲解：关</button><label>节奏<select id="cuePace"><option value="4000">慢</option><option value="7000" selected>更慢</option><option value="10000">充分思考</option></select></label></div>
@@ -245,7 +251,7 @@ return ""}
 
 function challengeBox(){var l=lesson(),tasks=STEP_TASKS[l.id],q=tasks[stepIndex],key=l.id+":"+stepIndex,done=!!completedSteps[key];
  var dots=tasks.map(function(x,i){return '<span class="'+(i<=stepIndex?"lit":"")+'"></span>'}).join("");
- return '<div class="quest"><div class="challengeHeader"><b>原卷逐问 · 高手陪练</b><span>第'+(stepIndex+1)+' / '+tasks.length+'步</span></div><div class="challengeDots">'+dots+'</div><h3>'+escape(q.q)+'</h3><div class="inputRow"><input id="guess" autocomplete="off" placeholder="填写数字；两个结果用逗号分开" '+(done?"disabled":"")+'><button class="gold" id="grade" '+(done?"disabled":"")+'>'+(done?"✓ 已完成":"检查这一步")+'</button></div><div id="graded" class="result">'+(done?"✓ 本步已经独立完成。"+escape(q.why):"")+'</div><div class="challengeActions"><button id="nextStep" class="primary" '+(!done?"disabled":"")+'>'+(stepIndex===tasks.length-1?"进入下一道期中题 →":"进入下一问 →")+'</button></div><p class="previewSub">先自己动手；做错只给线索。每一步答对后，火箭在这里出现，不抢占整屏。</p></div>'
+ return '<div class="quest"><div class="challengeHeader"><b>原卷逐问 · 高手陪练</b><span>第'+(stepIndex+1)+' / '+tasks.length+'步</span></div><div class="challengeDots">'+dots+'</div><div class="taskCaptain"><span>✦ 林老师推荐：'+escape(roles[q.role])+'</span><button id="askStepExpert">请这位高手上场</button></div><h3>'+escape(q.q)+'</h3><div class="inputRow"><input id="guess" autocomplete="off" placeholder="填写数字；两个结果用逗号分开" '+(done?"disabled":"")+'><button class="gold" id="grade" '+(done?"disabled":"")+'>'+(done?"✓ 已完成":"检查这一步")+'</button></div><div id="graded" class="result">'+(done?"✓ 本步已经独立完成。"+escape(q.why):"")+'</div><div class="challengeActions"><button id="nextStep" class="primary" '+(!done?"disabled":"")+'>'+(stepIndex===tasks.length-1?"进入下一道期中题 →":"进入下一问 →")+'</button></div><p class="previewSub">先自己动手；做错只给线索。每一步答对后，火箭在这里出现，不抢占整屏。</p></div>'
 }
 function render(){var l=lesson();$("topic").textContent="期中第"+l.id+"题 / "+l.badge;$("title").textContent=l.name+" · "+roles[role];$("origin").textContent=l.origin;
 Array.prototype.forEach.call($("experts").querySelectorAll("button"),function(b){b.classList.toggle("active",b.dataset.role===role)});
@@ -267,9 +273,12 @@ function grade(){var l=lesson(),task=STEP_TASKS[l.id][stepIndex],key=l.id+":"+st
 }
 function nextChallenge(){
  if(!completedSteps[lesson().id+":"+stepIndex])return;
- closeRocket();stop();var tasks=STEP_TASKS[lesson().id];
- if(stepIndex<tasks.length-1)stepIndex++;else{active=(active+1)%data.length;stepIndex=0;role="reader";method=0;cueIndex=0;frame=0;renderNav();}
- render();expertEnter(role);showCue(cueIndex,false,false);speech(student+"，现在进入下一问。林老师先带你看看条件，如果想让高手上场，点他们就行。","listen",true)
+ closeRocket();stop();var tasks=STEP_TASKS[lesson().id],nextLesson=false;
+ if(stepIndex<tasks.length-1)stepIndex++;else{active=(active+1)%data.length;stepIndex=0;method=0;cueIndex=0;frame=0;nextLesson=true;renderNav();}
+ role=nextLesson?"reader":STEP_TASKS[lesson().id][stepIndex].role;
+ if(role==="thinking")method=2;else if(role==="solver")method=0;
+ render();expertEnter(role);showCue(cueIndex,false,false);
+ speech(student+"，现在进入下一问。我请"+roles[role]+"来帮你先看结构；你还是要自己完成计算。","listen",true)
 }
 
 function draw(){var l=lesson(),view=$("view");if(!view)return;var n=frame,html="";
@@ -294,7 +303,7 @@ function play(){stop();if(cueIndex<CUES[lesson().id].length-1)showCue(cueIndex+1
 $("lessonbar").addEventListener("click",function(e){var b=e.target.closest("[data-lesson]");if(b)openLesson(Number(b.dataset.lesson))});
 $("experts").addEventListener("click",function(e){var b=e.target.closest("[data-role]");if(b)selectRole(b.dataset.role)});
 $("content").addEventListener("click",function(e){var m=e.target.closest("[data-method]");if(m){method=Number(m.dataset.method);render();speech(student+"，我们切换到"+lesson().methods[method].name+"。你要比较的不是谁的公式更高级，而是哪种思路更容易看清题目。","explain",true);return}
-var id=e.target.id;if(id==="grade")grade();if(id==="nextStep")nextChallenge()});
+var id=e.target.id;if(id==="grade")grade();if(id==="nextStep")nextChallenge();if(id==="askStepExpert")selectRole(STEP_TASKS[lesson().id][stepIndex].role)});
 $("content").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="guess")grade()});
 
 $("cueNext").onclick=function(){stop();if(cueIndex+1<CUES[lesson().id].length)showCue(cueIndex+1,true,true)};
@@ -320,6 +329,26 @@ function closeRocket(){clearRocketTimers();$("rocketReward").hidden=true;rocketB
 function launchRocket(){if(rocketBusy)return;rocketBusy=true;$("rocketLaunch").disabled=true;var n=3;$("rocketCount").textContent=n;
 function countdown(){if(n>1){n--;$("rocketCount").textContent=n;rocketTimers.push(setTimeout(countdown,650))}else{$("rocketCount").textContent="发射！";$("rocketWorld").classList.add("launched");speech(student+"，火箭升空啦！这是你自己解开难题赢来的。想好了就继续挑战下一题。","celebrate",true);rocketTimers.push(setTimeout(function(){$("rocketCount").textContent="升空成功！";$("rocketMessage").textContent="发射完成。可以继续下一道挑战。";$("rocketLaunch").textContent="✓ 已发射"},3200))}}countdown()}
 $("rocketLaunch").onclick=launchRocket;$("rocketSkip").onclick=closeRocket;$("rocketClose").onclick=closeRocket;
+
+
+function expertExplain(){
+ var id=role, expert=EXPERT_CAST[id],task=STEP_TASKS[lesson().id][stepIndex],text="";
+ if(id==="reader")text="先看第"+(stepIndex+1)+"问。"+task.q+" 我先把已知、所求和方向分开看，再决定怎么动笔。";
+ if(id==="visual")text="请看中间的图。"+CUES[lesson().id][Math.min(cueIndex,CUES[lesson().id].length-1)][2]+" 到关键点要停一停，先自己预测。";
+ if(id==="solver")text="我先示范七年级规范思路。"+lesson().methods[0].steps[Math.min(stepIndex,lesson().methods[0].steps.length-1)]+" 接下来请你自己计算。";
+ if(id==="thinking")text="我想提醒你一个更深的观察："+lesson().methods[2].steps[Math.min(stepIndex,lesson().methods[2].steps.length-1)]+" 这只是思路提升，正式解法仍用七年级方法。";
+ if(id==="checker")text="先检验每个条件是否满足。"+lesson().check+" 这也是高手最后的一步。";
+ $("expertMessage").textContent=text;
+ if(!muted&&window.speechSynthesis&&window.SpeechSynthesisUtterance){
+   try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="zh-CN";u.rate=Math.min(rate,.9);u.pitch=id==="thinking"?1.1:id==="checker"?.99:1.04;var vs=speechSynthesis.getVoices();u.voice=vs.find(function(v){return /^zh/i.test(v.lang)})||null;
+   $("expertEntrance").classList.add("speaking");
+   u.onend=u.onerror=function(){$("expertEntrance").classList.remove("speaking")};
+   speechSynthesis.speak(u)
+   }catch(e){$("expertEntrance").classList.remove("speaking")}
+ }else{speech(student+"，"+expert.name+"的思路已经显示在工作台。你可以打开语音，再听他讲一遍。","listen",false)}
+}
+$("expertExplain").onclick=expertExplain;
+$("expertShow").onclick=function(){if(role==="reader")selectRole("visual");else if(role==="visual")showCue(Math.min(cueIndex+1,CUES[lesson().id].length-1),true,true);else {if(role==="thinking")method=2;else if(role==="solver")method=0;render();showCue(cueIndex,false,false)}};
 
 window.LIN_V5={lessons:data,go:openLesson,selectRole:selectRole,method:function(i){method=i;render()},answer:parseAnswer};
 })();
