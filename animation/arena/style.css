@@ -391,3 +391,14 @@ button{touch-action:manipulation}
 .arena-track-bottom details>div{display:flex;gap:12px;margin-top:7px;justify-content:flex-end}
 .arena-track-bottom details a{color:#4e7a88}
 @media(max-width:560px){.arena-head-in{padding:7px 11px}.arena-brand{font-size:13px}.arena-brand-icon{width:29px;height:29px;font-size:19px}.arena-head-links>a{display:none}.arena-head-links details{display:block}.arena-track-tabs{gap:5px}.arena-track-tabs button,.arena-track-tabs .arena-tab-disabled{font-size:12px;padding:6px 4px;min-height:49px}.arena-track-bottom{align-items:flex-start;flex-wrap:wrap}}
+
+/* One focused exam-recovery pathway below the five chapter cards. */
+.arena-repair-spotlight{display:flex;align-items:center;gap:17px;min-height:106px;margin:16px 0 12px;padding:19px 23px;border:1px solid #afd5cc;border-radius:19px;background:radial-gradient(circle at 98% 0%,#bce1db65,transparent 37%),linear-gradient(120deg,#e3f0eb,#f5fbf4);box-shadow:0 7px 25px #34554812}
+.arena-repair-emblem{display:grid;place-items:center;flex:none;width:58px;height:58px;border-radius:15px;color:#ffe0af;background:#244d56;font-size:31px;font-weight:800}
+.arena-repair-copy{flex:1;min-width:0}
+.arena-repair-copy>span{font-size:11px;letter-spacing:.08em;color:#39836c;font-weight:900}
+.arena-repair-copy h2{font-size:22px;color:#263f48;line-height:1.3;letter-spacing:-.04em;margin:3px 0}
+.arena-repair-copy p{font-size:12px;color:#6a817c;line-height:1.6;margin:0}
+.arena-repair-go{display:inline-flex;align-items:center;justify-content:center;min-height:47px;flex:none;border-radius:12px;padding:10px 15px;color:#f1fff8;background:#285456;font-size:13px;font-weight:850;gap:7px}
+.arena-repair-go:hover{background:#38716e}
+@media(max-width:610px){.arena-repair-spotlight{flex-wrap:wrap;padding:14px;gap:10px}.arena-repair-emblem{width:44px;height:44px;font-size:24px;border-radius:12px}.arena-repair-copy h2{font-size:18px}.arena-repair-go{flex-basis:100%}}
