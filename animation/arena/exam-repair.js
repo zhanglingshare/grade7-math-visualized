@@ -62,7 +62,7 @@ function renderMap(){
 function sceneHTML(m){
  if(m.id!=="q23" && window.EXAM_REPAIR_VISUALS)return window.EXAM_REPAIR_VISUALS.render(m.id,store.steps[m.id]||0);
  if(m.id==="q23"){
-  return '<div class="timeline"><svg class="line-svg" id="line-svg" viewBox="0 0 620 200" role="img" aria-label="两动点运动数轴"><line x1="32" y1="89" x2="592" y2="89" stroke="#9babb3" stroke-width="3" stroke-linecap="round"/><path d="M592 89 L580 81 L580 97 Z" fill="#9babb3"/><g id="ticks"></g><line id="distance" y1="59" y2="59" x1="0" x2="0" stroke="#f4c696" stroke-width="2" stroke-dasharray="5 4"/><circle id="pointP" r="10" cy="89" cx="0" fill="#ffac76" stroke="#112c3d" stroke-width="2"/><circle id="pointQ" r="10" cy="89" cx="0" fill="#7ee7cd" stroke="#112c3d" stroke-width="2"/><text id="nameP" y="49" text-anchor="middle" font-size="18" font-weight="850" fill="#ffbf8e">P</text><text id="nameQ" y="139" text-anchor="middle" font-size="18" font-weight="850" fill="#92f1d8">Q</text><text id="posP" y="31" text-anchor="middle" font-size="13" fill="#ffdab6"></text><text id="posQ" y="161" text-anchor="middle" font-size="13" fill="#baf5e4"></text><text x="310" y="194" text-anchor="middle" font-size="12" fill="#95b4bb">原点、方向和单位不变</text></svg><div class="timecontrols"><label><b>拖动时间，亲眼验证</b><span id="timeval">0.0 秒</span></label><input type="range" id="timerange" min="0" max="4" step="0.1" value="'+time+'" aria-label="模拟时间"><div class="time-actions"><button id="playmove" type="button">▶ 演示运动</button><small id="distancetext">距离：10单位</small></div></div></div>';
+  return '<div class="timeline"><svg class="line-svg" id="line-svg" viewBox="0 0 620 200" role="img" aria-label="两动点运动数轴"><line x1="32" y1="89" x2="592" y2="89" stroke="#9babb3" stroke-width="3" stroke-linecap="round"/><path d="M592 89 L580 81 L580 97 Z" fill="#9babb3"/><g id="ticks"></g><line id="distance" y1="59" y2="59" x1="0" x2="0" stroke="#f4c696" stroke-width="2" stroke-dasharray="5 4"/><circle id="pointP" r="10" cy="89" cx="0" fill="#ffac76" stroke="#112c3d" stroke-width="2"/><circle id="pointQ" r="10" cy="89" cx="0" fill="#7ee7cd" stroke="#112c3d" stroke-width="2"/><text id="nameP" y="49" text-anchor="middle" font-size="18" font-weight="850" fill="#ffbf8e">P</text><text id="nameQ" y="139" text-anchor="middle" font-size="18" font-weight="850" fill="#92f1d8">Q</text><text id="posP" y="31" text-anchor="middle" font-size="13" fill="#ffdab6"></text><text id="posQ" y="161" text-anchor="middle" font-size="13" fill="#baf5e4"></text><text x="310" y="194" text-anchor="middle" font-size="12" fill="#95b4bb">原点、方向和单位不变</text></svg><div class="timecontrols"><label><b>拖动时间，亲眼验证</b><span id="timeval">0.0 秒</span></label><input type="range" id="timerange" min="0" max="'+((store.steps[m.id]||0)>=4?6:4)+'" step="0.1" value="'+time+'" aria-label="模拟时间"><div class="time-actions"><button id="playmove" type="button">▶ 演示运动</button><small id="distancetext">距离：10单位</small></div></div></div>';
  }
  if(m.id==="q22"){
   const s=store.steps[m.id]||0;
@@ -85,7 +85,8 @@ function sceneHTML(m){
 function redrawNumberLine(){
  const svg=$("line-svg");if(!svg)return;
  const px=x=>32+((x+5)/16)*560;
- const P=-2+3*time,Q=8-2*time;const pxP=px(P),pxQ=px(Q);
+ const advanced=(store.steps.q23||0)>=4;
+ const P=-2+(advanced?2:3)*time,Q=8-(advanced?1:2)*time;const pxP=px(P),pxQ=px(Q);
  const fmt=n=>(Math.round(n*10)/10).toFixed(1).replace(/\.0$/,"");
  $("ticks").innerHTML=Array.from({length:17},(_,i)=>{const val=i-5,x=px(val);return '<line x1="'+x+'" y1="82" x2="'+x+'" y2="96" stroke="#7a9bac" stroke-width="1"/><text x="'+x+'" y="116" fill="#a6c1c5" font-size="12" text-anchor="middle">'+(val%2===0?val:"")+'</text>';}).join("");
  $("pointP").setAttribute("cx",pxP);$("pointQ").setAttribute("cx",pxQ);
@@ -167,7 +168,8 @@ el.task.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="free-a
 el.scene.addEventListener("input",e=>{if(e.target.id==="timerange"){stopMovie();time=Number(e.target.value);redrawNumberLine();}});
 el.scene.addEventListener("click",e=>{if(e.target.closest("#playmove")){if(playing){stopMovie();e.target.textContent="▶ 演示运动";return;}
  time=0;redrawNumberLine();const b=e.target;b.textContent="■ 暂停";
- playing=setInterval(()=>{time=Math.min(4,Math.round((time+.1)*10)/10);const range=$("timerange");if(range)range.value=String(time);redrawNumberLine();if(time>=4){stopMovie();const now=$("playmove");if(now)now.textContent="▶ 重新播放";}},100);}});
+ const maxTime=(store.steps.q23||0)>=4?6:4;
+ playing=setInterval(()=>{time=Math.min(maxTime,Math.round((time+.1)*10)/10);const range=$("timerange");if(range)range.value=String(time);redrawNumberLine();if(time>=maxTime){stopMovie();const now=$("playmove");if(now)now.textContent="▶ 重新播放";}},100);}});
 window.addEventListener("pagehide",stopMovie);
 window.addEventListener("hashchange",()=>{const id=(location.hash||"").slice(1);if(byId[id]&&id!==active)openMission(id);});
 window.EXAM_REPAIR_VISUALS?.init();
