@@ -252,7 +252,7 @@ function showCue(i,read,animated){
 
 /* Five teachers in the library, only 1–3 are invited for each question. */
 var COACH_QUESTIONS={"10":[["48是起始输入，第1次输出是什么？",["48","24","12"],1,"第一步48÷2得到24。",1],["从第3次起，奇数次输出什么数？",["6","3","48"],0,"第3次6、第4次3、第5次6。",3],["起点换成96后应该怎样判断第2025次？",["照搬旧周期位置","重新列前几项","永远不循环"],1,"改变起点时要重新确认周期从第几次开始。",4]],"18":[["要变成二项式，哪一项需要消失？",["2xᵐy²","(n−3)x","常数1"],1,"令n−3=0，消掉中间项。",1],["单项式xᵐy²次数怎样计算？",["只看m","只看2","m+2"],2,"单项式的次数是所有字母指数之和。",2],["求出m和n后，题目最后要求什么？",["m−n","m+n","只求m"],0,"不要停在参数，要继续计算m−n。",3]],"19":[["(−1)²⁰²⁶的结果是正还是负？",["正","负","无法判断"],0,"负一的偶次幂等于正一。",2],["|n|=2意味着n可以是什么？",["只有2","只有−2","2和−2"],2,"距离0为2的数有正负两个。",3],["如果|n|=3，应该怎样代入？",["只代3","分别代3和−3","把m改3"],1,"绝对值等于3也有正负两种。",3]],"20":[["横路和竖路交叉的小方格被减掉几次？",["1次","2次","3次"],1,"计算两条道路面积时，重叠格被减掉了两次。",3],["剩余绿地面积的式子是哪一个？",["ab−a−b−1","ab−a−b+1","ab−1"],1,"多减掉一次重叠格，所以要加回1。",3],["把两条道路移到边缘，余下长宽是多少？",["a和b","a+1和b+1","a−1和b−1"],2,"余下的长宽分别减少1米。",4]],"21":[["出库的库存变化记什么符号？",["正","负","不写"],1,"库存减少记负数。",1],["计算运费应该使用哪个数量？",["净变化","实际运输吨数","只算入库"],1,"进出分别按实际运输量计费。",5],["出库20吨，每吨涨10元，多多少运费？",["200元","80元","120元"],0,"20×10=200元。",5]],"22":[["按ad−bc，首先相乘的是哪两个位置？",["左上×右下","左上×右上","左下×右下"],0,"主对角线：左上a乘右下d。",1],["四格中的3x和2相乘后，按规则应当怎样处理？",["加6x","减6x","减3x"],1,"副对角线的积是6x，应当减去。",2],["m和n互为相反数，哪一个等式成立？",["m+n=0","m−n=0","m=n=1"],0,"互为相反数的两个数和为0。",4]],"23":[["两点从−2和8出发，相距多少格？",["6格","10格","−10格"],1,"8−(−2)=10格。",0],["相向运动，每秒靠近多少格？",["1格","5格","6格"],1,"相向运动，每秒距离减少3+2=5格。",2],["两点距离再次等于5格，可能发生在哪些时段？",["只有相遇前","只有相遇后","相遇前和相遇后"],2,"相遇后两点继续运动，距离再次增大到5格。",3]]};
-var coachPassed=Object.create(null),coachFailed=Object.create(null);
+var coachPassed=Object.create(null),coachFailed=Object.create(null),audioUserMuted=false;
 var GURU_ICONS={reader:"🔍",visual:"🎬",solver:"✍️",thinking:"🧠",checker:"✅"};
 function invitedExperts(){
  var l=lesson(),step=stepIndex,task=STEP_TASKS[l.id][step],lead=task.role;
@@ -297,7 +297,7 @@ if(role==="thinking")s=student+"，我请思维高手来问一问。思维高手
 if(role==="checker")s=student+"，现在请验算高手上场。真正的高手做完还会验算。这些问题你试着自己核对。";
 speech(s,role==="reader"?"listen":role==="thinking"?"think":"explain",false)}
 function openLesson(i){closeRocket();stop();active=i;stepIndex=0;expertPart=0;role="reader";method=0;frame=0;cueIndex=0;trying=false;renderNav();render();expertEnter(role);guideExpertPart(0,false,false);speech(student+"，我们来研究第"+lesson().id+"题。高手先问你一个问题，你点选后图形会随回答变化。","listen",true)}
-function selectRole(r){if(!invitedExperts().includes(r))return;stop();role=r;expertPart=0;if(r==="thinking")method=2;else if(r==="solver")method=0;render();expertEnter(r);guideExpertPart(0,false,false);renderCoach();if(!muted)coachSay(coachingQuestion()[0],false)}
+function selectRole(r){if(!invitedExperts().includes(r))return;stop();role=r;expertPart=0;if(r==="thinking")method=2;else if(r==="solver")method=0;render();expertEnter(r);guideExpertPart(0,false,false);renderCoach();coachSay(coachingQuestion()[0],!audioUserMuted)}
 
 function methodBox(){var l=lesson();var tabs='<div class="methodTabs">'+l.methods.map(function(m,i){return '<button data-method="'+i+'" class="'+(method===i?"active":"")+'">'+escape(m.name)+'</button>'}).join("")+'</div>';var m=l.methods[method];var cards='<div class="methodCards">'+m.steps.map(function(s,i){return '<div class="methodStep '+(i<=cueIndex?"visited":"")+'"><small>思路 '+(i+1)+' · '+escape(m.type)+'</small><strong>'+escape(s)+'</strong></div>'}).join("")+'</div>';return tabs+cards+'<p class="methodFoot">把文字解法与上面的数学实验和关系图一一对应，卷面写七年级规范方法。</p>'}
 function methodMarkup(){var l=lesson();
@@ -336,7 +336,7 @@ function nextChallenge(){
  if(stepIndex<tasks.length-1)stepIndex++;else{active=(active+1)%data.length;stepIndex=0;method=0;cueIndex=0;frame=0;nextLesson=true;renderNav();}
  role=nextLesson?"reader":STEP_TASKS[lesson().id][stepIndex].role;ensureGuest();
  if(role==="thinking")method=2;else if(role==="solver")method=0;
- render();expertEnter(role);expertPart=0;guideExpertPart(0,false,false);renderCoach();if(!muted)coachSay(coachingQuestion()[0],false);
+ render();expertEnter(role);expertPart=0;guideExpertPart(0,false,false);renderCoach();coachSay(coachingQuestion()[0],!audioUserMuted);
  speech(student+"，现在进入下一问。跟着高手看高亮文字，再自己完成计算。","listen",false)
 }
 
@@ -372,8 +372,8 @@ $("cueSlider").oninput=function(){stop();showCue(Number(this.value),true,false)}
 $("cuePace").onchange=function(){cuePace=Number(this.value)};
 $("cueAuto").onclick=function(){if(cueAuto){stop();return}cueAuto=true;cueGeneration++;$("cueAuto").textContent="Ⅱ 关闭自动讲解";showCue(cueIndex,true,false)};
 
-$("sound").onclick=function(){muted=!muted;$("sound").textContent=muted?"🔊 开启全部语音":"🔈 关闭全部语音";if(muted){activeVoiceTurn++;if(window.speechSynthesis)speechSynthesis.cancel();$("expertEntrance").classList.remove("speaking");$("portraitStage").classList.remove("speaking");$("expertStatus").textContent="● 已关闭语音"}else guideExpertPart(expertPart,true,false)};
-$("quiet").onclick=function(){stop();if(window.speechSynthesis)speechSynthesis.cancel();speech(student+"，好的。现在先由你独立思考，我安静地陪你。","listen",false)};
+$("sound").onclick=function(){muted=!muted;audioUserMuted=muted;$("sound").textContent=muted?"🔊 开启全部语音":"🔈 关闭全部语音";if(muted){activeVoiceTurn++;if(window.speechSynthesis)speechSynthesis.cancel();$("expertEntrance").classList.remove("speaking");$("portraitStage").classList.remove("speaking");$("expertStatus").textContent="● 已关闭语音"}else guideExpertPart(expertPart,true,false)};
+$("quiet").onclick=function(){audioUserMuted=true;muted=true;$("sound").textContent="🔊 开启全部语音";stop();if(window.speechSynthesis)speechSynthesis.cancel();speech(student+"，好的。现在先由你独立思考，我安静地陪你。","listen",false)};
 $("repeat").onclick=function(){voice(lastWords||$("speech").textContent)};
 $("slower").onclick=function(){rate=rate===.88?.73:.88;speech(student+"，我现在会说得慢一点。你可以随时再听一遍。","explain",true)};
 $("hint").onclick=function(){speech(student+"，我只给你一个关键线索："+lesson().challenge.split("：")[0]+"。"+lesson().hint,"think",true)};
@@ -449,19 +449,19 @@ function coachRespond(i){
  if(coachPassed[key])return;
  if(correct){
    coachPassed[key]=true;showCue(q[4],false,true);renderCoach();
-   coachSay("答对了。"+q[3]+" 现在请跟着动画自己完成下方这道数学题。",false);
+   coachSay("答对了。"+q[3]+" 现在请跟着动画自己完成下方这道数学题。",!audioUserMuted);
  }else{
    coachFailed[key]=(coachFailed[key]||0)+1;
    var hint=coachFailed[key]>=2?STEP_TASKS[lesson().id][stepIndex].hint:"先看看图上的关键条件。";
    $("coachFeedback").textContent="再想一下："+hint;
    $("coachChoices").querySelectorAll("[data-pick]").forEach(function(b,j){b.classList.toggle("incorrect",j===i)});
-   coachSay("先不用着急，"+hint+"。你再选一次。",false);
+   coachSay("先不用着急，"+hint+"。你再选一次。",!audioUserMuted);
  }
 }
 $("coachChoices").addEventListener("click",function(e){var b=e.target.closest("[data-pick]");if(b)coachRespond(Number(b.dataset.pick))});
-$("coachListen").onclick=function(){coachSay(coachingQuestion()[0],true)};
-$("coachHelp").onclick=function(){var msg=STEP_TASKS[lesson().id][stepIndex].hint;$("coachFeedback").textContent="线索："+msg;coachSay("我给你一点线索。"+msg+"。你再试。",true)};
-$("coachMove").onclick=function(){var n=coachingQuestion()[4];showCue(n,false,true);coachSay("请看图。"+CUES[lesson().id][Math.min(n,CUES[lesson().id].length-1)][2]+"。现在你再做判断。",true)};
+$("coachListen").onclick=function(){audioUserMuted=false;coachSay(coachingQuestion()[0],true)};
+$("coachHelp").onclick=function(){audioUserMuted=false;var msg=STEP_TASKS[lesson().id][stepIndex].hint;$("coachFeedback").textContent="线索："+msg;coachSay("我给你一点线索。"+msg+"。你再试。",true)};
+$("coachMove").onclick=function(){audioUserMuted=false;var n=coachingQuestion()[4];showCue(n,false,true);coachSay("请看图。"+CUES[lesson().id][Math.min(n,CUES[lesson().id].length-1)][2]+"。现在你再做判断。",true)};
 
 /* Separate teacher/guest voice turns; never cancel the guest after the command. */
 var activeVoiceTurn=0,expertVoiceObject=null;
