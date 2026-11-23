@@ -1,0 +1,234 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08131b"><title>林老师数学教室 V2 · 主动动画陪练</title><style>
+:root{--paper:#f5eee2;--ink:#263944;--muted:#73818b;--dark:#142d3d;--line:#ded3c3;--orange:#e58a4c}*{box-sizing:border-box}body{margin:0;background:linear-gradient(#bca98f1c 1px,transparent 1px),linear-gradient(90deg,#bca98f1c 1px,transparent 1px),var(--paper);background-size:28px 28px;color:var(--ink);font-family:system-ui,-apple-system,"PingFang SC",sans-serif}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #edae73}a{color:inherit}.wrap{max-width:1260px;margin:auto;padding:16px 15px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:16px;font-weight:850}.brand b{background:var(--dark);color:#f5c191;border-radius:10px;padding:9px;margin-right:8px}.top a{font-size:12px;color:#4f6470}.hero{margin:26px 0 15px}.hero h1{font-size:clamp(26px,4vw,45px);letter-spacing:-.06em;margin:6px 0}.hero p{font-size:13px;color:var(--muted);line-height:1.7;margin:0}.eyebrow{font-size:11px;letter-spacing:.15em;color:#b26d3d;font-weight:850}.nav{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:16px 0}.tab{padding:12px;background:#fffbf4;border:1px solid var(--line);border-radius:13px;color:#455c66;font-size:12px;text-align:left;font-weight:800}.tab small{display:block;color:#a78166;font-size:10px;margin-bottom:5px}.tab.active{background:#1a3948;color:#fff}.tab.active small{color:#91d3cb}.tab.done:after{content:" ✓";color:#67c4a4}.layout{display:grid;grid-template-columns:minmax(0,1.23fr) minmax(320px,.85fr);gap:15px}.panel{background:#fffaf2;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 15px 45px #493c2f14}.board{min-height:460px;padding:20px;background:#142f3e;color:#e9f5f2;border:8px solid #3b5652;box-shadow:inset 0 0 80px #02121a;border-radius:17px}.boardline{display:flex;justify-content:space-between;font-size:11px;color:#a4c7cb}.board h2{font-size:clamp(21px,3vw,30px);margin:25px 0 12px}.board p{font-size:13px;color:#b6d1d5;line-height:1.7}.visual{height:245px;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:9px}.formula{font-size:clamp(22px,3vw,35px);font-weight:850;text-align:center;line-height:1.5}.sub{font-size:13px;color:#a0c9ca;text-align:center;line-height:1.6}.visual svg{width:100%;max-width:640px}.controls{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}.controls input{accent-color:#f5ad75}.controls button{border-radius:9px;padding:8px 11px;border:1px solid #65838d;background:#2a5261;color:white}.matrix{display:grid;grid-template-columns:repeat(2,94px);gap:9px}.matrix span{background:#315564;padding:16px;text-align:center;border-radius:9px;font-weight:850;font-size:24px}.matrix span:first-child,.matrix span:last-child{background:#75533c}.bars{display:flex;align-items:end;gap:8px;height:125px;width:88%;justify-content:center}.bars span{display:grid;place-items:end center;width:19%;border-radius:7px 7px 0 0;padding:5px;color:#193d43;font-size:16px;font-weight:850}.bars .neg{background:#ed9d79}.bars .pos{background:#80d9b6}.footBoard{padding:12px 18px;font-size:12px;color:#536d76;background:#e8f0e9;line-height:1.7}.teacherStage{height:255px;position:relative;background:radial-gradient(ellipse at center,#bfdfd0,#87b2b7 65%,#638b9c);overflow:hidden}.teacherStage canvas{width:100%;height:100%;display:block}.fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:80px}.teacherStage .chip{position:absolute;left:12px;top:12px;padding:7px 12px;background:#143946df;color:#eafff4;border-radius:100px;font-size:11px}.teacherPanel{padding:16px}.teacherPanel strong{font-size:12px;color:#ae6b40}.speech{font-size:16px;font-weight:750;line-height:1.7;min-height:85px;margin:9px 0}.tools{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #dacbb8;background:#fff7e9;color:#415964;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:750}.btn.on{background:#d6f1e4}.nick{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:11px;font-size:12px;color:#677c83}.nick input{border:1px solid #dacdbd;border-radius:8px;padding:7px;width:85px;background:#fff}.handoff{border-top:1px solid #eee3d3;padding:10px 15px;background:#fcf5e9;display:flex;justify-content:space-between;gap:5px}.unit{font-size:10px;text-align:center;color:#657882;min-width:0;flex:1}.unit b{display:block;font-size:16px;margin-bottom:4px}.unit.on{color:#bb703d;font-weight:850}.questionBox{padding:17px;border-top:1px solid #e7ddcc}.step{color:#b46b3e;font-size:11px;font-weight:800}.questionBox h3{font-size:18px;line-height:1.55;margin:10px 0 14px}.options{display:grid;gap:8px}.options button{background:#fff;border:1px solid #d8cbb9;border-radius:11px;text-align:left;padding:12px;color:#28414e}.options button.selected{background:#fff0da;border-color:#e38b50}.free{width:100%;border:2px solid #d9cabb;border-radius:11px;padding:12px;font-size:16px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}.primary{background:#e8894c;color:#fff;border:0;border-radius:10px;font-weight:850;padding:12px 16px}.primary:disabled{opacity:.4;cursor:not-allowed}.feedback{padding:12px;background:#e5f4e9;border-left:4px solid #66b999;border-radius:8px;margin-top:12px;line-height:1.6;font-size:13px}.feedback.bad{background:#fff0de;border-left-color:#eda05e}.progress{font-size:11px;color:#71858a;margin-top:12px}.footer{font-size:12px;color:#73818a;line-height:1.7;margin-top:20px}@media(max-width:860px){.layout{grid-template-columns:1fr}.nav{grid-template-columns:repeat(3,1fr)}.board{min-height:390px}.teacherStage{height:280px}}@media(max-width:440px){.wrap{padding:12px 9px 55px}.board{padding:13px;border-width:6px;min-height:350px}.visual{height:210px}.teacherStage{height:240px}.tab{padding:9px 7px}}
+
+/* STUDIO 02 — bespoke learning environment, separate from legacy math UI */
+:root{--paper:#08131b;--ink:#eaf2f5;--muted:#9aabb4;--dark:#0d2430;--line:#ffffff21;--orange:#e9b37a}
+html{scroll-behavior:smooth}body{min-height:100vh;color:#eff7f9;background:radial-gradient(ellipse 55vw 45vw at 80% 6%,#163d45 0,transparent 75%),radial-gradient(ellipse 45vw 38vw at 8% 56%,#17343b 0,transparent 74%),#080f18;background-attachment:fixed;font-family:"SF Pro Display",Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.27;background-image:linear-gradient(#fff2 1px,transparent 1px),linear-gradient(90deg,#fff2 1px,transparent 1px);background-size:70px 70px;mask-image:linear-gradient(to bottom,transparent,#0008 30%,transparent 85%)}
+::selection{background:#82cfc4;color:#09222a}
+.wrap{max-width:1580px;padding:25px clamp(14px,2.8vw,48px) 75px;position:relative;z-index:1}
+.top{height:55px;border-bottom:1px solid #ffffff18;padding-bottom:18px}.brand{font-size:14px;letter-spacing:.04em;font-weight:720;color:#e7f4f3}.brand b{background:linear-gradient(135deg,#b7f2dc,#54a6a2);color:#073338;border-radius:13px;font-size:18px;padding:10px 13px;box-shadow:0 4px 28px #54c7aa46}.top a{color:#bdd3dc;text-decoration:none;border:1px solid #ffffff32;border-radius:12px;padding:9px 13px;transition:.25s}.top a:hover{border-color:#99e4c9;background:#ffffff0d}
+.hero{margin:30px 0 23px;position:relative;padding-right:170px}.eyebrow{letter-spacing:.24em;color:#95d6c8;font-size:11px}.hero h1{font-size:clamp(28px,4.25vw,57px);font-weight:650;line-height:1.14;letter-spacing:-.067em;margin:11px 0 15px;background:linear-gradient(110deg,#fff 0%,#e6f5f1 55%,#7cc8be);color:transparent;background-clip:text}.hero p{color:#9fb5bf;font-size:14px;line-height:1.7;max-width:700px}.hero:after{content:"PERSONAL LEARNING STUDIO / 01";position:absolute;right:0;bottom:10px;color:#5a8a91;font-size:10px;letter-spacing:.12em;font-weight:700}
+.nav{grid-template-columns:repeat(6,1fr);margin:21px 0 17px;gap:10px}.tab{background:linear-gradient(135deg,#132633c9,#0d1d29d9);border:1px solid #ffffff19;color:#a2b6c0;border-radius:14px;min-height:74px;padding:15px 14px;font-size:13px;line-height:1.4;transition:transform .25s,border .25s,box-shadow .25s}.tab small{color:#648a95;letter-spacing:.05em;font-weight:700}.tab:hover{transform:translateY(-3px);border-color:#72cbb967}.tab.active{background:linear-gradient(145deg,#2a4e55,#183944);border-color:#a8ebd26c;color:#f9ffff;box-shadow:0 8px 24px #0005,inset 0 1px #ffffff20}.tab.active small{color:#b5edcd}
+.layout{grid-template-columns:minmax(0,1.06fr) minmax(390px,.94fr);gap:20px;align-items:start}
+.panel{border:1px solid #ffffff1e;background:linear-gradient(140deg,#182f3bba,#0c1e2aa0);border-radius:22px;box-shadow:0 25px 75px #020810aa,inset 0 1px #ffffff12;backdrop-filter:blur(14px)}
+.board{min-height:520px;border:0;border-radius:22px;background:radial-gradient(ellipse at 78% 78%,#245d5b55,transparent 54%),radial-gradient(ellipse at 7% 1%,#1d414b,transparent 58%),linear-gradient(135deg,#112833,#0b1e29);box-shadow:inset 0 0 0 1px #8dd6d014;padding:clamp(19px,2.9vw,37px);position:relative;overflow:hidden}
+.board:after{content:"";position:absolute;width:260px;height:260px;right:-140px;top:-130px;border:1px solid #81b8b825;border-radius:50%;box-shadow:0 0 0 60px #ffffff03,0 0 0 120px #ffffff03;pointer-events:none}.boardline{color:#87b4ba;text-transform:uppercase;letter-spacing:.11em;font-size:10px;position:relative;z-index:1}.board h2{margin:43px 0 14px;font-size:clamp(28px,3vw,43px);font-weight:620;letter-spacing:-.03em}.board p{color:#a7c6c9;font-size:15px;line-height:1.85;max-width:550px}.visual{height:296px;position:relative;margin-top:8px;z-index:1}.formula{font-size:clamp(23px,3.4vw,43px);font-weight:600;letter-spacing:-.015em;filter:drop-shadow(0 0 13px #8deed128)}.sub{color:#a3d0cd;line-height:1.7}.visual svg{width:100%;filter:drop-shadow(0 9px 18px #0009)}.controls button{background:#254a55;border:1px solid #5caaa379;color:#e7ffff;transition:.2s}.controls button:hover{background:#36737a}.controls input{accent-color:#83ddc3}.footBoard{background:#102e38;color:#9bd0c8;border-top:1px solid #6bb8ae30;padding:20px 30px;font-size:13px}.matrix span{background:#214a54;border:1px solid #ffffff22;box-shadow:inset 0 1px #ffffff16}.matrix span:first-child,.matrix span:last-child{background:#836248}
+.teacherStage{height:390px;background:radial-gradient(ellipse 30% 40% at 53% 48%,#659fafa3,transparent 95%),radial-gradient(ellipse 75% 90% at 50% 65%,#31596f,#0b2636 75%,#0a1826);border-bottom:1px solid #ffffff2e;isolation:isolate}
+.teacherStage:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 48%,#ffffff11 50%,transparent 52%),radial-gradient(ellipse 35% 50% at 50% 100%,#a0d6b944,transparent);background-size:80px 100%,auto;opacity:.45;pointer-events:none}
+.teacherStage:after{content:"";position:absolute;left:9%;bottom:12px;width:82%;height:8px;background:#83efcc66;border-radius:100%;filter:blur(18px);pointer-events:none}
+.teacherStage canvas{position:relative;z-index:1;filter:drop-shadow(0 18px 25px #0006)}
+.fallback{font-size:92px}.teacherStage .chip{top:20px;left:22px;z-index:3;background:#092c38a6;border:1px solid #a7ead243;color:#dcfff2;padding:9px 15px;letter-spacing:.08em;backdrop-filter:blur(12px)}
+.studio-mark{position:absolute;right:23px;top:22px;text-align:right;z-index:3;color:#d4eee8;letter-spacing:.16em;font-size:9px;line-height:1.8;text-shadow:0 1px 12px #0014}.studio-mark strong{font-size:12px;font-weight:620;letter-spacing:.06em;color:#f8fff9}
+.stage-caption{position:absolute;z-index:3;left:23px;bottom:20px;padding:12px 15px;background:#081a24ac;border:1px solid #ffffff27;border-radius:13px;backdrop-filter:blur(14px);pointer-events:none}.stage-caption strong{font-size:13px;color:#f4fff8;letter-spacing:.03em}.stage-caption span{display:block;color:#a5c4c5;font-size:10px;margin-top:4px}
+.teacherPanel{padding:24px 25px 20px;border-bottom:1px solid #ffffff18}
+.teacherPanel strong{font-weight:700;color:#a9e7d5;letter-spacing:.06em}.speech{font-size:19px;color:#f0faf8;font-weight:540;line-height:1.85;min-height:90px;letter-spacing:.01em}.tools{gap:9px}.btn{background:#193442;color:#cae4e6;border:1px solid #ffffff2d;border-radius:11px;padding:10px 12px;font-weight:600}.btn:hover{background:#22515a}.btn.on{background:#265d55;color:#d9fff0;border-color:#8edab9}.nick{color:#a8bfc6;gap:9px}.nick input{background:#091e29;color:#e2f6ef;border-color:#ffffff38}.handoff{border-top:0;border-bottom:1px solid #ffffff1b;padding:18px 16px;background:#0d2430bf}.unit{color:#7797a3;font-size:10px;position:relative}.unit b{font-size:19px}.unit.on{color:#a6eacc}.unit.on:before{content:"";position:absolute;top:-18px;left:15%;width:70%;height:2px;background:#9bdfc2;box-shadow:0 0 15px #8feaab}
+.questionBox{padding:25px 26px 28px;border-top:0}.step{font-size:11px;color:#96d5c2;letter-spacing:.11em}.questionBox h3{font-size:20px;font-weight:600;color:#f3faf9;line-height:1.7;min-height:65px}
+.options{gap:11px}.options button{background:#112b38;color:#d6ebec;border-color:#ffffff25;border-radius:12px;padding:15px;transition:.18s}.options button:hover{background:#1a4050;border-color:#92d9ce}.options button.selected{background:#28564c;border-color:#88e9c1;color:#effff2}.free{background:#0c2330;color:#eafff7;border-color:#4b7c81}.free::placeholder{color:#91a9b2}.primary{background:linear-gradient(115deg,#9ee5cb,#63c8bd);color:#0d3034;padding:13px 20px;box-shadow:0 5px 28px #62ceb536;transition:transform .18s,filter .18s}.primary:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.feedback{background:#123d3e;color:#d3f7e5;border-left-color:#87ddbe}.feedback.bad{background:#50352c;color:#ffe6d4;border-left-color:#dda176}.progress{color:#8badb1}.footer{color:#64858e;max-width:980px;margin:30px auto 0;text-align:center;line-height:1.85}
+.studio-intro{display:flex;align-items:center;gap:17px;border:1px solid #b2e5cc24;background:#93d5b40a;border-radius:15px;padding:13px 17px;margin-bottom:18px}.studio-intro .pulse{height:9px;width:9px;flex-shrink:0;border-radius:50%;background:#9becbf;box-shadow:0 0 19px #9becbf}.studio-intro b{font-size:12px;color:#e3f7ef}.studio-intro span{font-size:12px;color:#91adb6}.studio-intro .right{margin-left:auto;color:#abd9cd;font-size:11px;white-space:nowrap}
+@media(max-width:1050px){.layout{grid-template-columns:minmax(0,1fr) minmax(355px,.93fr)}.hero:after{display:none}}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:16px}.nav{grid-template-columns:repeat(3,1fr)}.board{min-height:420px}.teacherStage{height:440px}.hero{padding-right:0}.hero h1{font-size:34px}}
+@media(max-width:490px){.wrap{padding:16px 10px 50px}.top{height:auto;padding-bottom:14px}.brand{font-size:11px}.brand b{font-size:15px;padding:8px}.top a{font-size:10px;padding:8px}.hero{margin:26px 0 18px}.hero h1{font-size:31px;line-height:1.23}.hero p{font-size:12px}.nav{gap:6px}.tab{font-size:12px;padding:12px 9px;min-height:69px}.board{padding:23px;min-height:410px}.board h2{margin-top:26px;font-size:30px}.board p{font-size:13px}.visual{height:250px}.teacherStage{height:340px}.teacherPanel{padding:21px 19px}.speech{font-size:17px;min-height:83px}.questionBox{padding:21px 18px}.questionBox h3{font-size:18px}.studio-intro{flex-wrap:wrap}.studio-intro .right{margin-left:25px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* V2 cinematic scene composition */
+body{background:radial-gradient(ellipse 70% 50% at 45% 12%,#184b80,transparent 75%),#061426;color:#e6f6ff}
+.wrap{max-width:1670px}.top{background:#0e2948a0;border:1px solid #449bdb55;border-radius:12px;padding:0 18px}
+.hero{margin:24px 0 12px}.hero h1{font-size:clamp(27px,3.8vw,49px);color:#f6fcff;background:none;letter-spacing:-.04em}.hero p{color:#a9cbe0}
+.studio-intro{background:#0c3151a9;border-color:#4a9be655}.nav{margin:12px 0;gap:7px}
+.tab{background:#0e3150;border-color:#3278ac;min-height:66px}.tab.active{background:linear-gradient(145deg,#0b6a9f,#124878);border-color:#65ceff}
+.layout{grid-template-columns:minmax(325px,.82fr) minmax(0,1.18fr);gap:13px}
+.layout>aside.panel{order:-1}.layout>section.panel{order:1}
+.panel{background:linear-gradient(145deg,#0e3154,#081e3c);border-color:#3985b7;border-radius:17px;box-shadow:0 18px 55px #020916aa}
+.teacherStage{height:430px;background:radial-gradient(ellipse at 50% 56%,#376e9b,#163b66 57%,#091a37)}
+.teacherPanel{padding:21px}.speech{min-height:103px;line-height:1.8;font-size:19px}
+.board{min-height:560px;padding:25px;background:radial-gradient(ellipse at 50% 46%,#154778,#071e3b 74%);border-radius:17px}
+.board h2{font-size:clamp(28px,3vw,42px);margin:24px 0 10px}.board p{color:#b7d2e5}
+.visual{height:310px;min-height:310px;padding:14px;border:1px solid #2d8acc83;border-radius:15px;background:radial-gradient(ellipse at 50% 50%,#176ca84a,transparent)}
+.moviebar{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap;background:#0b345b;border:1px solid #4b9ee5;border-radius:11px;padding:10px}
+.moviebar span{font-size:12px;color:#98def9;font-weight:700}.moviebar span.active{color:#ffd38b}
+.moviebar div{display:flex;gap:6px}.moviebar button{background:#145b8f;border:1px solid #5cb6e4;border-radius:8px;color:#effaff;font-size:12px;padding:9px}
+.footBoard{background:#103858;color:#a9e4eb}
+.questionBox{background:#092745;border-top:1px solid #3b81b8}.options button{background:#123759;border-color:#4a8eb1}.options button.selected{background:#1a6173}
+.primary{background:linear-gradient(120deg,#4bbef2,#69e1d9);color:#08273b}
+.btn{background:#174c70;border-color:#368fbc;color:#eaf8ff}.btn:hover{background:#1b6c91}
+.collaborators{background:linear-gradient(110deg,#102f58,#09213d);border:1px solid #3885bd;border-radius:16px;margin-top:14px;padding:17px}
+.collaborators strong{font-size:15px}.collaborators div{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:12px 0}
+.collaborators span{border:1px solid #3983ae;background:#103f68;padding:14px 7px;text-align:center;border-radius:12px;font-size:12px}.collaborators small{color:#81abc4}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.teacherStage{height:350px}.collaborators div{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){.nav{grid-template-columns:repeat(3,1fr)}.teacherStage{height:270px}.board{min-height:0;padding:15px}.visual{min-height:245px;height:245px}.collaborators div{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:29px}}
+</style></head><body><main class="wrap"><header class="top"><div class="brand"><b>∑</b> 林老师数学教室 <span style="opacity:.4"> / V2</span></div><a href="../">返回V1 ↗</a></header><section class="hero"><div class="eyebrow">AI陪学 · 主动动画 · 思维训练</div><h1 id="welcome">峰玮，跟林老师一起攻克难题。</h1><p>有些题目适合先看动画。林老师会主动启动演示，再请你观察、判断和自己过关。</p></section><div class="studio-intro"><span class="pulse"></span><b>专属学习空间已就绪</b><span>今天不比速度，比思考的深度。</span><span class="right">6 个关卡 · 18 次挑战</span></div><nav class="nav" id="nav"></nav><div class="layout"><section class="panel"><div class="board"><div class="boardline"><span>● 可以操作的数学黑板</span><span id="boardTag">先预测，再验证</span></div><h2 id="title"></h2><p id="desc"></p><div class="visual" id="visual"></div><div class="moviebar"><span id="movieStatus">● 数学实验准备就绪</span><div><button id="moviePlay">▶ 演示动画</button><button id="moviePause">Ⅱ 暂停</button><button id="movieReset">↺ 重看</button></div></div></div><div class="footBoard" id="rule"></div></section><aside class="panel"><div class="teacherStage" id="teacherStage"><div class="fallback" id="fallback">👩🏻‍🏫</div><div class="chip">● 林老师 · 主动演示陪练</div><div class="studio-mark">PRIVATE STUDY ROOM<br><strong>YOU + YOUR MENTOR</strong></div><div class="stage-caption"><strong>我在这里，陪你攻克难题。</strong><span>先独立思考 · 需要时我会引导</span></div></div><div class="teacherPanel"><strong>林老师 · 温和、耐心、认真</strong><div class="speech" id="speech" aria-live="polite"></div><div style="font-size:11px;color:#9fb9be;margin-bottom:8px">首次请点“开启老师主动说话”，浏览器才允许发声。老师会在关键节点主动提醒，不会一直催促。</div><div class="tools"><button class="btn" id="speak">🔊 老师讲给我听</button><button class="btn" id="auto">开启老师主动说话</button><button class="btn" id="hint">卡住了，请提示</button><button class="btn" id="thinking">我有自己的想法</button></div><div class="nick"><label for="nick">我叫</label><input id="nick" maxlength="12" placeholder="你的称呼"><button id="saveName" class="btn">记住</button></div></div><div class="handoff"><div class="unit" id="u0"><b>👩🏻‍🏫</b>老师引导</div><div class="unit" id="u1"><b>🎞️</b>自动演示</div><div class="unit" id="u2"><b>🔎</b>思维观察</div><div class="unit" id="u3"><b>🏅</b>独立过关</div></div><div class="questionBox"><div class="step" id="step"></div><h3 id="question"></h3><div id="response"></div><div class="actions"><button id="check" class="primary">检查我的想法</button><button id="next" class="primary" hidden>进入下一步 →</button><button id="retry" class="btn">重新想一想</button></div><div id="feedback"></div><div id="progress" class="progress"></div></div></aside></div><section class="collaborators"><strong>AI 教学团队 · 后台职责协作</strong><div><span>🧠 思维观察</span><span>🧭 教学策略</span><span>🎞️ 动画实验</span><span>⏱️ 习惯教练</span><span>🏅 过关评估</span></div><small>目前为本地规则协作演示，尚未连接独立大模型。</small></section><footer class="footer">本页与原有六题训练完全分离，旧页面、题库及进度不受影响。题型依据已有期中错漏记录；部分题目为改编或原创变式，不冒充原卷逐字题目。无登录、不上传学习进度，称呼与记录只存在当前浏览器。Three.js 场景需联网加载；无法加载时自动保留老师替代图。语音由设备浏览器提供，中文女声是否可用取决于系统安装的语音包。</footer></main>
+<script>
+(function(){
+'use strict';
+const bank=[
+{id:'q23',title:'数轴双动点',num:'23',intro:'P从−2向右走每秒3格，Q从8向左走每秒2格。我们先看位置怎么变化。',rule:'位置=起点+速度×时间；距离是位置差的绝对值。',steps:[{q:'1秒后，P和Q各在哪里？',options:['P=1，Q=6','P=−5，Q=10','P=3，Q=2'],a:0,tip:'先分别看方向，向右加，向左减。',why:'P=−2+3=1，Q=8−2=6。'},{q:'两点在出发后多少秒相遇？',ans:[2],hint:'填写秒数',tip:'相遇就是−2+3t=8−2t。',why:'5t=10，所以t=2，坐标都是4。'},{q:'换条件：P每秒向右2格，Q每秒向左1格。距离变成原来一半的两个时间是？',ans:[5/3,5],hint:'填两个时间，如 1,2 或 5/3,5',tip:'列|10−3t|=5。相遇前后都要考虑。',why:'10−3t=5或−5，所以t=5/3或5。'}]},
+{id:'q22',title:'四格新运算',num:'22',intro:'今天不是背旧公式，而是看懂一种新的运算定义：四格[a b；c d]等于ad−bc。',rule:'主对角线相乘，再减去副对角线相乘。',steps:[{q:'[−1 2；−3 4] 的值是？',options:['−10','2','10'],a:1,tip:'先算−1×4，再算2×(−3)。',why:'−4−(−6)=2。'},{q:'[2x−1 3x；2 1] 的值为3，x是多少？',ans:[-1],hint:'输入x',tip:'(2x−1)×1−3x×2=3。',why:'−4x−1=3，x=−1。'},{q:'换数字：[2 −1；3 4] 等于多少？',ans:[11],hint:'输入结果',tip:'2×4−(−1)×3。',why:'8−(−3)=11。'}]},
+{id:'q21',title:'仓库双账本',num:'21',intro:'仓库的数量变化和运费是两本账。你原来运费做对了，我们主要训练净变化。',rule:'库存按正负求代数和，运费按实际搬运的正吨数算。',steps:[{q:'−4×2、+5×1、−2×3、+1×3、−3×2，净变化是多少吨？',options:['−6','−12','12'],a:1,tip:'先分别得到−8、+5、−6、+3、−6再求和。',why:'合计−12吨，减少12吨。'},{q:'运进8吨每吨40元，运出20吨每吨70元，总运费多少？',ans:[1720],hint:'运费（元）',tip:'8×40+20×70。',why:'1720元。你原卷这一部分是正确的。'},{q:'运出运费涨到每吨80元，总运费是多少？',ans:[1920],hint:'运费（元）',tip:'原来1720元，增加20×10元。',why:'1920元。'}]},
+{id:'q18',title:'次数与项数',num:'18',intro:'2xᵐy²−(n−3)x+1要成为三次二项式，需要同时满足两个条件。',rule:'二项式化简后恰有两项；项的次数是字母指数之和。',steps:[{q:'要让中间项消失，n是多少？',options:['2','3','4'],a:1,tip:'n−3=0。',why:'n=3。'},{q:'要让2xᵐy²是三次项，m是多少？',ans:[1],hint:'输入m',tip:'m+2=3。',why:'m=1。'},{q:'新题：5xᵏy+7是四次二项式，k是多少？',ans:[3],hint:'输入k',tip:'k+1=4。',why:'k=3。'}]},
+{id:'q19',title:'绝对值与分支',num:'19',intro:'m是最大的负整数，|n|=2，a和b互为倒数。别漏掉第二种可能。',rule:'(−1)的偶次幂为1；|n|=k时要检查n=±k。',steps:[{q:'m²⁰²⁶是多少？',options:['−1','1','2026'],a:1,tip:'m=−1，偶数个−1相乘结果是？',why:'结果是1。'},{q:'ab−n+m²⁰²⁶的两个可能值是多少？',ans:[0,4],hint:'填两个结果，用逗号隔开',tip:'式子等于2−n，n有正负两种可能。',why:'n=2时为0，n=−2时为4。'},{q:'换条件：|n|=3且指数为2024，结果是哪两个？',ans:[-1,5],hint:'输入两个结果',tip:'仍是2−n，n=3或−3。',why:'−1和5。'}]},
+{id:'q10',title:'规律与大序号',num:'10',intro:'输入48，偶数除以2，奇数加3。发现周期以后不用一直算到2025次。',rule:'先找到重复周期，再严格对齐输出序号。',steps:[{q:'48→24→12→6→3，下一次输出是？',options:['0','6','3'],a:1,tip:'3是奇数，按规则加3。',why:'3→6，随后6→3。'},{q:'第1次输出24，第4次输出3，第5次输出6。第2025次输出多少？',ans:[6],hint:'填写数字',tip:'第4次及以后，偶数序号是3，奇数序号是6。',why:'2025为奇数，所以输出6。'},{q:'新起点96，同样规则。第2025次输出多少？',ans:[3],hint:'填写数字',tip:'96→48→24→12→6→3。第5次输出3，第6次输出6。',why:'第5次是3，随后奇数次3、偶数次6；2025为奇数，所以是3。'}]}
+];
+const KEY='teacher-lab-v2-2026';let saved={nick:'峰玮',step:{},done:{},attempts:{},active:0,auto:false};try{let p=JSON.parse(localStorage.getItem(KEY)||'null');if(p&&typeof p==='object')saved={...saved,...p}}catch(e){}
+let current=Math.max(0,Math.min(5,Number(saved.active)||0)),selected=null,verified=false,feedback='',bad=false,seconds=0,animFrame=0;
+const $=id=>document.getElementById(id),lesson=()=>bank[current],idx=()=>Math.min(2,saved.step[lesson().id]||0),task=()=>lesson().steps[idx()],student=()=>saved.nick||'同学';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
+let avatarState='idle',talkUntil=0,hintLevel=0,wrongOnStep=0,lastPromptAt=Date.now(),silenceTimer=null;
+const openers=[
+'先别动笔。你说说这道题最关键的条件是什么？我很想听听你的判断。',
+'这一问我们提高一点难度。先想方法，别急着找答案。',
+'高手关来了！新条件、新数字，刚才的方法还管用吗？这次我先不提示。'
+];
+function resetWatch(){lastPromptAt=Date.now();if(silenceTimer)clearTimeout(silenceTimer);silenceTimer=setTimeout(()=>{
+ if(document.visibilityState==='visible'&&!verified&&(!('speechSynthesis'in window)||!speechSynthesis.speaking))teacher(student()+'，这道题有点难度。你可以继续安静地想，也可以叫我给一点线索。别着急，我在。');
+},65000)}
+function stageTalk(){teacher(student()+'，'+openers[idx()]);resetWatch()}
+function reinforce(){return [
+'这不是碰巧蒙对，而是你抓住了关键条件。',
+'不错，你能把方法用出来，才是高手的进步。',
+'这一关看重的是思路。你已经能自己把条件和方法接起来了。'
+][Math.min(2,idx())]}
+
+function teacher(s,auto=true){$('speech').textContent=s;avatarState='talk';talkUntil=Date.now()+Math.max(2300,s.length*210);if(saved.auto&&auto)voice(s)}
+function voice(s){if(!('speechSynthesis'in window)){teacher('这台设备暂时不支持语音，我们可以看文字一起做。',false);return}try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang='zh-CN';u.rate=.91;u.pitch=1.12;let voices=speechSynthesis.getVoices();let female=voices.find(v=>/zh/i.test(v.lang)&&/female|ting|xiaoxiao|xiaoyi|hui|mei|yaoyao/i.test(v.name));u.voice=female||voices.find(v=>/zh/i.test(v.lang))||null;u.onstart=()=>{avatarState='talk'};u.onend=()=>{avatarState='idle'};u.onerror=()=>{avatarState='idle';$('speak').textContent='🔊 点这里重试语音'};speechSynthesis.speak(u)}catch(e){$('speak').textContent='🔊 点击试读'}}
+function speakText(){voice($('speech').textContent)}
+function change(i){current=i;saved.active=i;selected=null;verified=false;feedback='';bad=false;hintLevel=0;wrongOnStep=0;seconds=0;save();render();teacher(student()+'，今天选'+lesson().title+'！高手不是一开始都会，而是遇到难题知道怎样拆开。'+openers[idx()]);resetWatch()}
+function tabs(){$('nav').innerHTML=bank.map((l,i)=>'<button class="tab '+(current===i?'active ':'')+(saved.done[l.id]?'done':'')+'" data-i="'+i+'"><small>期中第'+l.num+'题</small>'+l.title+'</button>').join('')}
+function numberline(){let a=-2+3*seconds,b=8-2*seconds,x=n=>35+(n+5)*29;return '<svg viewBox="0 0 540 155" role="img" aria-label="P和Q运动的数轴"><line x1="30" y1="80" x2="520" y2="80" stroke="#adc5c7" stroke-width="3"/>'+Array.from({length:17},(_,i)=>{let n=i-5;return '<line x1="'+x(n)+'" x2="'+x(n)+'" y1="73" y2="87" stroke="#8eb4b9"/>'+(n%2===0?'<text fill="#a6cdd1" x="'+x(n)+'" y="107" text-anchor="middle" font-size="12">'+n+'</text>':'')}).join('')+'<circle cx="'+x(a)+'" cy="80" r="10" fill="#ffac79"/><circle cx="'+x(b)+'" cy="80" r="10" fill="#74dfc3"/><text x="'+x(a)+'" y="55" text-anchor="middle" fill="#ffbf96" font-weight="bold">P</text><text x="'+x(b)+'" y="135" text-anchor="middle" fill="#8beed7" font-weight="bold">Q</text></svg><div class="controls"><input id="timeRange" type="range" min="0" max="4" step=".1" value="'+seconds+'"><span id="timeText">'+seconds.toFixed(1)+'秒 · 相距'+Math.abs(a-b).toFixed(1)+'格</span><button id="play">▶ 演示</button></div>'}
+function drawVisual(){let id=lesson().id,i=idx(),v='';
+if(id==='q23')v=numberline();
+if(id==='q22'){let nums=i===0?['−1','2','−3','4']:i===1?['2x−1','3x','2','1']:['2','−1','3','4'];v='<div class="matrix">'+nums.map(x=>'<span>'+x+'</span>').join('')+'</div><div class="sub">橙色主对角相乘，减去另一条对角的乘积。</div>'}
+if(id==='q21')v='<div class="bars">'+[-8,5,-6,3,-6].map(n=>'<span style="height:'+(35+Math.abs(n)*10)+'px" class="'+(n<0?'neg':'pos')+'">'+(n>0?'+':'')+n+'</span>').join('')+'</div><div class="sub">向上表示入库，向下表示出库；费用另算。</div>';
+if(id==='q18')v='<div class="formula">2xᵐy² − (n−3)x + 1</div><div class="sub">一手检查项数，一手检查次数。两关都要过。</div><div class="controls"><button id="showRule">查看如何同时检验</button></div>';
+if(id==='q19')v='<div class="formula">|n| = '+(i===2?'3':'2')+'</div><div class="sub">← 负方向　　　0　　　正方向 →</div><div class="formula" style="font-size:21px;color:#8ee7cd">n = '+(i===2?'−3 或 3':'−2 或 2')+'</div>';
+if(id==='q10')v='<div class="formula">48 → 24 → 12 → 6 → 3 ⇄ 6</div><div class="sub">重要：起点48是第0个状态；24才是第1次输出。</div>';
+$('visual').innerHTML=v}
+function render(){
+tabs();let l=lesson(),i=idx(),q=task();$('title').textContent=l.title;$('desc').textContent=l.intro;$('rule').textContent='这关的思考工具：'+l.rule;$('boardTag').textContent=i===2?'陌生变式 · 独立过关':'观察 · 操作 · 验证';drawVisual();
+$('step').textContent='原期中第'+l.num+'题相关 · 第'+(i+1)+'/3步 '+(i===2?' · 独立迁移':'');
+$('question').textContent=q.q;$('response').innerHTML=q.options?'<div class="options">'+q.options.map((a,j)=>'<button data-choice="'+j+'" class="'+(selected===j?'selected':'')+'">'+String.fromCharCode(65+j)+' · '+a+'</button>').join('')+'</div>':'<input id="answer" class="free" placeholder="'+q.hint+'" inputmode="text" autocomplete="off">';
+$('check').hidden=verified;$('next').hidden=!verified;$('next').textContent=i===2?'完成本关 →':'继续下一步 →';$('feedback').innerHTML=feedback?'<div class="feedback '+(bad?'bad':'')+'">'+feedback+'</div>':'';
+$('progress').textContent='已通过 '+Object.keys(saved.done).filter(k=>saved.done[k]).length+'/6 关 · 当前任务第 '+(i+1)+'/3 步 · 答错可以重试，不扣分';
+for(let n=0;n<4;n++)$('u'+n).classList.toggle('on',n===(verified?3:bad?2:i===0?0:1));
+$('nick').value=saved.nick;
+}
+function parseNums(s){return String(s).replace(/[−﹣–]/g,'-').replace(/[，、；;和或\s]+/g,',').split(',').filter(Boolean).map(x=>{let m=x.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))(?:\/([+-]?(?:\d+(?:\.\d*)?|\.\d+)))?$/);if(!m)return NaN;let denominator=m[2]?+m[2]:1;return denominator===0?NaN:+m[1]/denominator})}
+function verify(){if(verified)return;lastPromptAt=Date.now();let q=task(),correct=false;if(q.options){if(selected===null){teacher(student()+'，先选一个答案。不要急，想一想。');return}correct=selected===q.a}else{let raw=$('answer')?.value||'';let nums=parseNums(raw);correct=nums.length===q.ans.length&&nums.every(Number.isFinite)&&nums.sort((a,b)=>a-b).every((v,j)=>Math.abs(v-q.ans.slice().sort((a,b)=>a-b)[j])<.00001)}
+saved.attempts[lesson().id]=(saved.attempts[lesson().id]||0)+1;verified=correct;bad=!correct;
+if(correct){
+ feedback='通过！'+q.why+' 请你再讲一遍理由。'; 
+ teacher(student()+'，漂亮！'+reinforce()+' '+q.why+(idx()===2?' 这是一道独立挑战，你拿下了。':' 准备好，我们继续挑战下一步。'));
+}else{
+ wrongOnStep++;
+ feedback='还没有通过。先检查关键的一步：'+q.tip;
+ const guidance=wrongOnStep===1?'高手也会算错，重要的是找到是哪一步出了问题。':wrongOnStep===2?'你没有放弃，这很好。我们把条件一个一个对上。':'我们换一种方法：先用黑板上的模型重新表示条件。';
+ teacher(student()+'，'+guidance+' '+q.tip+' 我不急着公布答案，你再试一次。');
+}
+resetWatch();save();render()}
+function next(){if(!verified)return;let l=lesson(),i=idx(),completed=i===2;
+if(completed){saved.done[l.id]=true;saved.step[l.id]=3;let j=bank.findIndex((b,k)=>k>current&&!saved.done[b.id]);if(j<0)j=bank.findIndex(b=>!saved.done[b.id]);if(j<0){feedback='六类挑战全部通过！几天后再来挑战没有提示的新变式。';verified=false;save();render();teacher(student()+'，六类挑战全通过啦！真正的高手也会复盘。今天哪一道你最有成就感？下次换题再见！');return}current=j;saved.active=j;}else saved.step[l.id]=i+1;
+selected=null;verified=false;feedback='';bad=false;hintLevel=0;wrongOnStep=0;seconds=0;save();render();
+if(completed)teacher(student()+'，恭喜你拿下一整关！这不是只会背答案。现在进入'+lesson().title+'，我们继续挑战。'+openers[idx()]);
+else stageTalk();resetWatch()}
+$('nav').onclick=e=>{let b=e.target.closest('[data-i]');if(b)change(+b.dataset.i)};
+$('response').onclick=e=>{let b=e.target.closest('[data-choice]');if(b){selected=+b.dataset.choice;lastPromptAt=Date.now();render()}};
+$('check').onclick=verify;$('next').onclick=next;$('retry').onclick=()=>{selected=null;verified=false;bad=false;feedback='';render();teacher(student()+'，高手有一个习惯：发现思路不对，就重新整理已知条件。我们再来一遍，我陪你。');resetWatch()};
+$('hint').onclick=()=>{hintLevel=Math.min(3,hintLevel+1);const q=task();let msg=hintLevel===1?'先不要计算，重新说出题目问的是什么，哪些条件不能漏。':hintLevel===2?'现在找关键关系：'+lesson().rule:'我们来做一步针对性检查：'+q.tip;teacher(student()+'，高手提示第'+hintLevel+'级。'+msg+' 我等你自己完成下一步。');resetWatch()};
+$('speak').onclick=speakText;$('auto').onclick=()=>{saved.auto=!saved.auto;save();$('auto').textContent='主动陪练语音：'+(saved.auto?'开':'关');$('auto').classList.toggle('on',saved.auto);if(saved.auto){teacher(student()+'，我会在开题、卡住、改错和过关时陪你说几句。你认真思考时，我不会一直打断。');voice($('speech').textContent)}else if('speechSynthesis'in window)speechSynthesis.cancel()};
+$('saveName').onclick=()=>{let n=$('nick').value.trim().slice(0,12);saved.nick=n||'同学';save();teacher('你好，'+student()+'！从今天起，我们一起挑战难题。')};
+$('visual').addEventListener('input',e=>{if(e.target.id==='timeRange'){seconds=+e.target.value;drawVisual()}});
+$('visual').addEventListener('click',e=>{if(e.target.id==='showRule')teacher(student()+'，先令n等于3消掉中间项，再令m等于1让指数之和等于3。');if(e.target.id==='play'){seconds=(seconds+.5)%4.5;drawVisual()}});
+$('auto').textContent='主动陪练语音：'+(saved.auto?'开':'关');
+
+/* V2 active animation and collaborative guided learning */
+const demoPresets=new Set(['q23','q22','q10']);
+let movieTimer=null,movieT=0,movieMax=4, movieRunning=false;
+const movieStatus=$('movieStatus');
+document.querySelector('.layout>section.panel').appendChild(document.querySelector('.questionBox'));
+function stopMovieV2(){if(movieTimer){clearInterval(movieTimer);movieTimer=null}movieRunning=false;movieStatus.classList.remove('active')}
+function showMovieFrame(v){
+ const id=lesson().id;
+ if(id==='q23'){
+   seconds=v;drawVisual();
+   const p=-2+3*v,q=8-2*v,d=Math.abs(p-q);
+   const out=$('timeText');if(out)out.textContent=v.toFixed(1)+' 秒 · P='+p.toFixed(1)+' · Q='+q.toFixed(1)+' · 相距'+d.toFixed(1)+' 格'+(d<.2?' · 相遇！':'');
+ }else if(id==='q10'){
+   let seq=[48,24,12,6,3,6,3,6,3,6];let n=Math.min(seq.length-1,Math.floor(v));
+   $('visual').innerHTML='<div class="formula" style="font-size:25px">'+seq.slice(0,n+1).join(' → ')+'</div><div class="sub">第'+n+'次输出 · '+(n>=6?'观察 3 ↔ 6 的循环':'继续按规则算下一步')+'</div>';
+ }else if(id==='q22'){
+   let n=Math.min(3,Math.floor(v)),a=idx()===0?['−1','2','−3','4']:idx()===1?['2x−1','3x','2','1']:['2','−1','3','4'];
+   $('visual').innerHTML='<div class="matrix">'+a.map((x,i)=>'<span style="border:2px solid '+(n===1&&(i===0||i===3)?'#ffda7c':n===2&&(i===1||i===2)?'#56dcff':'#ffffff20')+'">'+x+'</span>').join('')+'</div><div class="sub">'+['先辨认四格的位置','第一步：左上乘右下','第二步：右上乘左下','最后两条对角线的结果相减'][n]+'</div>';
+ }else if(id==='q21'){
+  let a=[-8,5,-6,3,-6],n=Math.min(5,Math.floor(v)),sum=a.slice(0,n).reduce((x,y)=>x+y,0);
+  $('visual').innerHTML='<div class="bars">'+a.map((x,i)=>'<span class="'+(x<0?'neg':'pos')+'" style="height:'+(35+Math.abs(x)*10)+'px;opacity:'+(i<n?1:.2)+'">'+x+'</span>').join('')+'</div><div class="sub">第'+n+'笔 · 净变化 '+sum+' 吨</div>';
+ }else if(id==='q18'){
+  let n=Math.min(3,Math.floor(v));
+  $('visual').innerHTML='<div class="formula">2xᵐy²−(n−3)x+1</div><div class="sub">'+['观察：三次、二项式，两个条件','要消掉中间项，令 n=3','最高次数等于m+2，令m=1','现在验证：两项、最高三次'][n]+'</div>';
+ }else if(id==='q19'){
+  let n=Math.min(3,Math.floor(v)),a=idx()===2?3:2;
+  $('visual').innerHTML='<div class="formula">|n| = '+a+'</div><div class="sub">'+['想想离0同样远的点','左边也有一个点','右边也有一个点','两种可能都不能漏掉'][n]+'</div><div class="formula" style="font-size:24px;color:#96f4d5">'+(n>1?'−'+a+'　　+'+a:'?　　?')+'</div>';
+ }
+}
+function startMovieV2(say=true){
+ stopMovieV2();movieT=0;movieMax=lesson().id==='q23'?4:lesson().id==='q10'?8:lesson().id==='q21'?5:3;
+ showMovieFrame(0);movieRunning=true;movieStatus.classList.add('active');movieStatus.textContent='▶ 林老师正在演示';
+ if(say)teacher(student()+'，这道题适合看动画。我先演示，你观察发生了什么变化。等会儿请你自己说出规律。');
+ movieTimer=setInterval(()=>{movieT=Math.min(movieMax,Math.round((movieT+(lesson().id==='q23'?.1:.5))*10)/10);showMovieFrame(movieT);
+ if(movieT>=movieMax){stopMovieV2();movieStatus.textContent='✓ 动画结束 · 轮到你思考';if(say)teacher(student()+'，现在轮到你了。先用自己的话讲出刚才的规律，再试着解决这一步。');}
+ },lesson().id==='q23'?145:400);
+}
+$('moviePlay').onclick=()=>startMovieV2(true);
+$('moviePause').onclick=()=>{stopMovieV2();movieStatus.textContent='Ⅱ 已暂停'};
+$('movieReset').onclick=()=>startMovieV2(false);
+$('thinking').onclick=()=>{stopMovieV2();teacher(student()+'，太好了，高手就是敢提出自己的想法。你先说，我认真听。说出条件、方法和你不确定的地方。')};
+$('nav').addEventListener('click',()=>{stopMovieV2();setTimeout(()=>{if(demoPresets.has(lesson().id))startMovieV2(true);else movieStatus.textContent='● 需要时自动启动动画';},80)});
+$('next').addEventListener('click',()=>{stopMovieV2();setTimeout(()=>{if(demoPresets.has(lesson().id))startMovieV2(true)},80)});
+$('check').addEventListener('click',()=>{if(bad&&!movieRunning&&saved.attempts[lesson().id]%2===0)startMovieV2(true)});
+const oldHintV2=$('hint').onclick;
+$('hint').onclick=()=>{oldHintV2();if(hintLevel>=2&&!movieRunning){teacher(student()+'，我换个方法演示给你看。不过最后一步一定留给你自己。');startMovieV2(false)}};
+$('welcome').textContent=student()+'，跟林老师一起攻克难题。';
+const oldSaveV2=$('saveName').onclick;$('saveName').onclick=()=>{oldSaveV2();$('welcome').textContent=student()+'，跟林老师一起攻克难题。'};
+render();teacher(student()+'，你好！我是林老师。先跟我观察一个数学动画，看看你能不能发现规律。',false);resetWatch();setTimeout(()=>startMovieV2(true),650);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(silenceTimer)clearTimeout(silenceTimer)}else resetWatch()});
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" onerror="document.querySelector('.chip').textContent='林老师 · 静态陪练'"></script>
+<script>
+(function(){if(!window.THREE)return;let host=document.getElementById('teacherStage'),fallback=document.getElementById('fallback');try{
+const S=THREE,scene=new S.Scene(),camera=new S.PerspectiveCamera(32,host.clientWidth/host.clientHeight,.1,100);camera.position.set(0,1.55,6.6);camera.lookAt(0,1.45,0);
+const renderer=new S.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));renderer.setSize(host.clientWidth,host.clientHeight);renderer.outputColorSpace=S.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.toneMapping=S.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;host.insertBefore(renderer.domElement,host.firstChild);fallback.style.display='none';
+scene.add(new S.HemisphereLight(0xf6fffb,0x54747e,2.1));const light=new S.DirectionalLight(0xffffff,2.3);light.position.set(-3,7,6);scene.add(light);const warm=new S.PointLight(0xffd1b1,1.2);warm.position.set(3,2,3);scene.add(warm);
+const mat=(c,r=.78)=>new S.MeshStandardMaterial({color:c,roughness:r});
+const skin=mat('#f5cbb3'),hair=mat('#262b32'),coat=mat('#ede6db'),blouse=mat('#68aa9b'),eye=mat('#283743'),lip=mat('#a65d65'),brow=mat('#5f3c39');
+function shape(geo,m,x,y,z,parent=scene){let o=new S.Mesh(geo,m);o.position.set(x,y,z);parent.add(o);return o}
+function ball(x,y,z,sx,sy,sz,m,parent){let a=shape(new S.SphereGeometry(1,32,24),m,x,y,z,parent);a.scale.set(sx,sy,sz);return a}
+const root=new S.Group();scene.add(root);root.position.y=-.06;
+ball(0,.78,0,.79,.93,.39,coat,root);ball(0,1.16,.32,.44,.60,.25,blouse,root);
+shape(new S.CylinderGeometry(.19,.22,.25,24),skin,0,1.68,.09,root);
+const head=new S.Group();head.position.set(0,2.08,.10);root.add(head);
+ball(0,.08,-.10,.47,.64,.37,hair,head);
+ball(0,0,.07,.43,.56,.36,skin,head);
+ball(-.42,-.02,.045,.08,.13,.11,skin,head);ball(.42,-.02,.045,.08,.13,.11,skin,head);
+ball(-.18,.06,.392,.052,.035,.014,eye,head);ball(.18,.06,.392,.052,.035,.014,eye,head);
+ball(-.18,.076,.41,.016,.015,.006,mat('#ffffff'),head);ball(.18,.076,.41,.016,.015,.006,mat('#ffffff'),head);
+let lEye=ball(-.18,.06,.407,.059,.004,.011,skin,head),rEye=ball(.18,.06,.407,.059,.004,.011,skin,head);lEye.visible=rEye.visible=false;
+ball(-.18,.17,.392,.105,.017,.012,brow,head);ball(.18,.17,.392,.105,.017,.012,brow,head);
+ball(0,-.08,.418,.062,.088,.06,skin,head);const mouth=ball(0,-.285,.375,.135,.027,.015,lip,head);
+ball(0,.53,.07,.46,.17,.35,hair,head);ball(-.34,.16,-.12,.17,.53,.25,hair,head);ball(.35,.16,-.12,.15,.52,.25,hair,head);
+function arm(side){const group=new S.Group();group.position.set(side*.62,1.18,.03);root.add(group);const sleeve=ball(0,-.31,0,.21,.42,.22,coat,group);sleeve.rotation.z=side*.13;ball(0,-.69,.06,.12,.16,.13,skin,group);return group}
+const left=arm(-1),right=arm(1);
+ball(0,-.11,.35,.14,.14,.11,coat,root);
+const pin=ball(.25,1.10,.55,.044,.044,.02,mat('#d5b779'),root);
+const rim=mat('#d7dadc',.22),glass=new S.MeshPhysicalMaterial({color:'#dfeee9',transparent:true,opacity:.13,roughness:.07,metalness:.12,transmission:.78});
+function ring(cx){let lens=shape(new S.TorusGeometry(.159,.017,8,32),rim,cx,.085,.443,head);lens.scale.y=.79;let gl=ball(cx,.085,.436,.146,.113,.015,glass,head);return lens;}
+ring(-.183);ring(.183);ball(0,.10,.448,.075,.017,.018,rim,head);
+const shelfMat=mat('#7bb4ae',.38),stripeMat=mat('#315c64',.35);
+let halo=shape(new S.TorusGeometry(1.33,.013,10,90),shelfMat,0,1.40,-.93,scene);halo.rotation.y=.12;
+let halo2=shape(new S.TorusGeometry(1.68,.008,8,92),stripeMat,0,1.45,-1.08,scene);halo2.rotation.y=-.12;
+const halo3=shape(new S.TorusGeometry(1.96,.005,8,92),stripeMat,0,1.45,-1.13,scene);halo3.rotation.z=.24;
+const clock=new S.Clock();function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();head.rotation.y=Math.sin(t*.65)*.11;head.rotation.z=Math.sin(t*.93)*.025;head.position.y=2.08+Math.sin(t*1.6)*.014;root.rotation.y=Math.sin(t*.4)*.02;right.rotation.z=-.11+Math.sin(t*1.8)*.075;left.rotation.z=.09+Math.sin(t*.72)*.045;mouth.scale.y=(window.speechSynthesis&&speechSynthesis.speaking)? .035+Math.abs(Math.sin(t*13))*.04:.027;halo.rotation.z=t*.032;halo2.rotation.z=-t*.018;
+const blink=(t%4.2)<.14;lEye.visible=rEye.visible=blink;renderer.render(scene,camera)}
+animate();window.addEventListener('resize',()=>{const w=host.clientWidth,h=host.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)});
+}catch(e){console.warn('3D教师不可用，保留替代老师',e)}})();
+</script></body></html>
