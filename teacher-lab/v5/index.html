@@ -84,7 +84,7 @@ if(role==="thinking")s=student+"，思维高手不是让你学超纲公式，而
 if(role==="checker")s=student+"，真正的高手做完还会验算。这些问题你试着自己核对。";
 speech(s,role==="reader"?"listen":role==="thinking"?"think":"explain",true)}
 function openLesson(i){stop();active=i;role="reader";method=0;frame=0;trying=false;renderNav();render();speech(student+"，我们来研究期中第"+lesson().id+"题。先读清条件，再请高手演示，不着急抄答案。","listen",true)}
-function selectRole(r){stop();role=r;render();sayRole();if(r==="visual")setTimeout(function(){if(role==="visual")play()},350)}
+function selectRole(r){stop();role=r;if(r==="thinking")method=2;else if(r==="solver")method=0;render();sayRole();if(r==="visual")setTimeout(function(){if(role==="visual")play()},350)}
 function methodBox(){var l=lesson();var b='<div class="methodTabs">'+l.methods.map(function(m,i){return '<button data-method="'+i+'" class="'+(method===i?"active":"")+'">'+escape(m.name)+'</button>'}).join("")+'</div>';var m=l.methods[method];b+='<div class="ruleBox"><div class="topic">'+escape(m.type)+'</div><ol>'+m.steps.map(function(t){return '<li>'+escape(t)+'</li>'}).join("")+'</ol></div>';return b}
 function methodMarkup(){var l=lesson();if(role==="reader")return '<div class="ruleBox"><p><strong>审题高手提炼：</strong>'+escape(l.read)+'</p><p class="hintline">最容易踩的坑：'+escape(l.focus)+'</p></div><div class="higher">高手先问三个问题：哪些量已知？题目最终要求什么？有哪些条件容易遗漏？</div>';
 if(role==="visual")return '<div class="view" id="view"></div><div class="democtrl"><button id="play">▶ 动画演示</button><button id="pause">Ⅱ 暂停</button><button id="replay">↺ 从头看</button><input type="range" min="0" max="100" value="0" id="range" aria-label="动画进度"><span id="vtime"></span></div><div class="previewSub">'+escape(l.visual)+'</div><div class="higher">看完动画，请先自己描述变化，而不是直接抄后面的解法。</div>';
