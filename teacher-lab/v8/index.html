@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071b2c"><title>高手数学实验室 V8 · 第23题与第20题</title>
+<style>
+:root{--bg:#071724;--navy:#0a2638;--stage:#092b3c;--line:#2b6974;--gold:#ffdb95;--mint:#93f4d2;--white:#f1f9ff;--muted:#a9c8cf;--pink:#ff9db4;--cyan:#74d9f5}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #ffe5a4;outline-offset:2px}
+button:disabled{cursor:not-allowed;opacity:.48}[hidden]{display:none!important}
+.app{height:100dvh;min-height:560px;max-width:1650px;margin:auto;padding:9px 12px 12px;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.top{height:43px;flex:0 0 43px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:9px;font-weight:850;font-size:15px;white-space:nowrap}.brand .mark{height:33px;width:33px;display:grid;place-items:center;border-radius:9px;color:#092b30;background:linear-gradient(140deg,#91ffe0,#5dd5c5);font-size:22px}
+.topActions{display:flex;gap:6px;align-items:center}.topActions button,.topActions a{border:1px solid #497b89;background:#10344a;color:#c8ebea;text-decoration:none;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+.topActions button.active{background:#216458;color:#e5fff0}.topActions .mini{color:var(--gold)}
+.lessonbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 34px;min-height:34px}
+.lessonbar .lessonName{color:#b9eff2;font-size:12px;font-weight:850}.lessonbar .progress{font-size:11px;color:#b3cccf}
+.lessonSwitch{display:flex;gap:5px}.lessonSwitch button{border:1px solid #457889;background:#102e40;color:#bedbe5;border-radius:7px;padding:6px 11px;font-size:11px;font-weight:700}.lessonSwitch button.on{background:#276c66;border-color:#90f2d0;color:#fff}
+.classroom{flex:1;min-height:0;border:1px solid #347681;border-radius:16px;background:radial-gradient(ellipse at 54% 52%,#174b5c,#082332 75%);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 13px 55px #0008}
+.sceneTop{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:9px 14px 3px}
+.sceneTop .stageTitle{font-size:12px;font-weight:900;letter-spacing:.04em;color:#c5f5e6}.sceneTop .phase{font-size:11px;color:var(--gold);border-radius:30px;border:1px solid #9d874e;padding:4px 10px}
+.hero{flex:1;min-height:0;display:grid;grid-template-columns:minmax(170px,23%) minmax(0,1fr);gap:9px;padding:3px 12px 8px}
+.expert{display:flex;flex-direction:column;position:relative;border:1px solid #478b90;border-radius:14px;background:linear-gradient(175deg,#1b5563,#0b2b42 82%);padding:9px 10px;min-height:0;overflow:hidden}
+.expert .speakerTag{color:#16352f;background:#a5f7d8;padding:5px 9px;border-radius:99px;font-size:10px;font-weight:900;align-self:flex-start}
+.expert .portrait{flex:1;min-height:80px;display:flex;justify-content:center;align-items:flex-end;overflow:hidden}
+.expert .portrait svg{height:100%;max-height:300px;width:100%;max-width:210px;filter:drop-shadow(0 10px 14px #03121c85)}
+.expert.talking .portrait svg{animation:talk .55s ease-in-out infinite alternate}
+@keyframes talk{from{transform:translateY(1px) rotate(-.3deg)}to{transform:translateY(-3px) rotate(.7deg)}}
+.expert .ename{font-size:18px;font-weight:850;color:var(--mint);text-align:center;margin-top:4px}
+.expert .specialty{font-size:11px;color:#bdd9e2;text-align:center;margin:3px 0 2px}
+.expert .speech{font-size:12px;line-height:1.62;color:#f5eccc;background:#0a3144;border:1px solid #377782;border-radius:10px;padding:8px 9px;max-height:98px;min-height:43px;overflow:auto;margin:6px 0 2px}
+.mathStage{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border:2px solid #71cabc;border-radius:14px;background:radial-gradient(ellipse at 50% 50%,#225d6c,#092337 85%)}
+.mathHeader{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 3px;gap:7px}
+.mathHeader strong{font-size:17px;color:#ffe1a2}.mathHeader span{font-size:11px;color:#b8dce0}
+.mathBoard{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 9px 0;position:relative}
+.mathBoard svg{width:100%;height:100%;max-height:100%;object-fit:contain;overflow:visible}
+.mathStage .bottomCue{text-align:center;font-weight:700;color:#a9f6e0;font-size:12px;padding:7px 9px;line-height:1.4}
+.mathStage .glow{filter:drop-shadow(0 0 5px #ffdc9b)}
+.dock{flex:0 0 auto;min-height:0;border-top:1px solid #3c7780;background:linear-gradient(135deg,#0b2c3c,#071d30);padding:12px 15px 13px}
+.dockTitle{display:flex;gap:7px;align-items:center;margin-bottom:8px}.dockTitle b{color:#f8d99e;font-size:13px}.dockTitle span{font-size:11px;color:#a9ceca}
+.question{font-size:clamp(17px,1.7vw,23px);font-weight:800;line-height:1.5;margin:0 0 10px;max-width:1200px}
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.opt{border:1px solid #4b8493;border-radius:10px;background:#143e53;color:#e7f8fa;padding:10px;min-height:45px;font-weight:650;font-size:13px;text-align:left;line-height:1.5}
+.opt:hover{border-color:#9beccf}.opt b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;background:#296479;color:#ecfcff;margin-right:7px}
+.opt.chosen{border-color:#ffdc8c;background:#5b4d36}.opt.correct{border-color:#83eeae;background:#225b50}
+.feedback{font-size:12px;line-height:1.6;min-height:0;margin:7px 0 0;color:#ffdfa9}
+.feedback.good{color:#b3f5d7}.dockActions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px}
+.btn{font-size:12px;font-weight:850;min-height:36px;padding:7px 13px;border-radius:8px;border:1px solid #619eaa;background:#144b61;color:#e9f9ff}
+.btn.primary{background:#b0f4d7;border:1px solid #b0f4d7;color:#103528}.btn.subtle{background:transparent;color:#bddde2}.btn.warn{background:#f7dd9f;color:#3d3021;border-color:#f7dd9f}
+.dockActions .hint{font-size:11px;color:#a6c6cf;margin-left:auto}
+.calcRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.calcRow input{width:94px;min-height:43px;background:#0a253a;border:2px solid #579fac;border-radius:9px;color:white;text-align:center;font-size:18px}.calcRow label{font-size:13px;color:#f3f4df}
+.lineup{display:flex;gap:7px;flex:0 0 39px;min-height:39px;align-items:center;border:1px solid #274f5c;border-radius:11px;padding:5px 12px;background:#0b2434}
+.lineup strong{font-size:11px;color:#afcccf;margin-right:5px;white-space:nowrap}
+.lineup .role{border-radius:20px;font-size:11px;color:#b8d5d8;background:#123548;border:1px solid #365e6b;padding:6px 10px}
+.lineup .role.on{color:#15362e;background:#b3f3d4;border-color:#b3f3d4;font-weight:850}
+.lineup .note{margin-left:auto;font-size:10px;color:#819fa8}
+.overlay{position:fixed;inset:0;background:#03121ada;display:none;align-items:center;justify-content:center;padding:16px;z-index:80}.overlay.open{display:flex}
+.modal{width:min(520px,100%);padding:24px;background:#0c3041;border:1px solid #8bd8c2;border-radius:16px;box-shadow:0 30px 70px #000b}
+.modal h2{margin:0 0 10px;font-size:24px}.modal p{font-size:14px;line-height:1.8;color:#cbe6df}.modal .list{margin:10px 0;font-size:13px;line-height:2;color:#cce9d9}
+@media(max-width:850px){
+ .app{padding:5px 6px 7px;gap:5px;min-height:510px}
+ .top{height:35px;flex-basis:35px}.brand{font-size:12px}.brand .mark{width:29px;height:29px;font-size:18px}
+ .topActions a,.topActions button{padding:5px 7px;font-size:10px}
+ .lessonbar{flex-basis:27px;min-height:27px}.lessonbar .lessonName{font-size:11px}.lessonbar .progress{font-size:10px}.lessonSwitch button{padding:4px 7px;font-size:10px}
+ .sceneTop{padding:6px 8px 2px}.sceneTop .stageTitle{font-size:10px}.sceneTop .phase{font-size:10px;padding:3px 7px}
+ .hero{grid-template-columns:1fr;grid-template-rows:83px minmax(0,1fr);gap:5px;padding:2px 5px 5px}
+ .expert{flex-direction:row;align-items:center;padding:5px 7px;gap:8px}
+ .expert .speakerTag{position:absolute;top:4px;right:5px;font-size:9px;padding:3px 7px}
+ .expert .portrait{flex:0 0 79px;min-height:76px;height:78px;align-items:flex-end}
+ .expert .portrait svg{max-width:79px;max-height:78px}
+ .expert .ename{font-size:13px;text-align:left;margin:0}.expert .specialty{display:none}
+ .expert .speech{font-size:12px;line-height:1.5;max-height:57px;min-height:0;margin:5px 0 0;padding:4px 6px}
+ .expert .textZone{flex:1;min-width:0}
+ .mathStage .mathHeader{padding:5px 8px 0}.mathHeader strong{font-size:12px}.mathHeader span{font-size:9px}
+ .mathBoard{padding:0 4px}.mathStage .bottomCue{font-size:10px;padding:4px}
+ .dock{padding:8px 9px 9px}.dockTitle{margin-bottom:5px}.dockTitle b{font-size:11px}.dockTitle span{font-size:10px}
+ .question{font-size:16px;margin-bottom:7px}.options{gap:5px}.opt{padding:7px 5px;font-size:11px;min-height:44px}.opt b{height:19px;width:19px;font-size:10px;margin-right:3px}
+ .dockActions{margin-top:7px;gap:5px}.btn{min-height:34px;padding:6px 9px;font-size:11px}.feedback{font-size:11px;margin-top:5px}
+ .lineup{padding:3px 6px;gap:4px;flex-basis:31px;min-height:31px}.lineup strong{font-size:9px}.lineup .role{font-size:9px;padding:4px 6px}.lineup .note{display:none}
+}
+@media(max-width:390px){.brand{font-size:11px}.topActions a{display:none}.lessonbar .lessonName{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lineup strong{display:none}.opt{font-size:10px}}
+@media(max-height:650px) and (max-width:850px){.app{height:auto;min-height:100dvh;overflow:visible}.classroom{min-height:470px}.mathBoard{min-height:195px}.hero{grid-template-rows:72px minmax(0,1fr)}.expert{padding:3px}.expert .portrait{height:65px;min-height:65px;flex-basis:65px}.expert .portrait svg{max-height:65px}.lineup{min-height:31px}}
+@media(prefers-reduced-motion:reduce){.expert.talking .portrait svg{animation:none}}
+</style></head><body><div class="app">
+<header class="top"><div class="brand"><span class="mark">✦</span> 高手数学实验室 <span style="color:#9fbaaf;font-size:10px;font-weight:500">V8 试验课堂</span></div><div class="topActions"><a href="../v5-12/expert.html?lesson=23">旧版课堂</a><button id="mute" aria-pressed="false">🔊 声音开</button><button id="teacher">👩‍🏫 林老师</button></div></header>
+<div class="lessonbar"><div class="lessonName" id="lessonTitle">第23题 · 双动点实验</div><div class="progress" id="progress">第一关</div><div class="lessonSwitch"><button id="switch23" class="on">动点</button><button id="switch20">面积</button></div></div>
+<main class="classroom"><div class="sceneTop"><span class="stageTitle">实验室 · 先判断，再让数学说话</span><span class="phase" id="phase">① 观察与预测</span></div>
+<div class="hero"><div class="expert" id="expert"><div class="speakerTag" id="speakerTag">正在主讲</div><div class="portrait" id="portrait"></div><div class="textZone"><div class="ename" id="expertName">动画高手 · 乐乐</div><div class="specialty" id="specialty">让抽象关系动起来</div><div class="speech" id="speech" aria-live="polite">先不要急着算，猜一猜会发生什么。</div></div></div>
+<div class="mathStage"><div class="mathHeader"><strong id="mathTitle">两个动点的距离</strong><span id="mathTag">t = 0 秒</span></div><div class="mathBoard" id="mathBoard" aria-label="动态数学实验"></div><div class="bottomCue" id="mathCue">盯住两个动点之间的亮线</div></div></div>
+<div class="dock" id="dock"><div class="dockTitle"><b id="dockType">🤔 猜想挑战</b><span id="dockHint">没有猜想，实验不会给答案</span></div><p class="question" id="question"></p><div class="options" id="options"></div><div class="feedback" id="feedback" aria-live="polite"></div><div class="calcRow" id="calcRow" hidden></div>
+<div class="dockActions"><button class="btn primary" id="action" disabled>先作出预测</button><button class="btn subtle" id="help">给我一点线索</button><button class="btn subtle" id="replay">↻ 重看实验</button><span class="hint" id="microHint">高手会等待你选择</span></div></div></main>
+<footer class="lineup"><strong>本题可请教</strong><div id="lineupRoles" style="display:flex;gap:5px;min-width:0"></div><span class="note">同一时刻只让一位高手主讲</span></footer>
+</div>
+<div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle">发现了什么？</h2><p id="modalText"></p><div class="list" id="modalList"></div><button class="btn primary" id="modalButton">继续</button></div></div>
+<script>
+(function(){
+"use strict";
+var ROLES={
+ reader:{name:"审题侦探 · 宁老师",short:"🔎 审题侦探",color:"#70d9c4",shirt:"#367a81",intro:"我负责发现你忽略的关键词。"},
+ visual:{name:"动画实验家 · 乐乐",short:"🎬 动画高手",color:"#ffca7e",shirt:"#ca8b58",intro:"我让抽象的变化变得能看见。"},
+ solver:{name:"解题建筑师 · 周老师",short:"✍️ 解题高手",color:"#89baf0",shirt:"#5173b4",intro:"先看懂关系，再搭出正确算式。"},
+ thinking:{name:"思维挑战者 · 阿奇",short:"🧠 思维高手",color:"#d9a7f8",shirt:"#8560bd",intro:"别急着信第一直觉，我来找反例。"},
+ checker:{name:"错误猎人 · 小检",short:"✅ 错误猎人",color:"#a4e5b0",shirt:"#3c9b72",intro:"算出答案不等于没漏解，我来帮你验证。"}
+};
+var CONTENT={
+ "23":{label:"第23题 · 双动点",title:"相遇以后，会发生什么？",cue:"观察蓝色P、粉色Q，以及它们之间的距离线",roles:["visual","thinking","checker"],
+ stages:[
+ {prompt:"P、Q 相向运动，相遇后继续走。距离会怎样？",opts:["相遇后永远保持0","先变成0，再重新增大","从头到尾一直增大"],correct:1,hint:"两个点会继续走，穿过对方后谁在左边？",response:"你注意到关键了：相遇不是运动的终点。两点穿过对方，距离会重新增大。",start:0,end:3.4},
+ {prompt:"相距5格，可能在什么时候出现？",opts:["只有第1秒","只有第3秒","第1秒和第3秒"],correct:2,hint:"盯住距离线：它先缩短，再变长。离相遇点等距的两边呢？",response:"找到了第二个时间！先接近、后远离，距离5格出现两次。",start:0,end:3.5}
+ ],calc:{label:"独立计算：相距5格的两个时刻",hint:"列式 |10−5t|=5。只用七年级方法，分两种情况。",answers:[1,3],unit:"秒",count:2}
+ },
+ "20":{label:"第20题 · 道路与绿地",title:"交叉的小格子去哪儿了？",cue:"盯住横路和竖路的交叉区域",roles:["visual","thinking","solver"],
+ stages:[
+ {prompt:"先减横路，再减竖路，交叉小方格被减掉几次？",opts:["只减掉1次","被减掉2次","一次都没减"],correct:1,hint:"横路包含交叉格，竖路也包含交叉格。",response:"对！交叉格被减去了两次，但实际只能减一次，所以最后要加回来。",start:0,end:3},
+ {prompt:"长7米、宽5米，两条路均宽1米。绿地面积应当怎样求？",opts:["35−7−5−1","35−7−5+1","35−1"],correct:1,hint:"总面积减两条路，交叉的1平方米要加回。",response:"很好。35−7−5+1，和把剩余区域看成6×4完全一致。",start:0,end:3}
+ ],calc:{label:"独立计算：剩余绿地面积",hint:"可以用35−7−5+1，也可以用(7−1)×(5−1)。",answers:[24],unit:"平方米",count:1}
+ }
+};
+var state={lesson:"23",step:0,phase:"predict",pick:-1,expert:"visual",t:0,muted:false,animating:false,done:false,revealed:false,tries:0};
+var FRAME=0,voiceTurn=0,lastSpeech="";
+function $(id){return document.getElementById(id)}
+function roleSvg(id){
+ var r=ROLES[id],color=r.color;
+ var hair=id==="thinking"?"#352746":id==="checker"?"#26434a":id==="reader"?"#213847":"#3b3341";
+ var prop=id==="reader"?'<circle cx="137" cy="109" r="22" stroke="#ffe9ab" stroke-width="7" fill="none"/><path d="M153 126L169 146" stroke="#ffe9ab" stroke-width="8" stroke-linecap="round"/>':id==="visual"?'<path d="M134 120l25 -15v31z" fill="#fce7a9"/>':id==="thinking"?'<path d="M137 112l15 8 -16 9 -15 -9z" fill="#e3c4ff"/>':id==="checker"?'<path d="M127 121l9 8 18 -21" stroke="#b7ffd2" stroke-width="6" fill="none" stroke-linecap="round"/>':'<path d="M125 112h35v29h-35z" fill="#c8e2fa"/><path d="M131 120h24M131 127h19" stroke="#4b7bac" stroke-width="3"/>';
+ return '<svg viewBox="0 0 190 250" role="img" aria-label="'+r.name+'的卡通人物"><ellipse cx="95" cy="237" rx="77" ry="8" fill="#0005"/><path d="M34 250Q28 168 73 151L116 151Q167 164 162 250Z" fill="'+r.shirt+'"/><path d="M78 149l16 23 16 -23" fill="#f0ecdf"/><path d="M81 138h27v24H81z" fill="#d49b7b"/><ellipse cx="95" cy="99" rx="48" ry="57" fill="#e8af90"/><path d="M48 88Q40 36 87 31Q146 20 146 85Q130 58 112 57Q75 61 48 88Z" fill="'+hair+'"/><path d="M52 82Q41 102 50 129" stroke="'+hair+'" stroke-width="16" fill="none"/><path d="M138 79Q148 100 141 125" stroke="'+hair+'" stroke-width="14" fill="none"/><ellipse cx="78" cy="100" rx="5" ry="6" fill="#2d3039"/><ellipse cx="116" cy="100" rx="5" ry="6" fill="#2d3039"/><path d="M87 120Q97 129 109 120" stroke="#8b4c45" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M96 106l-4 10h7" stroke="#c58b73" stroke-width="2" fill="none"/><path d="M129 179Q159 145 158 128" stroke="'+r.shirt+'" stroke-width="22" fill="none" stroke-linecap="round"/><path d="M158 128l-14 -12" stroke="#e4aa8a" stroke-width="12" stroke-linecap="round"/>'+prop+'<circle cx="95" cy="191" r="7" fill="'+color+'"/></svg>';
+}
+function speak(words){
+ lastSpeech=words;$("speech").textContent=words;
+ if(state.muted||!window.speechSynthesis||!window.SpeechSynthesisUtterance)return;
+ var current=++voiceTurn;
+ try{
+ speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(words);u.lang="zh-CN";u.rate=.86;u.pitch=state.expert==="thinking"?1.13:state.expert==="checker"?1.02:1.06;
+ var voices=speechSynthesis.getVoices()||[];u.voice=voices.find(function(v){return /^zh/i.test(v.lang)})||null;
+ u.onstart=function(){if(current===voiceTurn)$("expert").classList.add("talking")};
+ u.onend=u.onerror=function(){if(current===voiceTurn)$("expert").classList.remove("talking")};
+ speechSynthesis.speak(u);
+ }catch(e){$("expert").classList.remove("talking")}
+}
+function stopVoice(){voiceTurn++;if(window.speechSynthesis)speechSynthesis.cancel();$("expert").classList.remove("talking")}
+function setExpert(id,announce){
+ if(!ROLES[id])return;state.expert=id;$("portrait").innerHTML=roleSvg(id);
+ $("expertName").textContent=ROLES[id].name;
+ $("specialty").textContent=ROLES[id].intro;
+ Array.prototype.forEach.call($("lineupRoles").children,function(n){n.classList.toggle("on",n.dataset.role===id)});
+ if(announce)speak(expertInsight());
+}
+function expertInsight(){
+ var l=state.lesson,step=state.step;
+ var scripts={
+ reader:l==="23"?"我先审题：起点是负2和8，速度是向右3、向左2；注意相遇后没有说停止。":"先看清：长是7米，宽5米，两条路各宽1米，交叉的区域属于两条路。",
+ visual:l==="23"?"看这条发光的距离线。你先预测，再让动点运动，盯着它何时缩到零、何时重新变长。":"看横路、竖路和交叉格。接下来我让两条路分步出现，你要自己发现重复减掉了哪里。",
+ thinking:l==="23"?"我不相信相距5格只有一次。试试相遇点的两边，各找一个时刻。":"如果交叉格在两条路里都算了一次，减两条路会发生什么？敢不敢先猜？",
+ solver:l==="23"?"数轴上距离是两点坐标差的绝对值。写出 |10−5t|=5，再分类讨论。":"把实际面积写成35−7−5+1，或者直接算6×4。两种写法能相互验证。",
+ checker:l==="23"?"你找到一个时刻了吗？别急着结束，把两个时间都代入距离公式，看是不是都等于5。":"别只算数值。检查交叉格是否被重复扣除，单位有没有写平方米。"
+ };
+ return scripts[state.expert];
+}
+function setLineup(){
+ var l=CONTENT[state.lesson];$("lineupRoles").innerHTML=l.roles.map(function(id){return '<button class="role'+(id===state.expert?" on":"")+'" data-role="'+id+'">'+ROLES[id].short+'</button>'}).join("");
+}
+function lesson(){return CONTENT[state.lesson]}
+function phaseLabel(){return({predict:"① 预测",ready:"② 准备实验",verify:"③ 观察验证",reflect:"④ 解释发现",calculate:"⑤ 独立计算",done:"✓ 完成"})[state.phase]}
+function setPhase(phase){state.phase=phase;$("phase").textContent=phaseLabel();renderInteraction()}
+function mathFigure(){
+ var l=state.lesson,t=state.t;
+ if(state.lesson==="23"){
+ var x=function(v){return 40+(v+2)*31};var p=-2+3*t,q=8-2*t;var distance=Math.abs(p-q);
+ var axis='<line x1="25" y1="151" x2="415" y2="151" stroke="#bedfe5" stroke-width="2.5"/>';
+ for(var k=-2;k<=10;k+=2)axis+='<line x1="'+x(k)+'" x2="'+x(k)+'" y1="143" y2="160" stroke="#bddce7" stroke-width="2"/><text x="'+x(k)+'" y="185" text-anchor="middle" fill="#c2dfe4" font-size="16">'+k+'</text>';
+ var left=Math.min(x(p),x(q)),right=Math.max(x(p),x(q));
+ var bar='<line x1="'+left+'" x2="'+right+'" y1="91" y2="91" stroke="#ffd895" stroke-width="8" stroke-linecap="round"/>';
+ return '<svg viewBox="0 0 445 248" aria-label="动态数轴"><text x="220" y="32" text-anchor="middle" fill="#ffe2a0" font-weight="800" font-size="24">距离 '+distance.toFixed(1)+' 格</text><text x="220" y="54" text-anchor="middle" fill="#b1dee1" font-size="14">t = '+t.toFixed(1)+' 秒</text>'+axis+bar+'<circle cx="'+x(p)+'" cy="150" r="12" fill="#74def4"/><circle cx="'+x(q)+'" cy="150" r="12" fill="#ffa7ba"/><text x="'+x(p)+'" y="128" text-anchor="middle" fill="#85f3fc" font-size="18" font-weight="bold">P</text><text x="'+x(q)+'" y="218" text-anchor="middle" fill="#ffc0cb" font-size="18" font-weight="bold">Q</text><text x="220" y="242" text-anchor="middle" fill="#d1e9e7" font-size="12">P = −2 + 3t　　Q = 8 − 2t</text></svg>';
+ }
+ var f=Math.max(0,Math.min(3,t)),h=f>=1,v=f>=2,c=f>=3;
+ return '<svg viewBox="0 0 440 270" aria-label="两条道路及交叉格"><text x="220" y="26" text-anchor="middle" fill="#f7dfab" font-size="22" font-weight="bold">长7米 × 宽5米</text><rect x="62" y="49" width="315" height="175" rx="5" fill="#397a63" stroke="#b8f6cd" stroke-width="3"/><rect x="62" y="116" width="315" height="35" fill="'+(h?"#dfbf8a":"#dfbf8a33")+'"/><rect x="199" y="49" width="45" height="175" fill="'+(v?"#e6be78":"#e6be7833")+'"/><rect x="199" y="116" width="45" height="35" fill="'+(c?"#ff9984":"#e6be78")+'" stroke="'+(c?"#ffd2a0":"none")+'" stroke-width="4"/><text x="220" y="108" text-anchor="middle" fill="#faf0d7" font-size="15">横路</text><text x="268" y="91" fill="#e7f3ff" font-size="15">竖路</text><text x="220" y="251" text-anchor="middle" fill="#ffdfa7" font-size="16">'+(c?"交叉格只应减掉一次":v?"交叉格重复出现在两条路里":h?"先扣除横路的面积":"先观察整块绿地")+'</text></svg>';
+}
+function renderMath(){
+ $("mathBoard").innerHTML=mathFigure();$("mathTag").textContent=state.lesson==="23"?"t = "+state.t.toFixed(1)+"秒":(["原始面积","横路出现","竖路出现","突出交叉格"][Math.floor(state.t)]||"观察交叉格");
+ $("mathCue").textContent=state.lesson==="23"?"请盯住 P、Q 中间发光的距离线":"请观察横路与竖路的重叠方格";
+}
+function renderInteraction(){
+ var st=state.phase,l=lesson(),item=l.stages[state.step],opts=$("options"),act=$("action"),fb=$("feedback"),calc=$("calcRow");
+ $("progress").textContent="第"+(state.step+1)+"关 / 共2关 · "+phaseLabel();
+ $("question").textContent=st==="calculate"?"现在不看提示，亲手把结果算出来。":st==="done"?"完成实验！你能向别人解释刚才发现了什么吗？":st==="reflect"?"刚才的动画能否证明或推翻你的预测？":item.prompt;
+ $("dockType").textContent=st==="calculate"?"✍️ 自己计算":st==="done"?"🎉 思维挑战完成":st==="reflect"?"💡 说出发现":"🤔 先预测，再验证";
+ $("dockHint").textContent=st==="predict"?"没有预测，实验不会公布结果":st==="ready"?"现在点击验证，别移开目光":st==="verify"?"请看发亮的数学对象":"高手会根据你的回答继续";
+ fb.textContent="";fb.classList.remove("good");calc.hidden=true;opts.hidden=st==="calculate"||st==="done"||st==="reflect";
+ act.disabled=st==="predict"&&state.pick<0||st==="verify";
+ if(st==="predict"||st==="ready"){
+ opts.innerHTML=item.opts.map(function(v,i){return '<button class="opt'+(state.pick===i?" chosen":"")+'" data-pick="'+i+'"><b>'+("ABC"[i])+'</b>'+v+'</button>'}).join("");
+ act.textContent=st==="ready"?"▶ 验证我的猜想":"先选择一种预测";$("microHint").textContent="你可以猜错，关键是验证";
+ }else if(st==="verify"){opts.innerHTML="";act.textContent="实验进行中…";$("microHint").textContent="注意图形变化"; }
+ else if(st==="reflect"){
+ opts.hidden=false;opts.innerHTML='<button class="opt correct" style="grid-column:1/-1;cursor:default">'+item.response+'</button>';
+ act.textContent=state.step===0?"继续下一关 →":"✍️ 自己计算";act.disabled=false;
+ $("microHint").textContent="先解释原因，再进入下一步";
+ }else if(st==="calculate"){
+ calc.hidden=false;calc.innerHTML='<label>'+l.calc.label+'：</label>'+Array.from({length:l.calc.count},function(_,i){return '<input inputmode="decimal" aria-label="第'+(i+1)+'个答案" placeholder="答案'+(i+1)+'" data-answer="'+i+'">'}).join("")+'<span style="color:#a8d9cb;font-size:12px">'+l.calc.unit+'</span>';
+ act.textContent="检查我的计算";act.disabled=false;$("microHint").textContent="先独立试，再听错误猎人的意见";
+ }else{opts.innerHTML="";act.textContent="再玩一次";act.disabled=false;$("microHint").textContent="可以换另一个数学实验";}
+ $("help").hidden=st==="verify"||st==="done";$("replay").hidden=st==="predict"||st==="ready"||st==="done";
+}
+function teach(text){speak(text)}
+function selectOption(index){
+ if(state.phase!=="predict"&&state.phase!=="ready")return;
+ state.pick=index;state.phase="ready";renderInteraction();teach("你的预测我听到了。先别急着看答案，点击验证，让数学图自己告诉我们。");
+}
+function animateTo(to,callback){
+ cancelAnimationFrame(FRAME);state.animating=true;state.phase="verify";renderInteraction();
+ var from=state.t,start=null,dur=state.lesson==="23"?2600:1800;
+ function tick(ts){if(start===null)start=ts;var p=Math.min(1,(ts-start)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;state.t=from+(to-from)*e;renderMath();if(p<1){FRAME=requestAnimationFrame(tick)}else{state.t=to;state.animating=false;renderMath();callback()}}
+ FRAME=requestAnimationFrame(tick);
+}
+function verify(){
+ if(state.phase!=="ready")return;
+ var item=lesson().stages[state.step];
+ state.t=item.start;renderMath();
+ teach(state.lesson==="23"?"眼睛跟着两个点移动，尤其注意相遇前后的距离。":"我先显示横路，再显示竖路，最后圈出交叉的地方。");
+ animateTo(item.end,function(){
+ var good=state.pick===item.correct;
+ state.phase="reflect";renderInteraction();
+ if(state.step===1){setExpert(state.lesson==="23"?"thinking":"solver",false)}
+ teach((good?"你预测对了。":"你的预测需要修正。")+item.response+"。现在你自己说说原因，然后进入下一步。");
+ });
+}
+function next(){
+ var st=state.phase;
+ if(st==="ready")return verify();
+ if(st==="reflect"){
+ if(state.step===0){state.step=1;state.pick=-1;state.tries=0;state.t=0;state.phase="predict";setExpert(lesson().roles[0],false);renderMath();renderInteraction();teach(lesson().stages[1].prompt+"。你先预测。");}
+ else{state.phase="calculate";renderInteraction();setExpert(state.lesson==="23"?"checker":"solver",false);teach(expertInsight()+"。这次该你自己列式了。");}
+ return;
+ }
+ if(st==="calculate")return submitCalc();
+ if(st==="done")return openLesson(state.lesson);
+}
+function submitCalc(){
+ var inputs=Array.prototype.slice.call($("calcRow").querySelectorAll("input")),typed=inputs.map(function(x){return Number(x.value.trim())}),expected=lesson().calc.answers.slice().sort(function(a,b){return a-b});
+ var valid=inputs.every(function(x){return x.value.trim()!==""&&Number.isFinite(Number(x.value))});
+ var correct=valid&&typed.length===expected.length&&typed.slice().sort(function(a,b){return a-b}).every(function(x,i){return Math.abs(x-expected[i])<1e-6});
+ var fb=$("feedback");
+ if(correct){state.phase="done";renderInteraction();fb.textContent="✓ 全部正确。你没有停留在猜想，而是完成了预测、验证和计算。";fb.classList.add("good");setExpert("checker",false);teach("做得好！"+(state.lesson==="23"?"两个时间1秒和3秒都满足距离5格。你没有漏解。":"35减7减5再加1，面积24平方米。记得写单位。")); $("modalTitle").textContent="这一题真正学会了什么？";$("modalText").textContent=state.lesson==="23"?"距离不是只会缩小：相遇前后相同距离可能各出现一次。计算必须对应图上两个位置。":"交叉区域重复计数时，需要把被多减掉的那一块加回来。";$("modalList").textContent="✓ 预测 → 实验 → 修正 → 独立计算 → 检查";$("modalButton").textContent=state.lesson==="23"?"挑战第20题":"重新挑战第23题";$("overlay").classList.add("open");}
+ else{state.tries++;fb.classList.remove("good");fb.textContent=state.tries<2?"还不对。先检查有没有漏掉另一种情况，或者重复减去了交叉格。":"给你一条具体线索："+lesson().calc.hint;setExpert("checker",false);teach("不要急着抄答案。"+fb.textContent);}
+}
+function openLesson(id){
+ cancelAnimationFrame(FRAME);stopVoice();state.lesson=id;state.step=0;state.phase="predict";state.pick=-1;state.t=0;state.tries=0;state.animating=false;state.done=false;
+ $("switch23").classList.toggle("on",id==="23");$("switch20").classList.toggle("on",id==="20");
+ $("lessonTitle").textContent=lesson().label;$("mathTitle").textContent=lesson().title;
+ setLineup();setExpert(lesson().roles[0],false);renderMath();renderInteraction();
+ $("overlay").classList.remove("open");teach("先盯着数学图。"+lesson().stages[0].prompt+"。想好以后点击答案，再启动实验。");
+}
+function replay(){
+ if(state.phase==="verify")return;
+ var item=lesson().stages[Math.min(state.step,lesson().stages.length-1)];
+ state.t=item.start;renderMath();teach("我们重看一次实验。请把注意力集中在高亮的数学对象上。");
+ animateTo(item.end,function(){state.phase="reflect";renderInteraction();teach(item.response)});
+}
+function help(){
+ var t=state.phase==="calculate"?lesson().calc.hint:state.phase==="reflect"?lesson().stages[state.step].response:lesson().stages[state.step].hint;
+ $("feedback").textContent="线索："+t;teach("我只给你一个线索："+t);
+}
+function teachers(){
+ $("modalTitle").textContent="林老师 · 课堂指挥";$("modalText").textContent="这一版把讲台交给高手。每道实验只有1—3位可调用角色，当前只由一位主讲。";$("modalList").textContent="审题侦探 · 动画实验家 · 解题建筑师 · 思维挑战者 · 错误猎人";$("modalButton").textContent="返回实验";$("overlay").classList.add("open");
+}
+$("options").addEventListener("click",function(e){var b=e.target.closest("[data-pick]");if(b)selectOption(Number(b.dataset.pick))});
+$("lineupRoles").addEventListener("click",function(e){var b=e.target.closest("[data-role]");if(b){setExpert(b.dataset.role,true)}});
+$("action").onclick=next;$("help").onclick=help;$("replay").onclick=replay;
+$("mute").onclick=function(){state.muted=!state.muted;this.textContent=state.muted?"🔇 声音关":"🔊 声音开";this.setAttribute("aria-pressed",String(state.muted));if(state.muted)stopVoice();else speak(lastSpeech||expertInsight())};
+$("switch23").onclick=function(){openLesson("23")};$("switch20").onclick=function(){openLesson("20")};$("teacher").onclick=teachers;
+$("modalButton").onclick=function(){$("overlay").classList.remove("open");if(state.phase==="done")openLesson(state.lesson==="23"?"20":"23")};
+document.addEventListener("keydown",function(e){if(e.key==="Enter"&&state.phase==="calculate")submitCalc();if(e.key==="Escape")$("overlay").classList.remove("open")});
+openLesson("23");
+window.V8={state:state,openLesson:openLesson,selectOption:selectOption,verify:verify,submitCalc:submitCalc,setExpert:setExpert,lesson:lesson,renderMath:renderMath};
+})();
+</script></body></html>
