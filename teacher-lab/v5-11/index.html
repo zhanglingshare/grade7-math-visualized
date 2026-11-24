@@ -790,7 +790,7 @@ function nextChallenge(){
 
 function draw(){var l=lesson(),view=$("view");if(!view)return;var n=frame,html="";
 if(l.kind==="line"){
- var mobile=typeof window.innerWidth==="number"&&window.innerWidth<=600;
+ var mobile=typeof window.innerWidth==="number"&&window.innerWidth<=900;
  var X=mobile?function(v){return 38+(v+2)*28}:function(v){return 35+(v+4)*35};
  var p=-2+3*n,q=8-2*n;
  var axisY=mobile?145:120,barY=mobile?72:63,labelY=mobile?36:31;
@@ -808,7 +808,7 @@ if(l.kind==="line"){
 }
 else if(l.kind==="matrix"){var k=Math.min(3,Math.floor(n)),last=cueIndex>=4,val=last?["−3m+1","3","−n","−1"]:["−1","2","−3","4"];
 html='<div><div style="display:grid;grid-template-columns:repeat(2,110px);gap:7px">'+val.map(function(v,i){return '<div style="padding:18px 9px;text-align:center;border-radius:10px;background:'+(k===1&&(i===0||i===3)?"#78624d":k===2&&(i===1||i===2)?"#207b85":"#184763")+';border:1px solid #73b6c0;font-size:'+(last?19:24)+'px">'+v+'</div>'}).join("")+'</div><div class="previewSub">'+(last?"第三问：3m+3n−1 = 3(m+n)−1 = −1":(["先确定四格的位置","第一条：左上×右下","第二条：右上×左下","最后用第一条减第二条"][k]))+'</div></div>'}
-else if(l.kind==="area"){var k=Math.min(3,Math.floor(n));html='<svg viewBox="'+((typeof window.innerWidth==="number"&&window.innerWidth<=600)?"80 -15 440 285":"0 0 600 250")+'"><rect x="100" y="20" width="400" height="200" fill="#8bb888" stroke="#efffd4" stroke-width="2"/><rect x="100" y="110" width="400" height="25" fill="'+(k>=1?"#edd8a4":"#e0c999a8")+'"/><rect x="314" y="20" width="25" height="200" fill="'+(k>=2?"#f0d59a":"#e0c999a8")+'"/><rect x="314" y="110" width="25" height="25" fill="'+(k>=3?"#d87b4f":"#e7d9ab")+'"/><text x="300" y="245" text-anchor="middle" fill="#ddedfd">长 a · 宽 b · 两条路都宽 1</text>'+(k>=3?'<text x="382" y="105" fill="#ffd693" font-size="17">交叉处加回1</text>':"")+'</svg>'}
+else if(l.kind==="area"){var k=Math.min(3,Math.floor(n));html='<svg viewBox="'+((typeof window.innerWidth==="number"&&window.innerWidth<=900)?"80 -15 440 285":"0 0 600 250")+'"><rect x="100" y="20" width="400" height="200" fill="#8bb888" stroke="#efffd4" stroke-width="2"/><rect x="100" y="110" width="400" height="25" fill="'+(k>=1?"#edd8a4":"#e0c999a8")+'"/><rect x="314" y="20" width="25" height="200" fill="'+(k>=2?"#f0d59a":"#e0c999a8")+'"/><rect x="314" y="110" width="25" height="25" fill="'+(k>=3?"#d87b4f":"#e7d9ab")+'"/><text x="300" y="245" text-anchor="middle" fill="#ddedfd">长 a · 宽 b · 两条路都宽 1</text>'+(k>=3?'<text x="382" y="105" fill="#ffd693" font-size="17">交叉处加回1</text>':"")+'</svg>'}
 else if(l.kind==="powers"){var k=Math.min(3,Math.floor(n));var display=[
 '<div class="powerViz"><div class="powerFactors"><span>−1</span></div><b>一个负一：结果 −1</b><small>观察负号与括号</small></div>',
 '<div class="powerViz"><div class="powerFactors"><span>−1</span><em>×</em><span>−1</span><em>=</em><span class="positive">+1</span></div><b>负负得正</b><small>偶数个负数可以两两配对</small></div>',
