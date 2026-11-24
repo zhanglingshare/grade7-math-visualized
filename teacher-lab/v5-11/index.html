@@ -611,6 +611,23 @@ body[data-loop="finish"] .coachBox{display:none!important}
  .coachBox{max-height:115px!important}
 }
 @media(prefers-reduced-motion:reduce){.expertPodium,.sceneArena .view{animation:none!important}}
+
+/* Extra room for on-stage presenter and readable portrait on phones */
+@media(max-width:900px) and (min-height:720px){
+ .expertPodium{flex-basis:91px!important;min-height:91px!important;max-height:91px!important}
+ .expertPodium .expertAvatar{flex-basis:86px!important;width:86px!important;max-width:86px!important;height:87px!important;max-height:87px!important}
+ .expertPodium .expertSummary strong{font-size:15px!important}
+ .expertPodium .expertSummary p{font-size:12px!important;max-height:40px!important}
+ .sceneArena .view{min-height:245px!important}
+}
+@media(max-width:390px) and (min-height:720px){
+ .expertPodium{flex-basis:86px!important;min-height:86px!important;max-height:86px!important}
+ .expertPodium .expertAvatar{flex-basis:78px!important;width:78px!important;max-width:78px!important;height:82px!important;max-height:82px!important}
+}
+@media(max-width:900px){
+ .expertPodium .expertPointing{display:block!important;position:absolute;right:10px;top:7px;border:0!important;padding:3px 7px!important;border-radius:20px;background:#ffe4a9;color:#4b321b;font-size:9px!important;max-width:155px}
+ .expertPodium .expertFlag{padding:4px 2px!important}
+}
 </style></head><body><div class="shell">
 <header class="top"><div class="logo"><b>✦</b> 林老师 · 大舞台高手现场 V5.11<small>看图 → 判断 → 图动 → 计算</small></div><div class="right"><span id="miniTopic">期中第23题 · 双动点</span><button id="lessonSwitch">📚 换题</button><button id="linAsk" title="请林老师走近一点或退回">👩‍🏫 叫林老师</button><button id="sound">🔊 语音</button><button id="quiet">静音思考</button><button id="fullscreenSwitch">⛶ 全屏</button><button id="changeName" title="更改称呼">⚙</button></div></header>
 <section class="hero"><div><div class="eyebrow">MATH MASTERY · JUNIOR ONE</div><h1 id="welcome">峰玮，今天我们练高手的解题方法。</h1><p>根据期中原卷重点失分题重建：原题、动画、七年级规范解法、直观思路、思维进阶与独立变式。<br>没有数据采集员，没有复杂分析后台。选一位高手，就能看到他真正怎样解题。</p></div><span class="tagline">思路可超前 · 运算不超纲</span></section>
@@ -772,12 +789,26 @@ function nextChallenge(){
 }
 
 function draw(){var l=lesson(),view=$("view");if(!view)return;var n=frame,html="";
-if(l.kind==="line"){var X=function(v){return 35+(v+4)*35};var p=-2+3*n,q=8-2*n;
-var ticks=[];for(var k=-4;k<=12;k+=2){ticks.push('<line x1="'+X(k)+'" x2="'+X(k)+'" y1="114" y2="126" stroke="#acdcf2"/><text x="'+X(k)+'" y="149" fill="#b0ddeb" font-size="13" text-anchor="middle">'+k+'</text>')}
-html='<svg viewBox="0 0 650 205"><line x1="24" y1="120" x2="630" y2="120" stroke="#99dbed" stroke-width="3"/>'+ticks.join("")+'<line x1="'+X(p)+'" y1="63" x2="'+X(q)+'" y2="63" stroke="'+(Math.abs(p-q)===5?"#a1f6c4":"#ffe2a0")+'" stroke-width="5" stroke-linecap="round" opacity=".88"/><text x="'+((X(p)+X(q))/2)+'" y="55" text-anchor="middle" fill="#fff5d7" font-size="12">两点之间</text><circle cx="'+X(p)+'" cy="116" r="10" fill="#72e8ff"/><circle cx="'+X(q)+'" cy="116" r="10" fill="#ff9dbb"/><text x="'+X(p)+'" y="89" text-anchor="middle" fill="#8cedfa" font-size="19" font-weight="bold">P='+p.toFixed(1)+'</text><text x="'+X(q)+'" y="184" text-anchor="middle" fill="#ffb4c8" font-size="19" font-weight="bold">Q='+q.toFixed(1)+'</text><text x="325" y="31" text-anchor="middle" fill="#ffda91" font-size="23" font-weight="bold">相距 '+Math.abs(p-q).toFixed(1)+' 格</text></svg>'}
+if(l.kind==="line"){
+ var mobile=typeof window.innerWidth==="number"&&window.innerWidth<=600;
+ var X=mobile?function(v){return 38+(v+2)*28}:function(v){return 35+(v+4)*35};
+ var p=-2+3*n,q=8-2*n;
+ var axisY=mobile?145:120,barY=mobile?72:63,labelY=mobile?36:31;
+ var ticks=[],tickStart=mobile?-2:-4,tickEnd=mobile?10:12;
+ for(var k=tickStart;k<=tickEnd;k+=2){
+  ticks.push('<line x1="'+X(k)+'" x2="'+X(k)+'" y1="'+(axisY-6)+'" y2="'+(axisY+7)+'" stroke="#acdcf2" stroke-width="2"/><text x="'+X(k)+'" y="'+(axisY+31)+'" fill="#b0ddeb" font-size="'+(mobile?18:13)+'" text-anchor="middle">'+k+'</text>')
+ }
+ var left=Math.min(X(p),X(q)),right=Math.max(X(p),X(q));
+ html='<svg viewBox="'+(mobile?'0 0 430 250':'0 0 650 205')+'" role="img" aria-label="P、Q两点在数轴上运动，距离'+Math.abs(p-q).toFixed(1)+'格"><line x1="'+(mobile?20:24)+'" y1="'+axisY+'" x2="'+(mobile?413:630)+'" y2="'+axisY+'" stroke="#99dbed" stroke-width="3"/>'+ticks.join("")+
+ '<line x1="'+left+'" y1="'+barY+'" x2="'+right+'" y2="'+barY+'" stroke="'+(Math.abs(p-q)===5?"#a1f6c4":"#ffe2a0")+'" stroke-width="'+(mobile?8:5)+'" stroke-linecap="round" opacity=".95"/><text x="'+((X(p)+X(q))/2)+'" y="'+(barY-13)+'" text-anchor="middle" fill="#fff5d7" font-size="'+(mobile?16:12)+'">距离</text>'+
+ '<circle cx="'+X(p)+'" cy="'+(axisY-4)+'" r="'+(mobile?12:10)+'" fill="#72e8ff"/><circle cx="'+X(q)+'" cy="'+(axisY-4)+'" r="'+(mobile?12:10)+'" fill="#ff9dbb"/>'+
+ '<text x="'+X(p)+'" y="'+(axisY-31)+'" text-anchor="middle" fill="#8cedfa" font-size="'+(mobile?20:19)+'" font-weight="bold">P='+p.toFixed(1)+'</text>'+
+ '<text x="'+X(q)+'" y="'+(axisY+71)+'" text-anchor="middle" fill="#ffb4c8" font-size="'+(mobile?20:19)+'" font-weight="bold">Q='+q.toFixed(1)+'</text>'+
+ '<text x="'+(mobile?215:325)+'" y="'+labelY+'" text-anchor="middle" fill="#ffda91" font-size="'+(mobile?27:23)+'" font-weight="bold">相距 '+Math.abs(p-q).toFixed(1)+' 格</text></svg>'
+}
 else if(l.kind==="matrix"){var k=Math.min(3,Math.floor(n)),last=cueIndex>=4,val=last?["−3m+1","3","−n","−1"]:["−1","2","−3","4"];
 html='<div><div style="display:grid;grid-template-columns:repeat(2,110px);gap:7px">'+val.map(function(v,i){return '<div style="padding:18px 9px;text-align:center;border-radius:10px;background:'+(k===1&&(i===0||i===3)?"#78624d":k===2&&(i===1||i===2)?"#207b85":"#184763")+';border:1px solid #73b6c0;font-size:'+(last?19:24)+'px">'+v+'</div>'}).join("")+'</div><div class="previewSub">'+(last?"第三问：3m+3n−1 = 3(m+n)−1 = −1":(["先确定四格的位置","第一条：左上×右下","第二条：右上×左下","最后用第一条减第二条"][k]))+'</div></div>'}
-else if(l.kind==="area"){var k=Math.min(3,Math.floor(n));html='<svg viewBox="0 0 600 250"><rect x="100" y="20" width="400" height="200" fill="#8bb888" stroke="#efffd4" stroke-width="2"/><rect x="100" y="110" width="400" height="25" fill="'+(k>=1?"#edd8a4":"#e0c999a8")+'"/><rect x="314" y="20" width="25" height="200" fill="'+(k>=2?"#f0d59a":"#e0c999a8")+'"/><rect x="314" y="110" width="25" height="25" fill="'+(k>=3?"#d87b4f":"#e7d9ab")+'"/><text x="300" y="245" text-anchor="middle" fill="#ddedfd">长 a · 宽 b · 两条路都宽 1</text>'+(k>=3?'<text x="382" y="105" fill="#ffd693" font-size="17">交叉处加回1</text>':"")+'</svg>'}
+else if(l.kind==="area"){var k=Math.min(3,Math.floor(n));html='<svg viewBox="'+((typeof window.innerWidth==="number"&&window.innerWidth<=600)?"80 -15 440 285":"0 0 600 250")+'"><rect x="100" y="20" width="400" height="200" fill="#8bb888" stroke="#efffd4" stroke-width="2"/><rect x="100" y="110" width="400" height="25" fill="'+(k>=1?"#edd8a4":"#e0c999a8")+'"/><rect x="314" y="20" width="25" height="200" fill="'+(k>=2?"#f0d59a":"#e0c999a8")+'"/><rect x="314" y="110" width="25" height="25" fill="'+(k>=3?"#d87b4f":"#e7d9ab")+'"/><text x="300" y="245" text-anchor="middle" fill="#ddedfd">长 a · 宽 b · 两条路都宽 1</text>'+(k>=3?'<text x="382" y="105" fill="#ffd693" font-size="17">交叉处加回1</text>':"")+'</svg>'}
 else if(l.kind==="powers"){var k=Math.min(3,Math.floor(n));var display=[
 '<div class="powerViz"><div class="powerFactors"><span>−1</span></div><b>一个负一：结果 −1</b><small>观察负号与括号</small></div>',
 '<div class="powerViz"><div class="powerFactors"><span>−1</span><em>×</em><span>−1</span><em>=</em><span class="positive">+1</span></div><b>负负得正</b><small>偶数个负数可以两两配对</small></div>',
@@ -1017,6 +1048,7 @@ function expertExplain(fromButton){
 $("expertExplain").onclick=function(){guideExpertPart(expertPart,false,false);expertNarrate($("focusBig").textContent+"。"+$("focusDetails").textContent,true)};
 
 
+if(window.addEventListener)window.addEventListener("resize",function(){draw()});
 window.LIN_V5={lessons:data,go:openLesson,selectRole:selectRole,lineup:invitedExperts,coachRespond:coachRespond,coachingQuestion:coachingQuestion,readCurrent:expertStart,method:function(i){method=i;render()},answer:parseAnswer};
 })();
 </script></body></html>
