@@ -152,7 +152,28 @@ return wrap(s)}
 let module='全部',idx=0,route=0,step=0,exercise=0,stage='home',mode='together',muted=false,token=0,raf=0,ready=false,unlocked=false,seen={},drafts={},progress={};try{progress=JSON.parse(localStorage.getItem('ct-ch4-full-v1')||'{}')}catch{};
 const save=()=>{try{localStorage.setItem('ct-ch4-full-v1',JSON.stringify(progress))}catch{}};
 function stop(){token++;cancelAnimationFrame(raf);try{speechSynthesis.cancel()}catch{}}
-function speech(s,done){if(muted){done();return}try{let u=new SpeechSynthesisUtterance(s);u.lang='zh-CN';u.rate=.88;u.pitch=1.06;let vs=speechSynthesis.getVoices(),v=vs.find(v=>/^zh/i.test(v.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei/i.test(v.name))||vs.find(v=>/^zh/i.test(v.lang));if(v)u.voice=v;let end=false,finish=()=>{if(end)return;end=true;done()};u.onend=finish;u.onerror=finish;speechSynthesis.speak(u);setTimeout(finish,Math.max(5500,s.length*360))}catch{done()}}
+function mathSpeak(value){
+ const s=String(value??"").replace(/[－﹣−]/g,"-").replace(/＋/g,"+").replace(/＝/g,"=").replace(/（/g,"(").replace(/）/g,")").replace(/［/g,"[").replace(/］/g,"]");
+ let out="",prev="";
+ for(let i=0;i<s.length;i++){
+  const ch=s[i];
+  if(ch==="-"||ch==="+"){
+   const binary=/[0-9a-zA-Zπ²³⁴⁵⁶⁷⁸⁹⁰)\]]/.test(prev);
+   const next=s.slice(i+1).trimStart()[0]||"";
+   if(ch==="-")out+=binary?"减去":next==="("||next==="["?"负一乘以":"负";
+   else out+=binary?"加上":next==="("||next==="["?"正一乘以":"正";
+  }else out+=ch;
+  if(!/\s/.test(ch))prev=ch;
+ }
+ return out.replace(/(?<![\d.A-Za-zπ²³⁴/])(\d+)\/(\d+)(?![\d./])/g,(_,n,d)=>d+"分之"+n)
+ .replace(/×|\*/g,"乘以").replace(/÷|\//g,"除以").replace(/=/g,"等于")
+ .replace(/≤/g,"小于或等于").replace(/≥/g,"大于或等于").replace(/</g,"小于").replace(/>/g,"大于")
+ .replace(/([0-9a-zA-Zπ²³⁴)\]])(?=[(\[])/g,"$1乘以")
+ .replace(/\(/g,"左括号，").replace(/\)/g,"，右括号").replace(/\[/g,"左中括号，").replace(/\]/g,"，右中括号")
+ .replace(/²/g,"的平方").replace(/³/g,"的立方").replace(/[⁴⁵⁶⁷⁸⁹⁰]/g,c=>"的"+({"⁴":"四","⁵":"五","⁶":"六","⁷":"七","⁸":"八","⁹":"九","⁰":"零"}[c])+"次方")
+ .replace(/π/g,"圆周率").replace(/(\d)(?=[A-Za-z])/g,"$1乘以");
+}
+function speech(s,done){s=mathSpeak(s);if(muted){done();return}try{let u=new SpeechSynthesisUtterance(s);u.lang='zh-CN';u.rate=.88;u.pitch=1.06;let vs=speechSynthesis.getVoices(),v=vs.find(v=>/^zh/i.test(v.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei/i.test(v.name))||vs.find(v=>/^zh/i.test(v.lang));if(v)u.voice=v;let end=false,finish=()=>{if(end)return;end=true;done()};u.onend=finish;u.onerror=finish;speechSynthesis.speak(u);setTimeout(finish,Math.max(5500,s.length*360))}catch{done()}}
 function say(s){stop();speech(s,()=>{})}
 function home(){stop();stage='home';$('head').textContent='第四章 · 整式的加减';let sections=['全部','4.1','4.2','数学活动','综合','拓展'];root.innerHTML=`<div class="hero"><img src="${portrait.base}" alt="林老师"><div><span class="gold">七年级上册 · 教材同步</span><h1>猫咪整式世界</h1><p>先看懂，再一步一步算。用不同角度理解数学结构。</p><div class="muted">完成 ${Object.values(progress).filter(x=>x>=5).length}/${D.length} 个主题</div></div></div><div class="tabs">${sections.map(s=>`<button data-mod="${s}" class="${s===module?'active':''}">${s}</button>`).join('')}</div><div class="cards">${D.map((l,n)=>module==='全部'||l.sec===module?`<button class="card" data-i="${n}">${renderArt(l.routes[0].steps[0].v,.8,false,true)}<small>${l.sec} · 教材${l.pages}页</small><b>${esc(l.title)}</b><small>${progress[n]>=5?'已练习 · 独立答对 '+l.practice.filter((_,j)=>progress[n+':'+j]).length+'/5':'两条学习路线 · 5题迁移'}</small></button>`:'').join('')}</div><p class="footer">同步范围：人教版七上第88–109页。教材例题、活动和原创变式分主题训练。</p>`;root.querySelectorAll('[data-mod]').forEach(b=>b.onclick=()=>{module=b.dataset.mod;home()});root.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{idx=+b.dataset.i;route=0;step=0;exercise=0;mode='together';seen={};lesson(true)})}
 function current(){return D[idx].routes[route].steps[step]}
