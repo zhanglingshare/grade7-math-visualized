@@ -1388,7 +1388,7 @@ body.guruFocus{overflow:hidden}
 #expandLab{background:#103954;color:#c7f7ff;border:1px solid #46819c;border-radius:8px;padding:5px 9px;white-space:nowrap;font-size:13px}
 body.wideLab .app .stage>.lab{position:fixed!important;inset:0!important;width:100%!important;height:100dvh!important;background:#08213b!important;z-index:80;overflow:auto!important;padding:12px!important;display:flex!important;flex-direction:column!important}
 body.wideLab .app .stage>.lab .demopane{height:clamp(225px,59dvh,850px)!important;min-height:0!important;flex:none!important}body.wideLab .labTop{position:sticky;top:0;z-index:12;background:#08213b}body.wideLab{overflow:hidden!important}
-</style></head><body>
+</style><style>#thinkStop{position:fixed;inset:auto 0 max(8px,env(safe-area-inset-bottom));margin:0 auto;width:min(660px,96vw);max-height:48dvh;overflow:auto;border:1px solid #86cbbb;border-radius:16px;background:#102e46;color:#f3fcff;padding:16px 20px;box-sizing:border-box;box-shadow:0 8px 38px #001321aa}#thinkStop::backdrop{background:#05122244}#thinkStop h2{font-size:clamp(17px,2.2vw,25px);margin:7px 0 12px}#thinkActions,#thinkStop footer{display:flex;flex-wrap:wrap;gap:8px}#thinkStop button,#thinkStop input{padding:7px 12px;color:white;background:#24546c;border:1px solid #669cb3;border-radius:9px;font:inherit}#thinkActions input{width:8em}#thinkStop footer{justify-content:space-between}#thinkStop #thinkContinue{background:#226259}#thinkFeedback{color:#ffda93;min-height:1em;margin:8px 0}#thinkStop [hidden]{display:none!important}</style></head><body><dialog id="thinkStop" tabindex="-1" aria-labelledby="thinkPrompt"><small id="thinkAt"></small><h2 id="thinkPrompt"></h2><div id="thinkActions"></div><p id="thinkFeedback" role="status"></p><footer><button id="thinkLeave">退出演示</button><button id="thinkContinue" hidden>继续演示</button></footer></dialog>
 
 <section id="focusPage" role="region" aria-label="高手讲解专注页" hidden>
  <div class="fpTop">
@@ -1669,29 +1669,27 @@ function clearFocus(){
  if(c)c.textContent=c.textContent.replace(' · 重点已标','');
 }
 
+const stopQuestions={"q23":[["再走一秒，两点会怎样？",["继续靠近直到相遇","保持相距五格"],0,"分别从当前位置沿箭头走一秒。"],["两人相遇后继续按原方向走，间距会怎样？",["一直是零","重新增大"],1,"想象两人擦肩而过，各自继续向前。"],["从出发到第 3 秒，相距五格一共出现几次？",2,"回想相遇之前和相遇之后。"]],"q22":[["主对角线连接哪两个位置？",["左上和右下","右上和左下"],0,"从左上角向右下角画一条线。"],["算完副对角线的乘积，要怎样处理？",["加上这个积","减去整个积"],1,"定义是 ad − bc，先把 bc 看成一个整体。"],["如果副对角线的积为 −6，减去这个积相当于什么？",["加 6","减 6"],0,"减去一个数，等于加上它的相反数。"]],"q21":[["运出 8 吨，记库存变化应该用什么符号？",["正号","负号"],1,"比较运出前后的库存。"],["只看记录 −8、+5、−6，净变化是多少吨？",-9,"先把两次出库合起来，再算入库。"],["结算运费时，运出 8 吨应按几吨计费？",8,"搬出去的货也需要运输。"]],"q20":[["横路长 a、宽 1，它的面积是多少？",["a","a＋1"],0,"面积用长乘宽。"],["横路和竖路各减一次，交叉小方块被减了几次？",2,"分别沿着横路、竖路指过交叉处。"],["要让交叉处最终只扣一次，现在该怎样做？",["再减一块","加回一块"],1,"它属于两条路，刚才两次扣除都经过了它。"]],"q19":[["两个 −1 相乘，积是多少？",1,"先看两个因数的符号。"],["若 |n|＝2，除了 2，另一个数是多少？",-2,"想想原点左边的那个位置。"],["把 n 平方时，两个分支得到的平方值怎样？",["一样","互为相反数"],0,"分别计算 2×2 和 (−2)×(−2)。"]],"q18":[["要让 −(n−3)x 这一项消失，n 应是多少？",3,"令这一项的系数等于零。"],["xᵐy² 这一项的次数是多少？",["m","m＋2"],1,"把这一项所有字母的指数相加。"],["要使 xᵐy² 是三次项，m 应该是多少？",1,"解 m＋2＝3。"]],"q10":[["输出一个奇数以后，下一步用哪条规则？",["除以 2","加 3"],1,"题目分别规定了偶数和奇数的操作。"],["输出 6 以后，下一次输出多少？",3,"6 是偶数。"],["在 3、6、3、6 这段循环中，最短周期是多少？",2,"数一数至少几个数能组成一个重复单元。"]]};
+let stopCorrect=false;
 function showAsk(kf,customQ){
- awaitingChild=true;
- const bar=$('askBar'),m=$('movieStatus'),q=customQ||askText(kf);
- bar.classList.add('on');$('askQ').textContent=q;
- m.classList.add('awaiting');
- m.textContent='⏸ 停在第 '+kf+' 拍 · 等你决定继续';
- const c0=$('screenChip');
- if(c0&&!c0.classList.contains('on'))c0.textContent='⏸ 林老师停一下 · 第 '+kf+' 拍';
- renderFocus(kf);
- setMood('listen');
- talk(nick()+'，我先停一下。'+q,{mood:'listen'});
+ if(timer){clearInterval(timer);timer=null}playing=false;awaitingChild=true;stopCorrect=false;
+ const id=current().id,item=stopQuestions[id][KEYFRAMES[id].indexOf(kf)];if(!item){hideAsk();return}
+ const [prompt,options,key,hint]=item, pick=Array.isArray(options), dialog=$('thinkStop'), area=$('thinkActions'), feedback=$('thinkFeedback');
+ area.replaceChildren();feedback.textContent='';$('thinkContinue').hidden=true;$('thinkPrompt').textContent=prompt;$('thinkAt').textContent=current().name+' · 第 '+kf+(id==='q23'?' 秒':' 拍');
+ $('movieStatus').textContent='Ⅱ 等你回答';renderFocus(kf);setMood('listen');
+ function respond(value){if(stopCorrect||!awaitingChild)return;const ok=pick?value===key:value!==''&&Number.isFinite(Number(value))&&Number(value)===options;
+ const message=ok?'答对了。'+(kf>=current().duration?'点「回到题目」，自己试一遍。':'准备好了就点「继续演示」。'):(pick?hint:key);
+ feedback.textContent=message;talk(message,{mood:ok?'cheer':'listen'});
+ if(ok){stopCorrect=true;for(const child of area.children)child.disabled=true;$('thinkContinue').hidden=false;$('thinkContinue').textContent=kf>=current().duration?'回到题目':'继续演示';$('thinkContinue').focus({preventScroll:true})}}
+ if(pick)options.forEach((label,i)=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>respond(i);area.append(b)});
+ else{const input=document.createElement('input');input.type='text';input.inputMode=options<0?'text':'numeric';input.placeholder='填一个数';input.setAttribute('aria-label',prompt);const send=document.createElement('button');send.textContent='检查';const submit=()=>respond(input.value.trim().normalize('NFKC').replace(/^[−–]/,'-'));send.onclick=submit;input.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();submit()}};area.append(input,send)}
+ if(!dialog.open)dialog.showModal();dialog.focus({preventScroll:true});talk(nick()+'，停一下。'+prompt,{mood:'listen'})
 }
-function hideAsk(){awaitingChild=false;$('askBar').classList.remove('on');$('movieStatus').classList.remove('awaiting');clearFocus()}
-function resumeDemo(){
- if(!awaitingChild)return;
- hideAsk();
- const id=current().id,max=current().duration,inc=id==='q23'?.1:1;
- setMood('point');markSelfControl(frame);
- nextAt=Date.now()+BASE_MS[id]/PACE[paceIdx].k;
- timer=setInterval(demoTick,60);
- $('movieStatus').classList.add('hot');
- $('movieStatus').textContent='▶ 继续 · 下一处关键帧还会停';
-}
+function hideAsk(){awaitingChild=false;stopCorrect=false;const d=$('thinkStop');if(d.open)d.close();$('askBar').classList.remove('on');$('movieStatus').classList.remove('awaiting');clearFocus()}
+function resumeDemo(){if(!awaitingChild||!stopCorrect)return;hideAsk();if(frame>=current().duration){$('movieStatus').textContent='✓ 演示结束 · 现在轮到你';return}playing=true;setMood('point');markSelfControl(frame);nextAt=Date.now()+BASE_MS[current().id]/PACE[paceIdx].k;timer=setInterval(demoTick,60);$('movieStatus').textContent='▶ 继续演示'}
+$('thinkContinue').onclick=resumeDemo;
+function leaveStop(){hideAsk();pauseDemo();Voice.stop();$('movieStatus').textContent='Ⅱ 已退出演示 · 可以自己答题'}
+$('thinkLeave').onclick=leaveStop;$('thinkStop').oncancel=e=>{e.preventDefault();leaveStop()};
 function demoTick(){
  const now=Date.now();if(now<nextAt)return;
  if(awaitingChild)return;
@@ -2303,7 +2301,7 @@ function evaluate(){
   $('feedback').innerHTML='<div class="feedback">✓ 这一步你抓住了。想看高手在卷面上怎么写，就点开上面那一层；也可以直接往下走。</div>';
   $('submit').hidden=true;$('next').hidden=false;
   $('next').textContent=step()===2?'完成本关 ✓':'进入下一步 →';
-  talk(nick()+'，'+(step()===2?'这次不是我带着你走，是你自己走出来了。很好。':'漂亮，这一步是你自己抓住的。')+' 说给我听听？',{mood:'cheer'});
+  talk(nick()+'，'+(step()===2?'这次不是我带着你走，是你自己走出来了。很好。':'漂亮，这一步是你自己抓住的。')+' ',{mood:'cheer'});
  }else{
   $('feedback').innerHTML='<div class="feedback bad">先不急着改。回到题目给的条件，或者点「请高手上场」展开三层细读，再试一次。</div>';
   talk(nick()+'，没关系，这不是不会，是少看了一步。我们先把那一步找出来，你再试。',{mood:'listen'});
@@ -2349,7 +2347,7 @@ function stepFrame(dir){
 function fmt(n){return Math.abs(n-Math.round(n))<1e-5?String(Math.round(n)):n.toFixed(1)}
 function drawDemo(){const l=current(),id=l.id,t=frame,wrap=$('vis');let out='';$('counter').textContent=(id==='q23'?t.toFixed(1)+'s':Math.floor(t)+' / '+Math.floor(l.duration));
 if(id==='q23'){
- const stage=step()===2, p=-2+(stage?2:3)*t,z=8-(stage?1:2)*t,scale=x=>37+(x+4)*28.1;
+ const p=-2+3*t,z=8-2*t,scale=x=>37+(x+4)*28.1;
  const marks=Array.from({length:17},(_,i)=>{const n=i-4,x=scale(n);return `<line x1="${x}" y1="105" x2="${x}" y2="121" stroke="#a9d9ed" stroke-width="1"/><text x="${x}" y="145" fill="#a3d5e8" text-anchor="middle" font-size="11">${n%2===0?n:''}</text>`}).join('');
  out=`<svg class="visualSvg" viewBox="0 0 545 205" role="img" aria-label="P和Q随时间变化的数轴"><line x1="15" y1="111" x2="526" y2="111" stroke="#9ed7f2" stroke-width="3"/><path d="M526 111 l-11 -7 v14z" fill="#9ed7f2"/>${marks}<line x1="${scale(p)}" y1="63" x2="${scale(z)}" y2="63" stroke="#ffe1a1" stroke-width="2" stroke-dasharray="6 4"/><g transform="translate(${scale(p)},92)"><circle cy="-16" r="9" fill="#5fd5ff"/><path d="M0 -5 L0 10 M0 0 L-12 7 M0 0 L12 5 M0 10 L-10 23 M0 10 L10 23" stroke="#69f2ff" stroke-linecap="round" stroke-width="5"/></g><g transform="translate(${scale(z)},92)"><circle cy="-16" r="9" fill="#ff8fd0"/><path d="M0 -5 L0 10 M0 0 L-12 7 M0 0 L12 5 M0 10 L-10 23 M0 10 L10 23" stroke="#ffa7da" stroke-linecap="round" stroke-width="5"/></g><text x="${scale(p)}" y="46" fill="#8be6ff" text-anchor="middle" font-size="15" font-weight="800">P=${fmt(p)}</text><text x="${scale(z)}" y="178" fill="#ffa6dd" text-anchor="middle" font-size="15" font-weight="800">Q=${fmt(z)}</text></svg><div class="visualSub">第${fmt(t)}秒：两点相距 <b style="color:#ffdfa1">${fmt(Math.abs(p-z))}</b> 格 ${Math.abs(p-z)<.09?' · ✓ 正在相遇':''}</div>`;
 }else if(id==='q22'){
@@ -3260,6 +3258,7 @@ const Process=(()=>{
  function stop(){playing=false;clearTimeout(timer);timer=0}
  function tick(){
   if(!playing||!active)return;
+  if(awaitingChild){stop();return}
   if(n>=N()){stop();render();return}
   n++;render();
   timer=setTimeout(tick,reduced?1:920);
@@ -3275,6 +3274,7 @@ const Process=(()=>{
   if(auto!==false){playing=true;playBtn.textContent='⏸ 暂停';clearTimeout(timer);timer=setTimeout(tick,820)}
  }
  function openWith(kind){
+  if(awaitingChild){stop();return}
   setMode(PROC_OF[kind]||'read',true);
   if(kind==='ahead')hint.textContent='先让图一笔一笔长出来 · 他怎么想的，点上面「③ 思维 · 拆解」';
  }
