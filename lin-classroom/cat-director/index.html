@@ -107,7 +107,53 @@ const SIMPLE=[["两只猫跑到哪里？", "两只猫何时碰面？", "哪两�
 W.forEach((a,i)=>{a.title=WORLD_NAMES[i];a.theme=WORLD_NAMES[i];a.names=SIMPLE[i];a.talk=GUIDE[i];a.cap=OP_HINT[i]});
 const $=id=>document.getElementById(id),root=$('screen'); let w=0,q=0,S={},view='home',muted=false,last='',raf=0,epoch=0,feedback='',good=false;let done={};try{done=JSON.parse(localStorage.getItem('catmath-worlds-v2')||'{}')}catch{};
 function save(){try{localStorage.setItem('catmath-worlds-v2',JSON.stringify(done))}catch{}}
-function speak(s){last=s;try{speechSynthesis.cancel();if(muted)return;const u=new SpeechSynthesisUtterance(s);u.lang='zh-CN';u.rate=.92;u.pitch=1.06;const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^zh/i.test(v.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei|yaoyao/i.test(v.name))||vs.find(v=>/^zh/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch{}}
+function mathSpeakV2(value){
+ const supers="⁰¹²³⁴⁵⁶⁷⁸⁹ᵐᵏⁿˣ",sup=c=>[...c].map(x=>("0123456789mknx"[supers.indexOf(x)]||x)).join(""),digits="零一二三四五六七八九";
+ const num=s=>s.replace(/\d+\.\d+/g,m=>{let [a,b]=m.split(".");return a+"点"+[...b].map(x=>digits[+x]).join("")});
+ const op={"+":"加","-":"减去","*":"乘以","/":"除以","=":"等于","≠":"不等于","≈":"约等于","<":"小于",">":"大于","≤":"小于或等于","≥":"大于或等于",":":"比","±":"正负"};
+ const pow=e=>e==="2"?"平方":e==="3"?"立方":e+"次方";
+ const src=String(value??"").replace(/[－﹣−]/g,"-").replace(/＋/g,"+").replace(/＝/g,"=").replace(/％/g,"%").replace(/｜/g,"|").replace(/／/g,"/").replace(/．/g,".").replace(/[０-９]/g,c=>String(c.charCodeAt(0)-65296)).replace(/×/g,"*").replace(/÷/g,"/").replace(/\bpi\b/gi,"π")
+ .replace(/(\d)\s+km\/h\b/g,"$1千米每小时").replace(/(\d)\s+(km|cm|mm|m)([²³]?)(?![A-Za-z])/g,(_,n,u,p)=>n+(p==="²"?"平方":p==="³"?"立方":"")+({km:"千米",cm:"厘米",mm:"毫米",m:"米"}[u]))
+ .replace(/[（(](cm|mm|km|m)([²³])[)）]/g,(_,u,p)=>"（"+(p==="²"?"平方":"立方")+({km:"千米",cm:"厘米",mm:"毫米",m:"米"}[u])+"）").replace(/℃/g,"摄氏度").replace(/℉/g,"华氏度");
+ function read(raw){
+  let s=raw.replace(/（/g,"(").replace(/）/g,")").replace(/［/g,"[").replace(/］/g,"]").replace(/\s/g,"").replace(/·/g,"*");
+  if(/^[A-Za-z]{5,}$/.test(s))return raw;
+  const t=s.match(new RegExp("\\d+(?:\\.\\d+)?|["+supers+"]+|[A-Za-zπ]|[+\\-*/^%=≠≈<>≤≥:()\\[\\]{}|±√]","g"))||[];
+  if(t.join("")!==s)throw Error("token");
+  let i=0;const peek=()=>t[i],eat=()=>t[i++],N=(k,a,b,c)=>({k,a,b,c});
+  function atom(){let v=eat();if(v==null)throw Error("atom");if(["(","[","{"].includes(v)){let n=rel();if(eat()!=={"(":")","[":"]","{":"}"}[v])throw Error("group");return N("group",n,v)}if(v==="|"){let n=rel();if(eat()!=="|")throw Error("abs");return N("abs",n)}if(v==="√")return N("sqrt",atom());if(/^\d/.test(v))return N("num",v);if(/^[A-Za-zπ]$/.test(v))return N("var",v);throw Error("atom")}
+  function power(){let n=atom();while(peek()&&new RegExp("^["+supers+"]+$").test(peek()))n=N("pow",n,N("num",sup(eat())));if(peek()==="^"){eat();n=N("pow",n,unary())}if(peek()==="%"){eat();n=N("pct",n)}return n}
+  function unary(){if(["+","-","±"].includes(peek())){let v=eat();return N("unary",unary(),v)}return power()}
+  function product(){let n=unary();while(i<t.length){let v=peek();if(v==="*"||v==="/"){eat();n=N("op",n,unary(),v)}else if(/^(?:\d|[a-zA-Zπ(\[{√])/.test(v))n=N("op",n,unary(),"*");else break}return n}
+  function sum(){let n=product();while(["+","-"].includes(peek())){let v=eat();n=N("op",n,product(),v)}return n}
+  function rel(){let n=sum();while(["=","≠","≈","<",">","≤","≥",":"].includes(peek())){let v=eat();n=N("op",n,sum(),v)}return n}
+  let tree=rel();if(i!==t.length)throw Error("tail");
+  function say(n){
+   if(n.k==="num")return num(n.a);if(n.k==="var")return n.a==="π"?"圆周率":n.a;
+   if(n.k==="group"){let [a,b]={"(":["左括号","右括号"],"[":["左中括号","右中括号"],"{":["左大括号","右大括号"]}[n.b];return a+"，"+say(n.a)+"，"+b}
+   if(n.k==="abs")return ["num","var","unary"].includes(n.a.k)?say(n.a)+"的绝对值":"左绝对值符号，"+say(n.a)+"，右绝对值符号";
+   if(n.k==="sqrt")return "根号"+say(n.a);if(n.k==="pct")return "百分之"+say(n.a);
+   if(n.k==="unary"){if(n.b==="±")return "正负"+say(n.a);if(n.b==="+")return ["num","pct"].includes(n.a.k)?"正"+say(n.a):"正一乘以"+say(n.a);if(["num","pct"].includes(n.a.k))return "负"+say(n.a);if(["pow","var"].includes(n.a.k))return say(n.a)+"的相反数";return "负一乘以"+say(n.a)}
+   if(n.k==="pow"){let e=say(n.b);if(n.a.k==="group"&&n.a.a.k==="unary"&&n.a.a.b==="-")return "以"+say(n.a.a)+"为底数，指数为"+e+"的幂";return say(n.a)+"的"+pow(e)}
+   if(n.k==="op"){if(n.c==="/"&&n.b.k==="num"&&n.a.k==="num")return say(n.b)+"分之"+say(n.a);if(n.c==="/"&&n.b.k==="num"&&n.a.k==="unary"&&n.a.b==="-"&&n.a.a.k==="num")return "负"+say(n.b)+"分之"+say(n.a.a);if(n.c==="*"&&n.a.k==="unary"&&n.a.b==="-"&&n.a.a.k==="var")return "负一乘以"+say(n.a.a)+"乘以"+say(n.b);return say(n.a)+op[n.c]+say(n.b)}
+   throw Error("render")
+  }return say(tree)
+ }
+ const pattern=new RegExp("[A-Za-zπ0-9"+supers+"+\\-*/^%=≠≈<>≤≥:()\\[\\]{}|±√（）［］.·\\s]+","g");
+ return src.replace(pattern,(raw,offset)=>{
+  const trimmed=raw.trim();if(!trimmed)return raw;
+  const prefix=raw.match(/^\s*/)[0],suffix=raw.match(/\s*$/)[0];let core=trimmed,trail="";
+  while(core.endsWith(".")){trail+=".";core=core.slice(0,-1)}
+  if(!core)return raw;
+  if(!/[A-Za-zπ0-9]/.test(core))return prefix+core.replace(/[+\-*/=≠≈<>≤≥±]/g,c=>op[c])+trail+suffix;
+  try{return prefix+read(core)+trail+suffix}catch{
+   if(/^[*/=<>≤≥≠≈:]/.test(core)){try{return prefix+op[core[0]]+read(core.slice(1))+trail+suffix}catch{}}
+   if(/[=+*/<>≤≥≠≈:]$/.test(core)){try{return prefix+read(core.slice(0,-1))+op[core.at(-1)]+trail+suffix}catch{}}
+   return prefix+num(core.replace(/[+\-*/=≠≈<>≤≥:±]/g,(c,j)=>c==="-"?(j===0||/[=(+*/\-（]/.test(core[j-1])?"负":"减去"):c==="+"?(j===0?"正":"加"):op[c]).replace(/\^(\d+)/g,(_,n)=>"的"+pow(n)).replace(new RegExp("["+supers+"]+","g"),m=>"的"+pow(sup(m))).replace(/%/g,"百分号").replace(/\|/g,"绝对值符号").replace(/π/g,"圆周率").replace(/[（(]/g,"左括号，").replace(/[）)]/g,"，右括号").replace(/\[/g,"左中括号，").replace(/\]/g,"，右中括号"))+trail+suffix
+  }
+ }).replace(/–/g,"至")
+}
+function speak(s){last=s;try{speechSynthesis.cancel();if(muted)return;const u=new SpeechSynthesisUtterance(mathSpeakV2(s));u.lang='zh-CN';u.rate=.92;u.pitch=1.06;const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^zh/i.test(v.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei|yaoyao/i.test(v.name))||vs.find(v=>/^zh/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch{}}
 function stop(){epoch++;cancelAnimationFrame(raf);try{speechSynthesis.cancel()}catch{}}
 function tween(ms,fn,finish){const e=++epoch;cancelAnimationFrame(raf);const a=performance.now();function frame(t){if(e!==epoch)return;const p=Math.min(1,(t-a)/ms);fn(p);if(p<1)raf=requestAnimationFrame(frame);else finish?.()}raf=requestAnimationFrame(frame)}
 const fmt=v=>Number(v.toFixed(2)),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -251,7 +297,7 @@ function directedArt(p,phase,reveal){
 function paintLesson(p){const el=$('lessonScene');if(el)el.innerHTML=svg(directedArt(p,directorPhase,directorReveal));}
 function playLesson(text,mode='normal'){
  stop();const token=epoch,rec=DIRECTOR[w][q][lessonStep],a=LESSONS[w][q][lessonStep];directorReveal=mode==='reveal'||lessonMode==='teacher';let segments=mode==='hint'?[[1,rec[3]+' '+a[3]]]:mode==='reveal'?[[1,rec[3]],[2,a[3]+' '+(a[2]?'结果是'+a[2]:'')]]:[[0,rec[2]],[1,rec[3]+' '+a[0]],...(directorReveal?[[2,a[3]+' '+(a[2]?'结果是'+a[2]:'')]]:[])];
- const next=i=>{if(epoch!==token||!$('lessonScene')||i>=segments.length)return;let [phase,line]=segments[i];directorPhase=phase;let guide=document.querySelector('.lessonGuide p');if(guide)guide.textContent=line;paintLesson(0);let start=performance.now(),duration=Math.max(1000,line.length*90),audioDone=muted,animDone=false,advanced=false;const advance=()=>{if(epoch!==token||advanced||!audioDone||!animDone)return;advanced=true;next(i+1)};if(!muted){try{const u=new SpeechSynthesisUtterance(line);u.lang='zh-CN';u.rate=.92;u.pitch=1.06;let vs=speechSynthesis.getVoices();let v=vs.find(v=>/^zh/i.test(v.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei|yaoyao/i.test(v.name))||vs.find(v=>/^zh/i.test(v.lang));if(v)u.voice=v;u.onend=u.onerror=()=>{audioDone=true;advance()};speechSynthesis.speak(u);setTimeout(()=>{if(epoch===token&&!audioDone){try{speechSynthesis.cancel()}catch{}audioDone=true;advance()}},Math.max(8000,line.length*420));}catch{audioDone=true}}
+ const next=i=>{if(epoch!==token||!$('lessonScene')||i>=segments.length)return;let [phase,line]=segments[i];directorPhase=phase;let guide=document.querySelector('.lessonGuide p');if(guide)guide.textContent=line;paintLesson(0);let start=performance.now(),duration=Math.max(1000,line.length*90),audioDone=muted,animDone=false,advanced=false;const advance=()=>{if(epoch!==token||advanced||!audioDone||!animDone)return;advanced=true;next(i+1)};if(!muted){try{const u=new SpeechSynthesisUtterance(mathSpeakV2(line));u.lang='zh-CN';u.rate=.92;u.pitch=1.06;let vs=speechSynthesis.getVoices();let v=vs.find(v=>/^zh/i.test(v.lang)&&/xiaoxiao|ting|female|xiaoyi|hui|mei|yaoyao/i.test(v.name))||vs.find(v=>/^zh/i.test(v.lang));if(v)u.voice=v;u.onend=u.onerror=()=>{audioDone=true;advance()};speechSynthesis.speak(u);setTimeout(()=>{if(epoch===token&&!audioDone){try{speechSynthesis.cancel()}catch{}audioDone=true;advance()}},Math.max(12000,mathSpeakV2(line).length*600));}catch{audioDone=true}}
  const frame=t=>{if(epoch!==token)return;let p=Math.min(1,(t-start)/duration);paintLesson(p);if(p<1)raf=requestAnimationFrame(frame);else{animDone=true;advance()}};raf=requestAnimationFrame(frame);};next(0);
 }
 
