@@ -1,5 +1,7 @@
 # 林老师数学教室 · 看得见的数学思维
 
+**作者：张凌博士**
+
 > **像练球一样练数学：观察高手，理解动作，亲手尝试，发现错误，调整策略，最终能够独立解决陌生问题。**
 
 [**进入新版数学教室 →**](https://zhanglingshare.github.io/grade7-math-visualized/math-home/)
