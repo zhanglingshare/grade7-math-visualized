@@ -8,6 +8,10 @@
 
 [**进入新版数学教室 →**](https://zhanglingshare.github.io/grade7-math-visualized/math-home/)
 
+![数学也能练出真功夫：项目门户开场画面](docs/visuals/classroom-opening.webp)
+
+*项目现有门户开场画面：以运动训练的体验启发数学学习。*
+
 ## 项目的独立性与发展愿景
 
 林老师数学教室由张凌博士独立发起与开发，是一项基于真实教育需求、个人持续投入的教育探索与技术实践。目前，项目不依托特定科研课题、专项经费或商业投资开展，保持教学理念、技术路线与内容迭代的自主性。
@@ -34,6 +38,8 @@
 
 ### 1. 心流体验（Flow）：让专注源于问题本身
 
+![心流体验设计示意图](docs/visuals/08-flow.svg)
+
 心流理论强调任务挑战与个人能力相匹配、目标清晰、反馈及时等条件。难度过低容易无聊，过高容易产生挫败；课堂应允许孩子选择合适的挑战、控制学习节奏，并在掌握后逐渐提高难度。
 
 具体设计方向：
@@ -56,6 +62,8 @@ flowchart LR
 心流是希望创造的学习条件与主观体验，不是一个可以凭观看时间或完成题数自动判定的成绩。现阶段课程提供自主选择、演示、反馈和变式挑战；自动难度适配与个体心流测量并未经过验证。
 
 ### 2. 建构认知：让孩子在头脑中形成数学模型
+
+![从具体情境到数学模型的认知建构](docs/visuals/09-cognitive-model.svg)
 
 从现实情境进入图形与操作，再进入符号、公式和推理，最终回到现实问题进行检验。数轴不是装饰，而是方向与距离的模型；天平不是道具，而是等式性质的模型；追及动画不是故事，而是速度、时间与位置关系的模型。
 
@@ -105,6 +113,8 @@ flowchart LR
 这些是训练目标，不是已经通过教育测量证实的学习效果。
 
 ## 二、孩子如何学习？
+
+![观察、实践、比较、挑战与复盘的学习循环](docs/visuals/07-learning-loop.svg)
 
 ```mermaid
 flowchart TD
@@ -168,6 +178,48 @@ flowchart TD
 | 期中错题训练 | 从考试失误回溯概念与解题策略 | [进入训练](https://zhanglingshare.github.io/grade7-math-visualized/ct1127/) |
 
 上述数量是新版课程的内容规模，并非评价孩子水平的指标，也不代表全部教材习题已逐题收录。项目保留旧课程、小学桥梁、单元测试与历史实验，但不将旧版第五章作为新门户的课程入口。
+
+
+
+### 课程可视化一览
+
+以下图组直接节选自现有课程的 SVG 渲染结果，为静态帧而非浏览器实机截图。进入对应课程可体验动画、语音及交互。
+
+#### 第一章 · 有理数
+
+![第一章 · 有理数：方向 · 位置 · 距离 · 数的结构](docs/visuals/01-rational-numbers.svg)
+
+[进入对应课堂](https://zhanglingshare.github.io/grade7-math-visualized/ct1128-chapter1/)
+
+#### 第二章 · 有理数的运算
+
+![第二章 · 有理数的运算：数形结合 · 运算规律 · 符号与结构](docs/visuals/02-operations.svg)
+
+[进入对应课堂](https://zhanglingshare.github.io/grade7-math-visualized/ct1128-chapter2/)
+
+#### 第三章 · 代数式
+
+![第三章 · 代数式：从数量变化到抽象表达与空间模型](docs/visuals/03-algebra.svg)
+
+[进入对应课堂](https://zhanglingshare.github.io/grade7-math-visualized/ct1128-chapter3/)
+
+#### 第四章 · 整式的加减
+
+![第四章 · 整式的加减：分类 · 等价变换 · 结构识别](docs/visuals/04-polynomials.svg)
+
+[进入对应课堂](https://zhanglingshare.github.io/grade7-math-visualized/ct1128-chapter4/)
+
+#### 第五章 · 一元一次方程
+
+![第五章 · 一元一次方程：等量关系 · 建模 · 求解 · 验证](docs/visuals/05-equations.svg)
+
+[进入对应课堂](https://zhanglingshare.github.io/grade7-math-visualized/ct1128-chapter5/)
+
+#### 综合实践 · 数字文明实验室
+
+![综合实践 · 数字文明实验室：位权 · 进制转换 · 二进制运算](docs/visuals/06-number-bases.svg)
+
+[进入对应课堂](https://zhanglingshare.github.io/grade7-math-visualized/ct1128-number-bases/)
 
 ## 五、家长怎样陪练？
 
