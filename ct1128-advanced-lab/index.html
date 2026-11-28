@@ -81,6 +81,111 @@ else{let items=a.items,sel=Math.min(items.length-1,Math.floor(t*items.length)),w
 return '<svg viewBox="0 0 640 340" role="img" aria-label="'+E(a.note)+'">'+s+txt(320,326,a.note,'#b9d1df',12)+'</svg>'}
 
 function art(d,x){return strictArt(d,x,-1)}
+
+function topicArt(d,x,lesson=-1){
+ const i=D.indexOf(d),L=lesson>=0,j=lesson,t=Math.max(0,Math.min(1,x/100)),pick=n=>Math.min(n-1,Math.floor(t*n)),A='#83d8f2',B='#f4c879',G='#a1e4b5',P='#c5aaff',RED='#f39d9d',W='#e3eff5',M='#a2becd';
+ let s='<rect width="640" height="340" rx="12" fill="#102435"/>';
+ const T=(x,y,v,c=W,z=15)=>txt(x,y,String(v),c,z),R=(x,y,w,h,c='#244258',st=M)=>rect(x,y,w,h,c,st,.94),ln=(x,y,X,Y,c=M,w=2,ds='')=>'<line x1="'+x+'" y1="'+y+'" x2="'+X+'" y2="'+Y+'" stroke="'+c+'" stroke-width="'+w+'" '+(ds?'stroke-dasharray="'+ds+'"':'')+'/>',dot=(x,y,r,c)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+c+'"/>',head=v=>s+=T(320,28,v,B,16),foot=v=>s+=T(320,322,v,M,13),fmt=v=>String(+v.toFixed(4));
+ const box=(x,y,w,h,v,c=A)=>{s+=R(x,y,w,h,'#244258',c)+T(x+w/2,y+h/2+5,v,c,String(v).length>16?11:16)};
+ function row(vals,y,sel=-1){let w=Math.min(145,560/vals.length),ox=(640-w*vals.length)/2;vals.forEach((v,k)=>box(ox+k*w+3,y,w-6,39,v,k===sel?B:A))}
+ function pairGrid(vals,cols,sel,show=false){let w=52,ox=195,oy=69;vals.forEach((a,k)=>{s+=T(ox-27,oy+k*w+25,a,A)+T(ox+k*w+26,oy-10,a,A);vals.forEach((b,m)=>{if(a>=b)return;let key=cols(a,b),active=sel===k*vals.length+m;s+=R(ox+m*w+2,oy+k*w+2,w-4,w-4,show&&key?'#346b57':'#203b4c',active?B:M);if(show)s+=T(ox+m*w+26,oy+k*w+30,key?'✓':'×',key?G:RED,18)})})}
+ if(i===2||i===3){
+ let vals=Array.from({length:i===2?9:13},(_,k)=>k-(i===2?4:6)),m=i===2?2:L?(j===0?1:4):1+pick(6),p=L?j:pick(vals.length),w=540/vals.length;
+ head(i===2?'双向闸门：严格边界与绝对值':'倒推阈值：每侧需要三个整数');
+ vals.forEach((v,k)=>{let x=50+k*w,c=Math.abs(v)>=m?G:RED;s+=R(x+2,135,w-4,56,L&&j>=1?c:'#254659',k===p?B:M)+T(x+w/2,168,v,L&&j>=1?'#102435':W);if(L&&j>=1&&Math.abs(v)<m)s+=ln(x+4,138,x+w-4,188,RED,3)});
+ s+=T(320,95,'候选 |x| ≥ '+m,A,20);foot(L&&j===2?'两侧分别数；零与严格边界不能计入':'拖动'+(i===2?'逐个整数检查条件':'改变正整数阈值')+'；自己统计。');
+ }else if(i===4||i===5){
+ let v=i===4?[2,4,7]:[2,5,8],perms=[[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]],p=L?(i===4?[2,1,0]:[1,0,2]):perms[pick(6)],a=[-v[p[0]],-v[p[1]],v[p[2]]];
+ head('符号分拣台：绝对值牌进入正负槽');row(v,56);['a＜b','b＜0','c＞0'].forEach((q,k)=>{let x=106+150*k;s+=R(x,150,125,96,k===2?'#32634e':'#553c50',k===2?G:RED)+T(x+62,175,q)+T(x+62,220,a[k],W,30)+ln(320,100,x+62,147,M,2)});
+ foot(L&&j>=1?(i===4?'相反数分别为 '+a.map(n=>-n).join('、'):'检查 |b|＜|a|＜|c|'):'拖动交换绝对值牌，检验顺序约束。');
+ }else if(i===6||i===7){
+ let vs=i===6?[47,48,50,51,52,54]:[76,77,79,82,83,85],base=i===6?50:80,k=i===6?2:L?(j===0?3:j===1?3:4):pick(7),open=i===7&&(L?j===2:t>.82),p=pick(6);
+ head('质量检验站 · 标准 '+base+' 克');s+=T(320,66,'允许偏差 '+(open?'＜':'≤')+k+' 克',B,19);
+ vs.forEach((v,n)=>{let xx=54+n*91,dv=v-base,ok=open?Math.abs(dv)<k:Math.abs(dv)<=k;s+=R(xx,126-(p===n?15:0),78,77,'#284e64',L&&j>=1?(ok?G:RED):A)+T(xx+39,151-(p===n?15:0),v+'g',W)+T(xx+39,181-(p===n?15:0),(dv>0?'+':'')+dv,M);if(L&&j>=1)s+=T(xx+39,239,ok?'合格':'不合格',ok?G:RED,13)});
+ foot(L?'偏差必须与边界规则同时判断；实际质量不是绝对偏差':'拖动观察产品或调整容差；结果由你判断。');
+ }else if(i===10||i===11){
+ let vals=i===10?[-5,-2,0,2,5]:[-7,-3,0,3,7],p=pick(10),pairs=[];for(let a=0;a<5;a++)for(let b=a+1;b<5;b++)pairs.push([a,b]);let [a,b]=L?(j===0?[0,1]:j===1?[1,2]:[1,3]):pairs[p];
+ head('配对矩阵：只检查 x＜y 的上三角');pairGrid(vals,(a,b)=>i===10?Math.abs(a)>Math.abs(b):Math.abs(a)<=Math.abs(b),a*5+b,L);foot('横列为 y，纵列为 x；每一格对应一个有序数对。');
+ }else if(i===12||i===13){
+ let base=i===12?-2:-3,k=L?(i===12?j===2?9:8:j===0?1:5):1+pick(9),v=base**k,rows=[v,v+(i===12?3:4),v/(i===12?2:3)];
+ head('三条传送带 · 同一列使用共同基准');s+=T(320,65,'候选列 k = '+k,B,20);
+ const show=L||k<=(i===12?4:4);for(let n=0;n<3;n++){let y=95+n*65;s+=ln(55,y+22,585,y+22,'#5a788a',5);for(let z=0;z<7;z++)s+=dot(70+z*80,y+33,4,M);box(224,y,190,43,show?rows[n]:['('+base+')^k','第一行+'+(i===12?3:4),'第一行÷'+(i===12?2:3)][n],[A,B,G][n])}
+ foot(L?'同一列的三个量由同一个幂生成':'拖动选列；待求列仅显示关系，不提前计算。');
+ }else if(i===14||i===15){
+ let z=L?(i===14?j===0?2:j===1?-2:3:j===2?2:2):-5+pick(11);
+ head(i===14?'逆向计算机器：输入、加工、输出':'两条加工线：不同顺序是否等价？');
+ let routes=i===14?[[z,z-8,-3*(z-8),-3*(z-8)+5]]:[[z,z-7,-4*(z-7),-4*(z-7)+(L&&j===2?-3:3)],[z,-4*z,-4*z+31]];
+ routes.forEach((vals,r)=>{let y=routes.length===1?135:90+r*105,w=132;vals.forEach((v,k)=>{let X=37+k*148;box(X,y,w,60,k===0?v:L?v:'?',k===0?A:k===vals.length-1?G:B);if(k<vals.length-1)s+=ln(X+w,y+30,X+148,y+30,A,3)});let labels=i===14?['减8','乘−3','加5']:r===0?['减7','乘−4',L&&j===2?'减3':'加3']:['乘−4','加31'];labels.forEach((v,k)=>s+=T(176+k*148,y-13,v,M,12))});
+ foot(L?(i===14&&j===0?'从23沿反向操作回到输入':'逐项检查输入变化对输出的影响'):'改变候选输入，沿管线自行推算。');
+ }else if(i===16||i===17){
+ let a=i===16?37:63,coef=i===16?[99,2,-1]:[101,-2,-1],phase=L?j:pick(3);if(i===17&&phase===1)coef[1]=2;if(phase===2)coef[2]=1;
+ head('拆成同宽的带符号矩形：公共乘数 '+a);let zero=110,unit=4.4;
+ coef.forEach((v,k)=>{let y=75+75*k,px=v>=0?zero:zero+v*unit;s+=ln(zero,y-12,zero,y+47,M,1)+R(px,y,Math.abs(v)*unit,40,v>=0?'#286579':'#6e4151',v>=0?A:RED)+T(320,y-7,a+' × ('+v+')',W,15)});
+ foot(L?'同宽因子不变，只需合并带符号的长度':'滑动切换符号方案；面积为结构示意，不显示结果。');
+ }else if(i===18||i===19){
+ let specs=i===18?[[-3,4,true],[-3,4,false],[-3,5,true]]:[[-2,6,false],[-2,6,true],[-2,7,true],[2,7,true]],p=L?Math.min(j,specs.length-1):pick(specs.length),[base,n,inside]=specs[p];
+ head('乘方拆解：负号在括号内还是幂外？');let label=(inside?'('+base+')':base)+'^'+n;s+=T(320,72,label,B,25);
+ let w=Math.min(77,550/n),ox=320-n*w/2;for(let k=0;k<n;k++){box(ox+k*w+3,130,w-6,60,inside?base:Math.abs(base),inside&&base<0?RED:A);if(k<n-1)s+=T(ox+(k+1)*w,165,'×',M,12)}
+ if(!inside&&base<0)s+=T(36,165,'−',RED,32);
+ foot(L?'负因子成对抵消；幂外负号不能参与配对':'切换表达式，先数负因子，再判断符号。');
+ if(i===19&&L&&j>=1){let v=specs.map(([b,n,p])=>p?b**n:-(Math.abs(b)**n)),p=pick(6),pairs=[];for(let a=0;a<4;a++)for(let b=a+1;b<4;b++)pairs.push([a,b]);let [a,b]=pairs[p];s+=T(320,248,v[a]+' + ('+v[b]+') = '+(v[a]+v[b]),G,18)}
+ }else if(i===20||i===21){
+ let base=i===20?50:80,vs=i===20?[2,-3,4,-1,0,L&&j>=1?1:null]:[-2,5,-4,1,null,null],p=pick(6);
+ if(i===21&&L&&j>=1){let a=-3+pick(5);vs[4]=a;vs[5]=-2-a}
+ head('货袋装载 · 标准 '+base+' kg，偏差可正可负');vs.forEach((v,k)=>{let xx=65+k*88,yy=163-(v??0)*9;s+=ln(xx-32,163,xx+32,163,M,1,'4 3')+R(xx-30,yy,60,72,'#35586a',k===p?B:A)+T(xx,yy+26,'袋'+(k+1),W,12)+T(xx,yy+51,v===null?'?':(v>0?'+':'')+v,v===null?B:v>=0?G:RED,19)});
+ foot(L?(i===20?'偏差相加，再加回标准总质量':'最后两袋偏差之和固定为−2'):'袋子上移或下移对应带符号偏差。');
+ }else if(i===22||i===23){
+ head('舍入实验 · 把原数送入最近刻度');if(i===22){let v=230+pick(21),X=v=>60+(v-230)*26;s+=ln(60,180,580,180,W,3);for(let n=230;n<=250;n++)s+=ln(X(n),174,X(n),188,M,1)+((n%5===0)?T(X(n),210,n,M):'');s+=dot(X(v),180,10,B)+T(X(v),150,v,B,18);if(L&&j>=1)s+=R(X(235),111,X(245)-X(235),20,'#2e6b57',G)+T(320,100,'235含，245不含',G)}
+ else{let vals=[3.6,2.4];vals.forEach((n,k)=>{let y=110+k*100;for(let v=0;v<11;v++){let X=65+v*51;s+=ln(X,y-9,X,y+9,M)+T(X,y+27,((Math.round(n*100)-5+v)/100).toFixed(2),M,10)}s+=ln(65,y,575,y,W,2)+dot(65+(L?j===2?9:j===1?0:5:pick(11))*51,y,9,k?G:B)+T(320,y-24,'近似 '+n,A)})}
+ foot('端点是否属于区间由四舍五入规则决定；不是取近似值本身。');
+ }else if(i===30||i===31){
+ let total=i===30?360:480,day=L?(i===30?(j===0?20:j===1?4:10):(j===0?30:j===1?5:17)):t*30,ma=Math.min(total,day*(i===30?12:16)),mb=Math.min(total,i===30?day*18:Math.min(day,5)*24+Math.max(0,day-5)*30);
+ head('运输任务：同一批货，两条装运路线');s+=T(320,65,'候选时间 '+fmt(day)+' 天',B,20);
+ [ma,mb].forEach((v,k)=>{let y=106+k*100;s+=R(80,y,480,48,'#203848',M)+R(80,y,480*v/total,48,k?'#34705e':'#34728c',k?G:A)+T(47,y+30,k?'乙':'甲',W)+T(320,y+30,L?fmt(v)+' / '+total+' 吨':'已运部分 / 总货物',W);});
+ foot(L?'累计运量＝各阶段每日运量乘对应天数':'拖动时间，观察装运进度；目标时刻自己求。');
+ }else if(i===34||i===35){
+ let n=i===34?(L?8:1+pick(12)):(L?(j===0?4:j===1?6:10):[4,6,8,10][pick(4)]),m=i===34&&L&&j===1?14:i===34?12:15;head('采购清单：按班数复制整箱球');s+=T(320,63,'候选 '+n+' 个班 · 每班 '+m+' 球',B,19);
+ for(let k=0;k<n;k++){let X=65+(k%6)*86,Y=93+Math.floor(k/6)*90;s+=R(X,Y,73,72,'#295063',A);for(let b=0;b<m;b++)s+=dot(X+10+(b%5)*13,Y+12+Math.floor(b/5)*15,5,B);s+=T(X+36,Y+65,'班'+(k+1),W,10)}
+ s+=T(320,282,i===34?'每球5元；固定运费30元':'甲4元/球＋24运费；乙3元/球＋114运费',G,14);foot('班数改变球箱数量，固定费用不随班数增加。');
+ }else if(i>=38&&i<=43||i===46||i===47){
+ let forms={
+ 38:[[['3T','−4T','+2'],['T=x+y=7']], [['−T','+2'],['T=7']], [['4T²','+3T','−1'],['T=7']]],
+ 39:[[['3T²','−kT','+1'],['T=−2']], [['12','+2k','+1','=23']], [['2kT','−T²'],['k=5','T=−2']]],
+ 40:[[['2m−6','n+8','5'],['x²','x','常数']], [['0','n+8','5'],['x²','x','常数']], [['0','0','5'],['x²','x','常数']]],
+ 41:[[['x=0','x=1','x=−1'],['7','?','?']], [['2m−10','n−4','7'],['2m−10','−(n−4)','7']], [['0','0','7'],['x²','x','常数']]],
+ 42:[[['3x','−(5x−7)']], [['3x','−5x','+7'],['3x','−5x','−7']], [['−2x','+7'],['−2x','−7']]],
+ 43:[[['4x','−(2x−c)']], [['2x','+c'],['2x','−c']], [['2×(−3)','+9'],['2×(−3)','−9']]],
+ 46:[[['3x²','4xy','2y²'],['kx²','−2kxy','3ky²']], [['3+k','4−2k','2+3k'],['x²','xy','y²']], [['0','10','−7'],['x²','xy','y²']]],
+ 47:[[['5x²','−3xy','4y²'],['kx²','−2kxy','3ky²']], [['5+k','−3−2k','4+3k'],['x²','xy','y²']], [['7/2','0','−1/2'],['x²','xy','y²']]]};
+ let phase=L?Math.min(j,2):0,rows=forms[i][phase],sel=pick(Math.max(...rows.map(r=>r.length)));head(i===42||i===43?'符号翻转：检查括号外的负号':i===38||i===39?'整体代入：把重复的 x+y 封装为 T':'同类项分拣：不同字母与次数不可混合');
+ rows.forEach((r,k)=>{let y=80+k*98,w=520/r.length;r.forEach((v,b)=>{let X=60+b*w,c=[A,B,G,P][b%4];s+=R(X+5,y,w-10,66,k===sel?'#2c4b5c':'#203848',c)+T(X+w/2,y+40,v,c,String(v).length>10?12:19);if(k===0&&rows.length>1&&rows[1].length===r.length)s+=ln(X+w/2,y+68,X+w/2,y+95,c,2,'5 4')})});
+ foot(L?'本步只移动或消去对应的数学项；看右侧推导核验':'滑动聚焦原有数学项，待求值留给你。');
+ }else if(i>=48&&i<=49){
+ let day=L?(i===48?(j===0?3:13.5):6):t*(i===48?18:10),a=i===48?Math.min(day,3)/12:day/10,b=i===48?day/18:Math.min(day,6)/15,show=L;head('施工现场 · 一整项工程是单位1');s+=T(320,65,'候选 '+fmt(day)+' 天',B,19);
+ let u=500;for(let k=0;k<20;k++){let l=k/20,r=(k+1)/20,c=l<a?A:l<a+b?G:'#294352';s+=R(70+25*k,113,24,64,c,M)}s+=T(320,203,'已施工部分（20格为视觉分度）',W);s+=T(185,255,'甲：每天1/'+(i===48?12:10),A)+T(440,255,'乙：每天1/'+(i===48?18:15),G);
+ foot(show?'按每段参与时间计算工作量，合计应为1':'拖动候选工期；施工长度随效率变化。');
+ }else if(i===50||i===51){
+ let cap=i===50?10:12,low=i===50?2:3,high=i===50?3:5,n=L?(i===50?(j===0?10:j===1?15:14):(j===0?17:9)):pick(25),X=v=>55+v*21;
+ head('阶梯计费表 · 用量增加时费率切换');for(let k=0;k<25;k++){let px=X(k),c=k<cap?A:B;s+=R(px,135,19,67,k<n?c:'#203849',c);if(k%5===0)s+=T(px,225,k,M,12)}
+ s+=T((X(0)+X(cap))/2,105,low+' 元/单位',A,18)+T((X(cap)+X(25))/2,105,high+' 元/单位',B,18)+ln(X(cap),90,X(cap),240,RED,2,'4 3')+T(320,268,'候选用量 '+n,G,18);foot('分界前后分别计费，不能用最高费率乘全部用量。');
+ }else if(i===52||i===53){
+ let phase=L?j:pick(3);head('价格变换实验 · 折扣与利润的基准不同');
+ let vals=i===52?[['标价','×80%','96元'],['进价','×120%','96元']]:[['标价200','×75%','第一次'],['第一次','×90%','第二次'],['进价120','利润','售价']];
+ vals.forEach((r,k)=>{let y=78+k*78;r.forEach((v,b)=>box(60+b*178,y,162,54,v,k===phase?B:[A,G,P][b]));if(k===phase)s+=ln(222,y+27,237,y+27,B,3)});
+ foot(L&&i===53?'利润率以120元进价为分母':'切换价格路径；未知金额不提前展示。');
+ }else if(i===54||i===55){
+ let n=L?(i===54?(j===0?2:j===1?6:8):(j===0?0:j===1?8:4)):pick(13),a=i===54?20:36,b=i===54?8:12,ra=i===54?3:2,rb=i===54?5:6,max=100,Y=v=>264-v*2,X=k=>72+k*40;
+ head('双方案费用赛跑 · 固定费＋按次收费');s+=ln(72,264,580,264,W)+ln(72,264,72,58,W);for(let v=0;v<=100;v+=20)s+=T(46,Y(v)+4,v,M,10);for(let k=0;k<=12;k+=2)s+=T(X(k),285,k,M,11);
+ for(let [base,rate,c] of [[a,ra,A],[b,rb,B]]){s+=ln(X(0),Y(base),X(n),Y(base+rate*n),c,3)+dot(X(n),Y(base+rate*n),6,c)}
+ s+=T(320,75,'甲：'+a+'＋'+ra+'n　乙：'+b+'＋'+rb+'n',W,15);foot('当前候选 '+n+' 次；'+(L?'用方程精确核验临界点':'不标出交点数值，自行列式。'));
+ }else if(i===58||i===59){
+ let a=i===58?['0.272727…','27.272727…']:['1.353535…','135.353535…'];head('小数点移位 · 循环尾部对齐后消去');let phase=L?j:pick(3);
+ a.forEach((v,k)=>{let [pre,tail]=v.split('.'),X=250; s+=T(X-75,102+k*76,k===0?(i===58?'x':'10x'):(i===58?'100x':'1000x'),A,19)+T(X-15,102+k*76,pre,W,27)+T(X+12,102+k*76,'.',B,27);[...tail].forEach((n,z)=>{s+=T(X+37+z*32,102+k*76,n,G,25);if(phase>=1&&k===1)s+=ln(X+24+z*32,80+k*76,X+50+z*32,109+k*76,RED,2)})});
+ if(L&&j>=1)s+=T(320,260,i===58?'99x = 27':'990x = 134',B,23);foot('相同的无限循环尾部对齐；只在讲解中显示差。');
+ }else return null;
+ return '<svg viewBox="0 0 640 340" role="img" aria-label="'+E(d[1])+'">'+s+'</svg>';
+}
+
 function strictArt(d,x,lesson=-1){
  const i=D.indexOf(d),t=Math.max(0,Math.min(1,x/100)),L=lesson>=0,j=lesson,a=d[11],pick=n=>Math.min(n-1,Math.floor(t*n)),col=['#89d8f2','#f4c879','#a1e4b5','#c5aaff'],W='#e4f0f7',M='#a2becd';let s='<rect width="640" height="340" rx="12" fill="#102435"/>';
  const T=(x,y,v,c=W,sz=15)=>txt(x,y,String(v),c,sz),R=(x,y,w,h,c='#213c50',st='#5b7f93')=>rect(x,y,w,h,c,st,.9),line=(a,b,c,d,co=M,w=2)=>'<line x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+d+'" stroke="'+co+'" stroke-width="'+w+'"/>',head=v=>s+=T(320,28,v,col[1],16),foot=v=>s+=T(320,323,v,M,13),dot=(x,y,r,c)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+c+'"/>';
@@ -115,7 +220,7 @@ function strictArt(d,x,lesson=-1){
  foot(subtitle)
  }else if([32,33,36,37].includes(i)){
  let ds=i===37?(L&&j===2?[9,4]:['a','b']):a.digits,n=ds.length,k=L?Math.min(j,n):pick(n+1),rot=ds.map((_,z)=>ds[(z+k)%n]);head('数位不变，数字换位');for(let row=0;row<2;row++){let v=row?rot:ds,w=132;for(let z=0;z<n;z++){let px=320-n*w/2+z*w;s+=R(px+5,60+row*110,w-10,83,'#24475a',col[z])+T(px+w/2,88+row*110,['个位','十位','百位'][n-1-z],M,13)+T(px+w/2,122+row*110,v[z],col[z],29)}}foot('上排原数；下排移动 '+k+' 次后的排列。')
- }else return legacyArt(d,x);
+ }else return topicArt(d,x,lesson)||legacyArt(d,x);
  return '<svg viewBox="0 0 640 340" role="img" aria-label="'+E(d[1])+'">'+s+'</svg>';
 }
 
@@ -146,7 +251,7 @@ let body=complete?'<div class="lesson-done"><h3>跟做完成</h3><p>首次答对
 root.innerHTML=titleBlock(d,'guide')+problemBlock(d,g===0)+'<div class="lesson-progress"><i style="width:'+100*Math.min(g,total)/total+'%"></i></div><div class="teach-focus">现在看：'+(complete?'回顾关键方法':concept?'先找数量关系':'只解决眼前这一小问')+'</div><div class="lesson-grid"><div><div class="scene" id="scene">'+lessonArt(d,state?ls/Math.max(1,d[8].length-1)*100:0,-1)+'</div><div class="tools"><label for="gobserve">观察条件</label><input id="gobserve" type="range" min="0" max="100" value="0" aria-label="拖动观察候选状态"><button id="greset">复位</button></div></div><div class="lesson-side">'+faceBlock(prompt)+body+tipsBlock(d,'guide')+'<button id="modechoose">返回学习方式</button></div></div>';wireTabs();wireTips();$('gobserve').oninput=e=>{quiet();$('scene').innerHTML=lessonArt(d,+e.target.value,-1)};$('greset').onclick=()=>{$('gobserve').value=0;$('scene').innerHTML=lessonArt(d,0,-1)};
 if(complete){$('gpractice').onclick=()=>switchMode('practice');$('gother').onclick=nextQuestion;paceText();speak(prompt);return}
 function judge(ok){if(guidePassed||guideShown)return;if(!ok){guideFirstWrong++;$('gfeedback').textContent='再想一想。'+(guideFirstWrong===1?q[4]:q[5]);$('gfeedback').className='probe-response bad';speak($('gfeedback').textContent);return}guidePassed=true;if(guideFirstWrong===0)guideCorrect++;showGuide(false)}
-function showGuide(reveal){if(reveal){guideShown=true;guideRevealed++}quiet();$('gfeedback').textContent=reveal?'这是本步提示后的答案。':'正确！想一想，为什么这样做。';$('gfeedback').className='probe-response good';$('gsolution').hidden=false;$('gnext').disabled=false;$('gshow').disabled=true;if(!concept){$('ganswer').disabled=true;$('gcheck').disabled=true;root.querySelectorAll('[data-gkey]').forEach(b=>b.disabled=true);let v=ls/Math.max(1,d[8].length-1)*100;$('gobserve').value=v;$('scene').innerHTML=lessonArt(d,v,-1)}else root.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);speak((reveal?'我来帮你：':'很好。')+(concept?q[1]+'。'+q[4]:WORK[idx][g-1]));paceText()}
+function showGuide(reveal){if(reveal){guideShown=true;guideRevealed++}quiet();$('gfeedback').textContent=reveal?'这是本步提示后的答案。':'正确！想一想，为什么这样做。';$('gfeedback').className='probe-response good';$('gsolution').hidden=false;$('gnext').disabled=false;$('gshow').disabled=true;if(!concept){$('ganswer').disabled=true;$('gcheck').disabled=true;root.querySelectorAll('[data-gkey]').forEach(b=>b.disabled=true);let v=ls/Math.max(1,d[8].length-1)*100;$('gobserve').value=v;$('scene').innerHTML=lessonArt(d,v,ls)}else root.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);speak((reveal?'我来帮你：':'很好。')+(concept?q[1]+'。'+q[4]:WORK[idx][g-1]));paceText()}
 if(concept)root.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>judge(+b.dataset.choice===0));else{$('gcheck').onclick=()=>{let v=parse($('ganswer').value);if(!Number.isFinite(v)){$('gfeedback').textContent='请先填数字或分数。';return}if(d[5][g-1].includes('最简分数')){let raw=$('ganswer').value.trim(),p=raw.split('/'),gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);if(!/^\d+\/[1-9]\d*$/.test(raw)||gcd(+p[0],+p[1])!==1){$('gfeedback').textContent='请填约分后的最简分数。';return}}judge(Math.abs(v-d[6][g-1])<.00011)};$('ganswer').onkeydown=e=>{if(e.key==='Enter')$('gcheck').onclick()};root.querySelectorAll('[data-gkey]').forEach(b=>b.onclick=()=>{let el=$('ganswer'),k=b.dataset.gkey;if(!el.disabled)el.value=k==='退格'?el.value.slice(0,-1):el.value+(k==='−'?'-':k)})}
 $('gshow').onclick=()=>showGuide(true);$('gnext').onclick=()=>{if(!guidePassed&&!guideShown)return;guideIndex++;guidePassed=false;guideShown=false;guideFirstWrong=0;guidedLesson()};paceText();speak(prompt)}
 function restorePractice(){let d=D[idx];d[5].forEach((_,k)=>{if($('a'+k))$('a'+k).value=practiceDraft[k]||''});proof=practiceProof;done=practiceDone;if(proof){$('proof').hidden=false;d[5].forEach((_,k)=>$('a'+k).disabled=true);$('submit').disabled=true}if(done)root.querySelectorAll('[data-proof]').forEach(b=>b.disabled=true);$('feedback').textContent=practiceFeedback;if($('draft'))$('draft').value=practiceScratch;if(practiceCanvas&&typeof window.Image==='function'){let canvas=$('canvas'),src=practiceCanvas,img=new window.Image();img.onload=()=>{if($('canvas')===canvas&&learningMode==='practice')canvas.getContext('2d').drawImage(img,0,0)};img.src=src}paceText()}
@@ -157,7 +262,7 @@ function wire(){let d=D[idx],activeField=0;d[5].forEach((_,i)=>{$('a'+i).onfocus
 function parse(s){s=String(s).trim().replace(/−/g,'-');if(!/^[+-]?\d+(?:\.\d+)?(?:\/[1-9]\d*)?$/.test(s))return NaN;let [n,d='1']=s.split('/');return +n/+d}
 function submit(){if(done)return;let d=D[idx],a=d[5].map((_,i)=>parse($('a'+i).value));if(d[1]==='循环小数与等式变形'){let raw=$('a0').value.trim(),parts=raw.split('/'),gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);if(!/^\d+\/[1-9]\d*$/.test(raw)||gcd(+parts[0],+parts[1])!==1){$('feedback').textContent='第一问请填已约分的最简分数，例如3/7。';return}}if(a.some(v=>!Number.isFinite(v))){$('feedback').textContent='请填完整数字或分数。';return}attempts++;let wrong=a.map((v,i)=>Math.abs(v-d[6][i])>.00011);if(wrong.some(Boolean)){proof=false;$('proof').hidden=true;$('feedback').className='feedback bad';$('feedback').textContent='还有 '+wrong.filter(Boolean).length+' 项结论不正确。检查边界、漏解与数量关系。';speak($('feedback').textContent);return}proof=true;$('feedback').className='feedback good';$('feedback').textContent='数值全部正确！再检验推理。';$('proof').hidden=false;d[5].forEach((_,i)=>$('a'+i).disabled=true);$('submit').disabled=true;speak('数值都对了。最后选出能够说明结论的正确理由。')}
 function checkProof(i){if(done||!proof)return;let d=D[idx];if(i!==d[10]){attempts++;$('feedback').className='feedback bad';$('feedback').textContent='这个理由还不成立。再想想分类和结论之间的关系。';speak($('feedback').textContent);return}done=true;records[idx]=(assisted||teachingVisited)?'assisted':attempts===1?'independent':'corrected';save();$('feedback').className='feedback good';$('feedback').textContent='结论与理由选择正确！请在草稿板写完整思路。';root.querySelectorAll('[data-proof]').forEach(b=>b.disabled=true);paceText();speak('很好。请试着在草稿板写出完整证明。')}
-function explain(){pause();quiet();let d=D[idx],p=$('explain');if(['cards','terms','seq','timeline','bars'].includes(d[11].kind))setX(step*45);p.hidden=false;let s=d[8][step];p.innerHTML='<h2>老师讲解 · '+(step+1)+' / '+d[8].length+'</h2><p class="step">'+E(s)+'</p><div class="row"><button id="prev" '+(step===0?'disabled':'')+'>上一段</button><button id="next" class="primary" '+(step===d[8].length-1?'disabled':'')+'>下一段</button><button id="hide">收起讲解</button></div>';$('narr').textContent=s;$('prev').onclick=()=>{if(step>0){step--;explain()}};$('next').onclick=()=>{if(step<d[8].length-1){step++;explain()}};$('hide').onclick=()=>{quiet();step=-1;p.hidden=true;paceText()};paceText();speak(s)}
+function explain(){pause();quiet();let d=D[idx],p=$('explain');setX(step/Math.max(1,d[8].length-1)*100);$('scene').innerHTML=strictArt(d,x,step);p.hidden=false;let s=d[8][step];p.innerHTML='<h2>老师讲解 · '+(step+1)+' / '+d[8].length+'</h2><p class="step">'+E(s)+'</p><div class="row"><button id="prev" '+(step===0?'disabled':'')+'>上一段</button><button id="next" class="primary" '+(step===d[8].length-1?'disabled':'')+'>下一段</button><button id="hide">收起讲解</button></div>';$('narr').textContent=s;$('prev').onclick=()=>{if(step>0){step--;explain()}};$('next').onclick=()=>{if(step<d[8].length-1){step++;explain()}};$('hide').onclick=()=>{quiet();step=-1;p.hidden=true;paceText()};paceText();speak(s)}
 function nextQuestion(){if(learningMode==='practice')snapshot();if(!done&&!records[idx]){records[idx]=learningMode==='watch'||learningMode==='guide'||teachingVisited?'studied':'skipped';save()}const next=D.findIndex((d,i)=>i>idx&&(filter==='all'||d[0]===filter)&&(difficulty==='all'||d[12]===difficulty));if(next>=0)open(next);else home()}
 function paceText(){const b=$('advance');b.disabled=learningMode==='guide'&&guideIndex<D[idx][5].length+1&&!guidePassed&&!guideShown;b.textContent=learningMode==='watch'?(learnStep>=D[idx][8].length?'跟老师做':'下一步讲解'):learningMode==='guide'?(guideIndex>=D[idx][5].length+1?'独立挑战':'跟做下一步'):done?'下一题':'跳过本题'}
 $('stop').onclick=leave;$('repeat').onclick=()=>{if(last)speak(last)};$('advance').onclick=()=>{if(learningMode==='watch'){if($('wnext'))$('wnext').onclick();return}if(learningMode==='guide'){if(guideIndex>=D[idx][5].length+1)switchMode('practice');else if(guidePassed||guideShown)$('gnext').onclick();return}nextQuestion()};document.addEventListener('visibilitychange',()=>{if(document.hidden)leave()});window.addEventListener('pagehide',leave);window.HARD_AUDIT={D,art,parse};home();</script></body></html>
