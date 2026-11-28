@@ -174,4 +174,37 @@ function advancePractice(){stop();if(!practiceRun[qidx])practiceRun[qidx]='skipp
 function practiceResult(){stop();stage='practice-result';syncPace();const l=D[idx],count=k=>Object.values(practiceRun).filter(v=>v===k).length;const first=count('first'),corrected=count('corrected'),reviewed=count('reviewed'),skipped=l.quiz.length-first-corrected-reviewed;const names={first:'首次独立答对',corrected:'自己订正后答对',reviewed:'参考例题后答对',skipped:'暂未完成'};$('head').textContent='独立挑战 · 本轮小结';root.innerHTML='<div class="donebox"><h2>'+esc(l.title)+'</h2><p>看懂例题和独立解决是两种不同的能力。</p></div><div class="outcome-grid">'+[[first,'首次答对'],[corrected,'自主订正'],[reviewed,'参考后答对'],[skipped,'待再练']].map(([n,t])=>'<div><b>'+n+'</b><small>'+t+'</small></div>').join('')+'</div>'+l.quiz.map((q,j)=>'<div class="result-line"><span>第 '+(j+1)+' 题 · '+esc(q[0])+'</span><strong>'+names[practiceRun[j]||'skipped']+'</strong></div>').join('')+teacher(skipped?'先挑一道还没做完的题，慢慢来。':reviewed?'下次试着不看例题，自己完成。':corrected?'你自己找到了错误，下一次试试一次做对。':'这轮三道题都首次答对。换一个主题，检验能不能迁移。')+'<div class="row"><button id="result-retry" class="primary">重新挑战本组</button><button id="result-home">返回选课</button></div>';$('result-retry').onclick=()=>openMode('practice');$('result-home').onclick=home;speak('这一轮结束了。看看哪些题是第一次独立答对，哪些还要练。')}
 function scratch(){let key=stage+':'+idx+':'+(stage==='practice'?qidx:step),d=notes[key]||{lines:[],text:''};notes[key]=d;let m=document.createElement('div');m.className='overlay';m.innerHTML='<div class="scratch"><h2>草稿板</h2><canvas width="600" height="380"></canvas><textarea placeholder="列算式"></textarea><div class="row"><button>撤销</button><button>清空</button><button class="primary">返回</button></div></div>';document.body.append(m);let c=m.querySelector('canvas'),ctx=c.getContext('2d'),ta=m.querySelector('textarea'),a=null;ta.value=d.text;ctx.lineWidth=4;ctx.strokeStyle='#243a44';ctx.lineCap='round';function draw(){ctx.clearRect(0,0,c.width,c.height);d.lines.forEach(s=>{ctx.beginPath();s.forEach(([x,y],n)=>n?ctx.lineTo(x,y):ctx.moveTo(x,y));if(s.length===1)ctx.lineTo(s[0][0]+.1,s[0][1]);ctx.stroke()})}function pt(e){let r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]}c.onpointerdown=e=>{c.setPointerCapture(e.pointerId);a=[pt(e)];d.lines.push(a);draw()};c.onpointermove=e=>{if(a){a.push(pt(e));draw()}};c.onpointerup=c.onpointercancel=()=>a=null;let bs=m.querySelectorAll('button');bs[0].onclick=()=>{d.lines.pop();draw()};bs[1].onclick=()=>{d.lines=[];ta.value='';draw()};bs[2].onclick=()=>{d.text=ta.value;m.remove()};draw()}
 $('pace-stop').addEventListener('click',interruptOnly);$('pace-next').addEventListener('click',interruptAdvance);$('home').onclick=home;$('voice').onclick=()=>{muted=!muted;$('voice').textContent=muted?'语音 关':'语音 开';if(feedbackReplay){feedbackReplay();return}if(stage==='watch'&&watchResume)return;stop();if(stage==='watch'){watch(false,true)}else if(!muted&&last)speak(last)};document.addEventListener('visibilitychange',()=>{if(document.hidden&&stage==='watch'&&!watchResume&&!feedbackReplay){interruptOnly();$('wpause').textContent='继续';$('watchstatus').textContent='已暂停，回来以后可重听或直接下一步。'}});window.CH5_AUDIT={D,BOARD,NARRATION,COACH,PROBES,interruptOnly,interruptAdvance,probeArt,art,equal,choose,watch,lesson,practice,expert,watchSummary};home();
+</script><script>/* sound-gate-v1 */
+(function(){
+ try{
+  if(!document.body)return;
+  if(window.sessionStorage&&sessionStorage.getItem('lin-sound-unlocked')==='1')return;
+  var SS=window.speechSynthesis;
+  var css='#sound-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(10,20,28,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}#sound-gate .sg-card{width:100%;max-width:380px;background:#fffdf5;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.35)}#sound-gate .sg-title{font-size:20px;font-weight:700;color:#172c3b;margin:8px 0 4px}#sound-gate .sg-sub{font-size:13px;color:#5a6b78;margin-bottom:18px;line-height:1.6}#sound-gate .sg-btn{width:100%;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:700;color:#142431;background:linear-gradient(135deg,#efc77c,#e6b45c);cursor:pointer}#sound-gate .sg-tips{margin-top:16px;font-size:12px;color:#7a848c;line-height:1.75;text-align:left}#sound-gate .sg-badge{display:inline-block;font-size:12px;color:#8a6d3b;background:#f7ecd2;border-radius:999px;padding:3px 10px}';
+  var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+  function zhVoices(){try{return (SS?SS.getVoices():[]).filter(function(v){return /^zh/i.test(v.lang)})}catch(e){return[]}}
+  var subEl=null;
+  function checkEngine(){
+   if(!SS||!subEl)return;
+   if(zhVoices().length===0)subEl.textContent='未检测到中文语音引擎：点开始后可看文字和动画学习，按下方第 3 条可启用语音。';
+  }
+  function refresh(){checkEngine()}
+  refresh();
+  if(SS&&SS.addEventListener)SS.addEventListener('voiceschanged',refresh);
+  setTimeout(checkEngine,600);
+  var noSS=!SS;
+  var gate=document.createElement('div');gate.id='sound-gate';
+  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 安卓手机可在系统设置里启用或安装中文语音引擎。</div></div>';
+  document.body.appendChild(gate);
+  subEl=gate.querySelector('.sg-sub');checkEngine();
+  var btn=gate.querySelector('.sg-btn');
+  function unlock(){
+   if(SS){try{if(SS.paused)SS.resume();var u=new SpeechSynthesisUtterance('声音开启');u.lang='zh-CN';u.volume=0;var vs=zhVoices();if(vs.length)u.voice=vs[0];SS.speak(u);setTimeout(function(){try{SS.cancel()}catch(e){}},300);}catch(e){}}
+   try{sessionStorage.setItem('lin-sound-unlocked','1')}catch(e){}
+   if(gate.parentNode)gate.parentNode.removeChild(gate);
+  }
+  btn.addEventListener('click',unlock);
+  if(noSS){btn.textContent='开始学习（本设备不支持语音）';gate.querySelector('.sg-sub').textContent='本设备浏览器不支持语音，可看文字和动画学习。';}
+ }catch(e){}
+})();
 </script></body></html>

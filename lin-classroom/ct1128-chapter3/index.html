@@ -463,4 +463,37 @@ function practice(play=false){stop();stage='practice';syncPace();ready=true;unlo
 function scratch(){stop();let key=[idx,stage,route,step,exercise].join('-'),d=drafts[key]||{strokes:[],note:''},m=document.createElement('div');m.className='overlay';m.innerHTML='<div class="scratch"><h2>数学草稿板</h2><p class="muted">可以用手指写算式，也可以输入。草稿在当前学习会话内保留。</p><canvas width="600" height="460"></canvas><textarea placeholder="输入算式"></textarea><div class="row"><button>撤销</button><button>清空</button><button class="primary">返回</button></div></div>';document.body.append(m);let c=m.querySelector('canvas'),ctx=c.getContext('2d'),ta=m.querySelector('textarea'),active=null;ta.value=d.note;ctx.lineWidth=4;ctx.strokeStyle='#273842';ctx.lineCap='round';ctx.lineJoin='round';function draw(){ctx.clearRect(0,0,c.width,c.height);d.strokes.forEach(s=>{ctx.beginPath();s.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));if(s.length===1){ctx.lineTo(s[0][0]+.01,s[0][1]+.01)}ctx.stroke()})}function point(e){let r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]}c.onpointerdown=e=>{c.setPointerCapture(e.pointerId);active=[point(e)];d.strokes.push(active);draw()};c.onpointermove=e=>{if(active){active.push(point(e));draw()}};c.onpointerup=c.onpointercancel=()=>active=null;let bs=m.querySelectorAll('button');bs[0].onclick=()=>{d.strokes.pop();draw()};bs[1].onclick=()=>{d.strokes=[];ta.value='';draw()};bs[2].onclick=()=>{d.note=ta.value;drafts[key]=d;m.remove();if(stage==='lesson'){ready=true;$('submit').disabled=mode==='teacher'||unlocked;$('feedback').textContent='草稿已保留，可以继续计算。'}};draw()}
 $('pace-stop').addEventListener('click',stopByChild);$('pace-next').addEventListener('click',advanceByChild);$('home').onclick=home;$('voice').onclick=()=>{muted=!muted;stop();$('voice').textContent=muted?'语音 关':'语音 开';if(stage==='lesson'){ready=true;$('submit').disabled=mode==='teacher'||unlocked;$('feedback').textContent='可以继续计算，或重听重看。'}};document.addEventListener('visibilitychange',()=>{if(document.hidden){stop();if(stage==='lesson'){ready=true;if($('submit'))$('submit').disabled=mode==='teacher'||unlocked;}}});window.CH3_AUDIT={data:D,renderArt,equal,open:(i,r=0,s=0)=>{idx=i;route=r;step=s;lesson(false)},practice:(i,j)=>{idx=i;exercise=j;practice(false)}};home();
 
+</script><script>/* sound-gate-v1 */
+(function(){
+ try{
+  if(!document.body)return;
+  if(window.sessionStorage&&sessionStorage.getItem('lin-sound-unlocked')==='1')return;
+  var SS=window.speechSynthesis;
+  var css='#sound-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(10,20,28,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}#sound-gate .sg-card{width:100%;max-width:380px;background:#fffdf5;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.35)}#sound-gate .sg-title{font-size:20px;font-weight:700;color:#172c3b;margin:8px 0 4px}#sound-gate .sg-sub{font-size:13px;color:#5a6b78;margin-bottom:18px;line-height:1.6}#sound-gate .sg-btn{width:100%;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:700;color:#142431;background:linear-gradient(135deg,#efc77c,#e6b45c);cursor:pointer}#sound-gate .sg-tips{margin-top:16px;font-size:12px;color:#7a848c;line-height:1.75;text-align:left}#sound-gate .sg-badge{display:inline-block;font-size:12px;color:#8a6d3b;background:#f7ecd2;border-radius:999px;padding:3px 10px}';
+  var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+  function zhVoices(){try{return (SS?SS.getVoices():[]).filter(function(v){return /^zh/i.test(v.lang)})}catch(e){return[]}}
+  var subEl=null;
+  function checkEngine(){
+   if(!SS||!subEl)return;
+   if(zhVoices().length===0)subEl.textContent='未检测到中文语音引擎：点开始后可看文字和动画学习，按下方第 3 条可启用语音。';
+  }
+  function refresh(){checkEngine()}
+  refresh();
+  if(SS&&SS.addEventListener)SS.addEventListener('voiceschanged',refresh);
+  setTimeout(checkEngine,600);
+  var noSS=!SS;
+  var gate=document.createElement('div');gate.id='sound-gate';
+  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 安卓手机可在系统设置里启用或安装中文语音引擎。</div></div>';
+  document.body.appendChild(gate);
+  subEl=gate.querySelector('.sg-sub');checkEngine();
+  var btn=gate.querySelector('.sg-btn');
+  function unlock(){
+   if(SS){try{if(SS.paused)SS.resume();var u=new SpeechSynthesisUtterance('声音开启');u.lang='zh-CN';u.volume=0;var vs=zhVoices();if(vs.length)u.voice=vs[0];SS.speak(u);setTimeout(function(){try{SS.cancel()}catch(e){}},300);}catch(e){}}
+   try{sessionStorage.setItem('lin-sound-unlocked','1')}catch(e){}
+   if(gate.parentNode)gate.parentNode.removeChild(gate);
+  }
+  btn.addEventListener('click',unlock);
+  if(noSS){btn.textContent='开始学习（本设备不支持语音）';gate.querySelector('.sg-sub').textContent='本设备浏览器不支持语音，可看文字和动画学习。';}
+ }catch(e){}
+})();
 </script></body></html>

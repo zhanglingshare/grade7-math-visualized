@@ -44,4 +44,37 @@ function home(){stop();$('top').textContent='第三章 · 代数式';root.innerH
 function render(play){stop();answerShown=false;ready=true;let l=L[i],isTest=j===3,a=isTest?[l[5][0],l[5][0],l[5][1],l[5][2]]:l[4][j];$('top').textContent=l[0]+' · '+l[1];root.innerHTML='<div class="small">'+(isTest?'独立迁移挑战':'第 '+(j+1)+' / 3 步')+'</div><div class="progress"><b style="width:'+((j+1)*25)+'%"></b></div><h2>'+esc(l[1])+'</h2><div class="panel">'+esc(isTest?a[1]:l[2])+'</div><div class="row"><button id="teach">老师带我做</button><button id="together">一起做</button><button id="ind">独立挑战</button></div><div class="scene" id="scene">'+(isTest?svg(rect(0,0,360,246,'#102532',0)+catAt(180,158,0)+text(180,206,'新条件 · 自己试试',gold,18)):art(l[3],j,0))+'</div><div class="panel guide"><img src="'+portrait.base+'"><p id="narr">'+esc(isTest?'这是新的题目，先自己列式。':a[0])+'</p></div><div id="status" class="small"></div><h2>'+esc(isTest?'你的答案':a[1])+'</h2><div id="choices" class="options">'+a[3].map((v,n)=>'<button data-choice="'+n+'">'+esc(v)+'</button>').join('')+'</div><div class="row"><button id="scratch">打草稿</button><button id="replay">重听 / 重看</button><button id="hint">老师解释</button><button id="pause">停下来</button></div><p id="feedback" aria-live="polite"></p><div class="row"><button id="prev" '+(j===0?'disabled':'')+'>上一步</button><button class="primary" id="next" disabled>'+(isTest?'完成':'继续')+'</button></div>';const finish=()=>{$('next').disabled=false;answerShown=true};root.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{if(!ready)return;let v=a[3][Number(b.dataset.choice)];if(v===a[2]){$('feedback').className='good';$('feedback').textContent='正确！'+a[2];finish();if(!isTest)$('scene').innerHTML=art(l[3],j,1,true);speak('正确。你可以继续。')}else{$('feedback').className='bad';$('feedback').textContent='还差一点。先打草稿，或请老师解释。';speak('没关系，慢慢想，不用着急。')}});$('teach').onclick=()=>{mode='teacher';render(true)};$('together').onclick=()=>{mode='together';render(true)};$('ind').onclick=()=>{j=3;render(false)};$('replay').onclick=()=>{if(!isTest)animate(a[0]);else speak(a[1])};$('pause').onclick=()=>{stop();ready=true;$('choices').style.opacity='1';$('choices').style.pointerEvents='auto';$('status').textContent='暂停了，慢慢算。'};$('hint').onclick=()=>{stop();ready=true;$('choices').style.opacity='1';$('choices').style.pointerEvents='auto';$('feedback').className='good';$('feedback').textContent='老师演算：'+a[2];if(!isTest)$('scene').innerHTML=art(l[3],j,1,true);speak((isTest?'参考结果是。':a[0]+'。正确结果是。')+a[2]);finish()};$('prev').onclick=()=>{if(j>0){j--;render(true)}};$('next').onclick=()=>{if(j<3){j++;render(j!==3)}else{progress[i]=true;try{localStorage.setItem('lin-ch3-ct1127',JSON.stringify(progress))}catch{}home()}};$('scratch').onclick=scratch;if(play&&!isTest){animate(a[0]);if(mode==='teacher'){$('hint').textContent='查看完整计算';}}}
 function scratch(){let key=i+'-'+j,m=document.createElement('div');m.className='overlay';m.innerHTML='<div class="scratch"><h2>数学草稿板</h2><canvas width="600" height="450"></canvas><textarea placeholder="也可以在这里输入算式"></textarea><div class="row"><button>撤销</button><button>清空</button><button class="primary">返回</button></div></div>';document.body.append(m);let c=m.querySelector('canvas'),ctx=c.getContext('2d'),ta=m.querySelector('textarea'),d=drafts[key]||{strokes:[],note:''},active=null;ta.value=d.note;ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=4;ctx.strokeStyle='#253444';function draw(){ctx.clearRect(0,0,c.width,c.height);for(let s of d.strokes){ctx.beginPath();s.forEach(([x,y],n)=>n?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke()}}function pos(e){let r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]}c.onpointerdown=e=>{c.setPointerCapture(e.pointerId);active=[pos(e)];d.strokes.push(active)};c.onpointermove=e=>{if(active){active.push(pos(e));draw()}};c.onpointerup=c.onpointercancel=()=>active=null;let bs=m.querySelectorAll('button');bs[0].onclick=()=>{d.strokes.pop();draw()};bs[1].onclick=()=>{d.strokes=[];ta.value='';draw()};bs[2].onclick=()=>{d.note=ta.value;drafts[key]=d;m.remove()};draw()}
 $('home').onclick=home;$('voice').onclick=()=>{muted=!muted;$('voice').textContent=muted?'语音 关':'语音 开';if(muted)try{speechSynthesis.cancel()}catch{}};home();
+</script><script>/* sound-gate-v1 */
+(function(){
+ try{
+  if(!document.body)return;
+  if(window.sessionStorage&&sessionStorage.getItem('lin-sound-unlocked')==='1')return;
+  var SS=window.speechSynthesis;
+  var css='#sound-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(10,20,28,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}#sound-gate .sg-card{width:100%;max-width:380px;background:#fffdf5;border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.35)}#sound-gate .sg-title{font-size:20px;font-weight:700;color:#172c3b;margin:8px 0 4px}#sound-gate .sg-sub{font-size:13px;color:#5a6b78;margin-bottom:18px;line-height:1.6}#sound-gate .sg-btn{width:100%;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:700;color:#142431;background:linear-gradient(135deg,#efc77c,#e6b45c);cursor:pointer}#sound-gate .sg-tips{margin-top:16px;font-size:12px;color:#7a848c;line-height:1.75;text-align:left}#sound-gate .sg-badge{display:inline-block;font-size:12px;color:#8a6d3b;background:#f7ecd2;border-radius:999px;padding:3px 10px}';
+  var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+  function zhVoices(){try{return (SS?SS.getVoices():[]).filter(function(v){return /^zh/i.test(v.lang)})}catch(e){return[]}}
+  var subEl=null;
+  function checkEngine(){
+   if(!SS||!subEl)return;
+   if(zhVoices().length===0)subEl.textContent='未检测到中文语音引擎：点开始后可看文字和动画学习，按下方第 3 条可启用语音。';
+  }
+  function refresh(){checkEngine()}
+  refresh();
+  if(SS&&SS.addEventListener)SS.addEventListener('voiceschanged',refresh);
+  setTimeout(checkEngine,600);
+  var noSS=!SS;
+  var gate=document.createElement('div');gate.id='sound-gate';
+  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 安卓手机可在系统设置里启用或安装中文语音引擎。</div></div>';
+  document.body.appendChild(gate);
+  subEl=gate.querySelector('.sg-sub');checkEngine();
+  var btn=gate.querySelector('.sg-btn');
+  function unlock(){
+   if(SS){try{if(SS.paused)SS.resume();var u=new SpeechSynthesisUtterance('声音开启');u.lang='zh-CN';u.volume=0;var vs=zhVoices();if(vs.length)u.voice=vs[0];SS.speak(u);setTimeout(function(){try{SS.cancel()}catch(e){}},300);}catch(e){}}
+   try{sessionStorage.setItem('lin-sound-unlocked','1')}catch(e){}
+   if(gate.parentNode)gate.parentNode.removeChild(gate);
+  }
+  btn.addEventListener('click',unlock);
+  if(noSS){btn.textContent='开始学习（本设备不支持语音）';gate.querySelector('.sg-sub').textContent='本设备浏览器不支持语音，可看文字和动画学习。';}
+ }catch(e){}
+})();
 </script></body></html>
