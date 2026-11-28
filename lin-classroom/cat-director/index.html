@@ -324,7 +324,7 @@ $('home').onclick=home;$('voice').onclick=()=>{muted=!muted;$('voice').textConte
   var subEl=null;
   function checkEngine(){
    if(!SS||!subEl)return;
-   if(zhVoices().length===0)subEl.textContent='未检测到中文语音引擎：点开始后可看文字和动画学习，按下方第 3 条可启用语音。';
+   if(zhVoices().length===0)subEl.textContent='本课程已内置老师真人讲解音频，点开始即可发声，不依赖设备自带语音引擎。';
   }
   function refresh(){checkEngine()}
   refresh();
@@ -332,7 +332,7 @@ $('home').onclick=home;$('voice').onclick=()=>{muted=!muted;$('voice').textConte
   setTimeout(checkEngine,600);
   var noSS=!SS;
   var gate=document.createElement('div');gate.id='sound-gate';
-  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 安卓无声：在设置里搜「文字转语音」，安装中文语音数据。</div></div>';
+  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 仍无声：把媒体音量调大，或换一个浏览器打开本页面。</div></div>';
   document.body.appendChild(gate);
   subEl=gate.querySelector('.sg-sub');checkEngine();
   var btn=gate.querySelector('.sg-btn');
