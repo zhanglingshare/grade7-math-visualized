@@ -156,7 +156,7 @@ $('home').onclick=home;$('voice').onclick=()=>{muted=!muted;stop();$('voice').te
   setTimeout(checkEngine,600);
   var noSS=!SS;
   var gate=document.createElement('div');gate.id='sound-gate';
-  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 安卓手机可在系统设置里启用或安装中文语音引擎。</div></div>';
+  gate.innerHTML='<div class="sg-card"><span class="sg-badge">林老师数学教室</span><div class="sg-title">点一下，开启声音</div><div class="sg-sub">手机浏览器要求先点击，老师才能开口讲解。</div><button class="sg-btn" type="button">&#128266; 点击开始学习</button><div class="sg-tips">没有声音时检查：<br>1. iPhone 左侧静音开关拨到关闭，媒体音量调大；<br>2. 微信里打开，请点右上角「…」选「在浏览器打开」；<br>3. 安卓无声：在设置里搜「文字转语音」，安装中文语音数据。</div></div>';
   document.body.appendChild(gate);
   subEl=gate.querySelector('.sg-sub');checkEngine();
   var btn=gate.querySelector('.sg-btn');
