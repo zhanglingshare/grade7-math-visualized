@@ -85,7 +85,76 @@ else if(a.kind==='seq'||a.kind==='terms'){let rows=a.rows,m=Math.max(...rows.map
 else{let items=a.items,sel=Math.min(items.length-1,Math.floor(t*items.length)),w=Math.min(160,550/items.length),ox=(640-items.length*w)/2;items.forEach(([name,v],i)=>{let px=ox+i*w,focus=i===sel;s+=rect(px+5,95,w-10,115,focus?'#3c5664':'#1c3548',focus?'#f3c76e':'#5d7c91')+txt(px+w/2,133,name,focus?'#f3c76e':'#d4e8f3',14)+txt(px+w/2,176,v,'#a8d9ee',String(v).length>14?12:17);if(a.kind==='timeline'&&i<items.length-1)s+=txt(px+w,157,'›','#f3c76e',22)});}
 return '<svg viewBox="0 0 640 340" role="img" aria-label="'+E(a.note)+'">'+s+txt(320,326,a.note,'#b9d1df',12)+'</svg>'}
 
-function strictArt(d,x,lesson=-1){
+
+function capstoneScene(d,x,lesson=-1){
+ const i=D.indexOf(d),L=lesson>=0,j=lesson,t=Math.max(0,Math.min(1,x/100)),pick=n=>Math.min(n-1,Math.floor(t*n)),A='#89d8f2',B='#f4c879',G='#a1e4b5',P='#c5aaff',RED='#f39d9d',W='#e4f0f7',M='#a2becd';let s='<rect width="640" height="340" rx="12" fill="#102435"/>';
+ const T=(x,y,v,c=W,sz=15)=>txt(x,y,String(v),c,sz),R=(x,y,w,h,c='#244258',st=M,op=1)=>rect(x,y,w,h,c,st,op),ln=(a,b,c,d,co=M,w=2,ds='')=>'<line x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+d+'" stroke="'+co+'" stroke-width="'+w+'" '+(ds?'stroke-dasharray="'+ds+'"':'')+'/>',dot=(x,y,r,c)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+c+'"/>',head=v=>s+=T(320,28,v,B,16),foot=v=>s+=T(320,323,v,M,13),fmt=n=>String(+n.toFixed(4));
+ const chip=(x,y,w,h,v,c=A)=>{s+=R(x,y,w,h,'#244258',c)+T(x+w/2,y+h/2+5,v,c,String(v).length>15?11:17)};
+ function groups(a,k){let out=[];function go(p,i){if(p.length===k){out.push(p);return}for(let n=i;n<a.length;n++)go([...p,a[n]],n+1)}go([],0);return out}
+ if(i===1){
+ let v=[-7,-5,-3,-1,1,3,5,7],p=groups(v,3).filter(a=>a[1]<0),valid=p.filter(([a,b,c])=>Math.abs(a)+Math.abs(c)===10&&Math.abs(b)<Math.abs(a)&&Math.abs(b)<Math.abs(c)),q=L?(j===0?[-7,-5,-3]:valid[pick(valid.length)]):p[pick(p.length)];
+ head('三重筛选实验：从8张牌中选3张');v.forEach((n,k)=>chip(44+k*70,55,60,42,n,q.includes(n)?G:M));
+ q.forEach((n,k)=>{let X=125+k*145;chip(X,129,100,66,['a','b','c'][k]+' = '+n,[A,B,G][k]);s+=ln(320,100,X+50,126,M,1)});
+ let checks=[['b＜0',q[1]<0],['|a|＋|c|＝10',Math.abs(q[0])+Math.abs(q[2])===10],['|b|同时小于两端',Math.abs(q[1])<Math.abs(q[0])&&Math.abs(q[1])<Math.abs(q[2])]];
+ checks.forEach(([n,ok],k)=>{let X=48+k*182;chip(X,238,174,43,n,L?(ok?G:RED):A)});
+ foot(L&&j>=1?'有效组合依次检查，不能漏掉(−5,−1,5)':'拖动选择三张牌；三个约束由你逐项判断。');
+ }else if(i===2){
+ let vals=[-6,-4,-2,-1,0,2,3,5],k=L?2:1+pick(6);head('质检分级车间 · 候选容差 k='+k);
+ for(let a=0;a<3;a++){let X=42+196*a;s+=R(X,205,178,85,'#203a48',[G,B,RED][a])+T(X+89,231,['A：≤k','B：k＜偏差绝对值≤2k','C：＞2k'][a],[G,B,RED][a],12)}
+ let order=L?[...vals].sort((a,b)=>Math.abs(a)-Math.abs(b)):vals;
+ order.forEach((v,n)=>{let group=Math.abs(v)<=k?0:Math.abs(v)<=2*k?1:2,X=55+n*68;chip(X,78,58,54,v,L?[G,B,RED][group]:A);if(L&&j>=1)s+=ln(X+29,135,131+196*group,202,[G,B,RED][group],1.4)});
+ foot('先按绝对偏差分级，再用带符号偏差比较实际质量。');
+ }else if(i===4){
+ let vals=[1,3,5,8],choices=groups(vals,2),neg=L?(j===0?[1,3]:j===1?choices[pick(choices.length)]:[1,8]):choices[pick(6)],v=vals.map(n=>neg.includes(n)?-n:n).sort((a,b)=>a-b);
+ head('符号密码锁 · 恰好两个负号');vals.forEach((n,k)=>{let X=100+k*115;chip(X,66,100,58,(neg.includes(n)?'−':'+')+n,neg.includes(n)?RED:G)});
+ v.forEach((n,k)=>chip(100+k*115,173,100,58,['a','b','c','d'][k]+'='+n,[A,B,G,P][k]));
+ s+=ln(150,242,495,242,B,3)+ln(265,254,380,254,A,3)+T(320,283,'|a|＞|d|，|b|＜|c|',W,18);foot('拖动更换负号组合，再按从小到大排列。');
+ }else if(i===6||i===11){
+ let vals=i===6?[-3,-2,1,4]:[-6,-3,2,4],p=groups(vals,2).filter(v=>i===11||v.includes(-3)),a=p[pick(p.length)],b=vals.filter(v=>!a.includes(v));
+ if(L&&j===0){a=p[0];b=vals.filter(v=>!a.includes(v))}
+ head(i===6?'符号天平：两组和的乘积':'分子分母交换台：两组积的比');
+ if(i===6){s+=ln(75,170,565,170,M,5)+'<path d="M320 175L287 255H353Z" fill="#527486"/>';[a,b].forEach((v,k)=>v.forEach((n,m)=>chip(95+k*300+m*70,105,63,54,n,k?B:A)));if(L&&j>=1)s+=T(320,290,'两组和 '+(a[0]+a[1])+' 与 '+(b[0]+b[1])+'；积 '+((a[0]+a[1])*(b[0]+b[1])),G,18)}
+ else{[a,b].forEach((v,k)=>v.forEach((n,m)=>chip(190+m*150,65+k*125,120,54,n,k?B:A)));s+=ln(175,156,465,156,W,4)+T(320,93,'×',M)+T(320,218,'×',M);if(L&&j>=1)s+=T(320,281,'分子积 '+a[0]*a[1]+' ÷ 分母积 '+b[0]*b[1],G,18)}
+ foot('切换每一种分组；每张数牌恰好使用一次。');
+ }else if(i===8){
+ let z=L?(j===0?3:j===1?1:0):-3+pick(7);head('双层运算迷宫 · a★b＝a−2b');
+ let rows=L&&j===0?[[3,-2,4],[-2,4,3]]:[[z,2,z],[2,z,z]];
+ rows.forEach((v,k)=>{let y=85+k*115,first=v[0]-2*v[1],out=k?v[2]-2*first:first-2*v[2];chip(45,y,120,60,v[0]+' ★ '+v[1],A);chip(208,y,120,60,L?first:'内层结果',B);chip(374,y,210,60,k?'外层：'+v[2]+' ★ 内层':'外层：内层 ★ '+v[2],G);s+=ln(165,y+30,208,y+30,A,3)+ln(328,y+30,374,y+30,B,3);if(L)s+=T(480,y+80,'结果 '+out,G,14)});
+ foot('相同数字、不同行进顺序；先处理括号内运算。');
+ }else if(i===14||i===22){
+ let q=i===14?[[6,'b','c'],[1,8],[2,7],[4,5],[5,4],[7,2],[8,1]]:[[5,1],[6,2],[7,3],[8,4],[9,5]],v=i===14?(L&&j>=2?[6,...q[1+pick(6)]]:[6,'b','c']):(L&&j>=2?[q[pick(5)][0],q[pick(5)][0]===9?0:'b',q[pick(5)][1]]:['a','b','c']),w=132,k=L?Math.min(j,2):pick(3);
+ if(i===14&&L&&j===3)v=[6,4,5];if(i===22&&L&&j===3)v=[9,0,5];let other=i===14?v.map((_,n)=>v[(n+1)%3]):[v[2],v[1],v[0]];
+ head(i===14?'密码转盘：循环左移与位权':'镜像密码：只交换百位和个位');['百位×100','十位×10','个位×1'].forEach((n,k)=>T(0,0,n));
+ [v,other].forEach((r,k)=>r.forEach((n,m)=>{let X=118+m*w,Y=70+k*120;chip(X,Y,112,62,n,[A,B,G][m]);s+=T(X+56,Y-10,['百位','十位','个位'][m],M,12)}));
+ v.forEach((n,m)=>{let dest=i===14?(m+2)%3:2-m;s+=ln(174+m*w,136,174+dest*w,185,[A,B,G][m],2,'4 3')});foot(i===14?'每个数字会在三个数位各出现一次':'十位保持不动，百位与个位的权重差99。');
+ }else if(i===16){
+ let d0=L?(j===0?0:j===1?5:13.8):t*15,plan=Math.min(600,d0*40),actual=Math.min(600,Math.min(d0,5)*32+Math.max(0,d0-5)*50);
+ head('双运输路线 · 同一批600吨货');s+=T(320,66,'候选时间 '+fmt(d0)+' 天',B,19);
+ [plan,actual].forEach((v,k)=>{let y=100+k*105;s+=R(90,y,490,55,'#20394a',M)+R(90,y,490*v/600,55,k?'#34745b':'#36748c',k?G:A)+T(48,y+33,k?'实际':'计划',W)+T(335,y+32,L?fmt(v)+' / 600 吨':'累计运输进度',W)});
+ s+=T(320,279,'前5天：计划的80%；此后：每日多10吨',G,14);foot('两个阶段的速度不同；以共同时间比较。');
+ }else if(i===25){
+ let phase=L?Math.min(j,3):pick(4),m=phase<2?0:phase===2?4.5:4.5;
+ head('施工队接力 · 总工作量1');
+ let stages=[['甲','乙','3天'],['甲','丙',L&&j>=2?'4.5天':'?天'],['丙','', '3天']];stages.forEach((v,k)=>{let X=55+185*k;s+=R(X,63,170,91,'#213c4f',k===phase?B:M)+T(X+85,85,'阶段 '+(k+1),W)+T(X+85,111,v[0]+(v[1]?'＋'+v[1]:''),[A,G,P][k],19)+T(X+85,137,v[2],M,13)});
+ let segments=L?[5/12,j>=1?.5:0,1/12]:[0,0,0],xx=60;for(let [k,v] of segments.entries()){if(k===2&&L&&j===0)xx=535;s+=R(xx,200,520*v,44,[A,G,P][k],[A,G,P][k]);xx+=520*v}if(!L)s+=R(60,200,520,44,'#20394a',M);s+=T(320,273,L&&j>=1?'已知首尾工作量，补足中间缺口':'甲1/12　乙1/18　丙1/36（每日）',W);foot('色段代表实际完成工作量；未知部分保留空白。');
+ }else if(i===27){
+ let n=L?[10,19,20,60][Math.min(j,3)]:1+pick(100),pa=n*(n<20?28:25),pb=n*24+80;
+ head('两家商店的报价机器 · 20件触发整单优惠');s+=T(320,65,'候选 '+n+' 个球',B,22);
+ [pa,pb].forEach((v,k)=>{let y=108+k*93;chip(44,y,100,53,k?'乙店':'甲店',k?G:A);chip(156,y,215,53,k?'24元/个＋80元':n<20?'28元/个':'25元/个（全部）',k?G:A);chip(391,y,204,53,L?v+'元':'总价待算',B);s+=ln(371,y+26,391,y+26,M,3)});
+ foot('19与20之间规则突变；不要把甲店的两档价格混合计费。');
+ }else if(i===28){
+ let stage=L?(j===0?1:j===1?1:2):pick(3),amount=stage===0?200:stage===1?150:250,known=stage===0||L&&(stage===1&&j===0||stage===2),salt=stage===2?40:30;
+ head('盐水实验：盐与水分别守恒或变化');
+ let h=known?amount*.62:105,sy=known?salt*.62:0;
+ s+='<path d="M115 78V258H345V78" fill="none" stroke="#9fc4d6" stroke-width="4"/>'+R(119,258-h,222,h,'#397f9e',A,.85);
+ if(known)s+=R(119,258-sy,222,sy,'#c89a52',B,.95);
+ s+=T(230,293,known?amount+'克':'总质量未知',W)+T(468,95,['初始15%','蒸发后20%','加入10%后16%'][stage],B,17)+T(468,136,known?'盐 '+salt+' 克':'盐量待表达',G,17)+T(468,178,known?'水 '+(amount-salt)+' 克':'水量待表达',A,17)+T(468,220,stage===1?'只蒸发水':stage===2?'加入盐和水':'盐水总质量',M,14);
+ foot('色层仅作质量组成示意（不是实际分层）；蒸发不损失盐。');
+ }else return null;
+ return '<svg viewBox="0 0 640 340" role="img" aria-label="'+E(d[1])+'">'+s+'</svg>';
+}
+
+function strictArt(d,x,lesson=-1){const tailored=capstoneScene(d,x,lesson);if(tailored)return tailored;
 let i=d[13]-1,t=Math.max(0,Math.min(100,x))/100,L=lesson>=0,j=lesson,C=['#89d8f2','#f4c879','#a1e4b5','#c5aaff','#f39d9d'],W='#e4f0f7',M='#a2becd',z='<rect width="640" height="340" rx="12" fill="#102435"/>';
 let pick=n=>Math.min(n-1,Math.floor(t*n)),T=(x,y,v,c=W,fs=15)=>txt(x,y,v,c,fs),R=(x,y,w,h,c='#213c50',stroke='#5b7f93',op=1)=>rect(x,y,w,h,c,stroke,op),ln=(a,b,c,d,co=M,w=2,ds='')=>'<line x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+d+'" stroke="'+co+'" stroke-width="'+w+'" '+(ds?'stroke-dasharray="'+ds+'"':'')+'/>',circle=(x,y,r,c,stroke=c)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+c+'" stroke="'+stroke+'"/>',add=v=>z+=v,head=v=>add(T(320,27,v,C[1],16)),foot=v=>add(T(320,324,v,M,13)),num=n=>String(+n.toFixed(4));
 function cells(rows,focus=0){let m=Math.max(...rows.map(r=>r.length)),w=Math.min(190,570/m),dy=Math.min(65,245/rows.length);rows.forEach((row,k)=>row.forEach((v,a)=>{let px=(640-row.length*w)/2+a*w;add(R(px+3,48+k*dy,w-6,dy-7,'#203c50',a===focus?C[1]:C[k%5])+T(px+w/2,48+k*dy+(dy-7)/2+5,String(v),a===focus?C[1]:W,String(v).length>18?11:15))}))}
@@ -149,7 +218,7 @@ let body=complete?'<div class="lesson-done"><h3>跟做完成</h3><p>首次答对
 root.innerHTML=titleBlock(d,'guide')+problemBlock(d,g===0)+'<div class="lesson-progress"><i style="width:'+100*Math.min(g,total)/total+'%"></i></div><div class="teach-focus">现在看：'+(complete?'回顾关键方法':concept?'先找数量关系':'只解决眼前这一小问')+'</div><div class="lesson-grid"><div><div class="scene" id="scene">'+lessonArt(d,state?ls/Math.max(1,d[8].length-1)*100:0,-1)+'</div><div class="tools"><label for="gobserve">观察条件</label><input id="gobserve" type="range" min="0" max="100" value="0" aria-label="拖动观察候选状态"><button id="greset">复位</button></div></div><div class="lesson-side">'+faceBlock(prompt)+body+tipsBlock(d,'guide')+'<button id="modechoose">返回学习方式</button></div></div>';wireTabs();wireTips();$('gobserve').oninput=e=>{quiet();$('scene').innerHTML=lessonArt(d,+e.target.value,-1)};$('greset').onclick=()=>{$('gobserve').value=0;$('scene').innerHTML=lessonArt(d,0,-1)};
 if(complete){$('gpractice').onclick=()=>switchMode('practice');$('gother').onclick=nextQuestion;paceText();speak(prompt);return}
 function judge(ok){if(guidePassed||guideShown)return;if(!ok){guideFirstWrong++;$('gfeedback').textContent='再想一想。'+(guideFirstWrong===1?q[4]:q[5]);$('gfeedback').className='probe-response bad';speak($('gfeedback').textContent);return}guidePassed=true;if(guideFirstWrong===0)guideCorrect++;showGuide(false)}
-function showGuide(reveal){if(reveal){guideShown=true;guideRevealed++}quiet();$('gfeedback').textContent=reveal?'这是本步提示后的答案。':'正确！想一想，为什么这样做。';$('gfeedback').className='probe-response good';$('gsolution').hidden=false;$('gnext').disabled=false;$('gshow').disabled=true;if(!concept){$('ganswer').disabled=true;$('gcheck').disabled=true;root.querySelectorAll('[data-gkey]').forEach(b=>b.disabled=true);let v=ls/Math.max(1,d[8].length-1)*100;$('gobserve').value=v;$('scene').innerHTML=lessonArt(d,v,-1)}else root.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);speak((reveal?'我来帮你：':'很好。')+(concept?q[1]+'。'+q[4]:WORK[idx][g-1]));paceText()}
+function showGuide(reveal){if(reveal){guideShown=true;guideRevealed++}quiet();$('gfeedback').textContent=reveal?'这是本步提示后的答案。':'正确！想一想，为什么这样做。';$('gfeedback').className='probe-response good';$('gsolution').hidden=false;$('gnext').disabled=false;$('gshow').disabled=true;if(!concept){$('ganswer').disabled=true;$('gcheck').disabled=true;root.querySelectorAll('[data-gkey]').forEach(b=>b.disabled=true);let v=ls/Math.max(1,d[8].length-1)*100;$('gobserve').value=v;$('scene').innerHTML=lessonArt(d,v,ls)}else root.querySelectorAll('[data-choice]').forEach(b=>b.disabled=true);speak((reveal?'我来帮你：':'很好。')+(concept?q[1]+'。'+q[4]:WORK[idx][g-1]));paceText()}
 if(concept)root.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>judge(+b.dataset.choice===0));else{$('gcheck').onclick=()=>{let v=parse($('ganswer').value);if(!Number.isFinite(v)){$('gfeedback').textContent='请先填数字或分数。';return}if(d[5][g-1].includes('最简分数')){let raw=$('ganswer').value.trim(),p=raw.split('/'),gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);if(!/^\d+\/[1-9]\d*$/.test(raw)||gcd(+p[0],+p[1])!==1){$('gfeedback').textContent='请填约分后的最简分数。';return}}judge(Math.abs(v-d[6][g-1])<.00011)};$('ganswer').onkeydown=e=>{if(e.key==='Enter')$('gcheck').onclick()};root.querySelectorAll('[data-gkey]').forEach(b=>b.onclick=()=>{let el=$('ganswer'),k=b.dataset.gkey;if(!el.disabled)el.value=k==='退格'?el.value.slice(0,-1):el.value+(k==='−'?'-':k)})}
 $('gshow').onclick=()=>showGuide(true);$('gnext').onclick=()=>{if(!guidePassed&&!guideShown)return;guideIndex++;guidePassed=false;guideShown=false;guideFirstWrong=0;guidedLesson()};paceText();speak(prompt)}
 function restorePractice(){let d=D[idx];d[5].forEach((_,k)=>{if($('a'+k))$('a'+k).value=practiceDraft[k]||''});proof=practiceProof;done=practiceDone;if(proof){$('proof').hidden=false;d[5].forEach((_,k)=>$('a'+k).disabled=true);$('submit').disabled=true}if(done)root.querySelectorAll('[data-proof]').forEach(b=>b.disabled=true);$('feedback').textContent=practiceFeedback;if($('draft'))$('draft').value=practiceScratch;if(practiceCanvas&&typeof window.Image==='function'){let canvas=$('canvas'),src=practiceCanvas,img=new window.Image();img.onload=()=>{if($('canvas')===canvas&&learningMode==='practice')canvas.getContext('2d').drawImage(img,0,0)};img.src=src}paceText()}
