@@ -7,40 +7,176 @@
 .lesson-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:12px;align-items:start}.lesson-grid .scene svg{width:100%;max-height:54dvh}.lesson-side{min-width:0}.lesson-portrait{display:flex;gap:10px;align-items:center;margin:0 0 9px}.lesson-portrait img{width:70px;height:86px;object-fit:cover;object-position:50% 15%;border-radius:12px}.lesson-portrait strong{color:#f3cc83}.lesson-portrait p{font-size:14px;line-height:1.55}
 .board{border:1px solid #5b7e86;background:linear-gradient(145deg,#173842,#102b37);border-radius:13px;padding:13px;min-height:120px}.board h3{margin:0 0 8px;color:#bfd9d9;font-size:12px}.board .chalk-text{font-size:clamp(16px,2.4vw,22px);line-height:1.65;font-weight:600;color:#f6e0aa;overflow-wrap:anywhere;animation:lessonin .25s ease-out}.board .chalk-text+.chalk-text{margin-top:6px}.board .answer-line{color:#a9ebc7}.teach-focus{border-left:3px solid #f3cc83;border-radius:6px;padding:7px 11px;background:#243b4a;color:#f3d69f;font-size:14px;margin:7px 0}.tips{display:grid;gap:6px;margin:10px 0}.tips details{border-radius:9px;background:#1a3342;border:1px solid #425e6c;padding:8px 10px}.tips summary{cursor:pointer;font-size:14px;font-weight:700;color:#f3d69f}.tips p{font-size:14px;margin:7px 0 0;color:#d8e5eb}.tips details:nth-child(2) summary{color:#ffbaa5}.teach-controls{display:flex;gap:6px;margin-top:9px}.teach-controls button{flex:1;min-width:0;font-size:13px;padding:8px 4px}.teach-controls .primary{flex:1.55}.lesson-progress{height:5px;background:#294252;border-radius:4px;margin:9px 0;overflow:hidden}.lesson-progress i{height:100%;display:block;background:#f3cc83;transition:width .25s}.probe-card{border:1px solid #638f84;background:#173a3b;border-radius:13px;padding:12px}.probe-card h3{font-size:15px;margin:0 0 7px;color:#aee5cb}.probe-card p{font-size:16px;line-height:1.55}.probe-options{display:grid;gap:7px}.probe-options button{text-align:left;padding:11px;min-height:46px;background:#23434b}.probe-options button.chosen{border-color:#f3cc83}.probe-response{min-height:24px;margin:7px 0;font-size:14px}.probe-input{display:flex;gap:7px}.probe-input input{flex:1;min-width:0;border:1px solid #68889a;background:#102733;border-radius:8px;color:white;padding:10px;font:inherit;font-size:18px}.probe-input button{padding:8px 10px}.lesson-done{background:#1b4039;border:1px solid #75ad91;border-radius:12px;padding:12px}.lesson-done h3{color:#aee5bd;margin:0 0 5px}.lesson-problem{padding:9px 12px;border:1px solid #3f6072;border-radius:9px;background:#142b3a;line-height:1.55;margin:7px 0}.lesson-problem summary{cursor:pointer;color:#c4dae5;font-size:13px;font-weight:600}.lesson-problem p{font-size:14px}.keypad-compact{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.keypad-compact button{min-height:36px;padding:5px 9px}.choose-preview{max-width:720px;margin:10px auto}.lesson-status{color:#afccd7;font-size:13px;margin:6px 0;min-height:20px}.mode-foot{font-size:12px;color:#aec3d0;margin:7px 0}.card svg{height:90px}.lesson-grid .scene{margin-top:0}
 @keyframes lessonin{from{opacity:.15;transform:translateY(5px)}to{opacity:1;transform:none}}@media(max-width:760px){.lesson-grid{grid-template-columns:1fr;gap:8px}.lesson-grid .scene svg{max-height:34dvh}.mode-select{grid-template-columns:1fr}.mode-select button{min-height:56px}.lesson-portrait img{width:57px;height:69px}.board{min-height:86px}.board .chalk-text{font-size:17px}.lesson-top h2{font-size:20px}.lesson-side{display:grid;gap:2px}.teach-controls button{min-height:42px}.lesson-problem p{font-size:13px}}@media(min-width:761px){.lesson-grid .scene svg{max-height:52dvh}.lesson-grid .scene{min-height:240px}}
-</style><script>/* audio-shim-v2 */
+</style><script>/* audio-shim-v3 */
 (function(){
  try{
-  var MAP={"A、B关于原点对称，":"audio/0.mp3","A乘以B的长度应该先怎样分？。":"audio/1.mp3","很好。":"audio/2.mp3","请完成这一问：A坐标。":"audio/3.mp3","请完成这一问：B坐标。":"audio/4.mp3","请完成这一问：P的个数。":"audio/5.mp3","跟做结束。":"audio/6.mp3","现在请独立思考。":"audio/7.mp3","数轴上A、B表示的整数互为相反数，":"audio/8.mp3","相反数到原点的距离相同；":"audio/9.mp3","数值都对了。":"audio/10.mp3","若B大于或等于4，":"audio/11.mp3","如果B大于或等于4，":"audio/12.mp3","请完成这一问：A。":"audio/13.mp3","请完成这一问：B。":"audio/14.mp3","请完成这一问：不含端点的个数。":"audio/15.mp3","数轴上整数A、B互为相反数，":"audio/16.mp3","从候选个数反推对称区间，":"audio/17.mp3","先列出负5加1至5减去1的整数。":"audio/18.mp3","绝对值至少为2的数应在哪些区域寻找？。":"audio/19.mp3","请完成这一问：个数。":"audio/20.mp3","请完成这一问：最大值。":"audio/21.mp3","请完成这一问：最小值。":"audio/22.mp3","整数x满足负5＜x＜5，":"audio/23.mp3","绝对值条件把候选值分成两侧；":"audio/24.mp3","候选整数是负6至6。":"audio/25.mp3","正负对称且一共有6个非零解，":"audio/26.mp3","请完成这一问：m。":"audio/27.mp3","整数x满足负7＜x＜7。":"audio/28.mp3","反向从每一侧的整数个数求起点。":"audio/29.mp3","c为正且绝对值最小，":"audio/30.mp3","先判断a、b、c什么性质？。":"audio/31.mp3","请完成这一问：a。":"audio/32.mp3","请完成这一问：b。":"audio/33.mp3","请完成这一问：c。":"audio/34.mp3","请完成这一问：最大的相反数。":"audio/35.mp3","三个非零数a、b、c的绝对值为7、4、2左括号，":"audio/36.mp3","绝对值不等于数本身，":"audio/37.mp3","a、b同号且c异号，":"audio/38.mp3","a和b同号、c异号且升序，":"audio/39.mp3","请完成这一问：三元组个数。":"audio/40.mp3","请完成这一问：b最大值。":"audio/41.mp3","请完成这一问：b最小值。":"audio/42.mp3","三个非零数a、b、c的绝对值是2、5、8，":"audio/43.mp3","由大小顺序与同号条件先确定符号，":"audio/44.mp3","合格范围是48至52克，":"audio/45.mp3","偏差等于允许值是否合格？。":"audio/46.mp3","请完成这一问：合格件数。":"audio/47.mp3","请完成这一问：最重合格件。":"audio/48.mp3","请完成这一问：最轻不合格件。":"audio/49.mp3","标准质量50克，":"audio/50.mp3","允许偏差是距离标准值不超过指定范围，":"audio/51.mp3","绝对偏差依次4、3、1、2、3、5，":"audio/52.mp3","判断恰好4件合格，":"audio/53.mp3","请完成这一问：含边界k。":"audio/54.mp3","请完成这一问：不含边界k。":"audio/55.mp3","六件产品标准质量80克，":"audio/56.mp3","先把每件偏差变成到标准值的距离，":"audio/57.mp3","新坐标等于旧坐标负2。":"audio/58.mp3","改变原点后，":"audio/59.mp3","请完成这一问：A新坐标。":"audio/60.mp3","请完成这一问：B新坐标。":"audio/61.mp3","请完成这一问：A乘以B距离。":"audio/62.mp3","直线上A、B原坐标分别为负6、4。":"audio/63.mp3","原点移动后数值改变，":"audio/64.mp3","设新原点到A、B距离分别为两正数，":"audio/65.mp3","新原点在A、B之间时，":"audio/66.mp3","请完成这一问：较小原点。":"audio/67.mp3","请完成这一问：较大原点。":"audio/68.mp3","A、B原坐标分别为负8和5。":"audio/69.mp3","新原点必须在A、B之间，":"audio/70.mp3","x等于负5时，":"audio/71.mp3","每一对不同数如何避免重复？。":"audio/72.mp3","请完成这一问：全部对数。":"audio/73.mp3","请完成这一问：均为负数的对数。":"audio/74.mp3","在负5、负2、0、2、5这五个数中选两个不同数x、y，":"audio/75.mp3","按x的可能取值分类，":"audio/76.mp3","5个数的递增数对共10对。":"audio/77.mp3","五个不同数有多少个递增数对？。":"audio/78.mp3","请完成这一问：绝对值相等对数。":"audio/79.mp3","请完成这一问：异号对数。":"audio/80.mp3","在负7、负3、0、3、7中选不同数x、y。":"audio/81.mp3","先从所有递增数对中排除绝对值严格递减的数对，":"audio/82.mp3","设第一行第8项为256。":"audio/83.mp3","三行数列应以哪行为共同基准？。":"audio/84.mp3","请完成这一问：第n列和。":"audio/85.mp3","请完成这一问：第二行减第一行。":"audio/86.mp3","三行数的第k项分别为左括号，":"audio/87.mp3","先求共同的基准项，":"audio/88.mp3","设第一项A，":"audio/89.mp3","第二行减第三行时，":"audio/90.mp3","请完成这一问：第一项。":"audio/91.mp3","请完成这一问：列号。":"audio/92.mp3","请完成这一问：三项和。":"audio/93.mp3","三行数的第k项依次为以负3为底数，":"audio/94.mp3","用第一项作为共同基准，":"audio/95.mp3","逆推：先减5，":"audio/96.mp3","逆推机器的第一步是什么？。":"audio/97.mp3","请完成这一问：输入值。":"audio/98.mp3","请完成这一问：输入负2的输出。":"audio/99.mp3","请完成这一问：输出变化量。":"audio/100.mp3","有一台计算机器：输入整数x，":"audio/101.mp3","逆推要从最后一个动作开始，":"audio/102.mp3","甲输出负4乘以左括号，":"audio/103.mp3","两台机器结果是否一定因顺序不同而不同？。":"audio/104.mp3","请完成这一问：乙减甲。":"audio/105.mp3","请完成这一问：输入。":"audio/106.mp3","请完成这一问：新输出。":"audio/107.mp3","计算机器甲：先减7，":"audio/108.mp3","比较两台机器的结构，":"audio/109.mp3","原式等于37乘以左括号，":"audio/110.mp3","三个运算项共有的结构是什么？。":"audio/111.mp3","请完成这一问：原结果。":"audio/112.mp3","请完成这一问：增加量。":"audio/113.mp3","不使用逐位竖式，":"audio/114.mp3","三个项有相同的乘数，":"audio/115.mp3","原式为63乘以左括号，":"audio/116.mp3","把加负数改成减负数，":"audio/117.mp3","在63乘以101加63乘以左括号，":"audio/118.mp3","分别检查中间加号、最后减号，":"audio/119.mp3","左括号，":"audio/120.mp3","请完成这一问：前两个式子的和。":"audio/121.mp3","比较以负3为底数，":"audio/122.mp3","负号是否在底数括号内，":"audio/123.mp3","四数为负64、64、负128、128。":"audio/124.mp3","从四个式子中选两个相加，":"audio/125.mp3","请完成这一问：不同结果数。":"audio/126.mp3","在2的6次方的相反数、以负2为底数，":"audio/127.mp3","先判定四个数的符号，":"audio/128.mp3","前五袋偏差和为2。":"audio/129.mp3","第六袋偏差应由什么相减？。":"audio/130.mp3","请完成这一问：第六袋偏差。":"audio/131.mp3","请完成这一问：第六袋质量。":"audio/132.mp3","请完成这一问：平均质量。":"audio/133.mp3","六袋产品标准均为50千克，":"audio/134.mp3","总偏差等于每袋偏差相加，":"audio/135.mp3","总偏差负2，":"audio/136.mp3","两袋偏差之和确定后，":"audio/137.mp3","请完成这一问：偏差和。":"audio/138.mp3","请完成这一问：有序组合数。":"audio/139.mp3","请完成这一问：均不超标组合数。":"audio/140.mp3","六袋标准均80千克，":"audio/141.mp3","先求未知两袋偏差和，":"audio/142.mp3","精确单位为10，":"audio/143.mp3","四舍五入到十位，":"audio/144.mp3","请完成这一问：下界。":"audio/145.mp3","请完成这一问：上界。":"audio/146.mp3","请完成这一问：符合个数。":"audio/147.mp3","按四舍五入法取近似数（精确到十位），":"audio/148.mp3","四舍五入的分界恰在相邻刻度的中点。":"audio/149.mp3","原数范围分别为左中括号，":"audio/150.mp3","原数限定百分位小数时，":"audio/151.mp3","请完成这一问：和最小值。":"audio/152.mp3","请完成这一问：和上界。":"audio/153.mp3","请完成这一问：百分位条件下的最大和。":"audio/154.mp3","两个正数分别四舍五入到十分位为3点六和2点四。":"audio/155.mp3","先确定两个区间，":"audio/156.mp3","n支球队每支对其他n减去1支，":"audio/157.mp3","每场比赛会被两队各数几次？。":"audio/158.mp3","请完成这一问：原场数。":"audio/159.mp3","请完成这一问：新场数。":"audio/160.mp3","请完成这一问：新增场数。":"audio/161.mp3","每两支球队恰好比赛一场。":"audio/162.mp3","每队与其他队比赛，":"audio/163.mp3","3支新队之间有3场。":"audio/164.mp3","新增3支队之间共有几场比赛？。":"audio/165.mp3","请完成这一问：原球队数。":"audio/166.mp3","请完成这一问：新球队数。":"audio/167.mp3","请完成这一问：新总场数。":"audio/168.mp3","一次单循环比赛原有若干球队。":"audio/169.mp3","新增场数由新老队间的比赛与新队内部比赛构成。":"audio/170.mp3","四边各n枚，":"audio/171.mp3","四条边直接相加时，":"audio/172.mp3","请完成这一问：第一种棋子数。":"audio/173.mp3","请完成这一问：第二种棋子数。":"audio/174.mp3","请完成这一问：每增加一层的差。":"audio/175.mp3","用相同小正方形拼成n乘以n方阵，":"audio/176.mp3","四条边的角点是否重复计算？":"audio/177.mp3","两圈数为左括号，":"audio/178.mp3","双圈的第二圈边长比外圈少多少？。":"audio/179.mp3","请完成这一问：n。":"audio/180.mp3","请完成这一问：外圈棋子数。":"audio/181.mp3","请完成这一问：空格数。":"audio/182.mp3","n乘以n方阵左括号，":"audio/183.mp3","分成边长n与n减去2的两圈，":"audio/184.mp3","外圆柱体积为圆周率乘以6的平方乘以10，":"audio/185.mp3","材料的截面积是什么？。":"audio/186.mp3","请完成这一问：原k。":"audio/187.mp3","请完成这一问：长度加倍后的k。":"audio/188.mp3","空心圆柱外半径6厘米、内半径2厘米、长10厘米。":"audio/189.mp3","把空心部分从实心圆柱中减去，":"audio/190.mp3","原体积为左括号，":"audio/191.mp3","所有半径加倍，":"audio/192.mp3","请完成这一问：原系数。":"audio/193.mp3","请完成这一问：新系数。":"audio/194.mp3","请完成这一问：体积倍数。":"audio/195.mp3","同种材料的空心圆柱外半径8厘米、内半径3厘米、长12厘米。":"audio/196.mp3","圆面积随半径平方变化，":"audio/197.mp3","甲、乙用时分别是30天、20天，":"audio/198.mp3","总货量固定，":"audio/199.mp3","请完成这一问：天数差。":"audio/200.mp3","请完成这一问：剩余吨数。":"audio/201.mp3","请完成这一问：时间倍数。":"audio/202.mp3","一批货物共360吨，":"audio/203.mp3","总量一定时，":"audio/204.mp3","甲用480除以16等于30天。":"audio/205.mp3","乙后期工作量应怎样求？。":"audio/206.mp3","请完成这一问：甲天数。":"audio/207.mp3","请完成这一问：乙天数。":"audio/208.mp3","请完成这一问：差。":"audio/209.mp3","一批货物共480吨。":"audio/210.mp3","乙的日运量分段变化，":"audio/211.mp3","原数等于100乘以a加10乘以b加c等于473。":"audio/212.mp3","百位数字对应的位权是多少？。":"audio/213.mp3","请完成这一问：原数。":"audio/214.mp3","请完成这一问：新数。":"audio/215.mp3","请完成这一问：三次后。":"audio/216.mp3","密码规则：把三位数a乘以b乘以c的数字循环移位，":"audio/217.mp3","每一位数字的权重不同，":"audio/218.mp3","原数658，":"audio/219.mp3","三次排列相加时，":"audio/220.mp3","请完成这一问：原数小于第一次左括号，":"audio/221.mp3","请完成这一问：总和除以111。":"audio/222.mp3","三位数a乘以b乘以c循环左移得到b乘以c乘以a，":"audio/223.mp3","追踪三位数字轮流占据百、十、个位。":"audio/224.mp3","总费用为12乘以5乘以n加30，":"audio/225.mp3","固定运费随班级数量变化吗？。":"audio/226.mp3","请完成这一问：总费用。":"audio/227.mp3","请完成这一问：每班多2个的增量。":"audio/228.mp3","请完成这一问：多1班的增量。":"audio/229.mp3","学校为n个班采购，":"audio/230.mp3","固定运费不随班数和球数变化。":"audio/231.mp3","甲费用60乘以n加24，":"audio/232.mp3","比较两个采购方案时，":"audio/233.mp3","请完成这一问：相同班数。":"audio/234.mp3","请完成这一问：甲较便宜的候选数。":"audio/235.mp3","请完成这一问：10班时节省。":"audio/236.mp3","两种采购方案：甲每班15个球，":"audio/237.mp3","比较每班费用与固定运费，":"audio/238.mp3","原数10乘以a加b，":"audio/239.mp3","两位数a乘以b用代数式如何表达？。":"audio/240.mp3","请完成这一问：和。":"audio/241.mp3","请完成这一问：和除以11。":"audio/242.mp3","请完成这一问：差除以9。":"audio/243.mp3","两位数的十位为a、个位为b。":"audio/244.mp3","分别用10乘以a加b与10乘以b加a表达两个数，":"audio/245.mp3","设十位a、个位b，":"audio/246.mp3","已知原数减翻转数45，":"audio/247.mp3","请完成这一问：十位。":"audio/248.mp3","请完成这一问：个位。":"audio/249.mp3","一个两位数十位与个位交换后，":"audio/250.mp3","由位权展开，":"audio/251.mp3","令整体T等于x加y等于7。":"audio/252.mp3","已知x加y，":"audio/253.mp3","请完成这一问：第一个式子的值。":"audio/254.mp3","请完成这一问：第二个式子的值。":"audio/255.mp3","已知x加y等于7，":"audio/256.mp3","把x加y看成一个整体，":"audio/257.mp3","整体T等于负2，":"audio/258.mp3","整体x加y等于负2时，":"audio/259.mp3","请完成这一问：k。":"audio/260.mp3","请完成这一问：第二式的值。":"audio/261.mp3","已知x加y等于负2，":"audio/262.mp3","先整体代入，":"audio/263.mp3","x的平方项系数2乘以m减去6必须为0，":"audio/264.mp3","与x无关要求消去哪一类项？。":"audio/265.mp3","请完成这一问：固定值。":"audio/266.mp3","整式左括号，":"audio/267.mp3","要让x改变时值不变，":"audio/268.mp3","x等于0时为7，":"audio/269.mp3","x等于1和x等于负1时，":"audio/270.mp3","请完成这一问：x等于2的值。":"audio/271.mp3","比较x等于1和x等于负1，":"audio/272.mp3","正确去括号为3乘以x减去5乘以x加7。":"audio/273.mp3","括号前是减号，":"audio/274.mp3","请完成这一问：正确系数。":"audio/275.mp3","请完成这一问：正确常数项。":"audio/276.mp3","请完成这一问：两式差。":"audio/277.mp3","计算3乘以x减去左括号，":"audio/278.mp3","括号前有减号，":"audio/279.mp3","正确式为2乘以x加c，":"audio/280.mp3","正确式与错误式相减，":"audio/281.mp3","请完成这一问：正确值。":"audio/282.mp3","请完成这一问：错误值。":"audio/283.mp3","计算4乘以x减去左括号，":"audio/284.mp3","先把两个式子化简后作差。":"audio/285.mp3","n个正方形各4条边，":"audio/286.mp3","每条共享边在独立周长中重复几次？。":"audio/287.mp3","请完成这一问：第一种周长。":"audio/288.mp3","请完成这一问：第二种周长。":"audio/289.mp3","用n个边长为1的小正方形首尾拼成一行，":"audio/290.mp3","每个共享边在单个正方形周长之和里被计数两次。":"audio/291.mp3","一行周长2乘以n加2，":"audio/292.mp3","改拼成两行时，":"audio/293.mp3","请完成这一问：一行周长。":"audio/294.mp3","请完成这一问：两行周长。":"audio/295.mp3","若把n个单位小正方形拼成一行，":"audio/296.mp3","一行长n宽1；":"audio/297.mp3","x的平方项系数为3加k，":"audio/298.mp3","要消去x的平方项，":"audio/299.mp3","请完成这一问：x乘以y项系数。":"audio/300.mp3","请完成这一问：y的平方项系数。":"audio/301.mp3","A等于3乘以x的平方加4乘以x乘以y加2乘以y的平方，":"audio/302.mp3","先让同类的x的平方项抵消，":"audio/303.mp3","x乘以y系数负3减去2乘以k等于0，":"audio/304.mp3","同时消去两个项意味着什么？。":"audio/305.mp3","请完成这一问：x的平方系数。":"audio/306.mp3","请完成这一问：y的平方系数。":"audio/307.mp3","请完成这一问：能否同时消去。":"audio/308.mp3","A等于5乘以x的平方减去3乘以x乘以y加4乘以y的平方，":"audio/309.mp3","消去x乘以y与消去x的平方是两种不同的系数条件。":"audio/310.mp3","每天效率分别为12分之1、18分之1。":"audio/311.mp3","工程总量设为多少便于计算？。":"audio/312.mp3","请完成这一问：乙还需天数。":"audio/313.mp3","请完成这一问：总工期。":"audio/314.mp3","请完成这一问：甲的工作量比例。":"audio/315.mp3","甲单独完成任务需12天，":"audio/316.mp3","总工作量设为1，":"audio/317.mp3","合作6天完成10分之6加15分之6等于1。":"audio/318.mp3","若合作阶段已完成全部工作，":"audio/319.mp3","请完成这一问：甲先独做天数。":"audio/320.mp3","请完成这一问：甲贡献比例。":"audio/321.mp3","甲单独需10天，":"audio/322.mp3","乙工作6天意味着共同阶段恰好6天，":"audio/323.mp3","第一档上限费用等于10乘以2等于20。":"audio/324.mp3","实际费超过第一档上限时应怎样计费？。":"audio/325.mp3","请完成这一问：使用量。":"audio/326.mp3","请完成这一问：指定用量费用。":"audio/327.mp3","某服务前10单位每单位2元，":"audio/328.mp3","先比较总费用与第一档最高费用，":"audio/329.mp3","第一档最高36元。":"audio/330.mp3","乙比甲少用8单位，":"audio/331.mp3","请完成这一问：甲用量。":"audio/332.mp3","请完成这一问：乙用量。":"audio/333.mp3","请完成这一问：乙费用。":"audio/334.mp3","某服务前12单位每单位3元，":"audio/335.mp3","甲与乙可能位于不同收费档位，":"audio/336.mp3","设标价x，":"audio/337.mp3","利润率的基准是什么？。":"audio/338.mp3","请完成这一问：标价。":"audio/339.mp3","请完成这一问：进价。":"audio/340.mp3","请完成这一问：利润额。":"audio/341.mp3","商品按标价的百分之80出售，":"audio/342.mp3","折扣以标价为基准，":"audio/343.mp3","第一次售价200乘以0点七五等于150元。":"audio/344.mp3","连续打折时第二次折扣以什么为基准？。":"audio/345.mp3","请完成这一问：第二次售价。":"audio/346.mp3","请完成这一问：利润率。":"audio/347.mp3","商品进价120元，":"audio/348.mp3","连续打折应乘折扣系数，":"audio/349.mp3","甲费用等于20加3乘以x，":"audio/350.mp3","两方案相同费用时，":"audio/351.mp3","请完成这一问：相同次数。":"audio/352.mp3","请完成这一问：相同费用。":"audio/353.mp3","方案甲固定费20元，":"audio/354.mp3","固定费用与每次费用的变化方向不同。":"audio/355.mp3","甲减乙等于24减去4乘以x。":"audio/356.mp3","只说相差8元，":"audio/357.mp3","请完成这一问：较小次数。":"audio/358.mp3","请完成这一问：较大次数。":"audio/359.mp3","请完成这一问：较小时便宜方案。":"audio/360.mp3","甲固定费36元，":"audio/361.mp3","差的绝对值为8，":"audio/362.mp3","设左力臂x，":"audio/363.mp3","杠杆平衡比较什么？。":"audio/364.mp3","请完成这一问：左力臂。":"audio/365.mp3","请完成这一问：新左力臂。":"audio/366.mp3","理想杠杆水平平衡，":"audio/367.mp3","平衡条件是重量乘力臂相等，":"audio/368.mp3","原平衡4乘以x等于3乘以28，":"audio/369.mp3","第二次挂载变化后，":"audio/370.mp3","请完成这一问：原左力臂。":"audio/371.mp3","请完成这一问：变化量。":"audio/372.mp3","理想杠杆平衡，":"audio/373.mp3","两次平衡的重量与右力臂均不同，":"audio/374.mp3","设x等于0点二七二七…，":"audio/375.mp3","怎样对齐循环节？。":"audio/376.mp3","请完成这一问：最简分数（填a除以b，":"audio/377.mp3","右括号。":"audio/378.mp3","想清楚再回答。":"audio/379.mp3","把0点二七二七二七…左括号，":"audio/380.mp3","乘以适当的10的幂，":"audio/381.mp3","使循环部分完全对齐，":"audio/382.mp3","再作差。":"audio/383.mp3","设x等于0点一三五三五三五…，":"audio/384.mp3","0点一三五三五三五…中哪部分不循环？。":"audio/385.mp3","把0点一左括号，":"audio/386.mp3","先把不循环的首位移到小数点左侧，":"audio/387.mp3","再对齐循环部分。":"audio/388.mp3"};
-  var ss=window.speechSynthesis;
-  if(!ss||ss.__linShim2)return;
-  var nativeSpeak=ss.speak, nativeCancel=ss.cancel;
-  var active=null;
-  function clearActive(){
-   if(active){var a=active;active=null;
-    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}}
-  }
-  function fire(fn,ev){try{if(typeof fn==='function')fn(ev||{})}catch(e){}}
-  ss.speak=function(u){
-   try{nativeCancel.call(ss)}catch(e){}
-   clearActive();
-   if(!u){nativeSpeak.call(ss,u);return}
-   var file=MAP[u.text];
-   if(!file){nativeSpeak.call(ss,u);return}
-   var a=new Audio(file);active=a;
-   var fallbackDone=false;
-   function fallback(){
-    if(fallbackDone)return;fallbackDone=true;
-    if(active===a)active=null;
-    nativeSpeak.call(ss,u);
+  if(window.__linTTSv3)return;window.__linTTSv3=true;
+  var MAP={"A、B关于原点对称，":"audio/0.mp3","A乘以B的长度应该先怎样分？。":"audio/1.mp3","很好。":"audio/2.mp3","请完成这一问：A坐标。":"audio/3.mp3","请完成这一问：B坐标。":"audio/4.mp3","请完成这一问：P的个数。":"audio/5.mp3","跟做结束。":"audio/6.mp3","现在请独立思考。":"audio/7.mp3","数轴上A、B表示的整数互为相反数，":"audio/8.mp3","相反数到原点的距离相同；":"audio/9.mp3","数值都对了。":"audio/10.mp3","若B大于或等于4，":"audio/11.mp3","如果B大于或等于4，":"audio/12.mp3","请完成这一问：A。":"audio/13.mp3","请完成这一问：B。":"audio/14.mp3","请完成这一问：不含端点的个数。":"audio/15.mp3","数轴上整数A、B互为相反数，":"audio/16.mp3","从候选个数反推对称区间，":"audio/17.mp3","先列出负5加1至5减去1的整数。":"audio/18.mp3","绝对值至少为2的数应在哪些区域寻找？。":"audio/19.mp3","请完成这一问：个数。":"audio/20.mp3","请完成这一问：最大值。":"audio/21.mp3","请完成这一问：最小值。":"audio/22.mp3","整数x满足负5＜x＜5，":"audio/23.mp3","绝对值条件把候选值分成两侧；":"audio/24.mp3","候选整数是负6至6。":"audio/25.mp3","正负对称且一共有6个非零解，":"audio/26.mp3","请完成这一问：m。":"audio/27.mp3","整数x满足负7＜x＜7。":"audio/28.mp3","反向从每一侧的整数个数求起点。":"audio/29.mp3","c为正且绝对值最小，":"audio/30.mp3","先判断a、b、c什么性质？。":"audio/31.mp3","请完成这一问：a。":"audio/32.mp3","请完成这一问：b。":"audio/33.mp3","请完成这一问：c。":"audio/34.mp3","请完成这一问：最大的相反数。":"audio/35.mp3","三个非零数a、b、c的绝对值为7、4、2左括号，":"audio/36.mp3","绝对值不等于数本身，":"audio/37.mp3","a、b同号且c异号，":"audio/38.mp3","a和b同号、c异号且升序，":"audio/39.mp3","请完成这一问：三元组个数。":"audio/40.mp3","请完成这一问：b最大值。":"audio/41.mp3","请完成这一问：b最小值。":"audio/42.mp3","三个非零数a、b、c的绝对值是2、5、8，":"audio/43.mp3","由大小顺序与同号条件先确定符号，":"audio/44.mp3","合格范围是48至52克，":"audio/45.mp3","偏差等于允许值是否合格？。":"audio/46.mp3","请完成这一问：合格件数。":"audio/47.mp3","请完成这一问：最重合格件。":"audio/48.mp3","请完成这一问：最轻不合格件。":"audio/49.mp3","标准质量50克，":"audio/50.mp3","允许偏差是距离标准值不超过指定范围，":"audio/51.mp3","绝对偏差依次4、3、1、2、3、5，":"audio/52.mp3","判断恰好4件合格，":"audio/53.mp3","请完成这一问：含边界k。":"audio/54.mp3","请完成这一问：不含边界k。":"audio/55.mp3","六件产品标准质量80克，":"audio/56.mp3","先把每件偏差变成到标准值的距离，":"audio/57.mp3","新坐标等于旧坐标负2。":"audio/58.mp3","改变原点后，":"audio/59.mp3","请完成这一问：A新坐标。":"audio/60.mp3","请完成这一问：B新坐标。":"audio/61.mp3","请完成这一问：A乘以B距离。":"audio/62.mp3","直线上A、B原坐标分别为负6、4。":"audio/63.mp3","原点移动后数值改变，":"audio/64.mp3","设新原点到A、B距离分别为两正数，":"audio/65.mp3","新原点在A、B之间时，":"audio/66.mp3","请完成这一问：较小原点。":"audio/67.mp3","请完成这一问：较大原点。":"audio/68.mp3","A、B原坐标分别为负8和5。":"audio/69.mp3","新原点必须在A、B之间，":"audio/70.mp3","x等于负5时，":"audio/71.mp3","每一对不同数如何避免重复？。":"audio/72.mp3","请完成这一问：全部对数。":"audio/73.mp3","请完成这一问：均为负数的对数。":"audio/74.mp3","在负5、负2、0、2、5这五个数中选两个不同数x、y，":"audio/75.mp3","按x的可能取值分类，":"audio/76.mp3","5个数的递增数对共10对。":"audio/77.mp3","五个不同数有多少个递增数对？。":"audio/78.mp3","请完成这一问：绝对值相等对数。":"audio/79.mp3","请完成这一问：异号对数。":"audio/80.mp3","在负7、负3、0、3、7中选不同数x、y。":"audio/81.mp3","先从所有递增数对中排除绝对值严格递减的数对，":"audio/82.mp3","设第一行第8项为256。":"audio/83.mp3","三行数列应以哪行为共同基准？。":"audio/84.mp3","请完成这一问：第n列和。":"audio/85.mp3","请完成这一问：第二行减第一行。":"audio/86.mp3","三行数的第k项分别为左括号，":"audio/87.mp3","先求共同的基准项，":"audio/88.mp3","设第一项A，":"audio/89.mp3","第二行减第三行时，":"audio/90.mp3","请完成这一问：第一项。":"audio/91.mp3","请完成这一问：列号。":"audio/92.mp3","请完成这一问：三项和。":"audio/93.mp3","三行数的第k项依次为以负3为底数，":"audio/94.mp3","用第一项作为共同基准，":"audio/95.mp3","逆推：先减5，":"audio/96.mp3","逆推机器的第一步是什么？。":"audio/97.mp3","请完成这一问：输入值。":"audio/98.mp3","请完成这一问：输入负2的输出。":"audio/99.mp3","请完成这一问：输出变化量。":"audio/100.mp3","有一台计算机器：输入整数x，":"audio/101.mp3","逆推要从最后一个动作开始，":"audio/102.mp3","甲输出负4乘以左括号，":"audio/103.mp3","两台机器结果是否一定因顺序不同而不同？。":"audio/104.mp3","请完成这一问：乙减甲。":"audio/105.mp3","请完成这一问：输入。":"audio/106.mp3","请完成这一问：新输出。":"audio/107.mp3","计算机器甲：先减7，":"audio/108.mp3","比较两台机器的结构，":"audio/109.mp3","原式等于37乘以左括号，":"audio/110.mp3","三个运算项共有的结构是什么？。":"audio/111.mp3","请完成这一问：原结果。":"audio/112.mp3","请完成这一问：增加量。":"audio/113.mp3","不使用逐位竖式，":"audio/114.mp3","三个项有相同的乘数，":"audio/115.mp3","原式为63乘以左括号，":"audio/116.mp3","把加负数改成减负数，":"audio/117.mp3","在63乘以101加63乘以左括号，":"audio/118.mp3","分别检查中间加号、最后减号，":"audio/119.mp3","左括号，":"audio/120.mp3","请完成这一问：前两个式子的和。":"audio/121.mp3","比较以负3为底数，":"audio/122.mp3","负号是否在底数括号内，":"audio/123.mp3","四数为负64、64、负128、128。":"audio/124.mp3","从四个式子中选两个相加，":"audio/125.mp3","请完成这一问：不同结果数。":"audio/126.mp3","在2的6次方的相反数、以负2为底数，":"audio/127.mp3","先判定四个数的符号，":"audio/128.mp3","前五袋偏差和为2。":"audio/129.mp3","第六袋偏差应由什么相减？。":"audio/130.mp3","请完成这一问：第六袋偏差。":"audio/131.mp3","请完成这一问：第六袋质量。":"audio/132.mp3","请完成这一问：平均质量。":"audio/133.mp3","六袋产品标准均为50千克，":"audio/134.mp3","总偏差等于每袋偏差相加，":"audio/135.mp3","总偏差负2，":"audio/136.mp3","两袋偏差之和确定后，":"audio/137.mp3","请完成这一问：偏差和。":"audio/138.mp3","请完成这一问：有序组合数。":"audio/139.mp3","请完成这一问：均不超标组合数。":"audio/140.mp3","六袋标准均80千克，":"audio/141.mp3","先求未知两袋偏差和，":"audio/142.mp3","精确单位为10，":"audio/143.mp3","四舍五入到十位，":"audio/144.mp3","请完成这一问：下界。":"audio/145.mp3","请完成这一问：上界。":"audio/146.mp3","请完成这一问：符合个数。":"audio/147.mp3","按四舍五入法取近似数（精确到十位），":"audio/148.mp3","四舍五入的分界恰在相邻刻度的中点。":"audio/149.mp3","原数范围分别为左中括号，":"audio/150.mp3","原数限定百分位小数时，":"audio/151.mp3","请完成这一问：和最小值。":"audio/152.mp3","请完成这一问：和上界。":"audio/153.mp3","请完成这一问：百分位条件下的最大和。":"audio/154.mp3","两个正数分别四舍五入到十分位为3点六和2点四。":"audio/155.mp3","先确定两个区间，":"audio/156.mp3","n支球队每支对其他n减去1支，":"audio/157.mp3","每场比赛会被两队各数几次？。":"audio/158.mp3","请完成这一问：原场数。":"audio/159.mp3","请完成这一问：新场数。":"audio/160.mp3","请完成这一问：新增场数。":"audio/161.mp3","每两支球队恰好比赛一场。":"audio/162.mp3","每队与其他队比赛，":"audio/163.mp3","3支新队之间有3场。":"audio/164.mp3","新增3支队之间共有几场比赛？。":"audio/165.mp3","请完成这一问：原球队数。":"audio/166.mp3","请完成这一问：新球队数。":"audio/167.mp3","请完成这一问：新总场数。":"audio/168.mp3","一次单循环比赛原有若干球队。":"audio/169.mp3","新增场数由新老队间的比赛与新队内部比赛构成。":"audio/170.mp3","四边各n枚，":"audio/171.mp3","四条边直接相加时，":"audio/172.mp3","请完成这一问：第一种棋子数。":"audio/173.mp3","请完成这一问：第二种棋子数。":"audio/174.mp3","请完成这一问：每增加一层的差。":"audio/175.mp3","用相同小正方形拼成n乘以n方阵，":"audio/176.mp3","四条边的角点是否重复计算？":"audio/177.mp3","两圈数为左括号，":"audio/178.mp3","双圈的第二圈边长比外圈少多少？。":"audio/179.mp3","请完成这一问：n。":"audio/180.mp3","请完成这一问：外圈棋子数。":"audio/181.mp3","请完成这一问：空格数。":"audio/182.mp3","n乘以n方阵左括号，":"audio/183.mp3","分成边长n与n减去2的两圈，":"audio/184.mp3","外圆柱体积为圆周率乘以6的平方乘以10，":"audio/185.mp3","材料的截面积是什么？。":"audio/186.mp3","请完成这一问：原k。":"audio/187.mp3","请完成这一问：长度加倍后的k。":"audio/188.mp3","空心圆柱外半径6厘米、内半径2厘米、长10厘米。":"audio/189.mp3","把空心部分从实心圆柱中减去，":"audio/190.mp3","原体积为左括号，":"audio/191.mp3","所有半径加倍，":"audio/192.mp3","请完成这一问：原系数。":"audio/193.mp3","请完成这一问：新系数。":"audio/194.mp3","请完成这一问：体积倍数。":"audio/195.mp3","同种材料的空心圆柱外半径8厘米、内半径3厘米、长12厘米。":"audio/196.mp3","圆面积随半径平方变化，":"audio/197.mp3","甲、乙用时分别是30天、20天，":"audio/198.mp3","总货量固定，":"audio/199.mp3","请完成这一问：天数差。":"audio/200.mp3","请完成这一问：剩余吨数。":"audio/201.mp3","请完成这一问：时间倍数。":"audio/202.mp3","一批货物共360吨，":"audio/203.mp3","总量一定时，":"audio/204.mp3","甲用480除以16等于30天。":"audio/205.mp3","乙后期工作量应怎样求？。":"audio/206.mp3","请完成这一问：甲天数。":"audio/207.mp3","请完成这一问：乙天数。":"audio/208.mp3","请完成这一问：差。":"audio/209.mp3","一批货物共480吨。":"audio/210.mp3","乙的日运量分段变化，":"audio/211.mp3","原数等于100乘以a加10乘以b加c等于473。":"audio/212.mp3","百位数字对应的位权是多少？。":"audio/213.mp3","请完成这一问：原数。":"audio/214.mp3","请完成这一问：新数。":"audio/215.mp3","请完成这一问：三次后。":"audio/216.mp3","密码规则：把三位数a乘以b乘以c的数字循环移位，":"audio/217.mp3","每一位数字的权重不同，":"audio/218.mp3","原数658，":"audio/219.mp3","三次排列相加时，":"audio/220.mp3","请完成这一问：原数小于第一次左括号，":"audio/221.mp3","请完成这一问：总和除以111。":"audio/222.mp3","三位数a乘以b乘以c循环左移得到b乘以c乘以a，":"audio/223.mp3","追踪三位数字轮流占据百、十、个位。":"audio/224.mp3","总费用为12乘以5乘以n加30，":"audio/225.mp3","固定运费随班级数量变化吗？。":"audio/226.mp3","请完成这一问：总费用。":"audio/227.mp3","请完成这一问：每班多2个的增量。":"audio/228.mp3","请完成这一问：多1班的增量。":"audio/229.mp3","学校为n个班采购，":"audio/230.mp3","固定运费不随班数和球数变化。":"audio/231.mp3","甲费用60乘以n加24，":"audio/232.mp3","比较两个采购方案时，":"audio/233.mp3","请完成这一问：相同班数。":"audio/234.mp3","请完成这一问：甲较便宜的候选数。":"audio/235.mp3","请完成这一问：10班时节省。":"audio/236.mp3","两种采购方案：甲每班15个球，":"audio/237.mp3","比较每班费用与固定运费，":"audio/238.mp3","原数10乘以a加b，":"audio/239.mp3","两位数a乘以b用代数式如何表达？。":"audio/240.mp3","请完成这一问：和。":"audio/241.mp3","请完成这一问：和除以11。":"audio/242.mp3","请完成这一问：差除以9。":"audio/243.mp3","两位数的十位为a、个位为b。":"audio/244.mp3","分别用10乘以a加b与10乘以b加a表达两个数，":"audio/245.mp3","设十位a、个位b，":"audio/246.mp3","已知原数减翻转数45，":"audio/247.mp3","请完成这一问：十位。":"audio/248.mp3","请完成这一问：个位。":"audio/249.mp3","一个两位数十位与个位交换后，":"audio/250.mp3","由位权展开，":"audio/251.mp3","令整体T等于x加y等于7。":"audio/252.mp3","已知x加y，":"audio/253.mp3","请完成这一问：第一个式子的值。":"audio/254.mp3","请完成这一问：第二个式子的值。":"audio/255.mp3","已知x加y等于7，":"audio/256.mp3","把x加y看成一个整体，":"audio/257.mp3","整体T等于负2，":"audio/258.mp3","整体x加y等于负2时，":"audio/259.mp3","请完成这一问：k。":"audio/260.mp3","请完成这一问：第二式的值。":"audio/261.mp3","已知x加y等于负2，":"audio/262.mp3","先整体代入，":"audio/263.mp3","x的平方项系数2乘以m减去6必须为0，":"audio/264.mp3","与x无关要求消去哪一类项？。":"audio/265.mp3","请完成这一问：固定值。":"audio/266.mp3","整式左括号，":"audio/267.mp3","要让x改变时值不变，":"audio/268.mp3","x等于0时为7，":"audio/269.mp3","x等于1和x等于负1时，":"audio/270.mp3","请完成这一问：x等于2的值。":"audio/271.mp3","比较x等于1和x等于负1，":"audio/272.mp3","正确去括号为3乘以x减去5乘以x加7。":"audio/273.mp3","括号前是减号，":"audio/274.mp3","请完成这一问：正确系数。":"audio/275.mp3","请完成这一问：正确常数项。":"audio/276.mp3","请完成这一问：两式差。":"audio/277.mp3","计算3乘以x减去左括号，":"audio/278.mp3","括号前有减号，":"audio/279.mp3","正确式为2乘以x加c，":"audio/280.mp3","正确式与错误式相减，":"audio/281.mp3","请完成这一问：正确值。":"audio/282.mp3","请完成这一问：错误值。":"audio/283.mp3","计算4乘以x减去左括号，":"audio/284.mp3","先把两个式子化简后作差。":"audio/285.mp3","n个正方形各4条边，":"audio/286.mp3","每条共享边在独立周长中重复几次？。":"audio/287.mp3","请完成这一问：第一种周长。":"audio/288.mp3","请完成这一问：第二种周长。":"audio/289.mp3","用n个边长为1的小正方形首尾拼成一行，":"audio/290.mp3","每个共享边在单个正方形周长之和里被计数两次。":"audio/291.mp3","一行周长2乘以n加2，":"audio/292.mp3","改拼成两行时，":"audio/293.mp3","请完成这一问：一行周长。":"audio/294.mp3","请完成这一问：两行周长。":"audio/295.mp3","若把n个单位小正方形拼成一行，":"audio/296.mp3","一行长n宽1；":"audio/297.mp3","x的平方项系数为3加k，":"audio/298.mp3","要消去x的平方项，":"audio/299.mp3","请完成这一问：x乘以y项系数。":"audio/300.mp3","请完成这一问：y的平方项系数。":"audio/301.mp3","A等于3乘以x的平方加4乘以x乘以y加2乘以y的平方，":"audio/302.mp3","先让同类的x的平方项抵消，":"audio/303.mp3","x乘以y系数负3减去2乘以k等于0，":"audio/304.mp3","同时消去两个项意味着什么？。":"audio/305.mp3","请完成这一问：x的平方系数。":"audio/306.mp3","请完成这一问：y的平方系数。":"audio/307.mp3","请完成这一问：能否同时消去。":"audio/308.mp3","A等于5乘以x的平方减去3乘以x乘以y加4乘以y的平方，":"audio/309.mp3","消去x乘以y与消去x的平方是两种不同的系数条件。":"audio/310.mp3","每天效率分别为12分之1、18分之1。":"audio/311.mp3","工程总量设为多少便于计算？。":"audio/312.mp3","请完成这一问：乙还需天数。":"audio/313.mp3","请完成这一问：总工期。":"audio/314.mp3","请完成这一问：甲的工作量比例。":"audio/315.mp3","甲单独完成任务需12天，":"audio/316.mp3","总工作量设为1，":"audio/317.mp3","合作6天完成10分之6加15分之6等于1。":"audio/318.mp3","若合作阶段已完成全部工作，":"audio/319.mp3","请完成这一问：甲先独做天数。":"audio/320.mp3","请完成这一问：甲贡献比例。":"audio/321.mp3","甲单独需10天，":"audio/322.mp3","乙工作6天意味着共同阶段恰好6天，":"audio/323.mp3","第一档上限费用等于10乘以2等于20。":"audio/324.mp3","实际费超过第一档上限时应怎样计费？。":"audio/325.mp3","请完成这一问：使用量。":"audio/326.mp3","请完成这一问：指定用量费用。":"audio/327.mp3","某服务前10单位每单位2元，":"audio/328.mp3","先比较总费用与第一档最高费用，":"audio/329.mp3","第一档最高36元。":"audio/330.mp3","乙比甲少用8单位，":"audio/331.mp3","请完成这一问：甲用量。":"audio/332.mp3","请完成这一问：乙用量。":"audio/333.mp3","请完成这一问：乙费用。":"audio/334.mp3","某服务前12单位每单位3元，":"audio/335.mp3","甲与乙可能位于不同收费档位，":"audio/336.mp3","设标价x，":"audio/337.mp3","利润率的基准是什么？。":"audio/338.mp3","请完成这一问：标价。":"audio/339.mp3","请完成这一问：进价。":"audio/340.mp3","请完成这一问：利润额。":"audio/341.mp3","商品按标价的百分之80出售，":"audio/342.mp3","折扣以标价为基准，":"audio/343.mp3","第一次售价200乘以0点七五等于150元。":"audio/344.mp3","连续打折时第二次折扣以什么为基准？。":"audio/345.mp3","请完成这一问：第二次售价。":"audio/346.mp3","请完成这一问：利润率。":"audio/347.mp3","商品进价120元，":"audio/348.mp3","连续打折应乘折扣系数，":"audio/349.mp3","甲费用等于20加3乘以x，":"audio/350.mp3","两方案相同费用时，":"audio/351.mp3","请完成这一问：相同次数。":"audio/352.mp3","请完成这一问：相同费用。":"audio/353.mp3","方案甲固定费20元，":"audio/354.mp3","固定费用与每次费用的变化方向不同。":"audio/355.mp3","甲减乙等于24减去4乘以x。":"audio/356.mp3","只说相差8元，":"audio/357.mp3","请完成这一问：较小次数。":"audio/358.mp3","请完成这一问：较大次数。":"audio/359.mp3","请完成这一问：较小时便宜方案。":"audio/360.mp3","甲固定费36元，":"audio/361.mp3","差的绝对值为8，":"audio/362.mp3","设左力臂x，":"audio/363.mp3","杠杆平衡比较什么？。":"audio/364.mp3","请完成这一问：左力臂。":"audio/365.mp3","请完成这一问：新左力臂。":"audio/366.mp3","理想杠杆水平平衡，":"audio/367.mp3","平衡条件是重量乘力臂相等，":"audio/368.mp3","原平衡4乘以x等于3乘以28，":"audio/369.mp3","第二次挂载变化后，":"audio/370.mp3","请完成这一问：原左力臂。":"audio/371.mp3","请完成这一问：变化量。":"audio/372.mp3","理想杠杆平衡，":"audio/373.mp3","两次平衡的重量与右力臂均不同，":"audio/374.mp3","设x等于0点二七二七…，":"audio/375.mp3","怎样对齐循环节？。":"audio/376.mp3","请完成这一问：最简分数（填a除以b，":"audio/377.mp3","右括号。":"audio/378.mp3","想清楚再回答。":"audio/379.mp3","把0点二七二七二七…左括号，":"audio/380.mp3","乘以适当的10的幂，":"audio/381.mp3","使循环部分完全对齐，":"audio/382.mp3","再作差。":"audio/383.mp3","设x等于0点一三五三五三五…，":"audio/384.mp3","0点一三五三五三五…中哪部分不循环？。":"audio/385.mp3","把0点一左括号，":"audio/386.mp3","先把不循环的首位移到小数点左侧，":"audio/387.mp3","再对齐循环部分。":"audio/388.mp3","你好，":"audio/x0.mp3","先观察条件，":"audio/x1.mp3","听到我的声音了吗？":"audio/x2.mp3","我们一起挑战稍微难一点的数学题。":"audio/x3.mp3","我是林老师。":"audio/x4.mp3","最后选出能够说明结论的正确理由。":"audio/x5.mp3","请试着在草稿板写出完整证明。":"audio/x6.mp3","需要时可以打开重点和难点提示。":"audio/x7.mp3"};
+  var NORM={};
+  (function(){
+   for(var k in MAP){
+    var n=k.replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+    if(n&&!NORM[n])NORM[n]=MAP[k];
    }
-   a.onended=function(){if(active!==a)return;active=null;fire(u.onend)};
-   a.onerror=function(){if(active===a)fallback()};
-   var p=a.play();
-   if(p&&p.then)p.then(function(){fire(u.onstart)}).catch(fallback);
-   else fire(u.onstart);
+  })();
+  function fuzzy(t){
+   var n=(t||'').replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+   if(!n)return null;
+   if(NORM[n])return NORM[n];
+   if(n.length>=3){
+    for(var k in NORM){if(k.length>n.length&&k.indexOf(n)===0)return NORM[k]}
+   }
+   return null;
+  }
+  var NativeSS=window.speechSynthesis||null;
+  var NativeUtt=window.SpeechSynthesisUtterance||null;
+
+  /* ---------- utterance ---------- */
+  function LinUtt(text){
+   var self=this;
+   this.text=text==null?'':String(text);
+   this.lang='zh-CN';this.rate=1;this.pitch=1;this.volume=1;this.voice=null;
+   this.onstart=null;this.onend=null;this.onerror=null;this.onpause=null;this.onresume=null;this.onboundary=null;this.onmark=null;
+   this.__ev={};
+   this.addEventListener=function(t,f){if(!f)return;(self.__ev[t]=self.__ev[t]||[]).push(f)};
+   this.removeEventListener=function(t,f){var a=self.__ev[t]||[],i=a.indexOf(f);if(i>=0)a.splice(i,1)};
+   this.dispatchEvent=function(ev){var t=ev&&ev.type,h=self['on'+t];if(typeof h==='function'){try{h.call(self,ev)}catch(e){}}var a=self.__ev[t]||[];for(var i=0;i<a.length;i++){try{a[i].call(self,ev)}catch(e){}}return true};
+  }
+  try{window.SpeechSynthesisUtterance=LinUtt}catch(e){}
+
+  /* ---------- audio element (reused) ---------- */
+  var el=null,active=null,token=0;
+  function audioEl(){if(!el){el=new Audio();el.preload='auto';try{el.setAttribute('playsinline','');el.setAttribute('webkit-playsinline','')}catch(e){}}return el}
+  function stopAudio(){token++;if(active){var a=active;active=null;try{a.__linStop=1;a.onended=null;a.onerror=null;a.pause()}catch(e){}}}
+  function log(a,b,c){try{window.__linLog&&window.__linLog(a,b,c)}catch(e){}}
+  function fire(u,t){log('fire:'+t,u.text);try{u.dispatchEvent({type:t,charIndex:0,elapsedTime:0,name:''})}catch(e){}}
+
+  function playFile(file,u,onFail){
+   var a=new Audio(),finished=false,guard=0;
+   active=a;
+   function clearGuard(){if(guard){clearTimeout(guard);guard=0}}
+   function done(ok){
+    if(finished)return;finished=true;clearGuard();
+    if(active===a)active=null;
+    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}
+    log(ok?'audio-end':'audio-fail',u.text);
+    if(ok){fire(u,'end')}else{onFail&&onFail()}
+   }
+   a.onended=function(){done(true)};
+   a.onerror=function(){done(false)};
+   a.preload='auto';
+   try{a.setAttribute('playsinline','');a.setAttribute('webkit-playsinline','')}catch(e){}
+   try{a.src=file}catch(e){done(false);return}
+   a.onloadedmetadata=function(){
+    clearGuard();
+    var d=0;try{d=a.duration}catch(e){}
+    guard=setTimeout(function(){done(true)},(isFinite(d)&&d>0)?d*1000+1200:9000);
+   };
+   guard=setTimeout(function(){done(true)},9000);
+   fire(u,'start');
+   var p=null;
+   try{p=a.play()}catch(e){done(false);return}
+   if(p&&p.then){p.catch(function(){if(finished||a.__linStop)return;done(false)})}
+  }
+
+  function playSeq(files,u){
+   fire(u,'start');
+   var i=0,stopped=false;
+   function next(){
+    if(i>=files.length){fire(u,'end');return}
+    var a=new Audio(),f=files[i++],settled=false;
+    active=a;
+    function clearG(){if(a.__g){clearTimeout(a.__g);a.__g=0}}
+    function ok(){if(settled)return;settled=true;clearG();if(active===a)active=null;try{a.onended=null;a.onerror=null;a.pause()}catch(e){}next()}
+    function bad(){if(settled)return;settled=true;clearG();if(active===a)active=null;fire(u,'end')}
+    a.onended=ok;a.onerror=bad;a.preload='auto';
+    try{a.setAttribute('playsinline','');a.src=f}catch(e){bad();return}
+    a.onloadedmetadata=function(){clearG();var d=0;try{d=a.duration}catch(e){}a.__g=setTimeout(ok,(isFinite(d)&&d>0)?d*1000+1200:9000)};
+    a.__g=setTimeout(ok,9000);
+    var p=null;try{p=a.play()}catch(e){bad();return}
+    if(p&&p.then)p.catch(function(){if(a.__linStop||settled)return;bad()});
+   }
+   next();
+  }
+
+  function silent(u){
+   fire(u,'start');
+   var n=(u.text||'').length||1;
+   setTimeout(function(){fire(u,'end')},Math.min(6000,Math.max(350,n*130)));
+  }
+
+  function nativeFallback(u){
+   if(!NativeSS||!NativeUtt){silent(u);return}
+   var started=false,finished=false,nu=null;
+   function fin(){if(finished)return;finished=true;fire(u,'end')}
+   try{
+    nu=new NativeUtt(u.text);
+    nu.lang=u.lang||'zh-CN';nu.rate=u.rate||1;nu.pitch=u.pitch||1;nu.volume=u.volume==null?1:u.volume;
+    if(u.voice){try{nu.voice=u.voice}catch(e){}}
+    nu.onstart=function(){if(finished)return;started=true;fire(u,'start')};
+    nu.onend=function(){fin()};
+    nu.onerror=function(){fin()};
+    NativeSS.speak(nu)
+   }catch(e){silent(u);return}
+   setTimeout(function(){
+    if(!started&&!finished){finished=true;try{NativeSS.cancel()}catch(e){}fire(u,'start');setTimeout(function(){fire(u,'end')},150)}
+   },900);
+  }
+
+  function speak(u){
+   stopAudio();
+   if(!u){return}
+   var file=MAP[u.text];
+   if(!file&&u.text){
+    var parts=(u.text.match(/[^。！？；，、]+[。！？；，、]*/g)||[]).filter(function(x){return x&&x.trim()});
+    if(parts.length>1){
+     var fs=[];
+     for(var i2=0;i2<parts.length;i2++){var f2=MAP[parts[i2]];if(!f2){fs=null;break}fs.push(f2)}
+     if(fs){log('hit-seq',u.text);playSeq(fs,u);return}
+    }
+   }
+   if(!file){file=fuzzy(u.text);if(file)log('hit-fuzzy',u.text)}
+   log(file?'hit':'miss',u.text);
+   if(file){playFile(file,u,function(){nativeFallback(u)});return}
+   nativeFallback(u);
+  }
+
+  var FAKE=[{name:'Xiaoxiao Lin Audio',lang:'zh-CN',localService:false,default:true,voiceURI:'lin-audio'}];
+  var synth={
+   speaking:false,pending:false,paused:false,onvoiceschanged:null,
+   getVoices:function(){return FAKE.slice()},
+   speak:function(u){synth.pending=true;speak(u);synth.pending=false},
+   cancel:function(){stopAudio();if(NativeSS){try{NativeSS.cancel()}catch(e){}}},
+   pause:function(){synth.paused=true;if(active){try{active.pause()}catch(e){}}},
+   resume:function(){synth.paused=false;if(active){try{active.play()}catch(e){}}},
+   addEventListener:function(){},removeEventListener:function(){},dispatchEvent:function(){return true}
   };
-  ss.cancel=function(){clearActive();try{nativeCancel.call(ss)}catch(e){}};
-  ss.__linShim2=true;
+  var replaced=false;
+  try{Object.defineProperty(window,'speechSynthesis',{value:synth,configurable:true,writable:true})}catch(e){}
+  try{replaced=(window.speechSynthesis===synth)}catch(e){}
+  if(!replaced){try{window.speechSynthesis=synth;replaced=(window.speechSynthesis===synth)}catch(e){}}
+  if(!replaced&&NativeSS){
+   try{
+    NativeSS.speak=function(u){synth.speak(u)};
+    NativeSS.cancel=function(){synth.cancel()};
+    NativeSS.getVoices=function(){return FAKE.slice()};
+    NativeSS.pause=function(){synth.pause()};
+    NativeSS.resume=function(){synth.resume()};
+    replaced=true;
+   }catch(e){}
+  }
+
+  /* ---------- 手势内预热媒体许可（临时元素，不干扰播放元素） ---------- */
+  try{
+   var unlocked=false;
+   function unlock(){
+    if(unlocked)return;unlocked=true;
+    try{var a=new Audio("data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==");a.play&&a.play().then(function(){try{a.pause()}catch(e){}}).catch(function(){})}catch(e){}
+   }
+   document.addEventListener('pointerdown',unlock,true);
+   document.addEventListener('touchstart',unlock,true);
+   document.addEventListener('click',unlock,true);
+  }catch(e){}
  }catch(e){}
 })();
 </script></head><body><main><header><a class="back" href="../math-home/">‹ 学习门户</a><b>七年级 · 五章高手挑战</b><button id="sound">试听林老师</button></header><div id="soundstatus" class="status" aria-live="polite"></div><div id="screen"></div></main><div class="pace" id="pace" hidden><button id="stop">停止讲解</button><button id="repeat">重听本段</button><button id="advance" class="primary">下一步</button></div><script>

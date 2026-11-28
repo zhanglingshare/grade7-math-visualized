@@ -7,40 +7,176 @@
 .lesson-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:12px;align-items:start}.lesson-grid .scene svg{width:100%;max-height:54dvh}.lesson-side{min-width:0}.lesson-portrait{display:flex;gap:10px;align-items:center;margin:0 0 9px}.lesson-portrait img{width:70px;height:86px;object-fit:cover;object-position:50% 15%;border-radius:12px}.lesson-portrait strong{color:#f3cc83}.lesson-portrait p{font-size:14px;line-height:1.55}
 .board{border:1px solid #5b7e86;background:linear-gradient(145deg,#173842,#102b37);border-radius:13px;padding:13px;min-height:120px}.board h3{margin:0 0 8px;color:#bfd9d9;font-size:12px}.board .chalk-text{font-size:clamp(16px,2.4vw,22px);line-height:1.65;font-weight:600;color:#f6e0aa;overflow-wrap:anywhere;animation:lessonin .25s ease-out}.board .chalk-text+.chalk-text{margin-top:6px}.board .answer-line{color:#a9ebc7}.teach-focus{border-left:3px solid #f3cc83;border-radius:6px;padding:7px 11px;background:#243b4a;color:#f3d69f;font-size:14px;margin:7px 0}.tips{display:grid;gap:6px;margin:10px 0}.tips details{border-radius:9px;background:#1a3342;border:1px solid #425e6c;padding:8px 10px}.tips summary{cursor:pointer;font-size:14px;font-weight:700;color:#f3d69f}.tips p{font-size:14px;margin:7px 0 0;color:#d8e5eb}.tips details:nth-child(2) summary{color:#ffbaa5}.teach-controls{display:flex;gap:6px;margin-top:9px}.teach-controls button{flex:1;min-width:0;font-size:13px;padding:8px 4px}.teach-controls .primary{flex:1.55}.lesson-progress{height:5px;background:#294252;border-radius:4px;margin:9px 0;overflow:hidden}.lesson-progress i{height:100%;display:block;background:#f3cc83;transition:width .25s}.probe-card{border:1px solid #638f84;background:#173a3b;border-radius:13px;padding:12px}.probe-card h3{font-size:15px;margin:0 0 7px;color:#aee5cb}.probe-card p{font-size:16px;line-height:1.55}.probe-options{display:grid;gap:7px}.probe-options button{text-align:left;padding:11px;min-height:46px;background:#23434b}.probe-options button.chosen{border-color:#f3cc83}.probe-response{min-height:24px;margin:7px 0;font-size:14px}.probe-input{display:flex;gap:7px}.probe-input input{flex:1;min-width:0;border:1px solid #68889a;background:#102733;border-radius:8px;color:white;padding:10px;font:inherit;font-size:18px}.probe-input button{padding:8px 10px}.lesson-done{background:#1b4039;border:1px solid #75ad91;border-radius:12px;padding:12px}.lesson-done h3{color:#aee5bd;margin:0 0 5px}.lesson-problem{padding:9px 12px;border:1px solid #3f6072;border-radius:9px;background:#142b3a;line-height:1.55;margin:7px 0}.lesson-problem summary{cursor:pointer;color:#c4dae5;font-size:13px;font-weight:600}.lesson-problem p{font-size:14px}.keypad-compact{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.keypad-compact button{min-height:36px;padding:5px 9px}.choose-preview{max-width:720px;margin:10px auto}.lesson-status{color:#afccd7;font-size:13px;margin:6px 0;min-height:20px}.mode-foot{font-size:12px;color:#aec3d0;margin:7px 0}.card svg{height:90px}.lesson-grid .scene{margin-top:0}
 @keyframes lessonin{from{opacity:.15;transform:translateY(5px)}to{opacity:1;transform:none}}@media(max-width:760px){.lesson-grid{grid-template-columns:1fr;gap:8px}.lesson-grid .scene svg{max-height:34dvh}.mode-select{grid-template-columns:1fr}.mode-select button{min-height:56px}.lesson-portrait img{width:57px;height:69px}.board{min-height:86px}.board .chalk-text{font-size:17px}.lesson-top h2{font-size:20px}.lesson-side{display:grid;gap:2px}.teach-controls button{min-height:42px}.lesson-problem p{font-size:13px}}@media(min-width:761px){.lesson-grid .scene svg{max-height:52dvh}.lesson-grid .scene{min-height:240px}}
-</style><script>/* audio-shim-v2 */
+</style><script>/* audio-shim-v3 */
 (function(){
  try{
-  var MAP={"A乘以C等于8，":"audio/0.mp3","A乘以C等于多少个单位？。":"audio/1.mp3","很好。":"audio/2.mp3","请完成这一问：A。":"audio/3.mp3","请完成这一问：B。":"audio/4.mp3","请完成这一问：C。":"audio/5.mp3","请完成这一问：B到原点。":"audio/6.mp3","跟做结束。":"audio/7.mp3","现在请独立思考。":"audio/8.mp3","一条数轴上有整数点A、B、C，":"audio/9.mp3","原点夹在两端之间，":"audio/10.mp3","数值都对了。":"audio/11.mp3","a必须负。":"audio/12.mp3","若b为负，":"audio/13.mp3","请完成这一问：组数。":"audio/14.mp3","请完成这一问：b最小。":"audio/15.mp3","请完成这一问：和最大。":"audio/16.mp3","请完成这一问：和最小。":"audio/17.mp3","从负7、负5、负3、负1、1、3、5、7中选三个不同数a＜b＜c。":"audio/18.mp3","先穷尽绝对值和为10的端点搭配，":"audio/19.mp3","绝对偏差排序0、1、2、2、3、4、5、6。":"audio/20.mp3","A类绝对偏差等于k时算哪类？。":"audio/21.mp3","请完成这一问：k。":"audio/22.mp3","请完成这一问：B类。":"audio/23.mp3","请完成这一问：C类。":"audio/24.mp3","请完成这一问：质量差。":"audio/25.mp3","八件产品的相对标准偏差依次为负6、负4、负2、负1、0、2、3、5克。":"audio/26.mp3","先把绝对偏差从小到大排，":"audio/27.mp3","A与C分居两侧，":"audio/28.mp3","A、C在新原点两侧时距离和是多少？。":"audio/29.mp3","请完成这一问：前一条件个数。":"audio/30.mp3","请完成这一问：原点旧坐标。":"audio/31.mp3","请完成这一问：A新坐标。":"audio/32.mp3","请完成这一问：B新坐标。":"audio/33.mp3","请完成这一问：C新坐标。":"audio/34.mp3","原数轴上A等于负9，":"audio/35.mp3","距离和15，":"audio/36.mp3","若8在正侧，":"audio/37.mp3","绝对值8若放在正侧，":"audio/38.mp3","请完成这一问：安排数。":"audio/39.mp3","请完成这一问：a。":"audio/40.mp3","请完成这一问：b。":"audio/41.mp3","请完成这一问：四数和。":"audio/42.mp3","有四个数，":"audio/43.mp3","先选出两个负数的绝对值；":"audio/44.mp3","最大7意味着n等于8。":"audio/45.mp3","最大整数是7且右边界不含，":"audio/46.mp3","请完成这一问：m。":"audio/47.mp3","请完成这一问：n。":"audio/48.mp3","请完成这一问：整数和。":"audio/49.mp3","请完成这一问：新增个数。":"audio/50.mp3","整数x满足负9＜x＜10。":"audio/51.mp3","从最大整数确定右边界，":"audio/52.mp3","三种分组：左括号，":"audio/53.mp3","四张数牌的和是多少？。":"audio/54.mp3","请完成这一问：分组数。":"audio/55.mp3","请完成这一问：最大。":"audio/56.mp3","请完成这一问：最小。":"audio/57.mp3","请完成这一问：正值组数。":"audio/58.mp3","把负3、负2、1、4四个数各用一次填入左括号，":"audio/59.mp3","固定负3所在的一对，":"audio/60.mp3","S等于1减去2加4减去8加…负512，":"audio/61.mp3","2乘以S与S相加时，":"audio/62.mp3","请完成这一问：S。":"audio/63.mp3","请完成这一问：T。":"audio/64.mp3","请完成这一问：T减去S。":"audio/65.mp3","定义S等于1减去2加4减去8加…正左括号，":"audio/66.mp3","相邻两项成一组；":"audio/67.mp3","按定义3★左括号，":"audio/68.mp3","新定义★能直接使用乘法结合律吗？。":"audio/69.mp3","请完成这一问：第一式。":"audio/70.mp3","请完成这一问：第二式。":"audio/71.mp3","请完成这一问：x。":"audio/72.mp3","请完成这一问：候选个数。":"audio/73.mp3","规定a★b等于a减去2乘以b。":"audio/74.mp3","★不是乘法。":"audio/75.mp3","先假设除胜场外全平：8场全平8分，":"audio/76.mp3","把一场平局变成负局，":"audio/77.mp3","请完成这一问：组合数。":"audio/78.mp3","请完成这一问：最多胜。":"audio/79.mp3","请完成这一问：负。":"audio/80.mp3","请完成这一问：平。":"audio/81.mp3","一队打了8场比赛，":"audio/82.mp3","固定胜场，":"audio/83.mp3","原数最小分别2点三五、3点零五、1点四五，":"audio/84.mp3","四舍五入到2点四的最大百分位候选是什么？。":"audio/85.mp3","请完成这一问：最小和。":"audio/86.mp3","请完成这一问：最大和。":"audio/87.mp3","请完成这一问：7点零二的近似。":"audio/88.mp3","请完成这一问：最大误差。":"audio/89.mp3","三个正数分别四舍五入到十分位得到2点四、3点一、1点五。":"audio/90.mp3","每个原数有10个百分位候选，":"audio/91.mp3","六种分子对的积分别为18、负12、负24、负6、负12、8；":"audio/92.mp3","四张数牌选两张作分子，":"audio/93.mp3","请完成这一问：不同结果数。":"audio/94.mp3","请完成这一问：大于1的集合数。":"audio/95.mp3","用负6、负3、2、4四张数牌各一次组成左括号，":"audio/96.mp3","式子等于两个分子乘积除以两个分母乘积。":"audio/97.mp3","最外圈4乘以n减去4，":"audio/98.mp3","第二圈边长相对于外圈如何变化？。":"audio/99.mp3","请完成这一问：原棋子数。":"audio/100.mp3","请完成这一问：内部空格。":"audio/101.mp3","请完成这一问：扩大后的两圈。":"audio/102.mp3","n乘以n方阵左括号，":"audio/103.mp3","外两圈可用大正方形减内部正方形，":"audio/104.mp3","4支新队之间本有4乘以3除以2等于6场，":"audio/105.mp3","4支新队本来彼此应打多少场？。":"audio/106.mp3","请完成这一问：原队数。":"audio/107.mp3","请完成这一问：增加后总队数。":"audio/108.mp3","请完成这一问：实际场数。":"audio/109.mp3","请完成这一问：恢复后场数。":"audio/110.mp3","原有若干队打单循环。":"audio/111.mp3","增加的40场包含新老对阵和新队内部剩余比赛。":"audio/112.mp3","三数之和为111乘数字和，":"audio/113.mp3","三个循环排列相加，":"audio/114.mp3","请完成这一问：c。":"audio/115.mp3","请完成这一问：原数。":"audio/116.mp3","请完成这一问：最大值。":"audio/117.mp3","三位数a乘以b乘以c的三个数字互不相同且均非零。":"audio/118.mp3","循环和等于111乘数字和；":"audio/119.mp3","A体积等于6的平方乘以8乘以圆周率等于288乘以圆周率。":"audio/120.mp3","空心柱每单位长度的材料是什么？。":"audio/121.mp3","请完成这一问：B长度。":"audio/122.mp3","请完成这一问：新圆周率系数。":"audio/123.mp3","请完成这一问：节约比例。":"audio/124.mp3","实心圆柱A半径6厘米、高8厘米。":"audio/125.mp3","先用材料体积而非外圆柱体积比较。":"audio/126.mp3","计划每日600除以15等于40吨。":"audio/127.mp3","前5天的日运量是计划的多少？。":"audio/128.mp3","请完成这一问：原日运量。":"audio/129.mp3","请完成这一问：前5天运量。":"audio/130.mp3","请完成这一问：剩余天数。":"audio/131.mp3","请完成这一问：少用天数。":"audio/132.mp3","某车队运600吨货。":"audio/133.mp3","总工作量固定，":"audio/134.mp3","一排n个正方形使用3乘以n加1根，":"audio/135.mp3","搭屋顶时每个屋顶增加几根火柴？。":"audio/136.mp3","请完成这一问：去屋顶后。":"audio/137.mp3","请完成这一问：两行根数。":"audio/138.mp3","用等长火柴拼成一排相邻的小正方形，":"audio/139.mp3","先分别数共享边和每个新增屋顶的两条斜边。":"audio/140.mp3","P乘以左括号，":"audio/141.mp3","请完成这一问：P乘以左括号，":"audio/142.mp3","请完成这一问：定值。":"audio/143.mp3","正负代入时偶次项相同、奇次项相反，":"audio/144.mp3","观察A、B、C的各项系数：A加B恰等于C，":"audio/145.mp3","消去x的平方和x乘以y时能跨不同类项合并吗？。":"audio/146.mp3","请完成这一问：y的平方系数。":"audio/147.mp3","请完成这一问：恒为0。":"audio/148.mp3","A等于2乘以x的平方加3乘以x乘以y减去y的平方，":"audio/149.mp3","先观察A与B相加后的各项，":"audio/150.mp3","左括号，":"audio/151.mp3","甲的结果减乙的结果等于什么？。":"audio/152.mp3","请完成这一问：B二次系数。":"audio/153.mp3","请完成这一问：B一次系数。":"audio/154.mp3","请完成这一问：B常数。":"audio/155.mp3","请完成这一问：A乘以左括号，":"audio/156.mp3","计算A减去B时，":"audio/157.mp3","甲结果减乙结果是2乘以B；":"audio/158.mp3","原面积4乘以左括号，":"audio/159.mp3","挖去部分的面积如何表示？。":"audio/160.mp3","请完成这一问：固定差。":"audio/161.mp3","请完成这一问：剩余面积。":"audio/162.mp3","一个长方形长x加6、宽4左括号，":"audio/163.mp3","先用分配律表达剩余面积，":"audio/164.mp3","差等于99乘以左括号，":"audio/165.mp3","三位数翻转后，":"audio/166.mp3","三位数abc左括号，":"audio/167.mp3","差仅取决于百位与个位；":"audio/168.mp3","U加V等于2乘以x等于8，":"audio/169.mp3","U加V化简后是什么？。":"audio/170.mp3","请完成这一问：y。":"audio/171.mp3","请完成这一问：式子值。":"audio/172.mp3","请完成这一问：整数k是否存在。":"audio/173.mp3","已知U等于x加y，":"audio/174.mp3","把U、V当作整体，":"audio/175.mp3","0至4小时，":"audio/176.mp3","甲抵达B之后，":"audio/177.mp3","请完成这一问：到B时刻。":"audio/178.mp3","请完成这一问：再次相遇时刻。":"audio/179.mp3","请完成这一问：较早4千米。":"audio/180.mp3","请完成这一问：较晚4千米。":"audio/181.mp3","甲从A向B以每小时6千米前进，":"audio/182.mp3","甲折返前后位置式不同，":"audio/183.mp3","甲乙3天完成12分之3加18分之3等于12分之5。":"audio/184.mp3","人员在三段中变换时，":"audio/185.mp3","请完成这一问：甲丙合作天数。":"audio/186.mp3","请完成这一问：总工期。":"audio/187.mp3","请完成这一问：甲比例。":"audio/188.mp3","请完成这一问：丙比例。":"audio/189.mp3","甲单独完成任务12天，":"audio/190.mp3","总量设1；":"audio/191.mp3","设乙x度，":"audio/192.mp3","340度能否按一户的阶梯收费？。":"audio/193.mp3","请完成这一问：甲度数。":"audio/194.mp3","请完成这一问：乙度数。":"audio/195.mp3","请完成这一问：合计电费。":"audio/196.mp3","请完成这一问：甲节省费。":"audio/197.mp3","某月前100度每度0点五元，":"audio/198.mp3","先用总量和差确定两个用量，":"audio/199.mp3","n＜20时甲28乘以n，":"audio/200.mp3","恰好购买20个时，":"audio/201.mp3","请完成这一问：10个差。":"audio/202.mp3","请完成这一问：20个差。":"audio/203.mp3","请完成这一问：相等n。":"audio/204.mp3","请完成这一问：60个较便宜。":"audio/205.mp3","某校购买同款球，":"audio/206.mp3","必须先区分n＜20与n大于或等于20；":"audio/207.mp3","初始盐质量200乘以0点一五等于30克。":"audio/208.mp3","蒸发水时哪一个量保持不变？。":"audio/209.mp3","请完成这一问：蒸发水量。":"audio/210.mp3","请完成这一问：加入量。":"audio/211.mp3","请完成这一问：最终质量。":"audio/212.mp3","请完成这一问：最终盐。":"audio/213.mp3","容器中有200克浓度百分之15的盐水。":"audio/214.mp3","蒸发只改变水量，":"audio/215.mp3","初次平衡3乘以x加12等于2乘以30，":"audio/216.mp3","右侧新增一砝码，":"audio/217.mp3","请完成这一问：初始x。":"audio/218.mp3","请完成这一问：新单砝码距离。":"audio/219.mp3","请完成这一问：可行性。":"audio/220.mp3","请完成这一问：超出距离。":"audio/221.mp3","忽略杆重的水平杠杆支点左侧挂3个同重砝码在距离x厘米处，":"audio/222.mp3","计算每个挂点的力矩之和，":"audio/223.mp3"};
-  var ss=window.speechSynthesis;
-  if(!ss||ss.__linShim2)return;
-  var nativeSpeak=ss.speak, nativeCancel=ss.cancel;
-  var active=null;
-  function clearActive(){
-   if(active){var a=active;active=null;
-    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}}
-  }
-  function fire(fn,ev){try{if(typeof fn==='function')fn(ev||{})}catch(e){}}
-  ss.speak=function(u){
-   try{nativeCancel.call(ss)}catch(e){}
-   clearActive();
-   if(!u){nativeSpeak.call(ss,u);return}
-   var file=MAP[u.text];
-   if(!file){nativeSpeak.call(ss,u);return}
-   var a=new Audio(file);active=a;
-   var fallbackDone=false;
-   function fallback(){
-    if(fallbackDone)return;fallbackDone=true;
-    if(active===a)active=null;
-    nativeSpeak.call(ss,u);
+  if(window.__linTTSv3)return;window.__linTTSv3=true;
+  var MAP={"A乘以C等于8，":"audio/0.mp3","A乘以C等于多少个单位？。":"audio/1.mp3","很好。":"audio/2.mp3","请完成这一问：A。":"audio/3.mp3","请完成这一问：B。":"audio/4.mp3","请完成这一问：C。":"audio/5.mp3","请完成这一问：B到原点。":"audio/6.mp3","跟做结束。":"audio/7.mp3","现在请独立思考。":"audio/8.mp3","一条数轴上有整数点A、B、C，":"audio/9.mp3","原点夹在两端之间，":"audio/10.mp3","数值都对了。":"audio/11.mp3","a必须负。":"audio/12.mp3","若b为负，":"audio/13.mp3","请完成这一问：组数。":"audio/14.mp3","请完成这一问：b最小。":"audio/15.mp3","请完成这一问：和最大。":"audio/16.mp3","请完成这一问：和最小。":"audio/17.mp3","从负7、负5、负3、负1、1、3、5、7中选三个不同数a＜b＜c。":"audio/18.mp3","先穷尽绝对值和为10的端点搭配，":"audio/19.mp3","绝对偏差排序0、1、2、2、3、4、5、6。":"audio/20.mp3","A类绝对偏差等于k时算哪类？。":"audio/21.mp3","请完成这一问：k。":"audio/22.mp3","请完成这一问：B类。":"audio/23.mp3","请完成这一问：C类。":"audio/24.mp3","请完成这一问：质量差。":"audio/25.mp3","八件产品的相对标准偏差依次为负6、负4、负2、负1、0、2、3、5克。":"audio/26.mp3","先把绝对偏差从小到大排，":"audio/27.mp3","A与C分居两侧，":"audio/28.mp3","A、C在新原点两侧时距离和是多少？。":"audio/29.mp3","请完成这一问：前一条件个数。":"audio/30.mp3","请完成这一问：原点旧坐标。":"audio/31.mp3","请完成这一问：A新坐标。":"audio/32.mp3","请完成这一问：B新坐标。":"audio/33.mp3","请完成这一问：C新坐标。":"audio/34.mp3","原数轴上A等于负9，":"audio/35.mp3","距离和15，":"audio/36.mp3","若8在正侧，":"audio/37.mp3","绝对值8若放在正侧，":"audio/38.mp3","请完成这一问：安排数。":"audio/39.mp3","请完成这一问：a。":"audio/40.mp3","请完成这一问：b。":"audio/41.mp3","请完成这一问：四数和。":"audio/42.mp3","有四个数，":"audio/43.mp3","先选出两个负数的绝对值；":"audio/44.mp3","最大7意味着n等于8。":"audio/45.mp3","最大整数是7且右边界不含，":"audio/46.mp3","请完成这一问：m。":"audio/47.mp3","请完成这一问：n。":"audio/48.mp3","请完成这一问：整数和。":"audio/49.mp3","请完成这一问：新增个数。":"audio/50.mp3","整数x满足负9＜x＜10。":"audio/51.mp3","从最大整数确定右边界，":"audio/52.mp3","三种分组：左括号，":"audio/53.mp3","四张数牌的和是多少？。":"audio/54.mp3","请完成这一问：分组数。":"audio/55.mp3","请完成这一问：最大。":"audio/56.mp3","请完成这一问：最小。":"audio/57.mp3","请完成这一问：正值组数。":"audio/58.mp3","把负3、负2、1、4四个数各用一次填入左括号，":"audio/59.mp3","固定负3所在的一对，":"audio/60.mp3","S等于1减去2加4减去8加…负512，":"audio/61.mp3","2乘以S与S相加时，":"audio/62.mp3","请完成这一问：S。":"audio/63.mp3","请完成这一问：T。":"audio/64.mp3","请完成这一问：T减去S。":"audio/65.mp3","定义S等于1减去2加4减去8加…正左括号，":"audio/66.mp3","相邻两项成一组；":"audio/67.mp3","按定义3★左括号，":"audio/68.mp3","新定义★能直接使用乘法结合律吗？。":"audio/69.mp3","请完成这一问：第一式。":"audio/70.mp3","请完成这一问：第二式。":"audio/71.mp3","请完成这一问：x。":"audio/72.mp3","请完成这一问：候选个数。":"audio/73.mp3","规定a★b等于a减去2乘以b。":"audio/74.mp3","★不是乘法。":"audio/75.mp3","先假设除胜场外全平：8场全平8分，":"audio/76.mp3","把一场平局变成负局，":"audio/77.mp3","请完成这一问：组合数。":"audio/78.mp3","请完成这一问：最多胜。":"audio/79.mp3","请完成这一问：负。":"audio/80.mp3","请完成这一问：平。":"audio/81.mp3","一队打了8场比赛，":"audio/82.mp3","固定胜场，":"audio/83.mp3","原数最小分别2点三五、3点零五、1点四五，":"audio/84.mp3","四舍五入到2点四的最大百分位候选是什么？。":"audio/85.mp3","请完成这一问：最小和。":"audio/86.mp3","请完成这一问：最大和。":"audio/87.mp3","请完成这一问：7点零二的近似。":"audio/88.mp3","请完成这一问：最大误差。":"audio/89.mp3","三个正数分别四舍五入到十分位得到2点四、3点一、1点五。":"audio/90.mp3","每个原数有10个百分位候选，":"audio/91.mp3","六种分子对的积分别为18、负12、负24、负6、负12、8；":"audio/92.mp3","四张数牌选两张作分子，":"audio/93.mp3","请完成这一问：不同结果数。":"audio/94.mp3","请完成这一问：大于1的集合数。":"audio/95.mp3","用负6、负3、2、4四张数牌各一次组成左括号，":"audio/96.mp3","式子等于两个分子乘积除以两个分母乘积。":"audio/97.mp3","最外圈4乘以n减去4，":"audio/98.mp3","第二圈边长相对于外圈如何变化？。":"audio/99.mp3","请完成这一问：原棋子数。":"audio/100.mp3","请完成这一问：内部空格。":"audio/101.mp3","请完成这一问：扩大后的两圈。":"audio/102.mp3","n乘以n方阵左括号，":"audio/103.mp3","外两圈可用大正方形减内部正方形，":"audio/104.mp3","4支新队之间本有4乘以3除以2等于6场，":"audio/105.mp3","4支新队本来彼此应打多少场？。":"audio/106.mp3","请完成这一问：原队数。":"audio/107.mp3","请完成这一问：增加后总队数。":"audio/108.mp3","请完成这一问：实际场数。":"audio/109.mp3","请完成这一问：恢复后场数。":"audio/110.mp3","原有若干队打单循环。":"audio/111.mp3","增加的40场包含新老对阵和新队内部剩余比赛。":"audio/112.mp3","三数之和为111乘数字和，":"audio/113.mp3","三个循环排列相加，":"audio/114.mp3","请完成这一问：c。":"audio/115.mp3","请完成这一问：原数。":"audio/116.mp3","请完成这一问：最大值。":"audio/117.mp3","三位数a乘以b乘以c的三个数字互不相同且均非零。":"audio/118.mp3","循环和等于111乘数字和；":"audio/119.mp3","A体积等于6的平方乘以8乘以圆周率等于288乘以圆周率。":"audio/120.mp3","空心柱每单位长度的材料是什么？。":"audio/121.mp3","请完成这一问：B长度。":"audio/122.mp3","请完成这一问：新圆周率系数。":"audio/123.mp3","请完成这一问：节约比例。":"audio/124.mp3","实心圆柱A半径6厘米、高8厘米。":"audio/125.mp3","先用材料体积而非外圆柱体积比较。":"audio/126.mp3","计划每日600除以15等于40吨。":"audio/127.mp3","前5天的日运量是计划的多少？。":"audio/128.mp3","请完成这一问：原日运量。":"audio/129.mp3","请完成这一问：前5天运量。":"audio/130.mp3","请完成这一问：剩余天数。":"audio/131.mp3","请完成这一问：少用天数。":"audio/132.mp3","某车队运600吨货。":"audio/133.mp3","总工作量固定，":"audio/134.mp3","一排n个正方形使用3乘以n加1根，":"audio/135.mp3","搭屋顶时每个屋顶增加几根火柴？。":"audio/136.mp3","请完成这一问：去屋顶后。":"audio/137.mp3","请完成这一问：两行根数。":"audio/138.mp3","用等长火柴拼成一排相邻的小正方形，":"audio/139.mp3","先分别数共享边和每个新增屋顶的两条斜边。":"audio/140.mp3","P乘以左括号，":"audio/141.mp3","请完成这一问：P乘以左括号，":"audio/142.mp3","请完成这一问：定值。":"audio/143.mp3","正负代入时偶次项相同、奇次项相反，":"audio/144.mp3","观察A、B、C的各项系数：A加B恰等于C，":"audio/145.mp3","消去x的平方和x乘以y时能跨不同类项合并吗？。":"audio/146.mp3","请完成这一问：y的平方系数。":"audio/147.mp3","请完成这一问：恒为0。":"audio/148.mp3","A等于2乘以x的平方加3乘以x乘以y减去y的平方，":"audio/149.mp3","先观察A与B相加后的各项，":"audio/150.mp3","左括号，":"audio/151.mp3","甲的结果减乙的结果等于什么？。":"audio/152.mp3","请完成这一问：B二次系数。":"audio/153.mp3","请完成这一问：B一次系数。":"audio/154.mp3","请完成这一问：B常数。":"audio/155.mp3","请完成这一问：A乘以左括号，":"audio/156.mp3","计算A减去B时，":"audio/157.mp3","甲结果减乙结果是2乘以B；":"audio/158.mp3","原面积4乘以左括号，":"audio/159.mp3","挖去部分的面积如何表示？。":"audio/160.mp3","请完成这一问：固定差。":"audio/161.mp3","请完成这一问：剩余面积。":"audio/162.mp3","一个长方形长x加6、宽4左括号，":"audio/163.mp3","先用分配律表达剩余面积，":"audio/164.mp3","差等于99乘以左括号，":"audio/165.mp3","三位数翻转后，":"audio/166.mp3","三位数abc左括号，":"audio/167.mp3","差仅取决于百位与个位；":"audio/168.mp3","U加V等于2乘以x等于8，":"audio/169.mp3","U加V化简后是什么？。":"audio/170.mp3","请完成这一问：y。":"audio/171.mp3","请完成这一问：式子值。":"audio/172.mp3","请完成这一问：整数k是否存在。":"audio/173.mp3","已知U等于x加y，":"audio/174.mp3","把U、V当作整体，":"audio/175.mp3","0至4小时，":"audio/176.mp3","甲抵达B之后，":"audio/177.mp3","请完成这一问：到B时刻。":"audio/178.mp3","请完成这一问：再次相遇时刻。":"audio/179.mp3","请完成这一问：较早4千米。":"audio/180.mp3","请完成这一问：较晚4千米。":"audio/181.mp3","甲从A向B以每小时6千米前进，":"audio/182.mp3","甲折返前后位置式不同，":"audio/183.mp3","甲乙3天完成12分之3加18分之3等于12分之5。":"audio/184.mp3","人员在三段中变换时，":"audio/185.mp3","请完成这一问：甲丙合作天数。":"audio/186.mp3","请完成这一问：总工期。":"audio/187.mp3","请完成这一问：甲比例。":"audio/188.mp3","请完成这一问：丙比例。":"audio/189.mp3","甲单独完成任务12天，":"audio/190.mp3","总量设1；":"audio/191.mp3","设乙x度，":"audio/192.mp3","340度能否按一户的阶梯收费？。":"audio/193.mp3","请完成这一问：甲度数。":"audio/194.mp3","请完成这一问：乙度数。":"audio/195.mp3","请完成这一问：合计电费。":"audio/196.mp3","请完成这一问：甲节省费。":"audio/197.mp3","某月前100度每度0点五元，":"audio/198.mp3","先用总量和差确定两个用量，":"audio/199.mp3","n＜20时甲28乘以n，":"audio/200.mp3","恰好购买20个时，":"audio/201.mp3","请完成这一问：10个差。":"audio/202.mp3","请完成这一问：20个差。":"audio/203.mp3","请完成这一问：相等n。":"audio/204.mp3","请完成这一问：60个较便宜。":"audio/205.mp3","某校购买同款球，":"audio/206.mp3","必须先区分n＜20与n大于或等于20；":"audio/207.mp3","初始盐质量200乘以0点一五等于30克。":"audio/208.mp3","蒸发水时哪一个量保持不变？。":"audio/209.mp3","请完成这一问：蒸发水量。":"audio/210.mp3","请完成这一问：加入量。":"audio/211.mp3","请完成这一问：最终质量。":"audio/212.mp3","请完成这一问：最终盐。":"audio/213.mp3","容器中有200克浓度百分之15的盐水。":"audio/214.mp3","蒸发只改变水量，":"audio/215.mp3","初次平衡3乘以x加12等于2乘以30，":"audio/216.mp3","右侧新增一砝码，":"audio/217.mp3","请完成这一问：初始x。":"audio/218.mp3","请完成这一问：新单砝码距离。":"audio/219.mp3","请完成这一问：可行性。":"audio/220.mp3","请完成这一问：超出距离。":"audio/221.mp3","忽略杆重的水平杠杆支点左侧挂3个同重砝码在距离x厘米处，":"audio/222.mp3","计算每个挂点的力矩之和，":"audio/223.mp3","你好，":"audio/x0.mp3","先观察条件，":"audio/x1.mp3","听到我的声音了吗？":"audio/x2.mp3","我们一起挑战综合压轴题。":"audio/x3.mp3","我是林老师。":"audio/x4.mp3","最后选出能够说明结论的正确理由。":"audio/x5.mp3","请试着在草稿板写出完整证明。":"audio/x6.mp3","需要时可以打开重点和难点提示。":"audio/x7.mp3"};
+  var NORM={};
+  (function(){
+   for(var k in MAP){
+    var n=k.replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+    if(n&&!NORM[n])NORM[n]=MAP[k];
    }
-   a.onended=function(){if(active!==a)return;active=null;fire(u.onend)};
-   a.onerror=function(){if(active===a)fallback()};
-   var p=a.play();
-   if(p&&p.then)p.then(function(){fire(u.onstart)}).catch(fallback);
-   else fire(u.onstart);
+  })();
+  function fuzzy(t){
+   var n=(t||'').replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+   if(!n)return null;
+   if(NORM[n])return NORM[n];
+   if(n.length>=3){
+    for(var k in NORM){if(k.length>n.length&&k.indexOf(n)===0)return NORM[k]}
+   }
+   return null;
+  }
+  var NativeSS=window.speechSynthesis||null;
+  var NativeUtt=window.SpeechSynthesisUtterance||null;
+
+  /* ---------- utterance ---------- */
+  function LinUtt(text){
+   var self=this;
+   this.text=text==null?'':String(text);
+   this.lang='zh-CN';this.rate=1;this.pitch=1;this.volume=1;this.voice=null;
+   this.onstart=null;this.onend=null;this.onerror=null;this.onpause=null;this.onresume=null;this.onboundary=null;this.onmark=null;
+   this.__ev={};
+   this.addEventListener=function(t,f){if(!f)return;(self.__ev[t]=self.__ev[t]||[]).push(f)};
+   this.removeEventListener=function(t,f){var a=self.__ev[t]||[],i=a.indexOf(f);if(i>=0)a.splice(i,1)};
+   this.dispatchEvent=function(ev){var t=ev&&ev.type,h=self['on'+t];if(typeof h==='function'){try{h.call(self,ev)}catch(e){}}var a=self.__ev[t]||[];for(var i=0;i<a.length;i++){try{a[i].call(self,ev)}catch(e){}}return true};
+  }
+  try{window.SpeechSynthesisUtterance=LinUtt}catch(e){}
+
+  /* ---------- audio element (reused) ---------- */
+  var el=null,active=null,token=0;
+  function audioEl(){if(!el){el=new Audio();el.preload='auto';try{el.setAttribute('playsinline','');el.setAttribute('webkit-playsinline','')}catch(e){}}return el}
+  function stopAudio(){token++;if(active){var a=active;active=null;try{a.__linStop=1;a.onended=null;a.onerror=null;a.pause()}catch(e){}}}
+  function log(a,b,c){try{window.__linLog&&window.__linLog(a,b,c)}catch(e){}}
+  function fire(u,t){log('fire:'+t,u.text);try{u.dispatchEvent({type:t,charIndex:0,elapsedTime:0,name:''})}catch(e){}}
+
+  function playFile(file,u,onFail){
+   var a=new Audio(),finished=false,guard=0;
+   active=a;
+   function clearGuard(){if(guard){clearTimeout(guard);guard=0}}
+   function done(ok){
+    if(finished)return;finished=true;clearGuard();
+    if(active===a)active=null;
+    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}
+    log(ok?'audio-end':'audio-fail',u.text);
+    if(ok){fire(u,'end')}else{onFail&&onFail()}
+   }
+   a.onended=function(){done(true)};
+   a.onerror=function(){done(false)};
+   a.preload='auto';
+   try{a.setAttribute('playsinline','');a.setAttribute('webkit-playsinline','')}catch(e){}
+   try{a.src=file}catch(e){done(false);return}
+   a.onloadedmetadata=function(){
+    clearGuard();
+    var d=0;try{d=a.duration}catch(e){}
+    guard=setTimeout(function(){done(true)},(isFinite(d)&&d>0)?d*1000+1200:9000);
+   };
+   guard=setTimeout(function(){done(true)},9000);
+   fire(u,'start');
+   var p=null;
+   try{p=a.play()}catch(e){done(false);return}
+   if(p&&p.then){p.catch(function(){if(finished||a.__linStop)return;done(false)})}
+  }
+
+  function playSeq(files,u){
+   fire(u,'start');
+   var i=0,stopped=false;
+   function next(){
+    if(i>=files.length){fire(u,'end');return}
+    var a=new Audio(),f=files[i++],settled=false;
+    active=a;
+    function clearG(){if(a.__g){clearTimeout(a.__g);a.__g=0}}
+    function ok(){if(settled)return;settled=true;clearG();if(active===a)active=null;try{a.onended=null;a.onerror=null;a.pause()}catch(e){}next()}
+    function bad(){if(settled)return;settled=true;clearG();if(active===a)active=null;fire(u,'end')}
+    a.onended=ok;a.onerror=bad;a.preload='auto';
+    try{a.setAttribute('playsinline','');a.src=f}catch(e){bad();return}
+    a.onloadedmetadata=function(){clearG();var d=0;try{d=a.duration}catch(e){}a.__g=setTimeout(ok,(isFinite(d)&&d>0)?d*1000+1200:9000)};
+    a.__g=setTimeout(ok,9000);
+    var p=null;try{p=a.play()}catch(e){bad();return}
+    if(p&&p.then)p.catch(function(){if(a.__linStop||settled)return;bad()});
+   }
+   next();
+  }
+
+  function silent(u){
+   fire(u,'start');
+   var n=(u.text||'').length||1;
+   setTimeout(function(){fire(u,'end')},Math.min(6000,Math.max(350,n*130)));
+  }
+
+  function nativeFallback(u){
+   if(!NativeSS||!NativeUtt){silent(u);return}
+   var started=false,finished=false,nu=null;
+   function fin(){if(finished)return;finished=true;fire(u,'end')}
+   try{
+    nu=new NativeUtt(u.text);
+    nu.lang=u.lang||'zh-CN';nu.rate=u.rate||1;nu.pitch=u.pitch||1;nu.volume=u.volume==null?1:u.volume;
+    if(u.voice){try{nu.voice=u.voice}catch(e){}}
+    nu.onstart=function(){if(finished)return;started=true;fire(u,'start')};
+    nu.onend=function(){fin()};
+    nu.onerror=function(){fin()};
+    NativeSS.speak(nu)
+   }catch(e){silent(u);return}
+   setTimeout(function(){
+    if(!started&&!finished){finished=true;try{NativeSS.cancel()}catch(e){}fire(u,'start');setTimeout(function(){fire(u,'end')},150)}
+   },900);
+  }
+
+  function speak(u){
+   stopAudio();
+   if(!u){return}
+   var file=MAP[u.text];
+   if(!file&&u.text){
+    var parts=(u.text.match(/[^。！？；，、]+[。！？；，、]*/g)||[]).filter(function(x){return x&&x.trim()});
+    if(parts.length>1){
+     var fs=[];
+     for(var i2=0;i2<parts.length;i2++){var f2=MAP[parts[i2]];if(!f2){fs=null;break}fs.push(f2)}
+     if(fs){log('hit-seq',u.text);playSeq(fs,u);return}
+    }
+   }
+   if(!file){file=fuzzy(u.text);if(file)log('hit-fuzzy',u.text)}
+   log(file?'hit':'miss',u.text);
+   if(file){playFile(file,u,function(){nativeFallback(u)});return}
+   nativeFallback(u);
+  }
+
+  var FAKE=[{name:'Xiaoxiao Lin Audio',lang:'zh-CN',localService:false,default:true,voiceURI:'lin-audio'}];
+  var synth={
+   speaking:false,pending:false,paused:false,onvoiceschanged:null,
+   getVoices:function(){return FAKE.slice()},
+   speak:function(u){synth.pending=true;speak(u);synth.pending=false},
+   cancel:function(){stopAudio();if(NativeSS){try{NativeSS.cancel()}catch(e){}}},
+   pause:function(){synth.paused=true;if(active){try{active.pause()}catch(e){}}},
+   resume:function(){synth.paused=false;if(active){try{active.play()}catch(e){}}},
+   addEventListener:function(){},removeEventListener:function(){},dispatchEvent:function(){return true}
   };
-  ss.cancel=function(){clearActive();try{nativeCancel.call(ss)}catch(e){}};
-  ss.__linShim2=true;
+  var replaced=false;
+  try{Object.defineProperty(window,'speechSynthesis',{value:synth,configurable:true,writable:true})}catch(e){}
+  try{replaced=(window.speechSynthesis===synth)}catch(e){}
+  if(!replaced){try{window.speechSynthesis=synth;replaced=(window.speechSynthesis===synth)}catch(e){}}
+  if(!replaced&&NativeSS){
+   try{
+    NativeSS.speak=function(u){synth.speak(u)};
+    NativeSS.cancel=function(){synth.cancel()};
+    NativeSS.getVoices=function(){return FAKE.slice()};
+    NativeSS.pause=function(){synth.pause()};
+    NativeSS.resume=function(){synth.resume()};
+    replaced=true;
+   }catch(e){}
+  }
+
+  /* ---------- 手势内预热媒体许可（临时元素，不干扰播放元素） ---------- */
+  try{
+   var unlocked=false;
+   function unlock(){
+    if(unlocked)return;unlocked=true;
+    try{var a=new Audio("data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==");a.play&&a.play().then(function(){try{a.pause()}catch(e){}}).catch(function(){})}catch(e){}
+   }
+   document.addEventListener('pointerdown',unlock,true);
+   document.addEventListener('touchstart',unlock,true);
+   document.addEventListener('click',unlock,true);
+  }catch(e){}
  }catch(e){}
 })();
 </script></head><body><main><header><a class="back" href="../math-home/">‹ 学习门户</a><b>七年级 · 五章综合压轴</b><button id="sound">试听林老师</button></header><div id="soundstatus" class="status" aria-live="polite"></div><div id="screen"></div></main><div class="pace" id="pace" hidden><button id="stop">停止讲解</button><button id="repeat">重听本段</button><button id="advance" class="primary">下一步</button></div><script>

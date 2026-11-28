@@ -1,39 +1,175 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>林老师 · 第三章同步训练</title><style>
 *{box-sizing:border-box}body{margin:0;background:#0a1522;color:#e9f2f6;font:15px system-ui,-apple-system,sans-serif}main{max-width:520px;margin:auto;padding:12px 12px 30px}header{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:12px}button,input{font:inherit}button{background:#233e50;color:#f2f5f5;border:1px solid #4b6675;border-radius:12px;padding:11px;cursor:pointer;min-height:44px}button:disabled{opacity:.45}h1{font-size:27px;margin:8px 0}h2{font-size:20px;margin:8px 0}p{line-height:1.65;margin:8px 0}.gold{color:#f4cf89}.panel{background:#142634;border:1px solid #304c5c;border-radius:17px;padding:12px;margin:10px 0}.hero{display:flex;align-items:center;gap:14px}.hero img{width:98px;height:130px;object-fit:cover;border-radius:15px}.guide{display:flex;align-items:center;gap:10px}.guide img{width:55px;height:68px;object-fit:cover;border-radius:10px}.guide p{flex:1;margin:0}.primary{background:#e5c078;color:#142634;font-weight:750;border:0}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{display:flex;flex-direction:column;text-align:left;gap:6px;background:#152b39;padding:10px;min-width:0}.card svg{width:100%;height:auto;display:block}.small{font-size:12px;color:#acc2ce}svg{display:block;width:100%;height:auto;max-height:38dvh}.scene{border:1px solid #385466;border-radius:16px;overflow:hidden;background:#0d202d}.row{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.row button{flex:1}.options{display:grid;gap:7px}.options button{font-size:18px;text-align:center;overflow-wrap:anywhere}.good{color:#a0eab3}.bad{color:#ffc4a4}.progress{height:5px;background:#314d5a;border-radius:6px;overflow:hidden}.progress b{display:block;height:100%;background:#e5c078}.overlay{position:fixed;inset:0;background:#09131deb;display:grid;place-items:center;padding:12px;z-index:3}.scratch{width:min(100%,480px);background:#183140;border:1px solid #55717f;border-radius:16px;padding:12px}.scratch canvas{width:100%;height:auto;background:#f6f4eb;border-radius:8px;touch-action:none}.scratch textarea{width:100%;background:#0a1d29;color:white;border:1px solid #637d89;border-radius:8px;padding:10px;font:17px system-ui}input{width:100%;padding:12px;border:1px solid #5c7988;background:#0a1c27;color:white;border-radius:9px}.done{color:#a1dfaa}
-</style><script>/* audio-shim-v2 */
+</style><script>/* audio-shim-v3 */
 (function(){
  try{
-  var MAP={"每袋价格还不知道，用字母 a 表示。先看一袋零食。":"audio/0.mp3","每袋价格还不知道，用字母 a 表示。先看一袋零食。。正确结果是。a":"audio/1.mp3","把四袋排在一起，每一袋都是 a 元。四个 a 相加可以写成乘法。":"audio/2.mp3","把四袋排在一起，每一袋都是 a 元。四个 a 相加可以写成乘法。。正确结果是。4a":"audio/3.mp3","包装费只有一次，不是每袋都收三元。把三元加到四袋总价上。":"audio/4.mp3","包装费只有一次，不是每袋都收三元。把三元加到四袋总价上。。正确结果是。4a+3":"audio/5.mp3","每袋 b 元，买 6 袋另付 2 元，列式。":"audio/6.mp3","参考结果是。6b+2":"audio/7.mp3","先取两份 a，再另外放三个单位。加三只发生一次。":"audio/8.mp3","先取两份 a，再另外放三个单位。加三只发生一次。。正确结果是。2a+3":"audio/9.mp3","这次先把 a 和三个单位装进同一盒。复制整个盒子两次。":"audio/10.mp3","这次先把 a 和三个单位装进同一盒。复制整个盒子两次。。正确结果是。2(a+3)":"audio/11.mp3","括号告诉我们先计算盒子内部。两种结构不是同一个意思。":"audio/12.mp3","括号告诉我们先计算盒子内部。两种结构不是同一个意思。。正确结果是。14":"audio/13.mp3","x 与 5 的和的三倍怎样写？":"audio/14.mp3","参考结果是。3(x+5)":"audio/15.mp3","原价可以看成十个相同的小份。八折就是保留其中八份。":"audio/16.mp3","原价可以看成十个相同的小份。八折就是保留其中八份。。正确结果是。0.8":"audio/17.mp3","把每份价格合起来，八折后的价格等于原价乘零点八。":"audio/18.mp3","把每份价格合起来，八折后的价格等于原价乘零点八。。正确结果是。0.8a":"audio/19.mp3","再减十元，只在折后金额上减一次。":"audio/20.mp3","再减十元，只在折后金额上减一次。。正确结果是。0.8a−10":"audio/21.mp3","原价 b 元，打七折再减5元。":"audio/22.mp3","参考结果是。0.7b−5":"audio/23.mp3","每秒跑 v 米。第一秒是一段 v，三秒就是三段相同的路程。":"audio/24.mp3","每秒跑 v 米。第一秒是一段 v，三秒就是三段相同的路程。。正确结果是。3v":"audio/25.mp3","第二段跑两秒，速度不变，再接两段 v。":"audio/26.mp3","第二段跑两秒，速度不变，再接两段 v。。正确结果是。2v":"audio/27.mp3","将两段路程接起来，共五秒。速度乘总时间。":"audio/28.mp3","将两段路程接起来，共五秒。速度乘总时间。。正确结果是。5v":"audio/29.mp3","速度 u 米每秒，跑 7 秒，路程多少？":"audio/30.mp3","参考结果是。7u":"audio/31.mp3","十位上的一个单位代表十。比如三在十位上表示三十。":"audio/32.mp3","十位上的一个单位代表十。比如三在十位上表示三十。。正确结果是。10a":"audio/33.mp3","个位数字直接表示几个一。它不需要乘十。":"audio/34.mp3","个位数字直接表示几个一。它不需要乘十。。正确结果是。b":"audio/35.mp3","把十位和个位的数值相加。不是把字母相乘。":"audio/36.mp3","把十位和个位的数值相加。不是把字母相乘。。正确结果是。10a+b":"audio/37.mp3","百位 x、十位 y、个位 z，表示三位数。":"audio/38.mp3","参考结果是。100x+10y+z":"audio/39.mp3","先拼一个正方形，猫咪搬来四根小棒。":"audio/40.mp3","先拼一个正方形，猫咪搬来四根小棒。。正确结果是。4":"audio/41.mp3","第二个正方形与第一个共用一条边。只需要再搬三根。":"audio/42.mp3","第二个正方形与第一个共用一条边。只需要再搬三根。。正确结果是。7":"audio/43.mp3","第一个用四根，之后每增加一个就增加三根。可以写成四加三乘 n 减一。":"audio/44.mp3","第一个用四根，之后每增加一个就增加三根。可以写成四加三乘 n 减一。。正确结果是。4+3(n−1)":"audio/45.mp3","一排相邻正方形有10个，需要几根小棒？":"audio/46.mp3","参考结果是。31":"audio/47.mp3","先看上下两条边，它们一样长，都是 a 米。":"audio/48.mp3","先看上下两条边，它们一样长，都是 a 米。。正确结果是。2a":"audio/49.mp3","左右两条边都是 b 米。四条边首尾相接就是周长。":"audio/50.mp3","左右两条边都是 b 米。四条边首尾相接就是周长。。正确结果是。2(a+b)":"audio/51.mp3","面积不是沿边走，而是铺满内部。每行 a 个单位，共 b 行。":"audio/52.mp3","面积不是沿边走，而是铺满内部。每行 a 个单位，共 b 行。。正确结果是。ab":"audio/53.mp3","长 8 米宽 3 米，周长是多少米？":"audio/54.mp3","参考结果是。22":"audio/55.mp3","原式里有三个 x，再加两个单位。把每个 x 换成五。":"audio/56.mp3","原式里有三个 x，再加两个单位。把每个 x 换成五。。正确结果是。3×5+2":"audio/57.mp3","先乘法。三个五合起来是十五。":"audio/58.mp3","先乘法。三个五合起来是十五。。正确结果是。15":"audio/59.mp3","再把剩下两个单位放进来。":"audio/60.mp3","再把剩下两个单位放进来。。正确结果是。17":"audio/61.mp3","当 x=4 时，求 5x+3。":"audio/62.mp3","参考结果是。23":"audio/63.mp3","负二要作为一个整体代入。平方的是整个负二，所以先加括号。":"audio/64.mp3","负二要作为一个整体代入。平方的是整个负二，所以先加括号。。正确结果是。(−2)²−3×(−2)":"audio/65.mp3","两个负二相乘得到正四，三个负二相加得到负六。":"audio/66.mp3","两个负二相乘得到正四，三个负二相加得到负六。。正确结果是。−6":"audio/67.mp3","原式是四减负六。减负数就是向右移动六格。":"audio/68.mp3","原式是四减负六。减负数就是向右移动六格。。正确结果是。10":"audio/69.mp3","当 x=−3 时，求 x²−2x。":"audio/70.mp3","参考结果是。15":"audio/71.mp3","先替换两个字母。括号是一个整体，先处理内部。":"audio/72.mp3","先替换两个字母。括号是一个整体，先处理内部。。正确结果是。5":"audio/73.mp3","把整个五平方，意思是五乘五，不是五乘二。":"audio/74.mp3","把整个五平方，意思是五乘五，不是五乘二。。正确结果是。25":"audio/75.mp3","最后乘外面的二。两个五乘五的方块合起来。":"audio/76.mp3","最后乘外面的二。两个五乘五的方块合起来。。正确结果是。50":"audio/77.mp3","a=1、b=3，求 3(a+b)²。":"audio/78.mp3","参考结果是。48":"audio/79.mp3","不必分别知道 x 和 y。把 x 加两个 y 放在同一个盒子里。":"audio/80.mp3","不必分别知道 x 和 y。把 x 加两个 y 放在同一个盒子里。。正确结果是。3":"audio/81.mp3","原式有两个相同的盒子。每盒是三，先把两盒合起来。":"audio/82.mp3","原式有两个相同的盒子。每盒是三，先把两盒合起来。。正确结果是。6":"audio/83.mp3","再取走一个单位。":"audio/84.mp3","再取走一个单位。。正确结果是。5":"audio/85.mp3","已知 m+n=4，求 3(m+n)+2。":"audio/86.mp3","参考结果是。14":"audio/87.mp3","八元固定支付，额外里程每公里两元。用 x 表示额外公里数。":"audio/88.mp3","八元固定支付，额外里程每公里两元。用 x 表示额外公里数。。正确结果是。2x":"audio/89.mp3","把固定起步价和额外费用加在一起。":"audio/90.mp3","把固定起步价和额外费用加在一起。。正确结果是。8+2x":"audio/91.mp3","如果额外走六公里，把 x 换成六。先乘，再加八。":"audio/92.mp3","如果额外走六公里，把 x 换成六。先乘，再加八。。正确结果是。20":"audio/93.mp3","若起步价10元，额外每公里3元，额外走4公里，总价多少？":"audio/94.mp3","正确。你可以继续。":"audio/95.mp3","没关系，慢慢想，不用着急。":"audio/96.mp3","声音开启":"audio/97.mp3"};
-  var ss=window.speechSynthesis;
-  if(!ss||ss.__linShim2)return;
-  var nativeSpeak=ss.speak, nativeCancel=ss.cancel;
-  var active=null;
-  function clearActive(){
-   if(active){var a=active;active=null;
-    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}}
-  }
-  function fire(fn,ev){try{if(typeof fn==='function')fn(ev||{})}catch(e){}}
-  ss.speak=function(u){
-   try{nativeCancel.call(ss)}catch(e){}
-   clearActive();
-   if(!u){nativeSpeak.call(ss,u);return}
-   var file=MAP[u.text];
-   if(!file){nativeSpeak.call(ss,u);return}
-   var a=new Audio(file);active=a;
-   var fallbackDone=false;
-   function fallback(){
-    if(fallbackDone)return;fallbackDone=true;
-    if(active===a)active=null;
-    nativeSpeak.call(ss,u);
+  if(window.__linTTSv3)return;window.__linTTSv3=true;
+  var MAP={"每袋价格还不知道，用字母 a 表示。先看一袋零食。":"audio/0.mp3","每袋价格还不知道，用字母 a 表示。先看一袋零食。。正确结果是。a":"audio/1.mp3","把四袋排在一起，每一袋都是 a 元。四个 a 相加可以写成乘法。":"audio/2.mp3","把四袋排在一起，每一袋都是 a 元。四个 a 相加可以写成乘法。。正确结果是。4a":"audio/3.mp3","包装费只有一次，不是每袋都收三元。把三元加到四袋总价上。":"audio/4.mp3","包装费只有一次，不是每袋都收三元。把三元加到四袋总价上。。正确结果是。4a+3":"audio/5.mp3","每袋 b 元，买 6 袋另付 2 元，列式。":"audio/6.mp3","参考结果是。6b+2":"audio/7.mp3","先取两份 a，再另外放三个单位。加三只发生一次。":"audio/8.mp3","先取两份 a，再另外放三个单位。加三只发生一次。。正确结果是。2a+3":"audio/9.mp3","这次先把 a 和三个单位装进同一盒。复制整个盒子两次。":"audio/10.mp3","这次先把 a 和三个单位装进同一盒。复制整个盒子两次。。正确结果是。2(a+3)":"audio/11.mp3","括号告诉我们先计算盒子内部。两种结构不是同一个意思。":"audio/12.mp3","括号告诉我们先计算盒子内部。两种结构不是同一个意思。。正确结果是。14":"audio/13.mp3","x 与 5 的和的三倍怎样写？":"audio/14.mp3","参考结果是。3(x+5)":"audio/15.mp3","原价可以看成十个相同的小份。八折就是保留其中八份。":"audio/16.mp3","原价可以看成十个相同的小份。八折就是保留其中八份。。正确结果是。0.8":"audio/17.mp3","把每份价格合起来，八折后的价格等于原价乘零点八。":"audio/18.mp3","把每份价格合起来，八折后的价格等于原价乘零点八。。正确结果是。0.8a":"audio/19.mp3","再减十元，只在折后金额上减一次。":"audio/20.mp3","再减十元，只在折后金额上减一次。。正确结果是。0.8a−10":"audio/21.mp3","原价 b 元，打七折再减5元。":"audio/22.mp3","参考结果是。0.7b−5":"audio/23.mp3","每秒跑 v 米。第一秒是一段 v，三秒就是三段相同的路程。":"audio/24.mp3","每秒跑 v 米。第一秒是一段 v，三秒就是三段相同的路程。。正确结果是。3v":"audio/25.mp3","第二段跑两秒，速度不变，再接两段 v。":"audio/26.mp3","第二段跑两秒，速度不变，再接两段 v。。正确结果是。2v":"audio/27.mp3","将两段路程接起来，共五秒。速度乘总时间。":"audio/28.mp3","将两段路程接起来，共五秒。速度乘总时间。。正确结果是。5v":"audio/29.mp3","速度 u 米每秒，跑 7 秒，路程多少？":"audio/30.mp3","参考结果是。7u":"audio/31.mp3","十位上的一个单位代表十。比如三在十位上表示三十。":"audio/32.mp3","十位上的一个单位代表十。比如三在十位上表示三十。。正确结果是。10a":"audio/33.mp3","个位数字直接表示几个一。它不需要乘十。":"audio/34.mp3","个位数字直接表示几个一。它不需要乘十。。正确结果是。b":"audio/35.mp3","把十位和个位的数值相加。不是把字母相乘。":"audio/36.mp3","把十位和个位的数值相加。不是把字母相乘。。正确结果是。10a+b":"audio/37.mp3","百位 x、十位 y、个位 z，表示三位数。":"audio/38.mp3","参考结果是。100x+10y+z":"audio/39.mp3","先拼一个正方形，猫咪搬来四根小棒。":"audio/40.mp3","先拼一个正方形，猫咪搬来四根小棒。。正确结果是。4":"audio/41.mp3","第二个正方形与第一个共用一条边。只需要再搬三根。":"audio/42.mp3","第二个正方形与第一个共用一条边。只需要再搬三根。。正确结果是。7":"audio/43.mp3","第一个用四根，之后每增加一个就增加三根。可以写成四加三乘 n 减一。":"audio/44.mp3","第一个用四根，之后每增加一个就增加三根。可以写成四加三乘 n 减一。。正确结果是。4+3(n−1)":"audio/45.mp3","一排相邻正方形有10个，需要几根小棒？":"audio/46.mp3","参考结果是。31":"audio/47.mp3","先看上下两条边，它们一样长，都是 a 米。":"audio/48.mp3","先看上下两条边，它们一样长，都是 a 米。。正确结果是。2a":"audio/49.mp3","左右两条边都是 b 米。四条边首尾相接就是周长。":"audio/50.mp3","左右两条边都是 b 米。四条边首尾相接就是周长。。正确结果是。2(a+b)":"audio/51.mp3","面积不是沿边走，而是铺满内部。每行 a 个单位，共 b 行。":"audio/52.mp3","面积不是沿边走，而是铺满内部。每行 a 个单位，共 b 行。。正确结果是。ab":"audio/53.mp3","长 8 米宽 3 米，周长是多少米？":"audio/54.mp3","参考结果是。22":"audio/55.mp3","原式里有三个 x，再加两个单位。把每个 x 换成五。":"audio/56.mp3","原式里有三个 x，再加两个单位。把每个 x 换成五。。正确结果是。3×5+2":"audio/57.mp3","先乘法。三个五合起来是十五。":"audio/58.mp3","先乘法。三个五合起来是十五。。正确结果是。15":"audio/59.mp3","再把剩下两个单位放进来。":"audio/60.mp3","再把剩下两个单位放进来。。正确结果是。17":"audio/61.mp3","当 x=4 时，求 5x+3。":"audio/62.mp3","参考结果是。23":"audio/63.mp3","负二要作为一个整体代入。平方的是整个负二，所以先加括号。":"audio/64.mp3","负二要作为一个整体代入。平方的是整个负二，所以先加括号。。正确结果是。(−2)²−3×(−2)":"audio/65.mp3","两个负二相乘得到正四，三个负二相加得到负六。":"audio/66.mp3","两个负二相乘得到正四，三个负二相加得到负六。。正确结果是。−6":"audio/67.mp3","原式是四减负六。减负数就是向右移动六格。":"audio/68.mp3","原式是四减负六。减负数就是向右移动六格。。正确结果是。10":"audio/69.mp3","当 x=−3 时，求 x²−2x。":"audio/70.mp3","参考结果是。15":"audio/71.mp3","先替换两个字母。括号是一个整体，先处理内部。":"audio/72.mp3","先替换两个字母。括号是一个整体，先处理内部。。正确结果是。5":"audio/73.mp3","把整个五平方，意思是五乘五，不是五乘二。":"audio/74.mp3","把整个五平方，意思是五乘五，不是五乘二。。正确结果是。25":"audio/75.mp3","最后乘外面的二。两个五乘五的方块合起来。":"audio/76.mp3","最后乘外面的二。两个五乘五的方块合起来。。正确结果是。50":"audio/77.mp3","a=1、b=3，求 3(a+b)²。":"audio/78.mp3","参考结果是。48":"audio/79.mp3","不必分别知道 x 和 y。把 x 加两个 y 放在同一个盒子里。":"audio/80.mp3","不必分别知道 x 和 y。把 x 加两个 y 放在同一个盒子里。。正确结果是。3":"audio/81.mp3","原式有两个相同的盒子。每盒是三，先把两盒合起来。":"audio/82.mp3","原式有两个相同的盒子。每盒是三，先把两盒合起来。。正确结果是。6":"audio/83.mp3","再取走一个单位。":"audio/84.mp3","再取走一个单位。。正确结果是。5":"audio/85.mp3","已知 m+n=4，求 3(m+n)+2。":"audio/86.mp3","参考结果是。14":"audio/87.mp3","八元固定支付，额外里程每公里两元。用 x 表示额外公里数。":"audio/88.mp3","八元固定支付，额外里程每公里两元。用 x 表示额外公里数。。正确结果是。2x":"audio/89.mp3","把固定起步价和额外费用加在一起。":"audio/90.mp3","把固定起步价和额外费用加在一起。。正确结果是。8+2x":"audio/91.mp3","如果额外走六公里，把 x 换成六。先乘，再加八。":"audio/92.mp3","如果额外走六公里，把 x 换成六。先乘，再加八。。正确结果是。20":"audio/93.mp3","若起步价10元，额外每公里3元，额外走4公里，总价多少？":"audio/94.mp3","正确。你可以继续。":"audio/95.mp3","没关系，慢慢想，不用着急。":"audio/96.mp3","声音开启":"audio/97.mp3","不用着急。":"audio/x0.mp3","你可以继续。":"audio/x1.mp3","慢慢想，":"audio/x2.mp3","正确。":"audio/x3.mp3","没关系，":"audio/x4.mp3"};
+  var NORM={};
+  (function(){
+   for(var k in MAP){
+    var n=k.replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+    if(n&&!NORM[n])NORM[n]=MAP[k];
    }
-   a.onended=function(){if(active!==a)return;active=null;fire(u.onend)};
-   a.onerror=function(){if(active===a)fallback()};
-   var p=a.play();
-   if(p&&p.then)p.then(function(){fire(u.onstart)}).catch(fallback);
-   else fire(u.onstart);
+  })();
+  function fuzzy(t){
+   var n=(t||'').replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+   if(!n)return null;
+   if(NORM[n])return NORM[n];
+   if(n.length>=3){
+    for(var k in NORM){if(k.length>n.length&&k.indexOf(n)===0)return NORM[k]}
+   }
+   return null;
+  }
+  var NativeSS=window.speechSynthesis||null;
+  var NativeUtt=window.SpeechSynthesisUtterance||null;
+
+  /* ---------- utterance ---------- */
+  function LinUtt(text){
+   var self=this;
+   this.text=text==null?'':String(text);
+   this.lang='zh-CN';this.rate=1;this.pitch=1;this.volume=1;this.voice=null;
+   this.onstart=null;this.onend=null;this.onerror=null;this.onpause=null;this.onresume=null;this.onboundary=null;this.onmark=null;
+   this.__ev={};
+   this.addEventListener=function(t,f){if(!f)return;(self.__ev[t]=self.__ev[t]||[]).push(f)};
+   this.removeEventListener=function(t,f){var a=self.__ev[t]||[],i=a.indexOf(f);if(i>=0)a.splice(i,1)};
+   this.dispatchEvent=function(ev){var t=ev&&ev.type,h=self['on'+t];if(typeof h==='function'){try{h.call(self,ev)}catch(e){}}var a=self.__ev[t]||[];for(var i=0;i<a.length;i++){try{a[i].call(self,ev)}catch(e){}}return true};
+  }
+  try{window.SpeechSynthesisUtterance=LinUtt}catch(e){}
+
+  /* ---------- audio element (reused) ---------- */
+  var el=null,active=null,token=0;
+  function audioEl(){if(!el){el=new Audio();el.preload='auto';try{el.setAttribute('playsinline','');el.setAttribute('webkit-playsinline','')}catch(e){}}return el}
+  function stopAudio(){token++;if(active){var a=active;active=null;try{a.__linStop=1;a.onended=null;a.onerror=null;a.pause()}catch(e){}}}
+  function log(a,b,c){try{window.__linLog&&window.__linLog(a,b,c)}catch(e){}}
+  function fire(u,t){log('fire:'+t,u.text);try{u.dispatchEvent({type:t,charIndex:0,elapsedTime:0,name:''})}catch(e){}}
+
+  function playFile(file,u,onFail){
+   var a=new Audio(),finished=false,guard=0;
+   active=a;
+   function clearGuard(){if(guard){clearTimeout(guard);guard=0}}
+   function done(ok){
+    if(finished)return;finished=true;clearGuard();
+    if(active===a)active=null;
+    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}
+    log(ok?'audio-end':'audio-fail',u.text);
+    if(ok){fire(u,'end')}else{onFail&&onFail()}
+   }
+   a.onended=function(){done(true)};
+   a.onerror=function(){done(false)};
+   a.preload='auto';
+   try{a.setAttribute('playsinline','');a.setAttribute('webkit-playsinline','')}catch(e){}
+   try{a.src=file}catch(e){done(false);return}
+   a.onloadedmetadata=function(){
+    clearGuard();
+    var d=0;try{d=a.duration}catch(e){}
+    guard=setTimeout(function(){done(true)},(isFinite(d)&&d>0)?d*1000+1200:9000);
+   };
+   guard=setTimeout(function(){done(true)},9000);
+   fire(u,'start');
+   var p=null;
+   try{p=a.play()}catch(e){done(false);return}
+   if(p&&p.then){p.catch(function(){if(finished||a.__linStop)return;done(false)})}
+  }
+
+  function playSeq(files,u){
+   fire(u,'start');
+   var i=0,stopped=false;
+   function next(){
+    if(i>=files.length){fire(u,'end');return}
+    var a=new Audio(),f=files[i++],settled=false;
+    active=a;
+    function clearG(){if(a.__g){clearTimeout(a.__g);a.__g=0}}
+    function ok(){if(settled)return;settled=true;clearG();if(active===a)active=null;try{a.onended=null;a.onerror=null;a.pause()}catch(e){}next()}
+    function bad(){if(settled)return;settled=true;clearG();if(active===a)active=null;fire(u,'end')}
+    a.onended=ok;a.onerror=bad;a.preload='auto';
+    try{a.setAttribute('playsinline','');a.src=f}catch(e){bad();return}
+    a.onloadedmetadata=function(){clearG();var d=0;try{d=a.duration}catch(e){}a.__g=setTimeout(ok,(isFinite(d)&&d>0)?d*1000+1200:9000)};
+    a.__g=setTimeout(ok,9000);
+    var p=null;try{p=a.play()}catch(e){bad();return}
+    if(p&&p.then)p.catch(function(){if(a.__linStop||settled)return;bad()});
+   }
+   next();
+  }
+
+  function silent(u){
+   fire(u,'start');
+   var n=(u.text||'').length||1;
+   setTimeout(function(){fire(u,'end')},Math.min(6000,Math.max(350,n*130)));
+  }
+
+  function nativeFallback(u){
+   if(!NativeSS||!NativeUtt){silent(u);return}
+   var started=false,finished=false,nu=null;
+   function fin(){if(finished)return;finished=true;fire(u,'end')}
+   try{
+    nu=new NativeUtt(u.text);
+    nu.lang=u.lang||'zh-CN';nu.rate=u.rate||1;nu.pitch=u.pitch||1;nu.volume=u.volume==null?1:u.volume;
+    if(u.voice){try{nu.voice=u.voice}catch(e){}}
+    nu.onstart=function(){if(finished)return;started=true;fire(u,'start')};
+    nu.onend=function(){fin()};
+    nu.onerror=function(){fin()};
+    NativeSS.speak(nu)
+   }catch(e){silent(u);return}
+   setTimeout(function(){
+    if(!started&&!finished){finished=true;try{NativeSS.cancel()}catch(e){}fire(u,'start');setTimeout(function(){fire(u,'end')},150)}
+   },900);
+  }
+
+  function speak(u){
+   stopAudio();
+   if(!u){return}
+   var file=MAP[u.text];
+   if(!file&&u.text){
+    var parts=(u.text.match(/[^。！？；，、]+[。！？；，、]*/g)||[]).filter(function(x){return x&&x.trim()});
+    if(parts.length>1){
+     var fs=[];
+     for(var i2=0;i2<parts.length;i2++){var f2=MAP[parts[i2]];if(!f2){fs=null;break}fs.push(f2)}
+     if(fs){log('hit-seq',u.text);playSeq(fs,u);return}
+    }
+   }
+   if(!file){file=fuzzy(u.text);if(file)log('hit-fuzzy',u.text)}
+   log(file?'hit':'miss',u.text);
+   if(file){playFile(file,u,function(){nativeFallback(u)});return}
+   nativeFallback(u);
+  }
+
+  var FAKE=[{name:'Xiaoxiao Lin Audio',lang:'zh-CN',localService:false,default:true,voiceURI:'lin-audio'}];
+  var synth={
+   speaking:false,pending:false,paused:false,onvoiceschanged:null,
+   getVoices:function(){return FAKE.slice()},
+   speak:function(u){synth.pending=true;speak(u);synth.pending=false},
+   cancel:function(){stopAudio();if(NativeSS){try{NativeSS.cancel()}catch(e){}}},
+   pause:function(){synth.paused=true;if(active){try{active.pause()}catch(e){}}},
+   resume:function(){synth.paused=false;if(active){try{active.play()}catch(e){}}},
+   addEventListener:function(){},removeEventListener:function(){},dispatchEvent:function(){return true}
   };
-  ss.cancel=function(){clearActive();try{nativeCancel.call(ss)}catch(e){}};
-  ss.__linShim2=true;
+  var replaced=false;
+  try{Object.defineProperty(window,'speechSynthesis',{value:synth,configurable:true,writable:true})}catch(e){}
+  try{replaced=(window.speechSynthesis===synth)}catch(e){}
+  if(!replaced){try{window.speechSynthesis=synth;replaced=(window.speechSynthesis===synth)}catch(e){}}
+  if(!replaced&&NativeSS){
+   try{
+    NativeSS.speak=function(u){synth.speak(u)};
+    NativeSS.cancel=function(){synth.cancel()};
+    NativeSS.getVoices=function(){return FAKE.slice()};
+    NativeSS.pause=function(){synth.pause()};
+    NativeSS.resume=function(){synth.resume()};
+    replaced=true;
+   }catch(e){}
+  }
+
+  /* ---------- 手势内预热媒体许可（临时元素，不干扰播放元素） ---------- */
+  try{
+   var unlocked=false;
+   function unlock(){
+    if(unlocked)return;unlocked=true;
+    try{var a=new Audio("data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==");a.play&&a.play().then(function(){try{a.pause()}catch(e){}}).catch(function(){})}catch(e){}
+   }
+   document.addEventListener('pointerdown',unlock,true);
+   document.addEventListener('touchstart',unlock,true);
+   document.addEventListener('click',unlock,true);
+  }catch(e){}
  }catch(e){}
 })();
 </script></head><body><main><header><button id="home">‹ 选课</button><b id="top">第三章 · 代数式</b><button id="voice">语音 开</button></header><section id="screen"></section></main><script>"use strict";

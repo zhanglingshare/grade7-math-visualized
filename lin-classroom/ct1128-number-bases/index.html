@@ -1,37 +1,173 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>林老师 · 进位制实验室</title><link rel="stylesheet" href="../ct1128-foundations/style.css"><script>/* audio-shim-v2 */
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>林老师 · 进位制实验室</title><link rel="stylesheet" href="../ct1128-foundations/style.css"><script>/* audio-shim-v3 */
 (function(){
  try{
-  var MAP={"用百块、":"audio/0.mp3","十进制365怎样展开？。":"audio/1.mp3","同样数字在不同位置表示不同量。":"audio/2.mp3","3乘以10的平方加6乘以10的1次方加5乘以10的0次方。":"audio/3.mp3","再想一步，":"audio/4.mp3","答对了。":"audio/5.mp3","百位、":"audio/6.mp3","482中8的位值？":"audio/7.mp3","705中7的位值？":"audio/8.mp3","123个位权重？":"audio/9.mp3","这一轮结束了。":"audio/10.mp3","四个开关看成8、":"audio/11.mp3","二进制1011转十进制。。":"audio/12.mp3","从右向左权重1、":"audio/13.mp3","2、":"audio/14.mp3","4、":"audio/15.mp3","8。":"audio/16.mp3","1乘以2的立方加0乘以2的平方加1乘以2的1次方加1乘以2的0次方。":"audio/17.mp3","开启的位贡献对应权重。":"audio/18.mp3","二进制1101转十进制？":"audio/19.mp3","二进制10010转十进制？":"audio/20.mp3","二进制111转十进制？":"audio/21.mp3","连续除以2记录余数；":"audio/22.mp3","把89转成二进制。。":"audio/23.mp3","先选64剩25，":"audio/24.mp3","再选16剩9，":"audio/25.mp3","再选8剩1。":"audio/26.mp3","89等于64加16加8加1。":"audio/27.mp3","从64到1依次检查位权。":"audio/28.mp3","十进制13转二进制？":"audio/29.mp3","十进制6转二进制？":"audio/30.mp3","十进制17转二进制？":"audio/31.mp3","连续除以8取余；":"audio/32.mp3","把十进制89转成八进制。。":"audio/33.mp3","八进制逢八进一，":"audio/34.mp3","权重1、":"audio/35.mp3","8、":"audio/36.mp3","64。":"audio/37.mp3","89等于1乘以64加3乘以8加1。":"audio/38.mp3","位权系数依次1、":"audio/39.mp3","八进制17转十进制？":"audio/40.mp3","十进制20转八进制？":"audio/41.mp3","八进制100转十进制？":"audio/42.mp3","转十进制18加7等于25；":"audio/43.mp3","计算二进制10010加111。。":"audio/44.mp3","本位写0，":"audio/45.mp3","向高位进1。":"audio/46.mp3","1加1等于左括号，":"audio/47.mp3","10，":"audio/48.mp3","右括号₂。":"audio/49.mp3","对齐个位从右向左加。":"audio/50.mp3","二进制11加1？":"audio/51.mp3","二进制101加11？":"audio/52.mp3","二进制110加10？":"audio/53.mp3","十进制先求68；":"audio/54.mp3","45和23分别转二进制相加，":"audio/55.mp3","再转十进制。。":"audio/56.mp3","45等于32加8加4加1，":"audio/57.mp3","23等于16加4加2加1。":"audio/58.mp3","45等于左括号，":"audio/59.mp3","101101，":"audio/60.mp3","右括号₂；":"audio/61.mp3","23等于左括号，":"audio/62.mp3","010111，":"audio/63.mp3","逐位相加得1000100。":"audio/64.mp3","十进制7加9的和转二进制？":"audio/65.mp3","二进制1010加1010的十进制值？":"audio/66.mp3","二进制111加1的十进制值？":"audio/67.mp3","全部转分钟105加35等于140；":"audio/68.mp3","1小时45分加35分。。":"audio/69.mp3","满60分向小时进1。":"audio/70.mp3","45加35等于80分；":"audio/71.mp3","80等于60加20。":"audio/72.mp3","原有1小时加进位1小时。":"audio/73.mp3","35分正40分剩余分钟？":"audio/74.mp3","50分正25分进位小时？":"audio/75.mp3","1小时20分正50分合计分钟？":"audio/76.mp3","画树状图，":"audio/77.mp3","每个开关有0和1两状态，":"audio/78.mp3","3个开关有几种组合？。":"audio/79.mp3","每多一个开关组合数翻倍。":"audio/80.mp3","2乘以2等于4。":"audio/81.mp3","三个开关可表示0至7。":"audio/82.mp3","4个开关几种状态？":"audio/83.mp3","2个开关最多表示非负整数？":"audio/84.mp3","5个开关几种状态？":"audio/85.mp3"};
-  var ss=window.speechSynthesis;
-  if(!ss||ss.__linShim2)return;
-  var nativeSpeak=ss.speak, nativeCancel=ss.cancel;
-  var active=null;
-  function clearActive(){
-   if(active){var a=active;active=null;
-    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}}
-  }
-  function fire(fn,ev){try{if(typeof fn==='function')fn(ev||{})}catch(e){}}
-  ss.speak=function(u){
-   try{nativeCancel.call(ss)}catch(e){}
-   clearActive();
-   if(!u){nativeSpeak.call(ss,u);return}
-   var file=MAP[u.text];
-   if(!file){nativeSpeak.call(ss,u);return}
-   var a=new Audio(file);active=a;
-   var fallbackDone=false;
-   function fallback(){
-    if(fallbackDone)return;fallbackDone=true;
-    if(active===a)active=null;
-    nativeSpeak.call(ss,u);
+  if(window.__linTTSv3)return;window.__linTTSv3=true;
+  var MAP={"用百块、":"audio/0.mp3","十进制365怎样展开？。":"audio/1.mp3","同样数字在不同位置表示不同量。":"audio/2.mp3","3乘以10的平方加6乘以10的1次方加5乘以10的0次方。":"audio/3.mp3","再想一步，":"audio/4.mp3","答对了。":"audio/5.mp3","百位、":"audio/6.mp3","482中8的位值？":"audio/7.mp3","705中7的位值？":"audio/8.mp3","123个位权重？":"audio/9.mp3","这一轮结束了。":"audio/10.mp3","四个开关看成8、":"audio/11.mp3","二进制1011转十进制。。":"audio/12.mp3","从右向左权重1、":"audio/13.mp3","2、":"audio/14.mp3","4、":"audio/15.mp3","8。":"audio/16.mp3","1乘以2的立方加0乘以2的平方加1乘以2的1次方加1乘以2的0次方。":"audio/17.mp3","开启的位贡献对应权重。":"audio/18.mp3","二进制1101转十进制？":"audio/19.mp3","二进制10010转十进制？":"audio/20.mp3","二进制111转十进制？":"audio/21.mp3","连续除以2记录余数；":"audio/22.mp3","把89转成二进制。。":"audio/23.mp3","先选64剩25，":"audio/24.mp3","再选16剩9，":"audio/25.mp3","再选8剩1。":"audio/26.mp3","89等于64加16加8加1。":"audio/27.mp3","从64到1依次检查位权。":"audio/28.mp3","十进制13转二进制？":"audio/29.mp3","十进制6转二进制？":"audio/30.mp3","十进制17转二进制？":"audio/31.mp3","连续除以8取余；":"audio/32.mp3","把十进制89转成八进制。。":"audio/33.mp3","八进制逢八进一，":"audio/34.mp3","权重1、":"audio/35.mp3","8、":"audio/36.mp3","64。":"audio/37.mp3","89等于1乘以64加3乘以8加1。":"audio/38.mp3","位权系数依次1、":"audio/39.mp3","八进制17转十进制？":"audio/40.mp3","十进制20转八进制？":"audio/41.mp3","八进制100转十进制？":"audio/42.mp3","转十进制18加7等于25；":"audio/43.mp3","计算二进制10010加111。。":"audio/44.mp3","本位写0，":"audio/45.mp3","向高位进1。":"audio/46.mp3","1加1等于左括号，":"audio/47.mp3","10，":"audio/48.mp3","右括号₂。":"audio/49.mp3","对齐个位从右向左加。":"audio/50.mp3","二进制11加1？":"audio/51.mp3","二进制101加11？":"audio/52.mp3","二进制110加10？":"audio/53.mp3","十进制先求68；":"audio/54.mp3","45和23分别转二进制相加，":"audio/55.mp3","再转十进制。。":"audio/56.mp3","45等于32加8加4加1，":"audio/57.mp3","23等于16加4加2加1。":"audio/58.mp3","45等于左括号，":"audio/59.mp3","101101，":"audio/60.mp3","右括号₂；":"audio/61.mp3","23等于左括号，":"audio/62.mp3","010111，":"audio/63.mp3","逐位相加得1000100。":"audio/64.mp3","十进制7加9的和转二进制？":"audio/65.mp3","二进制1010加1010的十进制值？":"audio/66.mp3","二进制111加1的十进制值？":"audio/67.mp3","全部转分钟105加35等于140；":"audio/68.mp3","1小时45分加35分。。":"audio/69.mp3","满60分向小时进1。":"audio/70.mp3","45加35等于80分；":"audio/71.mp3","80等于60加20。":"audio/72.mp3","原有1小时加进位1小时。":"audio/73.mp3","35分正40分剩余分钟？":"audio/74.mp3","50分正25分进位小时？":"audio/75.mp3","1小时20分正50分合计分钟？":"audio/76.mp3","画树状图，":"audio/77.mp3","每个开关有0和1两状态，":"audio/78.mp3","3个开关有几种组合？。":"audio/79.mp3","每多一个开关组合数翻倍。":"audio/80.mp3","2乘以2等于4。":"audio/81.mp3","三个开关可表示0至7。":"audio/82.mp3","4个开关几种状态？":"audio/83.mp3","2个开关最多表示非负整数？":"audio/84.mp3","5个开关几种状态？":"audio/85.mp3","先检查符号和等量关系。":"audio/x0.mp3","可以先和我一起算一遍，":"audio/x1.mp3","哪些还要练。":"audio/x2.mp3","峰玮，":"audio/x3.mp3","我们已经把这道题完整做完了。":"audio/x4.mp3","或者挑战一道新题。":"audio/x5.mp3","猜中了。":"audio/x6.mp3","看看哪些题是第一次独立答对，":"audio/x7.mp3"};
+  var NORM={};
+  (function(){
+   for(var k in MAP){
+    var n=k.replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+    if(n&&!NORM[n])NORM[n]=MAP[k];
    }
-   a.onended=function(){if(active!==a)return;active=null;fire(u.onend)};
-   a.onerror=function(){if(active===a)fallback()};
-   var p=a.play();
-   if(p&&p.then)p.then(function(){fire(u.onstart)}).catch(fallback);
-   else fire(u.onstart);
+  })();
+  function fuzzy(t){
+   var n=(t||'').replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+   if(!n)return null;
+   if(NORM[n])return NORM[n];
+   if(n.length>=3){
+    for(var k in NORM){if(k.length>n.length&&k.indexOf(n)===0)return NORM[k]}
+   }
+   return null;
+  }
+  var NativeSS=window.speechSynthesis||null;
+  var NativeUtt=window.SpeechSynthesisUtterance||null;
+
+  /* ---------- utterance ---------- */
+  function LinUtt(text){
+   var self=this;
+   this.text=text==null?'':String(text);
+   this.lang='zh-CN';this.rate=1;this.pitch=1;this.volume=1;this.voice=null;
+   this.onstart=null;this.onend=null;this.onerror=null;this.onpause=null;this.onresume=null;this.onboundary=null;this.onmark=null;
+   this.__ev={};
+   this.addEventListener=function(t,f){if(!f)return;(self.__ev[t]=self.__ev[t]||[]).push(f)};
+   this.removeEventListener=function(t,f){var a=self.__ev[t]||[],i=a.indexOf(f);if(i>=0)a.splice(i,1)};
+   this.dispatchEvent=function(ev){var t=ev&&ev.type,h=self['on'+t];if(typeof h==='function'){try{h.call(self,ev)}catch(e){}}var a=self.__ev[t]||[];for(var i=0;i<a.length;i++){try{a[i].call(self,ev)}catch(e){}}return true};
+  }
+  try{window.SpeechSynthesisUtterance=LinUtt}catch(e){}
+
+  /* ---------- audio element (reused) ---------- */
+  var el=null,active=null,token=0;
+  function audioEl(){if(!el){el=new Audio();el.preload='auto';try{el.setAttribute('playsinline','');el.setAttribute('webkit-playsinline','')}catch(e){}}return el}
+  function stopAudio(){token++;if(active){var a=active;active=null;try{a.__linStop=1;a.onended=null;a.onerror=null;a.pause()}catch(e){}}}
+  function log(a,b,c){try{window.__linLog&&window.__linLog(a,b,c)}catch(e){}}
+  function fire(u,t){log('fire:'+t,u.text);try{u.dispatchEvent({type:t,charIndex:0,elapsedTime:0,name:''})}catch(e){}}
+
+  function playFile(file,u,onFail){
+   var a=new Audio(),finished=false,guard=0;
+   active=a;
+   function clearGuard(){if(guard){clearTimeout(guard);guard=0}}
+   function done(ok){
+    if(finished)return;finished=true;clearGuard();
+    if(active===a)active=null;
+    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}
+    log(ok?'audio-end':'audio-fail',u.text);
+    if(ok){fire(u,'end')}else{onFail&&onFail()}
+   }
+   a.onended=function(){done(true)};
+   a.onerror=function(){done(false)};
+   a.preload='auto';
+   try{a.setAttribute('playsinline','');a.setAttribute('webkit-playsinline','')}catch(e){}
+   try{a.src=file}catch(e){done(false);return}
+   a.onloadedmetadata=function(){
+    clearGuard();
+    var d=0;try{d=a.duration}catch(e){}
+    guard=setTimeout(function(){done(true)},(isFinite(d)&&d>0)?d*1000+1200:9000);
+   };
+   guard=setTimeout(function(){done(true)},9000);
+   fire(u,'start');
+   var p=null;
+   try{p=a.play()}catch(e){done(false);return}
+   if(p&&p.then){p.catch(function(){if(finished||a.__linStop)return;done(false)})}
+  }
+
+  function playSeq(files,u){
+   fire(u,'start');
+   var i=0,stopped=false;
+   function next(){
+    if(i>=files.length){fire(u,'end');return}
+    var a=new Audio(),f=files[i++],settled=false;
+    active=a;
+    function clearG(){if(a.__g){clearTimeout(a.__g);a.__g=0}}
+    function ok(){if(settled)return;settled=true;clearG();if(active===a)active=null;try{a.onended=null;a.onerror=null;a.pause()}catch(e){}next()}
+    function bad(){if(settled)return;settled=true;clearG();if(active===a)active=null;fire(u,'end')}
+    a.onended=ok;a.onerror=bad;a.preload='auto';
+    try{a.setAttribute('playsinline','');a.src=f}catch(e){bad();return}
+    a.onloadedmetadata=function(){clearG();var d=0;try{d=a.duration}catch(e){}a.__g=setTimeout(ok,(isFinite(d)&&d>0)?d*1000+1200:9000)};
+    a.__g=setTimeout(ok,9000);
+    var p=null;try{p=a.play()}catch(e){bad();return}
+    if(p&&p.then)p.catch(function(){if(a.__linStop||settled)return;bad()});
+   }
+   next();
+  }
+
+  function silent(u){
+   fire(u,'start');
+   var n=(u.text||'').length||1;
+   setTimeout(function(){fire(u,'end')},Math.min(6000,Math.max(350,n*130)));
+  }
+
+  function nativeFallback(u){
+   if(!NativeSS||!NativeUtt){silent(u);return}
+   var started=false,finished=false,nu=null;
+   function fin(){if(finished)return;finished=true;fire(u,'end')}
+   try{
+    nu=new NativeUtt(u.text);
+    nu.lang=u.lang||'zh-CN';nu.rate=u.rate||1;nu.pitch=u.pitch||1;nu.volume=u.volume==null?1:u.volume;
+    if(u.voice){try{nu.voice=u.voice}catch(e){}}
+    nu.onstart=function(){if(finished)return;started=true;fire(u,'start')};
+    nu.onend=function(){fin()};
+    nu.onerror=function(){fin()};
+    NativeSS.speak(nu)
+   }catch(e){silent(u);return}
+   setTimeout(function(){
+    if(!started&&!finished){finished=true;try{NativeSS.cancel()}catch(e){}fire(u,'start');setTimeout(function(){fire(u,'end')},150)}
+   },900);
+  }
+
+  function speak(u){
+   stopAudio();
+   if(!u){return}
+   var file=MAP[u.text];
+   if(!file&&u.text){
+    var parts=(u.text.match(/[^。！？；，、]+[。！？；，、]*/g)||[]).filter(function(x){return x&&x.trim()});
+    if(parts.length>1){
+     var fs=[];
+     for(var i2=0;i2<parts.length;i2++){var f2=MAP[parts[i2]];if(!f2){fs=null;break}fs.push(f2)}
+     if(fs){log('hit-seq',u.text);playSeq(fs,u);return}
+    }
+   }
+   if(!file){file=fuzzy(u.text);if(file)log('hit-fuzzy',u.text)}
+   log(file?'hit':'miss',u.text);
+   if(file){playFile(file,u,function(){nativeFallback(u)});return}
+   nativeFallback(u);
+  }
+
+  var FAKE=[{name:'Xiaoxiao Lin Audio',lang:'zh-CN',localService:false,default:true,voiceURI:'lin-audio'}];
+  var synth={
+   speaking:false,pending:false,paused:false,onvoiceschanged:null,
+   getVoices:function(){return FAKE.slice()},
+   speak:function(u){synth.pending=true;speak(u);synth.pending=false},
+   cancel:function(){stopAudio();if(NativeSS){try{NativeSS.cancel()}catch(e){}}},
+   pause:function(){synth.paused=true;if(active){try{active.pause()}catch(e){}}},
+   resume:function(){synth.paused=false;if(active){try{active.play()}catch(e){}}},
+   addEventListener:function(){},removeEventListener:function(){},dispatchEvent:function(){return true}
   };
-  ss.cancel=function(){clearActive();try{nativeCancel.call(ss)}catch(e){}};
-  ss.__linShim2=true;
+  var replaced=false;
+  try{Object.defineProperty(window,'speechSynthesis',{value:synth,configurable:true,writable:true})}catch(e){}
+  try{replaced=(window.speechSynthesis===synth)}catch(e){}
+  if(!replaced){try{window.speechSynthesis=synth;replaced=(window.speechSynthesis===synth)}catch(e){}}
+  if(!replaced&&NativeSS){
+   try{
+    NativeSS.speak=function(u){synth.speak(u)};
+    NativeSS.cancel=function(){synth.cancel()};
+    NativeSS.getVoices=function(){return FAKE.slice()};
+    NativeSS.pause=function(){synth.pause()};
+    NativeSS.resume=function(){synth.resume()};
+    replaced=true;
+   }catch(e){}
+  }
+
+  /* ---------- 手势内预热媒体许可（临时元素，不干扰播放元素） ---------- */
+  try{
+   var unlocked=false;
+   function unlock(){
+    if(unlocked)return;unlocked=true;
+    try{var a=new Audio("data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==");a.play&&a.play().then(function(){try{a.pause()}catch(e){}}).catch(function(){})}catch(e){}
+   }
+   document.addEventListener('pointerdown',unlock,true);
+   document.addEventListener('touchstart',unlock,true);
+   document.addEventListener('click',unlock,true);
+  }catch(e){}
  }catch(e){}
 })();
 </script></head><body><main><header><button id="home">‹ 选课</button><b id="head">综合与实践 · 进位制</b><button id="voice">语音 开</button></header><section id="screen"></section></main><script>window.COURSE={"title":"综合与实践 · 进位制","hero":"数字文明实验室","pages":"63—67","key":"ct1128-number-bases-v1","data":[{"sec":"综合与实践","pages":"63—64","title":"十进制位值","kind":"c1","v":["base",10,"365"],"problem":"十进制365怎样展开？","read":"十进制365怎样展开？","steps":[["","同样数字在不同位置表示不同量。","6所在数位的值？","60","3×10²+6×10¹+5×10⁰。"],["","百位、十位、个位权重不同。","总值？","365","300+60+5=365。"]],"board":[["3×10²+6×10¹+5×10⁰"],["300+60+5=365"]],"expert":"用百块、十条、单格积木表示；十个低位换一个高位。","expertRows":["用百块、十条、单格积木表示","十个低位换一个高位"],"quiz":[["482中8的位值？","482中8的位值？","80",["base",10,"482"],"正确结果是 80。同样数字在不同位置表示不同量。"],["705中7的位值？","705中7的位值？","700",["base",10,"705"],"正确结果是 700。同样数字在不同位置表示不同量。"],["123个位权重？","123个位权重？","1",["base",10,"123"],"正确结果是 1。同样数字在不同位置表示不同量。"]]},{"sec":"综合与实践","pages":"64","title":"二进制开关","kind":"c2","v":["base",2,"1011"],"problem":"二进制1011转十进制。","read":"二进制1011转十进制。","steps":[["","从右向左权重1、2、4、8。","最左位1的权重？","8","1×2³+0×2²+1×2¹+1×2⁰。"],["","开启的位贡献对应权重。","十进制值？","11","8+0+2+1=11。"]],"board":[["1×2³+0×2²+1×2¹+1×2⁰"],["8+0+2+1=11"]],"expert":"四个开关看成8、4、2、1砝码；选8、2、1组成11。","expertRows":["四个开关看成8、4、2、1砝码","选8、2、1组成11"],"quiz":[["二进制1101转十进制？","二进制1101转十进制？","13",["base",2,"1101"],"正确结果是 13。从右向左权重1、2、4、8。"],["二进制10010转十进制？","二进制10010转十进制？","18",["base",2,"10010"],"正确结果是 18。从右向左权重1、2、4、8。"],["二进制111转十进制？","二进制111转十进制？","7",["base",2,"111"],"正确结果是 7。从右向左权重1、2、4、8。"]]},{"sec":"综合与实践","pages":"64","title":"十进制转二进制","kind":"c3","v":["base",10,"89"],"problem":"把89转成二进制。","read":"把89转成二进制。","steps":[["","先选64剩25，再选16剩9，再选8剩1。","不超过89最大的2的幂？","64","89=64+16+8+1。"],["","从64到1依次检查位权。","二进制数字串？","1011001","64 32 16 8 4 2 1；1 0 1 1 0 0 1。"]],"board":[["89=64+16+8+1"],["64 32 16 8 4 2 1","1 0 1 1 0 0 1"]],"expert":"连续除以2记录余数；倒序排列余数也得到1011001。","expertRows":["连续除以2记录余数","倒序排列余数也得到1011001"],"quiz":[["十进制13转二进制？","十进制13转二进制？","1101",["base",10,"13"],"正确结果是 1101。先选64剩25，再选16剩9，再选8剩1。"],["十进制6转二进制？","十进制6转二进制？","110",["base",10,"6"],"正确结果是 110。先选64剩25，再选16剩9，再选8剩1。"],["十进制17转二进制？","十进制17转二进制？","10001",["base",10,"17"],"正确结果是 10001。先选64剩25，再选16剩9，再选8剩1。"]]},{"sec":"综合与实践","pages":"64","title":"八进制转换","kind":"c4","v":["base",10,"89"],"problem":"把十进制89转成八进制。","read":"把十进制89转成八进制。","steps":[["","八进制逢八进一，权重1、8、64。","最大的不超过89的八进制位权？","64","89=1×64+3×8+1。"],["","位权系数依次1、3、1。","八进制数字串？","131","(131)₈=64+24+1=89。"]],"board":[["89=1×64+3×8+1"],["(131)₈=64+24+1=89"]],"expert":"连续除以8取余；89÷8商11余1，再除8商1余3。","expertRows":["连续除以8取余","89÷8商11余1，再除8商1余3"],"quiz":[["八进制17转十进制？","八进制17转十进制？","15",["base",8,"17"],"正确结果是 15。八进制逢八进一，权重1、8、64。"],["十进制20转八进制？","十进制20转八进制？","24",["base",10,"20"],"正确结果是 24。八进制逢八进一，权重1、8、64。"],["八进制100转十进制？","八进制100转十进制？","64",["base",8,"100"],"正确结果是 64。八进制逢八进一，权重1、8、64。"]]},{"sec":"综合与实践","pages":"65","title":"二进制加法","kind":"c5","v":["baseadd","10010","111"],"problem":"计算二进制10010+111。","read":"计算二进制10010+111。","steps":[["","本位写0，向高位进1。","二进制1+1数字串？","10","1+1=(10)₂。"],["","对齐个位从右向左加。","最终二进制数字串？","11001","10010；+00111；=11001。"]],"board":[["1+1=(10)₂"],["10010","+00111","=11001"]],"expert":"转十进制18+7=25；25=16+8+1，转回11001。","expertRows":["转十进制18+7=25","25=16+8+1，转回11001"],"quiz":[["二进制11+1？","二进制11+1？","100",["baseadd","11","1"],"正确结果是 100。本位写0，向高位进1。"],["二进制101+11？","二进制101+11？","1000",["baseadd","101","11"],"正确结果是 1000。本位写0，向高位进1。"],["二进制110+10？","二进制110+10？","1000",["baseadd","110","10"],"正确结果是 1000。本位写0，向高位进1。"]]},{"sec":"综合与实践","pages":"65—66","title":"双轨验算","kind":"c6","v":["baseadd","101101","10111"],"problem":"45和23分别转二进制相加，再转十进制。","read":"45和23分别转二进制相加，再转十进制。","steps":[["","45=32+8+4+1，23=16+4+2+1。","45的二进制数字串？","101101","45=(101101)₂；23=(010111)₂。"],["","逐位相加得1000100。","和的十进制值？","68","(1000100)₂=64+4=68；45+23=68。"]],"board":[["45=(101101)₂","23=(010111)₂"],["(1000100)₂=64+4=68","45+23=68"]],"expert":"十进制先求68；拆为64+4，再转二进制。","expertRows":["十进制先求68","拆为64+4，再转二进制"],"quiz":[["十进制7+9的和转二进制？","十进制7+9的和转二进制？","10000",["baseadd","111","1001"],"正确结果是 10000。45=32+8+4+1，23=16+4+2+1。"],["二进制1010+1010的十进制值？","二进制1010+1010的十进制值？","20",["baseadd","1010","1010"],"正确结果是 20。45=32+8+4+1，23=16+4+2+1。"],["二进制111+1的十进制值？","二进制111+1的十进制值？","8",["baseadd","111","1"],"正确结果是 8。45=32+8+4+1，23=16+4+2+1。"]]},{"sec":"综合与实践","pages":"65—66","title":"六十进制：时间","kind":"c7","v":["baseadd","1:45","0:35"],"problem":"1小时45分加35分。","read":"1小时45分加35分。","steps":[["","满60分向小时进1。","分钟部分相加？","80","45+35=80分；80=60+20。"],["","原有1小时加进位1小时。","最后剩余分钟？","20","2小时20分。"]],"board":[["45+35=80分","80=60+20"],["2小时20分"]],"expert":"全部转分钟105+35=140；除60商2余20。","expertRows":["全部转分钟105+35=140","除60商2余20"],"quiz":[["35分+40分剩余分钟？","35分+40分剩余分钟？","15",["baseadd","0:35","0:40"],"正确结果是 15。满60分向小时进1。"],["50分+25分进位小时？","50分+25分进位小时？","1",["baseadd","0:50","0:25"],"正确结果是 1。满60分向小时进1。"],["1小时20分+50分合计分钟？","1小时20分+50分合计分钟？","130",["baseadd","1:20","0:50"],"正确结果是 130。满60分向小时进1。"]]},{"sec":"综合与实践","pages":"66—67","title":"三位开关：信息编码","kind":"c8","v":["base",2,"111"],"problem":"每个开关有0和1两状态，3个开关有几种组合？","read":"每个开关有0和1两状态，3个开关有几种组合？","steps":[["","每多一个开关组合数翻倍。","2个开关状态数？","4","2×2=4。"],["","三个开关可表示0至7。","3个开关状态数？","8","2³=8；000、001、010、011、100、101、110、111。"]],"board":[["2×2=4"],["2³=8","000、001、010、011、100、101、110、111"]],"expert":"画树状图，每层分0与1；第三层有8个叶子。","expertRows":["画树状图，每层分0与1","第三层有8个叶子"],"quiz":[["4个开关几种状态？","4个开关几种状态？","16",["base",2,"1111"],"正确结果是 16。每多一个开关组合数翻倍。"],["2个开关最多表示非负整数？","2个开关最多表示非负整数？","3",["base",2,"11"],"正确结果是 3。每多一个开关组合数翻倍。"],["5个开关几种状态？","5个开关几种状态？","32",["base",2,"11111"],"正确结果是 32。每多一个开关组合数翻倍。"]]}]};</script><script src="../ct1128-foundations/runtime.js"></script></body></html>

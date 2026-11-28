@@ -1,39 +1,175 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>林老师 · 动点动角压轴实验室</title><style>
 *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:#0b1826;color:#eaf3f8;font:15px system-ui,-apple-system,"PingFang SC",sans-serif}main{max-width:1120px;margin:auto;padding:14px 14px 90px}header,.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}header{justify-content:space-between;margin-bottom:12px}a,button{color:inherit}button,a.back{font:inherit;border:1px solid #486477;background:#203a4b;border-radius:10px;padding:10px 14px;min-height:44px;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4;cursor:default}button.primary{background:#f3cc83;color:#172533;font-weight:800;border-color:#f3cc83}button.active{background:#316759;border-color:#8bd4b8}a.back{text-decoration:none}h1{font-size:clamp(25px,5vw,38px);margin:5px 0}h2{font-size:21px;margin:8px 0}p{line-height:1.65;margin:7px 0}.muted,small{color:#adc2d1}.gold{color:#f3cc83}.hero,.panel,.teacher,.problem{border:1px solid #3d5769;border-radius:16px;background:#142b3a;padding:14px;margin:10px 0}.hero{background:linear-gradient(120deg,#29465a,#182a3b);display:flex;align-items:center;gap:14px}.hero img{width:94px;height:116px;object-fit:cover;object-position:50% 15%;border-radius:12px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:10px}.card{text-align:left;display:flex;flex-direction:column;gap:5px;padding:12px}.card svg{height:88px;width:100%}.card b{font-size:17px}.workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;align-items:start}.scene{background:#102435;border:1px solid #36586d;border-radius:16px;overflow:hidden}.scene svg{width:100%;display:block;max-height:480px}.tools{padding:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.tools input{flex:1;min-width:130px;accent-color:#f3cc83}.teacher{display:flex;gap:12px;align-items:center}.teacher img{width:66px;height:84px;object-fit:cover;object-position:50% 15%;border-radius:12px}.teacher div{flex:1}.focus{border-left:3px solid #f3cc83;padding:8px 12px;background:#233d4b;color:#f3d69f;border-radius:6px;margin:8px 0}.ans{display:flex;gap:8px;margin:12px 0}.ans input{flex:1;min-width:0;border:1px solid #648297;border-radius:9px;padding:12px;font:inherit;color:inherit;background:#102435}.keys{display:flex;gap:5px;flex-wrap:wrap}.keys button{min-height:38px;padding:6px 10px}.feedback{min-height:30px;color:#f4c78b}.good{color:#a2e4bd}.bad{color:#ffb6a2}.pace{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#142735f5;border-top:1px solid #496173;padding:9px 10px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:8px;align-items:center}[hidden]{display:none!important}.step{border-left:3px solid #6cb8ce;padding:8px 12px;background:#1c3546;margin:8px 0;border-radius:6px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stats div{background:#20394a;padding:10px;border-radius:10px}.stats b{display:block;font-size:24px;color:#f3cc83}textarea{width:100%;min-height:80px;background:#102435;color:inherit;border:1px solid #567184;border-radius:8px;padding:10px;font:inherit}canvas{width:100%;height:170px;background:#f2f5f6;border-radius:8px;touch-action:none}.status{font-size:12px;color:#a9c6d8}.legend{display:flex;gap:12px;flex-wrap:wrap;padding:8px 12px}.legend span{font-weight:700}@media(max-width:760px){.workspace{grid-template-columns:1fr;gap:4px}.hero img{width:72px;height:92px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:9px}.card b{font-size:14px}.card svg{height:72px}.tools button{padding:8px 10px}.scene svg{max-height:340px}.pace button{padding:9px 10px}}@media(max-width:350px){.cards{grid-template-columns:1fr}}
-</style><script>/* audio-shim-v2 */
+</style><script>/* audio-shim-v3 */
 (function(){
  try{
-  var MAP={"先观察运动条件。":"audio/0.mp3","相遇前后，":"audio/1.mp3","先找运动规则变化的时刻。":"audio/2.mp3","这一段，":"audio/3.mp3","换个角度，":"audio/4.mp3","全部解为2、4秒。":"audio/5.mp3","运动规律改变的时刻有哪些？":"audio/6.mp3","还不对。":"audio/7.mp3","参考解法：运动规则变化时必须重新列式。":"audio/8.mp3","从0到6秒：分别算出本段起点、终点的带符号差左括号，":"audio/9.mp3","参考解法：起点差 负12，":"audio/10.mp3","在0至6秒内，":"audio/11.mp3","参考解法：本段差为 4乘以t减去12；":"audio/12.mp3","现在请汇总各段的解，":"audio/13.mp3","至少有一个时刻不符合条件。":"audio/14.mp3","全部找齐了。":"audio/15.mp3","从0到7秒：分别算出本段起点、终点的带符号差左括号，":"audio/16.mp3","参考解法：起点差 负18，":"audio/17.mp3","在0至7秒内，":"audio/18.mp3","参考解法：本段差为 6乘以t减去18；":"audio/19.mp3","全部解为2、3分之14秒。":"audio/20.mp3","参考解法：起点差 负20，":"audio/21.mp3","参考解法：本段差为 6乘以t减去20；":"audio/22.mp3","先找Q启动时刻，":"audio/23.mp3","全部解为3分之8、3分之16秒。":"audio/24.mp3","从0到2秒：分别算出本段起点、终点的带符号差左括号，":"audio/25.mp3","参考解法：起点差 负10，":"audio/26.mp3","在0至2秒内，":"audio/27.mp3","参考解法：本段差为 2乘以t减去10；":"audio/28.mp3","从2到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/29.mp3","参考解法：起点差 负6，":"audio/30.mp3","在2至12秒内，":"audio/31.mp3","参考解法：本段差为 3乘以t减去12；":"audio/32.mp3","全部解为3、2分之11秒。":"audio/33.mp3","从0到3秒：分别算出本段起点、终点的带符号差左括号，":"audio/34.mp3","参考解法：起点差 负14，":"audio/35.mp3","在0至3秒内，":"audio/36.mp3","参考解法：本段差为 3乘以t减去14；":"audio/37.mp3","从3到14秒：分别算出本段起点、终点的带符号差左括号，":"audio/38.mp3","参考解法：起点差 负5，":"audio/39.mp3","在3至14秒内，":"audio/40.mp3","参考解法：本段差为 4乘以t减去17；":"audio/41.mp3","全部解为5分之13、5分之19秒。":"audio/42.mp3","参考解法：本段差为 5乘以t减去16；":"audio/43.mp3","折返改变速度方向，":"audio/44.mp3","全部解为2分之5、2分之7、5、7秒。":"audio/45.mp3","从0到4秒：分别算出本段起点、终点的带符号差左括号，":"audio/46.mp3","在0至4秒内，":"audio/47.mp3","从4到8秒：分别算出本段起点、终点的带符号差左括号，":"audio/48.mp3","参考解法：起点差 4，":"audio/49.mp3","在4至8秒内，":"audio/50.mp3","参考解法：本段差为 负2乘以t加12；":"audio/51.mp3","全部解为3、5分之21秒。":"audio/52.mp3","参考解法：本段差为 5乘以t减去18；":"audio/53.mp3","从6到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/54.mp3","参考解法：起点差 12，":"audio/55.mp3","在6至12秒内，":"audio/56.mp3","参考解法：本段差为 t的相反数加18；":"audio/57.mp3","全部解为5分之16、5分之24、3分之16、8秒。":"audio/58.mp3","从0到5秒：分别算出本段起点、终点的带符号差左括号，":"audio/59.mp3","在0至5秒内，":"audio/60.mp3","参考解法：本段差为 5乘以t减去20；":"audio/61.mp3","从5到10秒：分别算出本段起点、终点的带符号差左括号，":"audio/62.mp3","参考解法：起点差 5，":"audio/63.mp3","在5至10秒内，":"audio/64.mp3","参考解法：本段差为 负3乘以t加20；":"audio/65.mp3","转向时刻是分段边界，":"audio/66.mp3","全部解为3、4秒。":"audio/67.mp3","参考解法：本段差为 4乘以t减去14；":"audio/68.mp3","参考解法：起点差 6，":"audio/69.mp3","参考解法：本段差为 6；":"audio/70.mp3","全部解为5分之14秒。":"audio/71.mp3","从4到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/72.mp3","参考解法：起点差 2，":"audio/73.mp3","在4至12秒内，":"audio/74.mp3","参考解法：本段差为 2；":"audio/75.mp3","全部解为4分之17、4分之23、7秒。":"audio/76.mp3","参考解法：本段差为 4乘以t减去20；":"audio/77.mp3","参考解法：本段差为 t的相反数加10；":"audio/78.mp3","先求中点坐标，":"audio/79.mp3","全部解为6、10秒。":"audio/80.mp3","从0到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/81.mp3","在0至12秒内，":"audio/82.mp3","参考解法：本段差为 左括号，":"audio/83.mp3","全部解为4、6秒。":"audio/84.mp3","从0到10秒：分别算出本段起点、终点的带符号差左括号，":"audio/85.mp3","参考解法：起点差 10，":"audio/86.mp3","在0至10秒内，":"audio/87.mp3","参考解法：本段差为 负2乘以t加10；":"audio/88.mp3","全部解为3分之20、12秒。":"audio/89.mp3","从0到14秒：分别算出本段起点、终点的带符号差左括号，":"audio/90.mp3","参考解法：起点差 14，":"audio/91.mp3","在0至14秒内，":"audio/92.mp3","倍数作用于带符号的坐标，":"audio/93.mp3","全部解为4分之33、4分之39秒。":"audio/94.mp3","参考解法：起点差 负36，":"audio/95.mp3","参考解法：本段差为 4乘以t减去36；":"audio/96.mp3","全部解为7分之30、7分之34秒。":"audio/97.mp3","参考解法：起点差 负32，":"audio/98.mp3","参考解法：本段差为 7乘以t减去32；":"audio/99.mp3","全部解为5分之36、5分之44秒。":"audio/100.mp3","参考解法：起点差 负40，":"audio/101.mp3","参考解法：本段差为 5乘以t减去40；":"audio/102.mp3","交错前后，":"audio/103.mp3","全部解为7分之110、7分之150秒。":"audio/104.mp3","从0到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/105.mp3","参考解法：起点差 负130，":"audio/106.mp3","在0至24秒内，":"audio/107.mp3","参考解法：本段差为 7乘以t减去130；":"audio/108.mp3","全部解为2分之29、18秒。":"audio/109.mp3","从0到20秒：分别算出本段起点、终点的带符号差左括号，":"audio/110.mp3","在0至20秒内，":"audio/111.mp3","参考解法：本段差为 8乘以t减去130；":"audio/112.mp3","全部解为15、20秒。":"audio/113.mp3","从0到22秒：分别算出本段起点、终点的带符号差左括号，":"audio/114.mp3","参考解法：起点差 负140，":"audio/115.mp3","在0至22秒内，":"audio/116.mp3","参考解法：本段差为 8乘以t减去140；":"audio/117.mp3","等待阶段O乘以Q角度不变，":"audio/118.mp3","全部解为2分之35、4分之85秒。":"audio/119.mp3","参考解法：本段差为 5乘以t减去140；":"audio/120.mp3","从5到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/121.mp3","参考解法：起点差 负115，":"audio/122.mp3","在5至24秒内，":"audio/123.mp3","参考解法：本段差为 8乘以t减去155；":"audio/124.mp3","全部解为9分之136、9分之176秒。":"audio/125.mp3","从4到22秒：分别算出本段起点、终点的带符号差左括号，":"audio/126.mp3","参考解法：起点差 负120，":"audio/127.mp3","在4至22秒内，":"audio/128.mp3","参考解法：本段差为 9乘以t减去156；":"audio/129.mp3","全部解为8分之143、8分之173秒。":"audio/130.mp3","从6到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/131.mp3","参考解法：起点差 负110，":"audio/132.mp3","在6至24秒内，":"audio/133.mp3","参考解法：本段差为 8乘以t减去158；":"audio/134.mp3","折返点前后分别列式，":"audio/135.mp3","全部解为7、7分之61、3分之59、3分之71秒。":"audio/136.mp3","参考解法：起点差 负55，":"audio/137.mp3","参考解法：本段差为 7乘以t减去55；":"audio/138.mp3","从12到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/139.mp3","参考解法：起点差 29，":"audio/140.mp3","在12至24秒内，":"audio/141.mp3","参考解法：本段差为 负3乘以t加65；":"audio/142.mp3","全部解为7分之60、7分之80、3分之40、20秒。":"audio/143.mp3","参考解法：起点差 负70，":"audio/144.mp3","参考解法：本段差为 7乘以t减去70；":"audio/145.mp3","参考解法：本段差为 负3乘以t加50；":"audio/146.mp3","全部解为10、7分之90、3分之50、3分之70秒。":"audio/147.mp3","参考解法：起点差 负80，":"audio/148.mp3","参考解法：本段差为 7乘以t减去80；":"audio/149.mp3","从14到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/150.mp3","参考解法：起点差 18，":"audio/151.mp3","在14至24秒内，":"audio/152.mp3","参考解法：本段差为 负3乘以t加60；":"audio/153.mp3","同一半平面内，":"audio/154.mp3","全部解为9分之140、20秒。":"audio/155.mp3","参考解法：起点差 80，":"audio/156.mp3","全部解为4分之65、4分之95秒。":"audio/157.mp3","参考解法：本段差为 负4乘以t加80；":"audio/158.mp3","全部解为5分之83、5分之107秒。":"audio/159.mp3","参考解法：起点差 95，":"audio/160.mp3","参考解法：本段差为 负5乘以t加95；":"audio/161.mp3","先表示O乘以S的方向角，":"audio/162.mp3","全部解为15、2分之35秒。":"audio/163.mp3","全部解为4分之65、20秒。":"audio/164.mp3","参考解法：起点差 负145，":"audio/165.mp3","参考解法：本段差为 8乘以t减去145；":"audio/166.mp3","全部解为3分之50、9分之170秒。":"audio/167.mp3","参考解法：起点差 负160，":"audio/168.mp3","参考解法：本段差为 9乘以t减去160；":"audio/169.mp3","三段运动规则都不同，":"audio/170.mp3","全部解为4分之15、4分之25、10、4分之75秒。":"audio/171.mp3","参考解法：本段差为 8乘以t减去40；":"audio/172.mp3","从7到17秒：分别算出本段起点、终点的带符号差左括号，":"audio/173.mp3","参考解法：起点差 16，":"audio/174.mp3","在7至17秒内，":"audio/175.mp3","参考解法：本段差为 负2乘以t加30；":"audio/176.mp3","从17到28秒：分别算出本段起点、终点的带符号差左括号，":"audio/177.mp3","参考解法：起点差 负4，":"audio/178.mp3","在17至28秒内，":"audio/179.mp3","全部解为8分之43、2分之37、8分之153、8分之177秒。":"audio/180.mp3","从0到8秒：分别算出本段起点、终点的带符号差左括号，":"audio/181.mp3","在0至8秒内，":"audio/182.mp3","参考解法：本段差为 8乘以t减去55；":"audio/183.mp3","从8到19秒：分别算出本段起点、终点的带符号差左括号，":"audio/184.mp3","参考解法：起点差 9，":"audio/185.mp3","在8至19秒内，":"audio/186.mp3","参考解法：本段差为 负2乘以t加25；":"audio/187.mp3","从19到30秒：分别算出本段起点、终点的带符号差左括号，":"audio/188.mp3","参考解法：起点差 负13，":"audio/189.mp3","在19至30秒内，":"audio/190.mp3","参考解法：本段差为 8乘以t减去165；":"audio/191.mp3","全部解为7分之38、7分之62、2分之19、7分之143秒。":"audio/192.mp3","从0到9秒：分别算出本段起点、终点的带符号差左括号，":"audio/193.mp3","参考解法：起点差 负50，":"audio/194.mp3","在0至9秒内，":"audio/195.mp3","参考解法：本段差为 7乘以t减去50；":"audio/196.mp3","从9到18秒：分别算出本段起点、终点的带符号差左括号，":"audio/197.mp3","参考解法：起点差 13，":"audio/198.mp3","在9至18秒内，":"audio/199.mp3","参考解法：本段差为 负2乘以t加31；":"audio/200.mp3","从18到30秒：分别算出本段起点、终点的带符号差左括号，":"audio/201.mp3","在18至30秒内，":"audio/202.mp3","参考解法：本段差为 7乘以t减去131；":"audio/203.mp3"};
-  var ss=window.speechSynthesis;
-  if(!ss||ss.__linShim2)return;
-  var nativeSpeak=ss.speak, nativeCancel=ss.cancel;
-  var active=null;
-  function clearActive(){
-   if(active){var a=active;active=null;
-    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}}
-  }
-  function fire(fn,ev){try{if(typeof fn==='function')fn(ev||{})}catch(e){}}
-  ss.speak=function(u){
-   try{nativeCancel.call(ss)}catch(e){}
-   clearActive();
-   if(!u){nativeSpeak.call(ss,u);return}
-   var file=MAP[u.text];
-   if(!file){nativeSpeak.call(ss,u);return}
-   var a=new Audio(file);active=a;
-   var fallbackDone=false;
-   function fallback(){
-    if(fallbackDone)return;fallbackDone=true;
-    if(active===a)active=null;
-    nativeSpeak.call(ss,u);
+  if(window.__linTTSv3)return;window.__linTTSv3=true;
+  var MAP={"先观察运动条件。":"audio/0.mp3","相遇前后，":"audio/1.mp3","先找运动规则变化的时刻。":"audio/2.mp3","这一段，":"audio/3.mp3","换个角度，":"audio/4.mp3","全部解为2、4秒。":"audio/5.mp3","运动规律改变的时刻有哪些？":"audio/6.mp3","还不对。":"audio/7.mp3","参考解法：运动规则变化时必须重新列式。":"audio/8.mp3","从0到6秒：分别算出本段起点、终点的带符号差左括号，":"audio/9.mp3","参考解法：起点差 负12，":"audio/10.mp3","在0至6秒内，":"audio/11.mp3","参考解法：本段差为 4乘以t减去12；":"audio/12.mp3","现在请汇总各段的解，":"audio/13.mp3","至少有一个时刻不符合条件。":"audio/14.mp3","全部找齐了。":"audio/15.mp3","从0到7秒：分别算出本段起点、终点的带符号差左括号，":"audio/16.mp3","参考解法：起点差 负18，":"audio/17.mp3","在0至7秒内，":"audio/18.mp3","参考解法：本段差为 6乘以t减去18；":"audio/19.mp3","全部解为2、3分之14秒。":"audio/20.mp3","参考解法：起点差 负20，":"audio/21.mp3","参考解法：本段差为 6乘以t减去20；":"audio/22.mp3","先找Q启动时刻，":"audio/23.mp3","全部解为3分之8、3分之16秒。":"audio/24.mp3","从0到2秒：分别算出本段起点、终点的带符号差左括号，":"audio/25.mp3","参考解法：起点差 负10，":"audio/26.mp3","在0至2秒内，":"audio/27.mp3","参考解法：本段差为 2乘以t减去10；":"audio/28.mp3","从2到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/29.mp3","参考解法：起点差 负6，":"audio/30.mp3","在2至12秒内，":"audio/31.mp3","参考解法：本段差为 3乘以t减去12；":"audio/32.mp3","全部解为3、2分之11秒。":"audio/33.mp3","从0到3秒：分别算出本段起点、终点的带符号差左括号，":"audio/34.mp3","参考解法：起点差 负14，":"audio/35.mp3","在0至3秒内，":"audio/36.mp3","参考解法：本段差为 3乘以t减去14；":"audio/37.mp3","从3到14秒：分别算出本段起点、终点的带符号差左括号，":"audio/38.mp3","参考解法：起点差 负5，":"audio/39.mp3","在3至14秒内，":"audio/40.mp3","参考解法：本段差为 4乘以t减去17；":"audio/41.mp3","全部解为5分之13、5分之19秒。":"audio/42.mp3","参考解法：本段差为 5乘以t减去16；":"audio/43.mp3","折返改变速度方向，":"audio/44.mp3","全部解为2分之5、2分之7、5、7秒。":"audio/45.mp3","从0到4秒：分别算出本段起点、终点的带符号差左括号，":"audio/46.mp3","在0至4秒内，":"audio/47.mp3","从4到8秒：分别算出本段起点、终点的带符号差左括号，":"audio/48.mp3","参考解法：起点差 4，":"audio/49.mp3","在4至8秒内，":"audio/50.mp3","参考解法：本段差为 负2乘以t加12；":"audio/51.mp3","全部解为3、5分之21秒。":"audio/52.mp3","参考解法：本段差为 5乘以t减去18；":"audio/53.mp3","从6到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/54.mp3","参考解法：起点差 12，":"audio/55.mp3","在6至12秒内，":"audio/56.mp3","参考解法：本段差为 t的相反数加18；":"audio/57.mp3","全部解为5分之16、5分之24、3分之16、8秒。":"audio/58.mp3","从0到5秒：分别算出本段起点、终点的带符号差左括号，":"audio/59.mp3","在0至5秒内，":"audio/60.mp3","参考解法：本段差为 5乘以t减去20；":"audio/61.mp3","从5到10秒：分别算出本段起点、终点的带符号差左括号，":"audio/62.mp3","参考解法：起点差 5，":"audio/63.mp3","在5至10秒内，":"audio/64.mp3","参考解法：本段差为 负3乘以t加20；":"audio/65.mp3","转向时刻是分段边界，":"audio/66.mp3","全部解为3、4秒。":"audio/67.mp3","参考解法：本段差为 4乘以t减去14；":"audio/68.mp3","参考解法：起点差 6，":"audio/69.mp3","参考解法：本段差为 6；":"audio/70.mp3","全部解为5分之14秒。":"audio/71.mp3","从4到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/72.mp3","参考解法：起点差 2，":"audio/73.mp3","在4至12秒内，":"audio/74.mp3","参考解法：本段差为 2；":"audio/75.mp3","全部解为4分之17、4分之23、7秒。":"audio/76.mp3","参考解法：本段差为 4乘以t减去20；":"audio/77.mp3","参考解法：本段差为 t的相反数加10；":"audio/78.mp3","先求中点坐标，":"audio/79.mp3","全部解为6、10秒。":"audio/80.mp3","从0到12秒：分别算出本段起点、终点的带符号差左括号，":"audio/81.mp3","在0至12秒内，":"audio/82.mp3","参考解法：本段差为 左括号，":"audio/83.mp3","全部解为4、6秒。":"audio/84.mp3","从0到10秒：分别算出本段起点、终点的带符号差左括号，":"audio/85.mp3","参考解法：起点差 10，":"audio/86.mp3","在0至10秒内，":"audio/87.mp3","参考解法：本段差为 负2乘以t加10；":"audio/88.mp3","全部解为3分之20、12秒。":"audio/89.mp3","从0到14秒：分别算出本段起点、终点的带符号差左括号，":"audio/90.mp3","参考解法：起点差 14，":"audio/91.mp3","在0至14秒内，":"audio/92.mp3","倍数作用于带符号的坐标，":"audio/93.mp3","全部解为4分之33、4分之39秒。":"audio/94.mp3","参考解法：起点差 负36，":"audio/95.mp3","参考解法：本段差为 4乘以t减去36；":"audio/96.mp3","全部解为7分之30、7分之34秒。":"audio/97.mp3","参考解法：起点差 负32，":"audio/98.mp3","参考解法：本段差为 7乘以t减去32；":"audio/99.mp3","全部解为5分之36、5分之44秒。":"audio/100.mp3","参考解法：起点差 负40，":"audio/101.mp3","参考解法：本段差为 5乘以t减去40；":"audio/102.mp3","交错前后，":"audio/103.mp3","全部解为7分之110、7分之150秒。":"audio/104.mp3","从0到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/105.mp3","参考解法：起点差 负130，":"audio/106.mp3","在0至24秒内，":"audio/107.mp3","参考解法：本段差为 7乘以t减去130；":"audio/108.mp3","全部解为2分之29、18秒。":"audio/109.mp3","从0到20秒：分别算出本段起点、终点的带符号差左括号，":"audio/110.mp3","在0至20秒内，":"audio/111.mp3","参考解法：本段差为 8乘以t减去130；":"audio/112.mp3","全部解为15、20秒。":"audio/113.mp3","从0到22秒：分别算出本段起点、终点的带符号差左括号，":"audio/114.mp3","参考解法：起点差 负140，":"audio/115.mp3","在0至22秒内，":"audio/116.mp3","参考解法：本段差为 8乘以t减去140；":"audio/117.mp3","等待阶段O乘以Q角度不变，":"audio/118.mp3","全部解为2分之35、4分之85秒。":"audio/119.mp3","参考解法：本段差为 5乘以t减去140；":"audio/120.mp3","从5到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/121.mp3","参考解法：起点差 负115，":"audio/122.mp3","在5至24秒内，":"audio/123.mp3","参考解法：本段差为 8乘以t减去155；":"audio/124.mp3","全部解为9分之136、9分之176秒。":"audio/125.mp3","从4到22秒：分别算出本段起点、终点的带符号差左括号，":"audio/126.mp3","参考解法：起点差 负120，":"audio/127.mp3","在4至22秒内，":"audio/128.mp3","参考解法：本段差为 9乘以t减去156；":"audio/129.mp3","全部解为8分之143、8分之173秒。":"audio/130.mp3","从6到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/131.mp3","参考解法：起点差 负110，":"audio/132.mp3","在6至24秒内，":"audio/133.mp3","参考解法：本段差为 8乘以t减去158；":"audio/134.mp3","折返点前后分别列式，":"audio/135.mp3","全部解为7、7分之61、3分之59、3分之71秒。":"audio/136.mp3","参考解法：起点差 负55，":"audio/137.mp3","参考解法：本段差为 7乘以t减去55；":"audio/138.mp3","从12到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/139.mp3","参考解法：起点差 29，":"audio/140.mp3","在12至24秒内，":"audio/141.mp3","参考解法：本段差为 负3乘以t加65；":"audio/142.mp3","全部解为7分之60、7分之80、3分之40、20秒。":"audio/143.mp3","参考解法：起点差 负70，":"audio/144.mp3","参考解法：本段差为 7乘以t减去70；":"audio/145.mp3","参考解法：本段差为 负3乘以t加50；":"audio/146.mp3","全部解为10、7分之90、3分之50、3分之70秒。":"audio/147.mp3","参考解法：起点差 负80，":"audio/148.mp3","参考解法：本段差为 7乘以t减去80；":"audio/149.mp3","从14到24秒：分别算出本段起点、终点的带符号差左括号，":"audio/150.mp3","参考解法：起点差 18，":"audio/151.mp3","在14至24秒内，":"audio/152.mp3","参考解法：本段差为 负3乘以t加60；":"audio/153.mp3","同一半平面内，":"audio/154.mp3","全部解为9分之140、20秒。":"audio/155.mp3","参考解法：起点差 80，":"audio/156.mp3","全部解为4分之65、4分之95秒。":"audio/157.mp3","参考解法：本段差为 负4乘以t加80；":"audio/158.mp3","全部解为5分之83、5分之107秒。":"audio/159.mp3","参考解法：起点差 95，":"audio/160.mp3","参考解法：本段差为 负5乘以t加95；":"audio/161.mp3","先表示O乘以S的方向角，":"audio/162.mp3","全部解为15、2分之35秒。":"audio/163.mp3","全部解为4分之65、20秒。":"audio/164.mp3","参考解法：起点差 负145，":"audio/165.mp3","参考解法：本段差为 8乘以t减去145；":"audio/166.mp3","全部解为3分之50、9分之170秒。":"audio/167.mp3","参考解法：起点差 负160，":"audio/168.mp3","参考解法：本段差为 9乘以t减去160；":"audio/169.mp3","三段运动规则都不同，":"audio/170.mp3","全部解为4分之15、4分之25、10、4分之75秒。":"audio/171.mp3","参考解法：本段差为 8乘以t减去40；":"audio/172.mp3","从7到17秒：分别算出本段起点、终点的带符号差左括号，":"audio/173.mp3","参考解法：起点差 16，":"audio/174.mp3","在7至17秒内，":"audio/175.mp3","参考解法：本段差为 负2乘以t加30；":"audio/176.mp3","从17到28秒：分别算出本段起点、终点的带符号差左括号，":"audio/177.mp3","参考解法：起点差 负4，":"audio/178.mp3","在17至28秒内，":"audio/179.mp3","全部解为8分之43、2分之37、8分之153、8分之177秒。":"audio/180.mp3","从0到8秒：分别算出本段起点、终点的带符号差左括号，":"audio/181.mp3","在0至8秒内，":"audio/182.mp3","参考解法：本段差为 8乘以t减去55；":"audio/183.mp3","从8到19秒：分别算出本段起点、终点的带符号差左括号，":"audio/184.mp3","参考解法：起点差 9，":"audio/185.mp3","在8至19秒内，":"audio/186.mp3","参考解法：本段差为 负2乘以t加25；":"audio/187.mp3","从19到30秒：分别算出本段起点、终点的带符号差左括号，":"audio/188.mp3","参考解法：起点差 负13，":"audio/189.mp3","在19至30秒内，":"audio/190.mp3","参考解法：本段差为 8乘以t减去165；":"audio/191.mp3","全部解为7分之38、7分之62、2分之19、7分之143秒。":"audio/192.mp3","从0到9秒：分别算出本段起点、终点的带符号差左括号，":"audio/193.mp3","参考解法：起点差 负50，":"audio/194.mp3","在0至9秒内，":"audio/195.mp3","参考解法：本段差为 7乘以t减去50；":"audio/196.mp3","从9到18秒：分别算出本段起点、终点的带符号差左括号，":"audio/197.mp3","参考解法：起点差 13，":"audio/198.mp3","在9至18秒内，":"audio/199.mp3","参考解法：本段差为 负2乘以t加31；":"audio/200.mp3","从18到30秒：分别算出本段起点、终点的带符号差左括号，":"audio/201.mp3","在18至30秒内，":"audio/202.mp3","参考解法：本段差为 7乘以t减去131；":"audio/203.mp3","不是找到一个就结束。":"audio/x0.mp3","你可以拖动时间，":"audio/x1.mp3","你好，":"audio/x2.mp3","你是怎样保证没有漏解的？":"audio/x3.mp3","听到我的声音了吗？":"audio/x4.mp3","我们一起探索动点和动角。":"audio/x5.mp3","我是林老师。":"audio/x6.mp3","现在想想，":"audio/x7.mp3","自己决定怎么解。":"audio/x8.mp3","要求的是所有时刻，":"audio/x9.mp3","重复的边界只保留一次。":"audio/x10.mp3"};
+  var NORM={};
+  (function(){
+   for(var k in MAP){
+    var n=k.replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+    if(n&&!NORM[n])NORM[n]=MAP[k];
    }
-   a.onended=function(){if(active!==a)return;active=null;fire(u.onend)};
-   a.onerror=function(){if(active===a)fallback()};
-   var p=a.play();
-   if(p&&p.then)p.then(function(){fire(u.onstart)}).catch(fallback);
-   else fire(u.onstart);
+  })();
+  function fuzzy(t){
+   var n=(t||'').replace(/[，。！？；：、\s（）()"“”'‘’《》【】]+/g,'');
+   if(!n)return null;
+   if(NORM[n])return NORM[n];
+   if(n.length>=3){
+    for(var k in NORM){if(k.length>n.length&&k.indexOf(n)===0)return NORM[k]}
+   }
+   return null;
+  }
+  var NativeSS=window.speechSynthesis||null;
+  var NativeUtt=window.SpeechSynthesisUtterance||null;
+
+  /* ---------- utterance ---------- */
+  function LinUtt(text){
+   var self=this;
+   this.text=text==null?'':String(text);
+   this.lang='zh-CN';this.rate=1;this.pitch=1;this.volume=1;this.voice=null;
+   this.onstart=null;this.onend=null;this.onerror=null;this.onpause=null;this.onresume=null;this.onboundary=null;this.onmark=null;
+   this.__ev={};
+   this.addEventListener=function(t,f){if(!f)return;(self.__ev[t]=self.__ev[t]||[]).push(f)};
+   this.removeEventListener=function(t,f){var a=self.__ev[t]||[],i=a.indexOf(f);if(i>=0)a.splice(i,1)};
+   this.dispatchEvent=function(ev){var t=ev&&ev.type,h=self['on'+t];if(typeof h==='function'){try{h.call(self,ev)}catch(e){}}var a=self.__ev[t]||[];for(var i=0;i<a.length;i++){try{a[i].call(self,ev)}catch(e){}}return true};
+  }
+  try{window.SpeechSynthesisUtterance=LinUtt}catch(e){}
+
+  /* ---------- audio element (reused) ---------- */
+  var el=null,active=null,token=0;
+  function audioEl(){if(!el){el=new Audio();el.preload='auto';try{el.setAttribute('playsinline','');el.setAttribute('webkit-playsinline','')}catch(e){}}return el}
+  function stopAudio(){token++;if(active){var a=active;active=null;try{a.__linStop=1;a.onended=null;a.onerror=null;a.pause()}catch(e){}}}
+  function log(a,b,c){try{window.__linLog&&window.__linLog(a,b,c)}catch(e){}}
+  function fire(u,t){log('fire:'+t,u.text);try{u.dispatchEvent({type:t,charIndex:0,elapsedTime:0,name:''})}catch(e){}}
+
+  function playFile(file,u,onFail){
+   var a=new Audio(),finished=false,guard=0;
+   active=a;
+   function clearGuard(){if(guard){clearTimeout(guard);guard=0}}
+   function done(ok){
+    if(finished)return;finished=true;clearGuard();
+    if(active===a)active=null;
+    try{a.onended=null;a.onerror=null;a.pause()}catch(e){}
+    log(ok?'audio-end':'audio-fail',u.text);
+    if(ok){fire(u,'end')}else{onFail&&onFail()}
+   }
+   a.onended=function(){done(true)};
+   a.onerror=function(){done(false)};
+   a.preload='auto';
+   try{a.setAttribute('playsinline','');a.setAttribute('webkit-playsinline','')}catch(e){}
+   try{a.src=file}catch(e){done(false);return}
+   a.onloadedmetadata=function(){
+    clearGuard();
+    var d=0;try{d=a.duration}catch(e){}
+    guard=setTimeout(function(){done(true)},(isFinite(d)&&d>0)?d*1000+1200:9000);
+   };
+   guard=setTimeout(function(){done(true)},9000);
+   fire(u,'start');
+   var p=null;
+   try{p=a.play()}catch(e){done(false);return}
+   if(p&&p.then){p.catch(function(){if(finished||a.__linStop)return;done(false)})}
+  }
+
+  function playSeq(files,u){
+   fire(u,'start');
+   var i=0,stopped=false;
+   function next(){
+    if(i>=files.length){fire(u,'end');return}
+    var a=new Audio(),f=files[i++],settled=false;
+    active=a;
+    function clearG(){if(a.__g){clearTimeout(a.__g);a.__g=0}}
+    function ok(){if(settled)return;settled=true;clearG();if(active===a)active=null;try{a.onended=null;a.onerror=null;a.pause()}catch(e){}next()}
+    function bad(){if(settled)return;settled=true;clearG();if(active===a)active=null;fire(u,'end')}
+    a.onended=ok;a.onerror=bad;a.preload='auto';
+    try{a.setAttribute('playsinline','');a.src=f}catch(e){bad();return}
+    a.onloadedmetadata=function(){clearG();var d=0;try{d=a.duration}catch(e){}a.__g=setTimeout(ok,(isFinite(d)&&d>0)?d*1000+1200:9000)};
+    a.__g=setTimeout(ok,9000);
+    var p=null;try{p=a.play()}catch(e){bad();return}
+    if(p&&p.then)p.catch(function(){if(a.__linStop||settled)return;bad()});
+   }
+   next();
+  }
+
+  function silent(u){
+   fire(u,'start');
+   var n=(u.text||'').length||1;
+   setTimeout(function(){fire(u,'end')},Math.min(6000,Math.max(350,n*130)));
+  }
+
+  function nativeFallback(u){
+   if(!NativeSS||!NativeUtt){silent(u);return}
+   var started=false,finished=false,nu=null;
+   function fin(){if(finished)return;finished=true;fire(u,'end')}
+   try{
+    nu=new NativeUtt(u.text);
+    nu.lang=u.lang||'zh-CN';nu.rate=u.rate||1;nu.pitch=u.pitch||1;nu.volume=u.volume==null?1:u.volume;
+    if(u.voice){try{nu.voice=u.voice}catch(e){}}
+    nu.onstart=function(){if(finished)return;started=true;fire(u,'start')};
+    nu.onend=function(){fin()};
+    nu.onerror=function(){fin()};
+    NativeSS.speak(nu)
+   }catch(e){silent(u);return}
+   setTimeout(function(){
+    if(!started&&!finished){finished=true;try{NativeSS.cancel()}catch(e){}fire(u,'start');setTimeout(function(){fire(u,'end')},150)}
+   },900);
+  }
+
+  function speak(u){
+   stopAudio();
+   if(!u){return}
+   var file=MAP[u.text];
+   if(!file&&u.text){
+    var parts=(u.text.match(/[^。！？；，、]+[。！？；，、]*/g)||[]).filter(function(x){return x&&x.trim()});
+    if(parts.length>1){
+     var fs=[];
+     for(var i2=0;i2<parts.length;i2++){var f2=MAP[parts[i2]];if(!f2){fs=null;break}fs.push(f2)}
+     if(fs){log('hit-seq',u.text);playSeq(fs,u);return}
+    }
+   }
+   if(!file){file=fuzzy(u.text);if(file)log('hit-fuzzy',u.text)}
+   log(file?'hit':'miss',u.text);
+   if(file){playFile(file,u,function(){nativeFallback(u)});return}
+   nativeFallback(u);
+  }
+
+  var FAKE=[{name:'Xiaoxiao Lin Audio',lang:'zh-CN',localService:false,default:true,voiceURI:'lin-audio'}];
+  var synth={
+   speaking:false,pending:false,paused:false,onvoiceschanged:null,
+   getVoices:function(){return FAKE.slice()},
+   speak:function(u){synth.pending=true;speak(u);synth.pending=false},
+   cancel:function(){stopAudio();if(NativeSS){try{NativeSS.cancel()}catch(e){}}},
+   pause:function(){synth.paused=true;if(active){try{active.pause()}catch(e){}}},
+   resume:function(){synth.paused=false;if(active){try{active.play()}catch(e){}}},
+   addEventListener:function(){},removeEventListener:function(){},dispatchEvent:function(){return true}
   };
-  ss.cancel=function(){clearActive();try{nativeCancel.call(ss)}catch(e){}};
-  ss.__linShim2=true;
+  var replaced=false;
+  try{Object.defineProperty(window,'speechSynthesis',{value:synth,configurable:true,writable:true})}catch(e){}
+  try{replaced=(window.speechSynthesis===synth)}catch(e){}
+  if(!replaced){try{window.speechSynthesis=synth;replaced=(window.speechSynthesis===synth)}catch(e){}}
+  if(!replaced&&NativeSS){
+   try{
+    NativeSS.speak=function(u){synth.speak(u)};
+    NativeSS.cancel=function(){synth.cancel()};
+    NativeSS.getVoices=function(){return FAKE.slice()};
+    NativeSS.pause=function(){synth.pause()};
+    NativeSS.resume=function(){synth.resume()};
+    replaced=true;
+   }catch(e){}
+  }
+
+  /* ---------- 手势内预热媒体许可（临时元素，不干扰播放元素） ---------- */
+  try{
+   var unlocked=false;
+   function unlock(){
+    if(unlocked)return;unlocked=true;
+    try{var a=new Audio("data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==");a.play&&a.play().then(function(){try{a.pause()}catch(e){}}).catch(function(){})}catch(e){}
+   }
+   document.addEventListener('pointerdown',unlock,true);
+   document.addEventListener('touchstart',unlock,true);
+   document.addEventListener('click',unlock,true);
+  }catch(e){}
  }catch(e){}
 })();
 </script></head><body><main><header><a class="back" href="../math-home/">‹ 学习门户</a><b>七年级 · 高阶思维实验室</b><button id="sound">试听林老师</button></header><div id="soundstatus" class="status" aria-live="polite"></div><div id="screen"></div></main><div class="pace" id="pace" hidden><button id="stop">停止讲解</button><button id="repeat">重听本段</button><button id="advance" class="primary">下一步</button></div><script>
